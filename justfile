@@ -90,3 +90,8 @@ update-input input:
 gc:
     sudo nix-collect-garbage -d
     nix-collect-garbage -d
+
+# Format all nix files
+[group("utils")]
+fmt:
+    find . -name "*.nix" -not -path "./.git/*" | xargs nixfmt

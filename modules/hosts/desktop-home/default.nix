@@ -10,6 +10,7 @@ let
     "hyprland"
     "terminals"
     "desktop-env"
+    "bluetooth"
   ];
 in
 {

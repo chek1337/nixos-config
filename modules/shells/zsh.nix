@@ -20,11 +20,15 @@
           plugins = [ "git" ];
         };
         initContent = ''
-                WORDCHARS=""
-                bindkey " " magic-space
+                        WORDCHARS=""
+                        bindkey " " magic-space
 
-          source ${pkgs.fzf}/share/fzf/key-bindings.zsh
-          source ${pkgs.fzf}/share/fzf/completion.zsh
+                  source ${pkgs.fzf}/share/fzf/key-bindings.zsh
+                  source ${pkgs.fzf}/share/fzf/completion.zsh
+
+          if [ -z "$TMUX" ]; then
+            tmux attach-session -t main || tmux new-session -s main
+          fi
         '';
       };
 

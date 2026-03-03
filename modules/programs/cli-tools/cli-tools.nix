@@ -6,6 +6,7 @@
       yazi
       git
       tmux
+      nvim
     ];
   };
 }

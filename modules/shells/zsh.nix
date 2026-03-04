@@ -20,21 +20,23 @@
           plugins = [ "git" ];
         };
         initContent = ''
-                        WORDCHARS=""
-                        bindkey " " magic-space
+                WORDCHARS=""
+                bindkey " " magic-space
 
-                  source ${pkgs.fzf}/share/fzf/key-bindings.zsh
-                  source ${pkgs.fzf}/share/fzf/completion.zsh
-
-          if [ -z "$TMUX" ]; then
-            tmux attach-session -t main || tmux new-session -s main
-          fi
+          source ${pkgs.fzf}/share/fzf/key-bindings.zsh
+          source ${pkgs.fzf}/share/fzf/completion.zsh
         '';
       };
 
       programs.starship = {
         enable = true;
         enableZshIntegration = true;
+        settings = {
+          directory = {
+            truncation_length = 0; # не обрезать путь
+            truncate_to_repo = false; # не резать до корня git-репо
+          };
+        };
       };
     };
 }

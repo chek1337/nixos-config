@@ -7,6 +7,7 @@
       git
       tmux
       nvim
+      zoxide
     ];
   };
 }

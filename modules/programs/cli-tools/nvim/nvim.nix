@@ -29,8 +29,5 @@
       programs.zsh.shellAliases = {
         v = "nvim";
       };
-      xdg.configFile."nvim/init.lua".source = "${inputs.lazyvim-config}/init.lua";
-      xdg.configFile."nvim/lua".source = "${inputs.lazyvim-config}/lua";
-      xdg.configFile."nvim/snippets".source = "${inputs.lazyvim-config}/snippets";
     };
 }

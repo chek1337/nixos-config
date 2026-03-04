@@ -9,6 +9,7 @@ let
         fzf
         nixfmt
         fastfetch
+        stow
       ];
     };
 in

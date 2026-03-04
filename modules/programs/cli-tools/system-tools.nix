@@ -5,6 +5,8 @@ let
       environment.systemPackages = with pkgs; [
         git
         vim
+        ripgrep
+        fd
         just
         fzf
         nixfmt

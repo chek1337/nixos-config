@@ -8,6 +8,7 @@
       tmux
       nvim
       zoxide
+      trash-cli
     ];
   };
 }

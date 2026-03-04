@@ -1,7 +1,7 @@
 {
   description = "My NixOS config";
 
-      outputs = inputs: inputs.flake-parts.lib.mkFlake { inherit inputs; } (inputs.import-tree ./modules);
+  outputs = inputs: inputs.flake-parts.lib.mkFlake { inherit inputs; } (inputs.import-tree ./modules);
 
   inputs = {
     nixpkgs.url = "nixpkgs/nixos-unstable";
@@ -31,6 +31,10 @@
     stylix = {
       url = "github:danth/stylix";
       inputs.nixpkgs.follows = "nixpkgs";
+    };
+    lazyvim-config = {
+      url = "git+ssh://git@github.com/chek1337/LazyVimConfig.git";
+      flake = false;
     };
   };
 }

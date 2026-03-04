@@ -603,6 +603,22 @@
         "type": "github"
       }
     },
+    "lazyvim-config": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1772624079,
+        "narHash": "sha256-w0RAs4TgUf0b6kk1LH4UcnYBaYn+u1gHwqL5qWnoQYU=",
+        "ref": "refs/heads/main",
+        "rev": "73b76f8940838e3db504865a9b1ccb121a0ad52a",
+        "revCount": 200,
+        "type": "git",
+        "url": "ssh://git@github.com/chek1337/LazyVimConfig.git"
+      },
+      "original": {
+        "type": "git",
+        "url": "ssh://git@github.com/chek1337/LazyVimConfig.git"
+      }
+    },
     "nixos-wsl": {
       "inputs": {
         "flake-compat": "flake-compat_2",
@@ -708,6 +724,7 @@
         "home-manager": "home-manager",
         "hyprland": "hyprland",
         "import-tree": "import-tree",
+        "lazyvim-config": "lazyvim-config",
         "nixos-wsl": "nixos-wsl",
         "nixpkgs": "nixpkgs",
         "nixpkgs-stable": "nixpkgs-stable",

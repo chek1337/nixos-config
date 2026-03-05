@@ -2,7 +2,11 @@
 let
   flakeConfig = config;
   shell = "zsh";
-  modules = [ "cli-tools" ];
+  modules = [
+    "cli-tools"
+    "python-dev"
+    "wsl-nvidia"
+  ];
 in
 {
   flake = {

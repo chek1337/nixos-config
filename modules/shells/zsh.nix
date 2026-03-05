@@ -22,7 +22,7 @@
         initContent = ''
                 WORDCHARS=""
                 bindkey " " magic-space
-
+          bindkey '^H' backward-kill-word
           source ${pkgs.fzf}/share/fzf/key-bindings.zsh
           source ${pkgs.fzf}/share/fzf/completion.zsh
         '';

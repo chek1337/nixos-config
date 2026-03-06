@@ -1,7 +1,11 @@
 keys:
-  - &wsl age1dl0a5av78sz58ckchwrpxf3mk8svq3ffwlre54grpcf5xhzd6gfs2dvj6k  # вставить вывод из шага 1
+  - &wsl age1dl0a5av78sz58ckchwrpxf3mk8svq3ffwlre54grpcf5xhzd6gfs2dvj6k
 creation_rules:
   - path_regex: secrets/.*\.yaml$
+    key_groups:
+      - age:
+        - *wsl
+  - path_regex: secrets/.*\.conf$
     key_groups:
       - age:
         - *wsl

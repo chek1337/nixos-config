@@ -1,11 +1,7 @@
 keys:
-  - &wsl age1dl0a5av78sz58ckchwrpxf3mk8svq3ffwlre54grpcf5xhzd6gfs2dvj6k
+  - &chek age1dl0a5av78sz58ckchwrpxf3mk8svq3ffwlre54grpcf5xhzd6gfs2dvj6k
 creation_rules:
-  - path_regex: secrets/.*\.yaml$
+  - path_regex: secrets/.*\.(yaml|conf)$
     key_groups:
       - age:
-        - *wsl
-  - path_regex: secrets/.*\.conf$
-    key_groups:
-      - age:
-        - *wsl
+        - *chek

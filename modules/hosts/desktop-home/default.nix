@@ -11,6 +11,8 @@ let
     "terminals"
     "desktop-env"
     "bluetooth"
+    "sops"
+    "wireguard"
   ];
 in
 {

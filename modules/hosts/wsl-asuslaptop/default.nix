@@ -6,6 +6,7 @@ let
     "cli-tools"
     "python-dev"
     "wsl-nvidia"
+    "sops"
   ];
 in
 {

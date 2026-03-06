@@ -36,5 +36,9 @@
       url = "git+ssh://git@github.com/chek1337/LazyVimConfig.git";
       flake = false;
     };
+    sops-nix = {
+      url = "github:mic92/sops-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 }

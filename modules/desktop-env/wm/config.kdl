@@ -4,6 +4,7 @@ input {
             layout "us,ru"
         }
         numlock
+        track-layout "global"
     }
 
     touchpad {

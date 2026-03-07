@@ -9,6 +9,9 @@
         systemd.enable = true;
         settings = {
           general.language = "ru";
+          notifications = {
+            enableKeyboardLayoutToast = false;
+          };
         };
       };
     };

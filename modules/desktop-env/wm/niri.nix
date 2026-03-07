@@ -1,7 +1,7 @@
 { ... }:
 {
   flake.modules.nixos.niri =
-    { ... }:
+    { pkgs, ... }:
     {
       programs.niri.enable = true;
       security.polkit.enable = true;
@@ -12,5 +12,11 @@
           user = "chek";
         };
       };
+    };
+
+  flake.modules.homeManager.niri =
+    { ... }:
+    {
+      xdg.configFile."niri/config.kdl".source = ./config.kdl;
     };
 }

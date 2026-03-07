@@ -29,5 +29,6 @@
       home = "/home/chek";
       extraGroups = [ "wheel" ];
     };
+    time.timeZone = "Asia/Novosibirsk";
   };
 }

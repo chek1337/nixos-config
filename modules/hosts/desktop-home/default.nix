@@ -7,12 +7,13 @@ let
     "cli-tools"
     "gui-tools"
     "wayland-common"
-    "hyprland"
+    "niri"
     "terminals"
     "desktop-env"
     "bluetooth"
     "sops"
     "wireguard"
+    "noctalia"
   ];
 in
 {

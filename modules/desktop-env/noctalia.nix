@@ -7,6 +7,9 @@
       programs.noctalia-shell = {
         enable = true;
         systemd.enable = true;
+        settings = {
+          general.language = "ru";
+        };
       };
     };
 }

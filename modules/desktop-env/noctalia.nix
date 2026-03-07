@@ -11,11 +11,14 @@
           general = {
             language = "ru";
             enableShadows = false;
-            animationSpeed = 0.5;
+            # animationSpeed = 0.5;
+            animationDisabled = true;
           };
           bar = {
             outerCorners = false;
             hideOnOverview = true;
+            marginVertical = 0;
+            marginHorizontal = 0;
           };
           notifications = {
             enableKeyboardLayoutToast = false;

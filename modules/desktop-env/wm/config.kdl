@@ -17,17 +17,15 @@ layout {
     gaps 16
 
     focus-ring {
-        width 4
-        active-color "#7fc8ff"
-        inactive-color "#505050"
+        width 2
+        active-color "#81A1C1"
+        inactive-color "#4C566A"
     }
 
     border {
         off
     }
 }
-
-spawn-at-startup "noctalia-shell"
 
 screenshot-path "~/Pictures/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png"
 

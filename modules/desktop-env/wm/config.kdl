@@ -163,3 +163,23 @@ window-rule {
     geometry-corner-radius 20
     clip-to-geometry true
 }
+
+window-rule {
+    match app-id="qutebrowser"
+    open-on-workspace "1"
+}
+
+window-rule {
+    match app-id="kitty"
+    open-on-workspace "2"
+}
+
+window-rule {
+    match app-id="org.telegram.desktop"
+    open-on-workspace "3"
+}
+
+window-rule {
+    match app-id="spotify"
+    open-on-workspace "4"
+}

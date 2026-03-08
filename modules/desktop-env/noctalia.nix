@@ -20,6 +20,10 @@
             # animationSpeed = 0.5;
             animationDisabled = true;
           };
+          appLauncher = {
+            enableClipboardHistory = true;
+            autoPasteClipboard = true;
+          };
           bar = {
             outerCorners = false;
             hideOnOverview = true;

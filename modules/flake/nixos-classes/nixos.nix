@@ -23,6 +23,9 @@
       "flakes"
     ];
     nixpkgs.config.allowUnfree = true;
+    environment.systemPackages = with pkgs; [
+      libayatana-appindicator
+    ];
     nixpkgs.config.permittedInsecurePackages = [ "openssl-1.1.1w" ];
     users.users.chek = {
       isNormalUser = true;

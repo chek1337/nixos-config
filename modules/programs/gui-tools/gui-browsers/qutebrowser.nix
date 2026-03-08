@@ -15,7 +15,7 @@
           zai = "https://z.ai";
         };
         extraConfig = ''
-          config.bind("q", "mode-leave")
+          config.unbind("q")
           config.bind("<Alt-q>", "record-macro")
           config.bind("J", "tab-prev")
           config.bind("K", "tab-next")

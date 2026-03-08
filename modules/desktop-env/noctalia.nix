@@ -1,9 +1,15 @@
 { inputs, ... }:
 {
   flake.modules.homeManager.noctalia =
-    { ... }:
+    { pkgs, lib, ... }:
     {
       imports = [ inputs.noctalia.homeModules.default ];
+
+      home.sessionVariables = {
+        QT_QPA_PLATFORMTHEME = lib.mkForce "qt6ct";
+      };
+      home.packages = with pkgs; [ qt6Packages.qt6ct ];
+
       programs.noctalia-shell = {
         enable = true;
         systemd.enable = true;

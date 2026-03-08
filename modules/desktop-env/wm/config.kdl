@@ -51,8 +51,8 @@ binds {
     Mod+Comma { spawn-sh "noctalia-shell ipc call settings toggle"; }
 
     Mod+T { spawn "kitty"; }
-    Mod+D { spawn "fuzzel"; }
-    Super+Alt+L { spawn "swaylock"; }
+    Mod+D { spawn-sh "noctalia-shell ipc call launcher toggle"; }
+    Super+Alt+L { spawn-sh "noctalia-shell ipc call lockScreen lock"; }
 
     XF86AudioRaiseVolume  { spawn "noctalia-shell" "ipc" "call" "volume" "increase"; }
     XF86AudioLowerVolume  { spawn "noctalia-shell" "ipc" "call" "volume" "decrease"; }

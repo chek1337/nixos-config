@@ -27,5 +27,6 @@
       extraGroups = [ "wheel" ];
     };
     time.timeZone = "Asia/Novosibirsk";
+    programs.nix-ld.enable = true;
   };
 }

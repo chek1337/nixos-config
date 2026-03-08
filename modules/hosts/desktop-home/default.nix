@@ -2,7 +2,6 @@
 let
   flakeConfig = config;
   shell = "zsh";
-  theme = "nord";
   modules = [
     "cli-tools"
     "gui-tools"
@@ -23,13 +22,11 @@ in
       imports =
         (flakeConfig.flake.lib.loadNixosAndHmModuleForUser flakeConfig modules)
         ++ [ ./_hardware-configuration.nix ]
-        ++ [ flakeConfig.flake.modules.nixos.${shell} ]
-        ++ [ flakeConfig.flake.modules.nixos.${theme} ];
+        ++ [ flakeConfig.flake.modules.nixos.${shell} ];
     };
     modules.homeManager."hosts/desktop-home" = {
       imports = [
         flakeConfig.flake.modules.homeManager.${shell}
-        flakeConfig.flake.modules.homeManager.${theme}
       ];
     };
   };

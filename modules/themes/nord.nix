@@ -33,6 +33,7 @@
   flake.modules.homeManager.nord =
     { ... }:
     {
+      stylix.targets.spicetify.enable = false;
       stylix.targets.firefox.profileNames = [ "default" ];
     };
 }

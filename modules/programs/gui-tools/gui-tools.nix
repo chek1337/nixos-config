@@ -6,6 +6,7 @@
       gui-code-editors
       telegram
       nautilus
+      spicetify
     ];
   };
 }

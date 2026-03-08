@@ -3,6 +3,7 @@
   flake.modules.nixos.nord =
     { pkgs, ... }:
     {
+      imports = [ inputs.stylix.nixosModules.stylix ];
       stylix = {
         enable = true;
         image = inputs.self + "/assets/nord.jpg";

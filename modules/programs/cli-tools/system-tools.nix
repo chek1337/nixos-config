@@ -12,6 +12,7 @@ let
         nixfmt
         fastfetch
         stow
+        p7zip
       ];
     };
 in

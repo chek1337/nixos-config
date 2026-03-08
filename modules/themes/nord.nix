@@ -18,14 +18,14 @@
             name = "Inter";
           };
           sizes = {
-            terminal = 9;
+            terminal = 10;
             applications = 10;
           };
         };
         cursor = {
-          package = pkgs.bibata-cursors;
-          name = "Bibata-Modern-Ice";
-          size = 24;
+          package = pkgs.adwaita-icon-theme;
+          name = "Adwaita";
+          size = 16;
         };
       };
     };

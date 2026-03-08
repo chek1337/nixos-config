@@ -14,7 +14,7 @@ input {
 }
 
 layout {
-    gaps 16
+    gaps 8
 
     focus-ring {
         width 2
@@ -26,6 +26,8 @@ layout {
         off
     }
 }
+
+prefer-no-csd
 
 screenshot-path "~/Pictures/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png"
 
@@ -154,6 +156,47 @@ binds {
     Mod+Shift+P     { power-off-monitors; }
 }
 
+
+workspace "1"
+workspace "2"
+workspace "3"
+workspace "4"
+workspace "5"
+workspace "6"
+workspace "7"
+workspace "8"
+workspace "9"
+
+spawn-at-startup "qutebrowser"
+spawn-at-startup "kitty"
+spawn-at-startup "Telegram"
+spawn-at-startup "spotify"
+
+window-rule {
+    match app-id="qutebrowser" at-startup=true
+    open-on-workspace "1"
+    open-maximized true
+}
+
+window-rule {
+    match app-id="kitty" at-startup=true
+    open-on-workspace "2"
+}
+
+window-rule {
+    match app-id="org.telegram.desktop" at-startup=true
+    open-on-workspace "3"
+    open-maximized true
+}
+
+window-rule {
+    match app-id="spotify" at-startup=true
+    open-on-workspace "4"
+    open-maximized true
+}
+
+
+
 window-rule {
     match app-id=r#"firefox$"# title="^Picture-in-Picture$"
     open-floating true
@@ -162,24 +205,4 @@ window-rule {
 window-rule {
     geometry-corner-radius 20
     clip-to-geometry true
-}
-
-window-rule {
-    match app-id="qutebrowser"
-    open-on-workspace "1"
-}
-
-window-rule {
-    match app-id="kitty"
-    open-on-workspace "2"
-}
-
-window-rule {
-    match app-id="org.telegram.desktop"
-    open-on-workspace "3"
-}
-
-window-rule {
-    match app-id="spotify"
-    open-on-workspace "4"
 }

@@ -18,8 +18,8 @@
             name = "Inter";
           };
           sizes = {
-            terminal = 13;
-            applications = 12;
+            terminal = 9;
+            applications = 10;
           };
         };
         cursor = {

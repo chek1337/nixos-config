@@ -10,6 +10,16 @@
         in
         {
           enable = true;
+          enabledExtensions = with spicePkgs.extensions; [
+            adblockify
+            hidePodcasts
+            shuffle
+            keyboardShortcut
+            fullAppDisplay
+            volumePercentage
+            skipStats
+            playlistIcons
+          ];
         };
     };
 }

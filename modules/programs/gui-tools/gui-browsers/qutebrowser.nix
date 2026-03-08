@@ -4,6 +4,16 @@
     {
       programs.qutebrowser = {
         enable = true;
+        quickmarks = {
+          vk = "https://vk.com";
+          yt = "https://youtube.com";
+          maps = "https://maps.google.com";
+          translate = "https://translate.google.com";
+          grok = "https://grok.x.ai";
+          deepseek = "https://chat.deepseek.com";
+          gpt = "https://chatgpt.com";
+          zai = "https://z.ai";
+        };
         extraConfig = ''
           c.statusbar.show = "in-mode"
           c.tabs.padding = {"bottom": 5, "left": 16, "right": 16, "top": 5}

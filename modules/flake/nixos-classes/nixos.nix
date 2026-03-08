@@ -27,8 +27,5 @@
       extraGroups = [ "wheel" ];
     };
     time.timeZone = "Asia/Novosibirsk";
-    environment.systemPackages = with inputs.nixpkgs.legacyPackages.x86_64-linux; [
-      libayatana-appindicator
-    ];
   };
 }

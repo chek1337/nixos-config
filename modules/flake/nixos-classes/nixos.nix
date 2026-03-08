@@ -21,6 +21,7 @@
     ];
     nixpkgs.config.allowUnfree = true;
     nixpkgs.config.permittedInsecurePackages = [ "openssl-1.1.1w" ];
+    home-manager.backupFileExtension = "backup";
     users.users.chek = {
       isNormalUser = true;
       home = "/home/chek";

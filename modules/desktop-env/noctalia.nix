@@ -31,20 +31,6 @@
           location = {
             name = "Novosibirsk";
           };
-          templates = {
-            enableUserTheming = true;
-            activeTemplates = [
-              "kitty"
-              "alacritty"
-              "gtk"
-              "qt"
-              "code"
-              "telegram"
-              "spicetify"
-              "foot"
-              "ghostty"
-            ];
-          };
         };
       };
     };

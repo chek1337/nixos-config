@@ -13,6 +13,7 @@ let
         fastfetch
         stow
         p7zip
+        playerctl
       ];
     };
 in

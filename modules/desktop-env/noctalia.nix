@@ -6,9 +6,13 @@
       imports = [ inputs.noctalia.homeModules.default ];
 
       home.sessionVariables = {
-        QT_QPA_PLATFORMTHEME = lib.mkForce "qt6ct";
+        QT_QPA_PLATFORMTHEME = lib.mkForce "gtk3";
       };
-      home.packages = with pkgs; [ qt6Packages.qt6ct ];
+
+      home.packages = with pkgs; [
+        qt6Packages.qt6ct
+        nwg-look
+      ];
 
       programs.noctalia-shell = {
         enable = true;
@@ -19,10 +23,6 @@
             enableShadows = false;
             # animationSpeed = 0.5;
             animationDisabled = true;
-          };
-          appLauncher = {
-            enableClipboardHistory = true;
-            autoPasteClipboard = true;
           };
           bar = {
             outerCorners = false;
@@ -40,6 +40,10 @@
           };
           location = {
             name = "Novosibirsk";
+          };
+          appLauncher = {
+            enableClipboardHistory = true;
+            autoPasteClipboard = true;
           };
         };
       };

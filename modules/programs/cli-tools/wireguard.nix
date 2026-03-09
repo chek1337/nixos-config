@@ -23,6 +23,7 @@
         description = "VPN network namespace";
         after = [ "network-online.target" ];
         wants = [ "network-online.target" ];
+        wantedBy = [ "multi-user.target" ];
         serviceConfig = {
           Type = "oneshot";
           RemainAfterExit = true;

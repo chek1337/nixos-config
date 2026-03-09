@@ -201,7 +201,12 @@ window-rule {
     open-maximized true
 }
 
-
+spawn-at-startup "zsh" "-c" "sudo ip netns exec vpn sudo -u chek env WAYLAND_DISPLAY=wayland-1 XDG_RUNTIME_DIR=/run/user/1000 DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus QT_QPA_PLATFORMTHEME=gtk3 XDG_CURRENT_DESKTOP=niri XDG_SESSION_TYPE=wayland vesktop"
+window-rule {
+    match app-id="vesktop" at-startup=true
+    open-on-workspace "5"
+    open-maximized true
+}
 
 window-rule {
     match app-id=r#"firefox$"# title="^Picture-in-Picture$"

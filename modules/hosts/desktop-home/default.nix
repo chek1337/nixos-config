@@ -13,6 +13,7 @@ let
     "bluetooth"
     "sops"
     "wireguard"
+    "wireproxy"
     "noctalia"
   ];
 in

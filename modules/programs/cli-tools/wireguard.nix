@@ -1,38 +1,7 @@
 { inputs, ... }:
 {
   flake.modules.nixos.wireguard =
-    {
-      config,
-      pkgs,
-      lib,
-      ...
-    }:
-    let
-      # Читаем конфиг и парсим нужные поля
-      # Формат файла (wg-quick совместимый):
-      # [Interface]
-      # PrivateKey = <key>
-      # Address = <ip/mask>  (например 10.0.0.2/32)
-      # DNS = <ip>           (например 8.8.8.8)
-      #
-      # [Peer]
-      # PublicKey = <key>
-      # Endpoint = <host:port>
-      # AllowedIPs = 0.0.0.0/0
-      # PersistentKeepalive = 20
-
-      confFile = config.sops.secrets.wireguard.path;
-
-      # Скрипт для парсинга Address из конфига
-      parseAddress = pkgs.writeShellScript "parse-wg-address" ''
-        grep "^Address" "$1" | head -1 | sed 's/.*= *//' | tr -d ' '
-      '';
-
-      # Скрипт для парсинга DNS из конфига
-      parseDns = pkgs.writeShellScript "parse-wg-dns" ''
-        grep "^DNS" "$1" | head -1 | sed 's/.*= *//' | tr -d ' '
-      '';
-    in
+    { config, pkgs, ... }:
     {
       sops.secrets.wireguard = {
         sopsFile = inputs.self + "/secrets/wireguard.conf";
@@ -58,11 +27,11 @@
           Type = "oneshot";
           RemainAfterExit = true;
           ExecStart = pkgs.writeShellScript "netns-vpn-start" ''
-            CONFFILE="${confFile}"
+            CONFFILE="${config.sops.secrets.wireguard.path}"
 
             # Парсим Address и DNS из конфига
-            WG_ADDRESS=$(${parseAddress} "$CONFFILE")
-            WG_DNS=$(${parseDns} "$CONFFILE")
+            WG_ADDRESS=$(grep "^Address" "$CONFFILE" | head -1 | sed 's/.*= *//' | tr -d ' ')
+            WG_DNS=$(grep "^DNS" "$CONFFILE" | head -1 | sed 's/.*= *//' | tr -d ' ')
 
             echo "Using address: $WG_ADDRESS"
             echo "Using DNS: $WG_DNS"
@@ -85,7 +54,7 @@
             rm $TMPCONF
 
             # Задать IP из конфига
-            ${pkgs.iproute2}/bin/ip -n vpn addr add "$WG_ADDRESS" dev wg0
+            ${pkgs.iproute2}/bin/ip -n vpn addr add $WG_ADDRESS dev wg0
             ${pkgs.iproute2}/bin/ip -n vpn link set wg0 up
             ${pkgs.iproute2}/bin/ip -n vpn route add default dev wg0
 
@@ -109,8 +78,8 @@
       programs.zsh.shellAliases = {
         wgu = "sudo systemctl start netns-vpn.service";
         wgd = "sudo systemctl stop netns-vpn.service";
-        wgs = "sudo systemctl status netns-vpn.service";
-        wgshow = "sudo ip netns exec vpn wg show";
+        wgs = "sudo ip netns exec vpn wg show";
+        wgst = "sudo systemctl status netns-vpn.service";
         vpn-run = "sudo ip netns exec vpn sudo -u $USER env WAYLAND_DISPLAY=$WAYLAND_DISPLAY XDG_RUNTIME_DIR=$XDG_RUNTIME_DIR DISPLAY=$DISPLAY DBUS_SESSION_BUS_ADDRESS=$DBUS_SESSION_BUS_ADDRESS";
       };
     };

@@ -1,7 +1,38 @@
 { inputs, ... }:
 {
   flake.modules.nixos.wireguard =
-    { config, pkgs, ... }:
+    {
+      config,
+      pkgs,
+      lib,
+      ...
+    }:
+    let
+      # Читаем конфиг и парсим нужные поля
+      # Формат файла (wg-quick совместимый):
+      # [Interface]
+      # PrivateKey = <key>
+      # Address = <ip/mask>  (например 10.0.0.2/32)
+      # DNS = <ip>           (например 8.8.8.8)
+      #
+      # [Peer]
+      # PublicKey = <key>
+      # Endpoint = <host:port>
+      # AllowedIPs = 0.0.0.0/0
+      # PersistentKeepalive = 20
+
+      confFile = config.sops.secrets.wireguard.path;
+
+      # Скрипт для парсинга Address из конфига
+      parseAddress = pkgs.writeShellScript "parse-wg-address" ''
+        grep "^Address" "$1" | head -1 | sed 's/.*= *//' | tr -d ' '
+      '';
+
+      # Скрипт для парсинга DNS из конфига
+      parseDns = pkgs.writeShellScript "parse-wg-dns" ''
+        grep "^DNS" "$1" | head -1 | sed 's/.*= *//' | tr -d ' '
+      '';
+    in
     {
       sops.secrets.wireguard = {
         sopsFile = inputs.self + "/secrets/wireguard.conf";
@@ -27,6 +58,15 @@
           Type = "oneshot";
           RemainAfterExit = true;
           ExecStart = pkgs.writeShellScript "netns-vpn-start" ''
+            CONFFILE="${confFile}"
+
+            # Парсим Address и DNS из конфига
+            WG_ADDRESS=$(${parseAddress} "$CONFFILE")
+            WG_DNS=$(${parseDns} "$CONFFILE")
+
+            echo "Using address: $WG_ADDRESS"
+            echo "Using DNS: $WG_DNS"
+
             # Создать namespace
             ${pkgs.iproute2}/bin/ip netns add vpn
             ${pkgs.iproute2}/bin/ip -n vpn link set lo up
@@ -35,23 +75,23 @@
             ${pkgs.iproute2}/bin/ip link add wg0 type wireguard
             ${pkgs.iproute2}/bin/ip link set wg0 netns vpn
 
-            # Создать временный конфиг без Address/DNS
+            # Создать временный конфиг без Address/DNS (wg не понимает эти поля)
             TMPCONF=$(mktemp)
-            grep -v "^Address\|^DNS" ${config.sops.secrets.wireguard.path} > $TMPCONF
+            grep -v "^Address\|^DNS" "$CONFFILE" > $TMPCONF
 
             # Настроить wireguard
             ${pkgs.iproute2}/bin/ip netns exec vpn \
               ${pkgs.wireguard-tools}/bin/wg setconf wg0 $TMPCONF
             rm $TMPCONF
 
-            # Задать IP вручную
-            ${pkgs.iproute2}/bin/ip -n vpn addr add 10.0.0.2/32 dev wg0
+            # Задать IP из конфига
+            ${pkgs.iproute2}/bin/ip -n vpn addr add "$WG_ADDRESS" dev wg0
             ${pkgs.iproute2}/bin/ip -n vpn link set wg0 up
             ${pkgs.iproute2}/bin/ip -n vpn route add default dev wg0
 
-            # DNS
+            # DNS из конфига
             mkdir -p /etc/netns/vpn
-            echo "nameserver 8.8.8.8" > /etc/netns/vpn/resolv.conf
+            echo "nameserver $WG_DNS" > /etc/netns/vpn/resolv.conf
             chmod -R o+rX /etc/netns
           '';
           ExecStop = pkgs.writeShellScript "netns-vpn-stop" ''
@@ -70,6 +110,7 @@
         wgu = "sudo systemctl start netns-vpn.service";
         wgd = "sudo systemctl stop netns-vpn.service";
         wgs = "sudo systemctl status netns-vpn.service";
+        wgshow = "sudo ip netns exec vpn wg show";
         vpn-run = "sudo ip netns exec vpn sudo -u $USER env WAYLAND_DISPLAY=$WAYLAND_DISPLAY XDG_RUNTIME_DIR=$XDG_RUNTIME_DIR DISPLAY=$DISPLAY DBUS_SESSION_BUS_ADDRESS=$DBUS_SESSION_BUS_ADDRESS";
       };
     };

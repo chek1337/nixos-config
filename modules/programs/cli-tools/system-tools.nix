@@ -15,6 +15,7 @@ let
         p7zip
         playerctl
         tcpdump
+        dig
       ];
     };
 in

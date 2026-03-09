@@ -7,6 +7,7 @@
       telegram
       nautilus
       spicetify
+      discord
     ];
   };
 }

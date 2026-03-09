@@ -14,6 +14,7 @@ let
         stow
         p7zip
         playerctl
+        tcpdump
       ];
     };
 in

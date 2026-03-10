@@ -9,6 +9,8 @@
       nvim
       zoxide
       trash-cli
+      btop
+      bat
     ];
   };
 }

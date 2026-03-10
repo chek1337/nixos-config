@@ -152,8 +152,8 @@ binds {
     Mod+Shift+V { switch-focus-between-floating-and-tiling; }
     Mod+W       { toggle-column-tabbed-display; }
 
-    Print      { screenshot; }
-    Ctrl+Print { screenshot-screen; }
+    Print      { spawn-sh "grim -g \"$(slurp)\" - | satty --filename -"; }
+    Ctrl+Print { spawn-sh "grim - | satty --filename -"; }
     Alt+Print  { screenshot-window; }
 
     Mod+Escape allow-inhibiting=false { toggle-keyboard-shortcuts-inhibit; }

@@ -12,6 +12,9 @@
       home.packages = with pkgs; [
         qt6Packages.qt6ct
         nwg-look
+        satty
+        grim
+        slurp
       ];
 
       programs.noctalia-shell = {
@@ -44,6 +47,7 @@
           appLauncher = {
             enableClipboardHistory = true;
             autoPasteClipboard = true;
+            screenshotAnnotationTool = "satty";
           };
         };
       };

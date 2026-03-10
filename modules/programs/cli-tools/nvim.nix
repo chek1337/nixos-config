@@ -3,29 +3,20 @@
   flake.modules.homeManager.nvim =
     { pkgs, ... }:
     {
-      programs.neovim = {
+      imports = [ inputs.lazyvim-nix.homeManagerModules.default ];
+
+      programs.lazyvim = {
         enable = true;
-        defaultEditor = true;
-        viAlias = true;
-        vimAlias = true;
-        withNodeJs = true;
-        withPython3 = true;
-        withRuby = false;
+        installCoreDependencies = true;
+
         extraPackages = with pkgs; [
-          lua-language-server
           nixd
           stylua
-
-          # Нужны для mason и LazyVim
-          gcc
-          unzip
-          wget
-          ripgrep
-          fd
-          luarocks
-          trash-cli
         ];
+
+        configFiles = ./nvim-config;
       };
+
       programs.zsh.shellAliases = {
         v = "nvim";
       };

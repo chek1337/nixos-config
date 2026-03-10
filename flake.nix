@@ -50,5 +50,8 @@
     zapret-discord-youtube = {
       url = "github:kartavkun/zapret-discord-youtube";
     };
+    lazyvim-nix = {
+      url = "github:pfassina/lazyvim-nix";
+    };
   };
 }

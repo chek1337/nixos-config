@@ -53,5 +53,9 @@
     lazyvim-nix = {
       url = "github:pfassina/lazyvim-nix";
     };
+    nvf = {
+      url = "github:notashelf/nvf";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 }

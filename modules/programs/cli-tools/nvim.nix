@@ -1,24 +1,69 @@
-{ inputs, ... }:
-{
-  flake.modules.homeManager.nvim =
-    { pkgs, ... }:
-    {
-      imports = [ inputs.lazyvim-nix.homeManagerModules.default ];
+{inputs, ...}: {
+  flake.modules.homeManager.nvim = {pkgs, ...}: {
+    imports = [inputs.nvf.homeManagerModules.default];
 
-      programs.lazyvim = {
-        enable = true;
-        installCoreDependencies = true;
+    programs.nvf = {
+      enable = true;
 
-        extraPackages = with pkgs; [
-          nixd
-          stylua
-        ];
+      settings.vim = {
+        # Базовые настройки
+        viAlias = true;
+        vimAlias = true;
 
-	configFiles = ../../../dotfiles/nvim/.config/nvim;
-      };
+        options = {
+          number = true;
+          relativenumber = true;
+          tabstop = 2;
+          shiftwidth = 2;
+          expandtab = true;
+        };
 
-      programs.zsh.shellAliases = {
-        v = "nvim";
+        # Темы — stylix сам подхватит если включён
+        theme = {
+          enable = true;
+          name = "nord";
+          style = "dark";
+        };
+
+        # Telescope для поиска файлов
+        telescope.enable = true;
+
+        # Treesitter для подсветки
+        treesitter = {
+          enable = true;
+          fold = true;
+        };
+
+        # LSP базовая поддержка
+        lsp = {
+          enable = true;
+          formatOnSave = true;
+        };
+
+        # Статусная строка
+        statusline.lualine.enable = true;
+
+        # Файловое дерево
+        filetree.neo-tree.enable = true;
+
+        # Git интеграция
+        git = {
+          enable = true;
+          gitsigns.enable = true;
+        };
+
+        # Автодополнение
+        autocomplete.nvim-cmp.enable = true;
+
+        # Языки — добавляй по необходимости
+        languages = {
+          enableLSP = true;
+          enableFormat = true;
+          enableTreesitter = true;
+          nix.enable = true;
+          lua.enable = true;
+        };
       };
     };
+  };
 }

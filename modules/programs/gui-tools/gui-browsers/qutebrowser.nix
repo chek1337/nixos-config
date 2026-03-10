@@ -20,6 +20,9 @@
           config.bind("J", "tab-prev")
           config.bind("K", "tab-next")
 
+          c.auto_save.session = True
+          c.session.lazy_restore = True
+
           c.statusbar.show = "in-mode"
           c.tabs.padding = {"bottom": 5, "left": 16, "right": 16, "top": 5}
           c.statusbar.padding = {"bottom": 4, "left": 16, "right": 16, "top": 4}

@@ -47,5 +47,8 @@
       url = "github:danth/stylix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    zapret-discord-youtube = {
+      url = "github:kartavkun/zapret-discord-youtube";
+    };
   };
 }

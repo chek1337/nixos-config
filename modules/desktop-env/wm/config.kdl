@@ -158,6 +158,8 @@ binds {
     Shift+Print { screenshot-screen; }
     Shift+Ctrl+Print { spawn-sh "grim - | satty --filename - --early-exit --copy-command 'wl-copy'"; }
 
+    Mod+Ctrl+S { spawn-sh "noctalia-shell ipc call sessionMenu toggle"; }
+
     Mod+Escape allow-inhibiting=false { toggle-keyboard-shortcuts-inhibit; }
     Mod+Shift+E     { quit; }
     Ctrl+Alt+Delete { quit; }

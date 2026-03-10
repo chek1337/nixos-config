@@ -14,7 +14,7 @@
           stylua
         ];
 
-        configFiles = ./nvim-config;
+	configFiles = ../../../dotfiles/nvim/.config/nvim;
       };
 
       programs.zsh.shellAliases = {

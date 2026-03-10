@@ -19,11 +19,18 @@
         iproute2
       ];
 
+      # Режим 1: весь трафик через VPN (wg-quick)
+      networking.wg-quick.interfaces.wg0 = {
+        configFile = config.sops.secrets.wireguard.path;
+        autostart = false;
+      };
+
+      # Режим 2: только конкретные приложения через VPN (netns)
       systemd.services.netns-vpn = {
         description = "VPN network namespace";
         after = [ "network-online.target" ];
         wants = [ "network-online.target" ];
-        wantedBy = [ "multi-user.target" ];
+        # wantedBy намеренно не указан - запускать вручную
         serviceConfig = {
           Type = "oneshot";
           RemainAfterExit = true;
@@ -92,11 +99,17 @@
     in
     {
       programs.zsh.shellAliases = {
-        wgu = "sudo systemctl start netns-vpn.service";
-        wgd = "sudo systemctl stop netns-vpn.service";
-        wgs = "sudo systemctl status netns-vpn.service";
-        wgsh = "sudo ip netns exec vpn wg show";
-        vpn-run = "sudo ip netns exec vpn sudo -u $USER env ${vpnEnv}";
+        # Режим 1: весь трафик через VPN
+        vpn-full-start = "sudo systemctl start wg-quick-wg0.service";
+        vpn-full-stop = "sudo systemctl stop wg-quick-wg0.service";
+        vpn-full-status = "sudo systemctl status wg-quick-wg0.service";
+
+        # Режим 2: только конкретные приложения через VPN
+        vpn-app-start = "sudo systemctl start netns-vpn.service";
+        vpn-app-stop = "sudo systemctl stop netns-vpn.service";
+        vpn-app-status = "sudo systemctl status netns-vpn.service";
+        vpn-app-show = "sudo ip netns exec vpn wg show";
+        vpn-app-exec = "sudo ip netns exec vpn sudo -u $USER env ${vpnEnv}";
       };
     };
 }

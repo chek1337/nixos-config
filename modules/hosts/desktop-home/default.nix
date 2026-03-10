@@ -14,6 +14,7 @@ let
     "sops"
     "wireguard"
     "wireproxy"
+    "zapret"
     "noctalia"
   ];
 in

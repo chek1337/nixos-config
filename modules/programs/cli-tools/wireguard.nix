@@ -100,13 +100,13 @@
     {
       programs.zsh.shellAliases = {
         # Режим 1: весь трафик через VPN
-        vpn-full-start = "sudo systemctl start wg-quick-wg0.service";
-        vpn-full-stop = "sudo systemctl stop wg-quick-wg0.service";
+        vpn-full-up = "sudo systemctl start wg-quick-wg0.service";
+        vpn-full-down = "sudo systemctl stop wg-quick-wg0.service";
         vpn-full-status = "sudo systemctl status wg-quick-wg0.service";
 
         # Режим 2: только конкретные приложения через VPN
-        vpn-app-start = "sudo systemctl start netns-vpn.service";
-        vpn-app-stop = "sudo systemctl stop netns-vpn.service";
+        vpn-app-up = "sudo systemctl start netns-vpn.service";
+        vpn-app-down = "sudo systemctl stop netns-vpn.service";
         vpn-app-status = "sudo systemctl status netns-vpn.service";
         vpn-app-show = "sudo ip netns exec vpn wg show";
         vpn-app-exec = "sudo ip netns exec vpn sudo -u $USER env ${vpnEnv}";

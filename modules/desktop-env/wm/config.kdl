@@ -152,9 +152,11 @@ binds {
     Mod+Shift+V { switch-focus-between-floating-and-tiling; }
     Mod+W       { toggle-column-tabbed-display; }
 
-    Print      { spawn-sh "grim -g \"$(slurp)\" - | satty --filename -"; }
-    Ctrl+Print { spawn-sh "grim - | satty --filename -"; }
+    Print      { spawn-sh "grim -g \"$(slurp)\" - | wl-copy"; }
+    Ctrl+Print { spawn-sh "grim -g \"$(slurp)\" - | satty --filename - --early-exit --copy-command 'wl-copy'"; }
     Alt+Print  { screenshot-window; }
+    Shift+Print { screenshot-screen; }
+    Shift+Ctrl+Print { spawn-sh "grim - | satty --filename - --early-exit --copy-command 'wl-copy'"; }
 
     Mod+Escape allow-inhibiting=false { toggle-keyboard-shortcuts-inhibit; }
     Mod+Shift+E     { quit; }
@@ -209,4 +211,9 @@ window-rule {
 window-rule {
     geometry-corner-radius 20
     clip-to-geometry true
+}
+
+window-rule {
+    match app-id="satty"
+    open-floating true
 }

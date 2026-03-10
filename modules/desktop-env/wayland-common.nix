@@ -4,6 +4,9 @@
     {
       environment.systemPackages = with pkgs; [
         wl-clipboard
+        satty
+        grim
+        slurp
         cliphist
       ];
     };

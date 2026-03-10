@@ -9,6 +9,7 @@
           window_padding_width = 8;
           cursor_trail = 1;
           hide_window_decorations = true;
+          enable_audio_bell = false;
         };
       };
     };

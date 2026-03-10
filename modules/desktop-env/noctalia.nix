@@ -12,9 +12,6 @@
       home.packages = with pkgs; [
         qt6Packages.qt6ct
         nwg-look
-        satty
-        grim
-        slurp
       ];
 
       programs.noctalia-shell = {
@@ -35,6 +32,7 @@
           };
           notifications = {
             enableKeyboardLayoutToast = false;
+            density = "compact";
           };
           colorSchemes = {
             predefinedScheme = "Nord";

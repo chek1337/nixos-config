@@ -39,6 +39,10 @@
             useWallpaperColors = false;
             darkMode = true;
           };
+          templates = {
+            enableUserTheming = true;
+            activeTemplates = [ "telegram" ];
+          };
           location = {
             name = "Novosibirsk";
           };

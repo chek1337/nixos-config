@@ -6,9 +6,9 @@
         enable = true;
         settings = {
           confirm_os_window_close = 0;
-          window_padding_width = 8;
+          # window_padding_width = 8;
           cursor_trail = 1;
-          hide_window_decorations = true;
+          # hide_window_decorations = true;
           enable_audio_bell = false;
         };
       };

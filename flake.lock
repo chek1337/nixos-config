@@ -769,6 +769,22 @@
         "type": "github"
       }
     },
+    "nixpkgs-less-685": {
+      "locked": {
+        "lastModified": 1769188852,
+        "narHash": "sha256-aBAGyMum27K7cP5OR7BMioJOF3icquJMZDDgk6ZEg1A=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "a1bab9e494f5f4939442a57a58d0449a109593fe",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "a1bab9e494f5f4939442a57a58d0449a109593fe",
+        "type": "github"
+      }
+    },
     "nixpkgs-stable": {
       "locked": {
         "lastModified": 1767313136,
@@ -953,6 +969,7 @@
         "lazyvim-nix": "lazyvim-nix",
         "nixos-wsl": "nixos-wsl",
         "nixpkgs": "nixpkgs_2",
+        "nixpkgs-less-685": "nixpkgs-less-685",
         "nixpkgs-stable": "nixpkgs-stable",
         "noctalia": "noctalia",
         "noctalia-qs": "noctalia-qs",

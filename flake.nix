@@ -57,5 +57,9 @@
       url = "github:notashelf/nvf";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    nixpkgs-less-685 = {
+      url = "github:NixOS/nixpkgs/a1bab9e494f5f4939442a57a58d0449a109593fe";
+    };
   };
 }

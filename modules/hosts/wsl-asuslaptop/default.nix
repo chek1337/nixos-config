@@ -8,6 +8,8 @@ let
     "python-dev"
     "wsl-nvidia"
     "sops"
+
+    "fixes"
   ];
 in
 {

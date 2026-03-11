@@ -16,6 +16,8 @@ let
     "wireproxy"
     "zapret"
     "noctalia"
+
+    "fixes"
   ];
 in
 {

@@ -20,7 +20,7 @@
           plugins = [ "git" ];
         };
         initContent = ''
-                WORDCHARS="-"
+                WORDCHARS='*?_[]~=&;!#$%^(){}'
                 bindkey " " magic-space
           bindkey '^H' backward-kill-word
           source ${pkgs.fzf}/share/fzf/key-bindings.zsh

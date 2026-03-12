@@ -9,7 +9,7 @@ let
     "wsl-nvidia"
     "sops"
 
-    "fixes"
+    "docker"
   ];
 in
 {

@@ -20,7 +20,7 @@ let
 
     "noctalia"
 
-    "fixes"
+    "docker"
   ];
 in
 {

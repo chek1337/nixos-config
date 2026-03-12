@@ -24,6 +24,9 @@
             # animationSpeed = 0.5;
             animationDisabled = true;
           };
+          dock = {
+            enabled = false;
+          };
           bar = {
             outerCorners = false;
             hideOnOverview = true;

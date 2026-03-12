@@ -15,7 +15,8 @@
         cargoDeps = pkgs.rustPlatform.importCargoLock {
           lockFile = src.outPath + "/Cargo.lock";
           outputHashes = {
-            "finl_unicode-1.3.0" = pkgs.lib.fakeHash;
+            "finl_unicode-1.3.0" = "sha256-38S6XH4hldbkb6NP+s7lXa/NR49PI0w3KYqd+jPHND0=";
+            "xcb-imdkit-0.3.0" = "sha256-rP4oKkZ0aC4/5Jm8t5Ru7n3qLHw74/58A0Gt+sygQgU=";
           };
         };
       });

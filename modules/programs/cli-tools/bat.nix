@@ -1,17 +1,23 @@
 { ... }:
 {
   flake.modules.homeManager.bat =
-    { ... }:
+    { pkgs, ... }:
     {
       programs.bat = {
         enable = true;
         config = {
-          pager = "less -RF";
+          pager = "env TERM=xterm-256color less -FR";
         };
+        extraPackages = with pkgs.bat-extras; [
+          batdiff
+          batman
+          batgrep
+          batwatch
+        ];
       };
-
       home.sessionVariables = {
-        MANPAGER = "sh -c 'col -bx | bat -l man -p'";
+        MANPAGER = "sh -c 'col -bx | env TERM=xterm-256color bat -l man -p'";
+        MANROFFOPT = "-c";
       };
     };
 }

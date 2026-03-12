@@ -21,6 +21,11 @@
         ];
       };
 
+      home.sessionVariables = {
+        EDITOR = "nvim";
+        VISUAL = "nvim";
+      };
+
       programs.zsh.shellAliases = {
         v = "nvim";
       };

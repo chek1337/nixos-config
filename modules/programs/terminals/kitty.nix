@@ -24,6 +24,11 @@
           tab_bar_min_tabs = 1;
 
           scrollback_lines = 10000;
+
+          # kitty-scrollback
+          allow_remote_control = "socket-only";
+          listen_on = "unix:/tmp/kitty";
+          shell_integration = "enabled";
         };
       };
       home.packages = [ pkgsLess685.less ];

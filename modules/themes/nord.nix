@@ -6,7 +6,7 @@
       imports = [ inputs.stylix.nixosModules.stylix ];
       stylix = {
         enable = true;
-        image = inputs.self + "/assets/nord.jpg";
+        image = inputs.self + "/assets/nord2.png";
         base16Scheme = "${pkgs.base16-schemes}/share/themes/nord.yaml";
         fonts = {
           monospace = {

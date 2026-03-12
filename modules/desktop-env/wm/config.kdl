@@ -177,9 +177,9 @@ workspace "7"
 workspace "8"
 workspace "9"
 
-spawn-at-startup "qutebrowser"
+// spawn-at-startup "qutebrowser"
 spawn-at-startup "kitty"
-spawn-at-startup "Telegram"
+// spawn-at-startup "Telegram"
 spawn-at-startup "spotify"
 
 window-rule {

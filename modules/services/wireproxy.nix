@@ -24,7 +24,6 @@
         description = "WireProxy SOCKS5 tunnel";
         after = [ "network-online.target" ];
         wants = [ "network-online.target" ];
-        wantedBy = [ "multi-user.target" ];
 
         serviceConfig = {
           Type = "simple";

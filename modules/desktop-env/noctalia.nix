@@ -32,6 +32,54 @@
             hideOnOverview = true;
             marginVertical = 0;
             marginHorizontal = 0;
+            widgets = {
+              left = [
+                {
+                  id = "Clock";
+                }
+                {
+                  id = "SystemMonitor";
+                }
+                {
+                  id = "ActiveWindow";
+                }
+                {
+                  id = "MediaMini";
+                }
+              ];
+              center = [
+                {
+                  id = "Workspace";
+                }
+              ];
+              right = [
+                {
+                  id = "Tray";
+                }
+                {
+                  id = "KeyboardLayout";
+                  settings = {
+                    displayMode = "forceOpen";
+                    showIcon = false;
+                  };
+                }
+                {
+                  id = "NotificationHistory";
+                }
+                {
+                  id = "Battery";
+                }
+                {
+                  id = "Volume";
+                }
+                {
+                  id = "Brightness";
+                }
+                {
+                  id = "ControlCenter";
+                }
+              ];
+            };
           };
           notifications = {
             enableKeyboardLayoutToast = false;

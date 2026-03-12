@@ -58,10 +58,8 @@
                 }
                 {
                   id = "KeyboardLayout";
-                  settings = {
-                    displayMode = "forceOpen";
-                    showIcon = false;
-                  };
+                  displayMode = "forceOpen";
+                  showIcon = false;
                 }
                 {
                   id = "NotificationHistory";

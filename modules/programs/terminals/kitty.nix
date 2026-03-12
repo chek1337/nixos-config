@@ -6,7 +6,7 @@
       # Fix for: Freeze after entering search mode in less #9416
       # https://github.com/kovidgoyal/kitty/issues/9416
       pkgsLess685 = import inputs.nixpkgs-less-685 {
-        inherit (pkgs) system; # Берем систему из текущего pkgs
+        inherit (pkgs) system;
       };
     in
     {
@@ -17,9 +17,15 @@
           cursor_trail = 1;
           enable_audio_bell = false;
           window_padding_width = "0 8";
+
+          tab_bar_edge = "top";
+          tab_bar_style = "powerline";
+          tab_powerline_style = "round";
+          tab_bar_min_tabs = 1;
+
+          scrollback_lines = 10000;
         };
       };
-
       home.packages = [ pkgsLess685.less ];
     };
 }

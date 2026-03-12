@@ -16,6 +16,7 @@
         ];
       };
       home.sessionVariables = {
+        PAGER = "env TERM=xterm-256color bat --paging=always";
         MANPAGER = "sh -c 'col -bx | env TERM=xterm-256color bat -l man -p'";
         MANROFFOPT = "-c";
       };

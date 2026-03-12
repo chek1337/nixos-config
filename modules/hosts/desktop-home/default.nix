@@ -12,9 +12,12 @@ let
     "desktop-env"
     "bluetooth"
     "sops"
+
     "wireguard"
     "wireproxy"
     "zapret"
+    "vopono"
+
     "noctalia"
 
     "fixes"

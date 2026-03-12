@@ -20,6 +20,22 @@
         iptables
       ];
 
+      security.sudo.extraRules = [
+        {
+          users = [ "chek" ];
+          commands = [
+            {
+              command = "${pkgs.iproute2}/bin/ip netns exec vpn *";
+              options = [ "NOPASSWD" ];
+            }
+            {
+              command = "${pkgs.iproute2}/bin/ip netns exec bypass *";
+              options = [ "NOPASSWD" ];
+            }
+          ];
+        }
+      ];
+
       # Режим 1: весь трафик через VPN (wg-quick)
       networking.wg-quick.interfaces.wg0 = {
         configFile = config.sops.secrets.wireguard.path;
@@ -151,7 +167,7 @@
     };
 
   flake.modules.homeManager.wireguard =
-    { lib, ... }:
+    { lib, pkgs, ... }:
     let
       vpnEnv = lib.concatStringsSep " " [
         "WAYLAND_DISPLAY=$WAYLAND_DISPLAY"
@@ -166,8 +182,69 @@
         "XDG_CONFIG_DIRS=$XDG_CONFIG_DIRS"
         "QT_PLUGIN_PATH=$QT_PLUGIN_PATH"
       ];
+
+      # Хелпер для создания wrapper-скрипта, запускающего приложение в namespace
+      mkNsWrapper =
+        {
+          name,
+          ns,
+          bin,
+        }:
+        pkgs.writeShellScriptBin name ''
+          exec sudo ${pkgs.iproute2}/bin/ip netns exec ${ns} \
+            sudo -u $USER env \
+            WAYLAND_DISPLAY=$WAYLAND_DISPLAY \
+            XDG_RUNTIME_DIR=$XDG_RUNTIME_DIR \
+            DISPLAY=$DISPLAY \
+            DBUS_SESSION_BUS_ADDRESS=$DBUS_SESSION_BUS_ADDRESS \
+            XDG_CURRENT_DESKTOP=$XDG_CURRENT_DESKTOP \
+            XDG_SESSION_TYPE=$XDG_SESSION_TYPE \
+            XDG_DATA_DIRS=$XDG_DATA_DIRS \
+            ${bin} "$@"
+        '';
     in
     {
+      # Wrapper-скрипты для запуска приложений в нужном namespace.
+      # Добавляй сюда новые приложения по аналогии.
+      home.packages = [
+        # Firefox через VPN (режим 2: netns-vpn должен быть запущен)
+        (mkNsWrapper {
+          name = "firefox-vpn";
+          ns = "vpn";
+          bin = "firefox";
+        })
+        # Firefox в обход VPN (режим 3: wg-quick + netns-bypass должны быть запущены)
+        (mkNsWrapper {
+          name = "firefox-bypass";
+          ns = "bypass";
+          bin = "firefox";
+        })
+      ];
+
+      # .desktop файлы — видны в лаунчере как обычные приложения
+      xdg.desktopEntries = {
+        firefox-vpn = {
+          name = "Firefox (VPN)";
+          exec = "firefox-vpn %U";
+          icon = "firefox";
+          comment = "Firefox через VPN namespace (требует vpn-app-up)";
+          categories = [
+            "Network"
+            "WebBrowser"
+          ];
+        };
+        firefox-bypass = {
+          name = "Firefox (No VPN)";
+          exec = "firefox-bypass %U";
+          icon = "firefox";
+          comment = "Firefox в обход VPN (требует vpn-full-up + vpn-bypass-up)";
+          categories = [
+            "Network"
+            "WebBrowser"
+          ];
+        };
+      };
+
       programs.zsh.shellAliases = {
         # Режим 1: весь трафик через VPN
         vpn-full-up = "sudo systemctl start wg-quick-wg0.service";

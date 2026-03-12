@@ -10,8 +10,6 @@ let
     "sops"
 
     "docker"
-
-    "wezterm"
   ];
 in
 {

@@ -22,20 +22,22 @@
       });
     in
     {
-      home.packages = [ wezterm-cursor-trail ];
-
-      xdg.configFile."wezterm/wezterm.lua".text = ''
-        local config = {}
-        config.cursor_trail = {
-          enabled = true,
-          dwell_threshold = 80,
-          distance_threshold = 5,
-          duration = 300,
-          spread = 2,
-          opacity = 0.6,
-        }
-        config.animation_fps = 60
-        return config
-      '';
+      programs.wezterm = {
+        enable = true;
+        package = wezterm-cursor-trail;
+        extraConfig = ''
+          local config = {}
+          config.cursor_trail = {
+            enabled = true,
+            dwell_threshold = 50,
+            distance_threshold = 2,
+            duration = 100,
+            spread = 4.0,
+            opacity = 0.8,
+          }
+          config.animation_fps = 60
+          return config
+        '';
+      };
     };
 }

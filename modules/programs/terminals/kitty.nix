@@ -7,21 +7,23 @@
       # https://github.com/kovidgoyal/kitty/issues/9416
       pkgsLess685 = import inputs.nixpkgs-less-685 { inherit (pkgs) system; };
 
-      # Собираем kitty-session из исходников
-      # proxyVendor нужен потому что vendor/ в репо неполный
       kitty-session = pkgs.buildGoModule {
         pname = "kitty-session";
         version = "unstable-5e975c0";
         src = inputs.kitty-session;
-
-        # Игнорируем неполный vendor каталог в репозитории,
-        # качаем зависимости через Go module proxy
         proxyVendor = true;
-
-        # Фейковый хеш — nix упадёт и покажет правильный
         vendorHash = "sha256-aewfTkFkRjxwwDL+ik1XMzkB+H54TABa/rVOXFfbtYk=";
-
         doCheck = false;
+        postPatch = ''
+          substituteInPlace internal/tui/styles.go \
+            --replace '"#7571F9"' '"#81A1C1"' \
+            --replace '"#02BF87"' '"#A3BE8C"' \
+            --replace '"#FFBF00"' '"#EBCB8B"' \
+            --replace '"#636363"' '"#4C566A"' \
+            --replace '"#ED567A"' '"#BF616A"' \
+            --replace '"#FFFDF5"' '"#ECEFF4"' \
+            --replace '"#C1C6B2"' '"#D8DEE9"'
+        '';
 
         meta = {
           description = "Kitty Claude Session Manager";
@@ -65,12 +67,15 @@
         '';
       };
 
+      programs.zsh.initContent = ''
+        repo() { local d=$(ks repo); [[ -n "$d" ]] && cd "$d"; }
+      '';
+
       home.packages = [
         pkgsLess685.less
-        kitty-session # ks — session manager для kitty + claude code
+        kitty-session
       ];
 
-      # Конфиг kitty-session: директории для fuzzy repo picker
       home.file.".config/ks/config.yaml".text = ''
         dirs:
           - ~/code

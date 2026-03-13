@@ -693,6 +693,23 @@
         "type": "github"
       }
     },
+    "kitty-zoxide-sessions": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1771681429,
+        "narHash": "sha256-fEBagA3j7xQr8MoTU1jxlfCeJqkjd309Q4OzBpkTAC0=",
+        "owner": "seankay",
+        "repo": "kitty-zoxide-sessions",
+        "rev": "d0908f2262ac3687aeb6313962c4667187aa3213",
+        "type": "github"
+      },
+      "original": {
+        "owner": "seankay",
+        "repo": "kitty-zoxide-sessions",
+        "rev": "d0908f2262ac3687aeb6313962c4667187aa3213",
+        "type": "github"
+      }
+    },
     "lazyvim-nix": {
       "inputs": {
         "flake-utils": "flake-utils",
@@ -1002,6 +1019,7 @@
         "hyprland": "hyprland",
         "import-tree": "import-tree",
         "kitty-session": "kitty-session",
+        "kitty-zoxide-sessions": "kitty-zoxide-sessions",
         "lazyvim-nix": "lazyvim-nix",
         "nixos-wsl": "nixos-wsl",
         "nixpkgs": "nixpkgs_2",

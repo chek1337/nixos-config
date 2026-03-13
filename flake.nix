@@ -61,6 +61,10 @@
       url = "github:mad01/kitty-session/5e975c0dd2ea6fd915c9d89ff13318ec162621bc";
       flake = false;
     };
+    kitty-zoxide-sessions = {
+      url = "github:seankay/kitty-zoxide-sessions/d0908f2262ac3687aeb6313962c4667187aa3213";
+      flake = false;
+    };
 
     nixpkgs-less-685 = {
       url = "github:NixOS/nixpkgs/a1bab9e494f5f4939442a57a58d0449a109593fe";

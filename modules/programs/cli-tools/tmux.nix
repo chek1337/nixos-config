@@ -9,7 +9,7 @@
         historyLimit = 10000;
         mouse = true;
         keyMode = "vi";
-        prefix = "C-Space";
+        # prefix = "C-Space";
 
         plugins = with pkgs.tmuxPlugins; [
           resurrect

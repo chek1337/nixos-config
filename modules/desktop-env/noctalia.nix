@@ -41,10 +41,10 @@
                   id = "SystemMonitor";
                 }
                 {
-                  id = "ActiveWindow";
-                }
-                {
                   id = "MediaMini";
+                  "maxWidth" = 150;
+                  "useFixedWidth" = true;
+                  "showArtistFirst" = false;
                 }
               ];
               center = [
@@ -63,6 +63,9 @@
                 }
                 {
                   id = "NotificationHistory";
+                }
+                {
+                  id = "Bluetooth";
                 }
                 {
                   id = "Battery";

@@ -33,8 +33,8 @@
         enableZshIntegration = true;
         settings = {
           directory = {
-            truncation_length = 0; # не обрезать путь
-            truncate_to_repo = false; # не резать до корня git-репо
+            truncation_length = 0;
+            truncate_to_repo = false;
           };
         };
       };

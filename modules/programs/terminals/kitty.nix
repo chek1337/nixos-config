@@ -9,7 +9,8 @@
     in
     {
       imports = with config.flake.modules.homeManager; [
-        kitty-zoxide-sessions
+        # ks
+        # kitty-zoxide-sessions
       ];
 
       programs.kitty = {
@@ -22,7 +23,7 @@
           tab_bar_edge = "top";
           tab_bar_style = "powerline";
           tab_powerline_style = "round";
-          tab_bar_min_tabs = 1;
+          # tab_bar_min_tabs = 1;
           scrollback_lines = 10000;
           # kitty-scrollback
           allow_remote_control = "socket-only";

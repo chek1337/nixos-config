@@ -17,10 +17,13 @@ let
     "wireproxy"
     "zapret"
     "vopono"
+    "zmkbatx"
 
     "noctalia"
 
     "docker"
+
+    "power"
   ];
 in
 {

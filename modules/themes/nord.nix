@@ -33,6 +33,11 @@
   flake.modules.homeManager.nord =
     { ... }:
     {
-      stylix.targets.firefox.profileNames = [ "default" ];
+      stylix.targets.firefox.profileNames = [ "default" ]; # not working
+      stylix.targets.librewolf = {
+        # not working
+        enable = true;
+        profileNames = [ "default" ];
+      };
     };
 }

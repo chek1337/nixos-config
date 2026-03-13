@@ -2,7 +2,7 @@
 {
   flake.modules.homeManager.gui-browsers = {
     imports = with config.flake.modules.homeManager; [
-      firefox
+      # firefox
       qutebrowser
       librewolf
     ];

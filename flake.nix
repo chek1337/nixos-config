@@ -57,6 +57,10 @@
       url = "github:notashelf/nvf";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    kitty-session = {
+      url = "github:mad01/kitty-session/5e975c0dd2ea6fd915c9d89ff13318ec162621bc";
+      flake = false;
+    };
 
     nixpkgs-less-685 = {
       url = "github:NixOS/nixpkgs/a1bab9e494f5f4939442a57a58d0449a109593fe";

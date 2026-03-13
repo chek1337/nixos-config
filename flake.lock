@@ -676,6 +676,22 @@
         "type": "github"
       }
     },
+    "kitty-session": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1773172970,
+        "narHash": "sha256-csn8kSklqhiLjfrTZxH9Tp9hAFpVNCbTqydSto967Qk=",
+        "owner": "mad01",
+        "repo": "kitty-session",
+        "rev": "5e975c0dd2ea6fd915c9d89ff13318ec162621bc",
+        "type": "github"
+      },
+      "original": {
+        "owner": "mad01",
+        "repo": "kitty-session",
+        "type": "github"
+      }
+    },
     "lazyvim-nix": {
       "inputs": {
         "flake-utils": "flake-utils",
@@ -984,6 +1000,7 @@
         "home-manager": "home-manager",
         "hyprland": "hyprland",
         "import-tree": "import-tree",
+        "kitty-session": "kitty-session",
         "lazyvim-nix": "lazyvim-nix",
         "nixos-wsl": "nixos-wsl",
         "nixpkgs": "nixpkgs_2",

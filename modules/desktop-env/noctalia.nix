@@ -66,6 +66,7 @@
                 }
                 {
                   id = "Battery";
+                  displayMode = "alwaysShow";
                 }
                 {
                   id = "Volume";

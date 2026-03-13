@@ -10,6 +10,7 @@ let
     "sops"
 
     "docker"
+    "kitty"
   ];
 in
 {

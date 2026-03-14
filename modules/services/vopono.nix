@@ -1,18 +1,13 @@
-{ ... }:
+{ inputs, ... }:
 {
   flake.modules.nixos.vopono =
+    { config, pkgs, ... }:
     {
-      config,
-      pkgs,
-      ...
-    }:
-    {
-      assertions = [
-        {
-          assertion = config.sops.secrets ? wireguard;
-          message = "flake.modules.nixos.vopono требует flake.modules.nixos.wireguard (sops secret 'wireguard')";
-        }
-      ];
+      sops.secrets.wireguard = {
+        sopsFile = inputs.self + "/secrets/wireguard.conf";
+        format = "binary";
+        # Демон vopono запускается от root, доступ есть по умолчанию
+      };
 
       environment.systemPackages = with pkgs; [
         vopono
@@ -20,10 +15,9 @@
 
       systemd.services.vopono = {
         description = "Vopono root daemon";
-        after = [ "network-online.target" ];
-        wants = [ "network-online.target" ];
+        after = [ "network.target" ];
+        requires = [ "network.target" ];
         wantedBy = [ "multi-user.target" ];
-
         serviceConfig = {
           Type = "simple";
           ExecStart = "${pkgs.vopono}/bin/vopono daemon";
@@ -32,37 +26,24 @@
           Environment = "RUST_LOG=info";
         };
       };
-
-      security.sudo.extraRules = [
-        {
-          users = [ "chek" ]; # замени на своего пользователя
-          commands = [
-            {
-              command = "${pkgs.vopono}/bin/vopono *";
-              options = [ "NOPASSWD" ];
-            }
-          ];
-        }
-      ];
     };
 
   flake.modules.homeManager.vopono =
-    { osConfig, ... }:
-    let
-      wgConf = osConfig.sops.secrets.wireguard.path;
-      voponoBase = "vopono exec --protocol wireguard --custom ${wgConf}";
-    in
+    { ... }:
     {
+      # vopono будет читать этот конфиг и использовать wireguard-секрет по умолчанию
+      xdg.configFile."vopono/config.toml".text = ''
+        provider = "custom"
+        protocol = "Wireguard"
+        custom = "/run/secrets/wireguard"
+      '';
+
       programs.zsh.shellAliases = {
-        vopono-up = "sudo systemctl start vopono.service";
-        vopono-down = "sudo systemctl stop vopono.service";
-        vopono-status = "sudo systemctl status vopono.service";
-        vopono-logs = "sudo journalctl -u vopono -e";
-
-        vopono-exec = "${voponoBase}";
-
-        vopono-list = "vopono list namespaces";
-        vopono-apps = "vopono list applications";
+        vpu = "sudo systemctl start vopono.service";
+        vpd = "sudo systemctl stop vopono.service";
+        vps = "systemctl status vopono.service";
+        # Использование: vpx firefox, vpx transmission-gtk, итд.
+        vpx = "vopono exec";
       };
     };
 }

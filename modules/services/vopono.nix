@@ -3,7 +3,6 @@
   flake.modules.nixos.vopono =
     { config, pkgs, ... }:
     {
-      # 1. Даем право пользователю читать конфиг WireGuard
       sops.secrets.wireguard = {
         sopsFile = inputs.self + "/secrets/wireguard.conf";
         format = "binary";

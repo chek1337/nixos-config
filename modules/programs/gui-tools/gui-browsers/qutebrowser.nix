@@ -19,6 +19,9 @@
           config.bind("<Alt-q>", "record-macro")
           config.bind("J", "tab-prev")
           config.bind("K", "tab-next")
+          config.unbind("d")
+          config.bind("dd", "tab-close")
+          config.unbind("<Ctrl-w>")
 
           c.auto_save.session = True
           c.session.lazy_restore = True

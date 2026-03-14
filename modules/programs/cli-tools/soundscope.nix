@@ -7,8 +7,10 @@
         pname = "soundscope";
         version = "unstable";
         src = inputs.soundscope;
-
         cargoHash = "sha256-Z/6mi7rWXxF4V5E2TyIWPXp3blRq9BQ5IrvsZPvnRWo=";
+
+        nativeBuildInputs = [ pkgs.pkg-config ];
+        buildInputs = [ pkgs.alsa-lib ];
 
         meta = {
           description = "CLI audio file analyzer";

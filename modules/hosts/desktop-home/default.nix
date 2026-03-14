@@ -22,6 +22,7 @@ let
     "noctalia"
 
     "docker"
+    "wireshark"
 
     "power"
   ];

@@ -13,6 +13,8 @@
       btop
       bat
       pay-respects
+
+      network-managing
     ];
   };
 }

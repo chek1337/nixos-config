@@ -16,6 +16,7 @@ let
         playerctl
         tcpdump
         dig
+        tldr
       ];
     };
 in

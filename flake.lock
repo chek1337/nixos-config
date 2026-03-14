@@ -1029,6 +1029,7 @@
         "noctalia-qs": "noctalia-qs",
         "nvf": "nvf",
         "sops-nix": "sops-nix",
+        "soundscope": "soundscope",
         "spicetify-nix": "spicetify-nix",
         "stylix": "stylix",
         "systems": "systems_7",
@@ -1052,6 +1053,22 @@
       "original": {
         "owner": "mic92",
         "repo": "sops-nix",
+        "type": "github"
+      }
+    },
+    "soundscope": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1772914258,
+        "narHash": "sha256-Omir01qOFr8RepSlxpWD7rbM3UijVSNLwMVml3rHyhw=",
+        "owner": "bananaofhappiness",
+        "repo": "soundscope",
+        "rev": "769d5fd50cfd84a7c144b842f636b0d91279ce46",
+        "type": "github"
+      },
+      "original": {
+        "owner": "bananaofhappiness",
+        "repo": "soundscope",
         "type": "github"
       }
     },

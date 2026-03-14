@@ -13,6 +13,7 @@
       btop
       bat
       pay-respects
+      soundscope
 
       network-managing
     ];

@@ -12,6 +12,7 @@
       trash-cli
       btop
       bat
+      pay-respects
     ];
   };
 }

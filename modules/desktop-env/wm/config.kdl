@@ -57,8 +57,7 @@ binds {
     Mod+Comma { spawn-sh "noctalia-shell ipc call settings toggle"; }
 
     Mod+T { spawn "kitty"; }
-    Mod+D { spawn-sh "noctalia-shell ipc call launcher toggle"; }
-    Super+Alt+L { spawn-sh "noctalia-shell ipc call lockScreen lock"; }
+    Mod+Alt+L { spawn-sh "noctalia-shell ipc call lockScreen lock"; }
 
     XF86AudioRaiseVolume  { spawn "noctalia-shell" "ipc" "call" "volume" "increase"; }
     XF86AudioLowerVolume  { spawn "noctalia-shell" "ipc" "call" "volume" "decrease"; }
@@ -145,11 +144,11 @@ binds {
 
     Mod+Minus       { set-column-width "-10%"; }
     Mod+Equal       { set-column-width "+10%"; }
-    Mod+Shift+Minus { set-window-height "-10%"; }
-    Mod+Shift+Equal { set-window-height "+10%"; }
+    Mod+Ctrl+Minus { set-window-height "-10%"; }
+    Mod+Ctrl+Equal { set-window-height "+10%"; }
 
     Mod+V       { toggle-window-floating; }
-    Mod+Shift+V { switch-focus-between-floating-and-tiling; }
+    Mod+Ctrl+V { switch-focus-between-floating-and-tiling; }
     Mod+W       { toggle-column-tabbed-display; }
 
     Print      { spawn-sh "grim -g \"$(slurp)\" - | wl-copy"; }
@@ -158,12 +157,12 @@ binds {
     Shift+Print { screenshot-screen; }
     Shift+Ctrl+Print { spawn-sh "grim - | satty --filename - --early-exit --copy-command 'wl-copy'"; }
 
-    Mod+Ctrl+S { spawn-sh "noctalia-shell ipc call sessionMenu toggle"; }
+    Mod+Alt+S { spawn-sh "noctalia-shell ipc call sessionMenu toggle"; }
 
     Mod+Escape allow-inhibiting=false { toggle-keyboard-shortcuts-inhibit; }
     Mod+Shift+E     { quit; }
     Ctrl+Alt+Delete { quit; }
-    Mod+Shift+P     { power-off-monitors; }
+    Mod+Alt+P     { power-off-monitors; }
 }
 
 

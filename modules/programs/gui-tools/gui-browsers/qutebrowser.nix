@@ -13,6 +13,7 @@
           deepseek = "https://chat.deepseek.com";
           gpt = "https://chatgpt.com";
           zai = "https://z.ai";
+          claude = "https://claude.ai";
         };
         extraConfig = ''
           config.unbind("q")

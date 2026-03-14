@@ -3,37 +3,17 @@
   flake.modules.nixos.vopono =
     { config, pkgs, ... }:
     {
+      # 1. Даем право пользователю читать конфиг WireGuard
       sops.secrets.wireguard = {
         sopsFile = inputs.self + "/secrets/wireguard.conf";
         format = "binary";
       };
+
       environment.systemPackages = with pkgs; [
         vopono
         wireguard-tools
       ];
-      security.sudo.extraRules = [
-        {
-          users = [ "wheel" ];
-          commands = [
-            {
-              command = "${pkgs.vopono}/bin/vopono *";
-              options = [ "NOPASSWD" ];
-            }
-            # {
-            #   command = "/run/current-system/sw/bin/systemctl start vopono.service";
-            #   options = [ "NOPASSWD" ];
-            # }
-            # {
-            #   command = "/run/current-system/sw/bin/systemctl stop vopono.service";
-            #   options = [ "NOPASSWD" ];
-            # }
-            # {
-            #   command = "/run/current-system/sw/bin/systemctl status vopono.service";
-            #   options = [ "NOPASSWD" ];
-            # }
-          ];
-        }
-      ];
+
       systemd.services.vopono = {
         description = "Vopono root daemon";
         after = [ "network.target" ];
@@ -48,10 +28,10 @@
         };
       };
     };
+
   flake.modules.homeManager.vopono =
     { config, pkgs, ... }:
     {
-      home.packages = with pkgs; [ qutebrowser ];
       programs.zsh.shellAliases = {
         vopono-up = "sudo systemctl start vopono.service";
         vopono-down = "sudo systemctl stop vopono.service";
@@ -60,15 +40,15 @@
       };
       xdg.desktopEntries = {
         qutebrowser-vpn = {
-          name = "Qutebrowser (VPN)";
+          name = "qutebrowser (VPN)";
           exec = "${pkgs.vopono}/bin/vopono exec --protocol wireguard --custom /run/secrets/wireguard ${pkgs.qutebrowser}/bin/qutebrowser %U";
           icon = "qutebrowser";
-          comment = "Qutebrowser via Vopono WireGuard";
+          comment = "qutebrowser via Vopono WireGuard";
           categories = [
             "Network"
             "WebBrowser"
           ];
-          terminal = false;
+          terminal = true;
         };
       };
     };

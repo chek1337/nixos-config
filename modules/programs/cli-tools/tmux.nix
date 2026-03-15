@@ -34,20 +34,50 @@
           }
           {
             plugin = tmux-sessionx;
-            extraConfig = ''
-              set -g @sessionx-tmuxinator-mode 'on'
-              set -g @sessionx-zoxide-mode 'on'
-              set -g @sessionx-git-branch 'on'
-              set -g @sessionx-filter-current 'false'
-              set -g @sessionx-window-height '95%'
-              set -g @sessionx-window-width '95%'
-              set -g @sessionx-preview-location 'top'
-              set -g @sessionx-preview-ratio '65%'
-              set -g @sessionx-layout 'reverse'
-              set -g @sessionx-bind 's'
-              set -g @sessionx-bind-tmuxinator-list 'ctrl-/'
-              bind S choose-tree -Zs
-            '';
+            extraConfig =
+              let
+                c = config.lib.stylix.colors.withHashtag;
+              in
+              ''
+                set -g @sessionx-tmuxinator-mode 'on'
+                set -g @sessionx-zoxide-mode 'on'
+                set -g @sessionx-git-branch 'on'
+                set -g @sessionx-filter-current 'false'
+                set -g @sessionx-window-height '95%'
+                set -g @sessionx-window-width '95%'
+                set -g @sessionx-preview-location 'top'
+                set -g @sessionx-preview-ratio '65%'
+                set -g @sessionx-layout 'reverse'
+                set -g @sessionx-bind 's'
+                set -g @sessionx-bind-tmuxinator-list 'ctrl-/'
+                bind S choose-tree -Zs
+
+                set -g @sessionx-additional-options "--color=bg:${c.base00},bg+:${c.base01},fg:${c.base04},fg+:${c.base06},hl:${c.base0C},hl+:${c.base0D},border:${c.base03},header:${c.base0B},info:${c.base0A},prompt:${c.base0D},pointer:${c.base08},marker:${c.base0B},spinner:${c.base0C},preview-bg:${c.base00}"
+              '';
+          }
+          {
+            plugin = catppuccin;
+            extraConfig =
+              let
+                c = config.lib.stylix.colors.withHashtag;
+              in
+              ''
+                set -g @catppuccin_flavor "mocha"
+                set -g @catppuccin_window_status_style "basic"
+
+                set -g @catppuccin_window_number_color "#{@thm_overlay_2}"
+                set -g @catppuccin_window_current_number_color "#{@thm_blue}"
+
+                set -g @catppuccin_window_text " #W"
+                set -g @catppuccin_window_current_text " #W"
+
+                set -g @catppuccin_status_module_bg_color "${c.base01}"
+
+                set -g status-left-length 100
+                set -g status-right-length 100
+                set -g status-left ""
+                set -g status-right "#{E:@catppuccin_status_session}"
+              '';
           }
         ];
         extraConfig =
@@ -76,34 +106,50 @@
             set -g pane-border-style "fg=${c.base03},bg=default"
             set -g pane-active-border-style "fg=${c.base0D},bg=default"
 
-            # Статусбар
-            set -g status-style "bg=${c.base00},fg=${c.base04}"
-            set -g status-bg "${c.base00}"
-            set -g status-left-length 4
-            set -g status-right-length 44
-
-            # Сбрасываем стили окон
-            set -g window-status-style "bg=${c.base00},fg=${c.base00}"
-            set -g window-status-current-style "bg=${c.base00},fg=${c.base00}"
-
-            # Слева: отступ
-            set -g status-left " "
-
-            # Справа: имя сессии в капсуле + отступ
-            set -g status-right "#[fg=${c.base0D},bg=${c.base00}]\ue0b6#[fg=${c.base00},bg=${c.base0D},bold] #S #[fg=${c.base0D},bg=${c.base00}]\ue0b4 "
-
-            # Обычное окно
-            set -g window-status-format "#[fg=${c.base02},bg=${c.base00}]\ue0b6#[fg=${c.base04},bg=${c.base02}] #I #W #[fg=${c.base02},bg=${c.base00}]\ue0b4"
-
-            # Активное окно
-            set -g window-status-current-format "#[fg=${c.base0D},bg=${c.base00}]\ue0b6#[fg=${c.base00},bg=${c.base0D},bold] #I #W#{?window_zoomed_flag, ,} #[fg=${c.base0D},bg=${c.base00}]\ue0b4"
-
-            # Пробел между окнами
-            set -g window-status-separator " "
-
             # Стиль сообщений
             set -g message-style "fg=${c.base0D},bg=${c.base02},bold"
             set -g message-command-style "fg=${c.base05},bg=${c.base02}"
+
+            # Стиль popup-окон
+            set -g popup-style "bg=${c.base00}"
+            set -g popup-border-style "fg=${c.base0D},bg=${c.base00}"
+
+            # -------------------------------------------------------
+            # Nord override для catppuccin
+            # -------------------------------------------------------
+            set -g @thm_bg        "${c.base00}"
+            set -g @thm_mantle    "${c.base00}"
+            set -g @thm_crust     "${c.base00}"
+            set -g @thm_surface_0 "${c.base01}"
+            set -g @thm_surface_1 "${c.base02}"
+            set -g @thm_surface_2 "${c.base03}"
+            set -g @thm_overlay_0 "${c.base03}"
+            set -g @thm_overlay_1 "${c.base03}"
+            set -g @thm_overlay_2 "${c.base04}"
+            set -g @thm_subtext_0 "${c.base04}"
+            set -g @thm_subtext_1 "${c.base05}"
+            set -g @thm_fg        "${c.base05}"
+            set -g @thm_text      "${c.base06}"
+            set -g @thm_rosewater "${c.base06}"
+            set -g @thm_teal      "${c.base0C}"
+            set -g @thm_sky       "${c.base0C}"
+            set -g @thm_sapphire  "${c.base0C}"
+            set -g @thm_blue      "${c.base0D}"
+            set -g @thm_lavender  "${c.base0D}"
+            set -g @thm_red       "${c.base08}"
+            set -g @thm_maroon    "${c.base08}"
+            set -g @thm_flamingo  "${c.base08}"
+            set -g @thm_peach     "${c.base09}"
+            set -g @thm_yellow    "${c.base0A}"
+            set -g @thm_green     "${c.base0B}"
+            set -g @thm_mauve     "${c.base0E}"
+            set -g @thm_pink      "${c.base0E}"
+
+            set -g status-style "bg=#191c23,fg=${c.base04}"
+            set -g status-bg    "#191c23"
+            set -g status-fg    "${c.base04}"
+
+            set -g window-status-separator ""
           '';
       };
       home.packages = [ pkgs.tmuxinator ];

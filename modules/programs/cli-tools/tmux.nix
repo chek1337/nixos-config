@@ -45,12 +45,14 @@
                 set -g @sessionx-filter-current 'false'
                 set -g @sessionx-window-height '95%'
                 set -g @sessionx-window-width '95%'
+                # set -g @sessionx-preview-enabled 'false'
                 set -g @sessionx-preview-location 'top'
                 set -g @sessionx-preview-ratio '65%'
                 set -g @sessionx-layout 'reverse'
                 set -g @sessionx-bind 's'
                 set -g @sessionx-bind-tmuxinator-list 'ctrl-/'
                 bind S choose-tree -Zs
+                set -g @sessionx-custom-paths-subdirectories 'false'
 
                 set -g @sessionx-additional-options "--color=bg:${c.base00},bg+:${c.base01},fg:${c.base04},fg+:${c.base06},hl:${c.base0C},hl+:${c.base0D},border:${c.base03},header:${c.base0B},info:${c.base0A},prompt:${c.base0D},pointer:${c.base08},marker:${c.base0B},spinner:${c.base0C},preview-bg:${c.base00}"
               '';

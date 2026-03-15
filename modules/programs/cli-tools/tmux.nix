@@ -9,8 +9,6 @@
         historyLimit = 10000;
         mouse = true;
         keyMode = "vi";
-        # prefix = "C-Space";
-
         plugins = with pkgs.tmuxPlugins; [
           resurrect
           {
@@ -20,8 +18,25 @@
               set -g @continuum-save-interval '10'
             '';
           }
-        ];
+          {
+            plugin = tmux-sessionx;
+            extraConfig = ''
+              set -g @sessionx-tmuxinator-mode 'on'
+              set -g @sessionx-zoxide-mode 'on'
+              set -g @sessionx-git-branch 'on'
+              set -g @sessionx-filter-current 'false'
+              set -g @sessionx-window-height '95%'
+              set -g @sessionx-window-width '95%'
+              set -g @sessionx-preview-location 'top'
+              set -g @sessionx-preview-ratio '65%'
+              set -g @sessionx-layout 'reverse'
+              set -g @sessionx-bind 's'
 
+              set -g @sessionx-bind-tmuxinator-list 'ctrl-/'
+              bind S choose-tree -Zs
+            '';
+          }
+        ];
         extraConfig = ''
           set -g base-index 1
           setw -g pane-base-index 1
@@ -35,5 +50,6 @@
           bind - split-window -v
         '';
       };
+      home.packages = [ pkgs.tmuxinator ];
     };
 }

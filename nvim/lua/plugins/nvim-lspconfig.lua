@@ -1,13 +1,18 @@
 return {
-  {
-    "neovim/nvim-lspconfig",
-    opts = {
-      servers = {
-        lua_ls = {},
-        nixd = {},
-        pyright = { enabled = false },
-        ty = {},
-      },
-    },
-  },
+	{
+		"neovim/nvim-lspconfig",
+		opts = {
+			servers = {
+				["*"] = {
+					keys = {
+						{ "K", false },
+					},
+				},
+				lua_ls = {},
+				nixd = {},
+				pyright = { enabled = false },
+				ty = {},
+			},
+		},
+	},
 }

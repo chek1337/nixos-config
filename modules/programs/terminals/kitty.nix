@@ -31,9 +31,6 @@
           shell_integration = "enabled";
         };
         extraConfig = ''
-          # Ctrl+Backspace: send CSI u sequence so tmux/nvim can distinguish it from plain Backspace
-          map ctrl+backspace send_text all \x1b[127;5~
-
           # kitty-scrollback.nvim Kitten alias
           action_alias kitty_scrollback_nvim kitten '/home/${username}/.local/share/nvim/lazy/kitty-scrollback.nvim/python/kitty_scrollback_nvim.py'
 

@@ -16,8 +16,7 @@ vim.keymap.set("i", "<C-j>", "<Down>", { desc = "Move down" })
 vim.keymap.set("i", "<C-k>", "<Up>", { desc = "Move up" })
 vim.keymap.set("i", "<C-l>", "<Right>", { desc = "Move right" })
 
-vim.keymap.set("i", "<C-BS>", "<C-w>", { desc = "Delete word backward" })
-vim.keymap.set("i", "\x1b[127;5~", "<C-w>", { desc = "Delete word backward (CSI)" })
+vim.keymap.set("i", "<C-BS>", "<C-w>")
 
 vim.keymap.set("t", "<Esc>", [[<C-\><C-n>]], { desc = "Exit terminal mode" })
 

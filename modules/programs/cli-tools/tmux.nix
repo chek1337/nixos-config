@@ -9,6 +9,7 @@
         shell = "${pkgs.zsh}/bin/zsh";
         terminal = "tmux-256color";
         historyLimit = 10000;
+        prefix = "C-Space";
         mouse = true;
         keyMode = "vi";
         plugins = with pkgs.tmuxPlugins; [

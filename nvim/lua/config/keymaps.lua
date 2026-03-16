@@ -26,7 +26,9 @@ Snacks.toggle.zoom():map("<C-W>z")
 
 vim.keymap.set({ "n", "v" }, "x", '"_x')
 
-vim.keymap.set("n", "J", "<Nop>", { noremap = true, silent = true })
+vim.keymap.set("n", "J", "<cmd>BufferLineCyclePrev<cr>", { desc = "Previous buffer" })
+vim.keymap.set("n", "K", "<cmd>BufferLineCycleNext<cr>", { desc = "Next buffer" })
+vim.keymap.set("n", "gh", vim.lsp.buf.hover, { desc = "LSP Hover" })
 vim.keymap.set("n", "H", "<Nop>", { noremap = true, silent = true })
 vim.keymap.set("n", "L", "<Nop>", { noremap = true, silent = true })
 

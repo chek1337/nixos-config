@@ -16,6 +16,7 @@
       soundscope
 
       network-managing
+      cli-browsers
     ];
   };
 }

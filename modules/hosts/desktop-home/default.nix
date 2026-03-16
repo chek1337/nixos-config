@@ -26,6 +26,7 @@ let
     "docker"
     "wireshark"
     "claude-code"
+    "python-dev"
 
     "power"
   ];

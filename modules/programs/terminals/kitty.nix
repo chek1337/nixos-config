@@ -31,6 +31,9 @@
           shell_integration = "enabled";
         };
         extraConfig = ''
+          # Ctrl+Backspace → delete word (works in zsh, nvim, and through tmux)
+          map ctrl+backspace send_text all \x17
+
           # kitty-scrollback.nvim Kitten alias
           action_alias kitty_scrollback_nvim kitten '/home/${username}/.local/share/nvim/lazy/kitty-scrollback.nvim/python/kitty_scrollback_nvim.py'
 

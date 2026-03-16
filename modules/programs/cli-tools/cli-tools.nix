@@ -12,7 +12,7 @@
       trash-cli
       btop
       bat
-      pay-respects
+      # pay-respects
       soundscope
 
       network-managing

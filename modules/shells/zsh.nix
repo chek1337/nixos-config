@@ -23,6 +23,8 @@
                 WORDCHARS='*?_[]~=&;!#$%^(){}'
                 bindkey " " magic-space
           bindkey '^H' backward-kill-word
+          bindkey '\e[127;5~' backward-kill-word
+          bindkey '\e[127;5u' backward-kill-word
           source ${pkgs.fzf}/share/fzf/key-bindings.zsh
           source ${pkgs.fzf}/share/fzf/completion.zsh
         '';

@@ -97,6 +97,8 @@
             set -g detach-on-destroy off
             set -g escape-time 0
             set -g set-clipboard on
+            set -s extended-keys always
+            set -as terminal-features 'xterm*:extkeys'
             set -ga terminal-overrides ",xterm-256color:Tc"
 
             # Навигация по панелям

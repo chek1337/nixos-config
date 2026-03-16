@@ -5,19 +5,21 @@
   ...
 }:
 let
-  username = "chek";
+  flakeConfig = config;
 
   mkNixos =
-    system: cls: name:
+    system: cls: name: username:
     lib.nixosSystem {
       inherit system;
+      specialArgs = { inherit username; };
       modules = [
-        config.flake.modules.nixos.${cls}
-        config.flake.modules.nixos."hosts/${name}"
+        flakeConfig.flake.modules.nixos.${cls}
+        flakeConfig.flake.modules.nixos."hosts/${name}"
         {
+          home-manager.extraSpecialArgs = { inherit username; };
           home-manager.users.${username}.imports = [
-            config.flake.modules.homeManager.homeManager
-            (config.flake.modules.homeManager."hosts/${name}" or { })
+            flakeConfig.flake.modules.homeManager.homeManager
+            (flakeConfig.flake.modules.homeManager."hosts/${name}" or { })
           ];
           networking.hostName = lib.mkDefault name;
           nixpkgs.hostPlatform = lib.mkDefault system;
@@ -26,24 +28,27 @@ let
       ];
     };
 
-  linux = mkNixos "x86_64-linux" "nixos";
-  linux-arm = mkNixos "aarch64-linux" "nixos";
-  wsl = mkNixos "x86_64-linux" "wsl";
+  linux = username: name: mkNixos "x86_64-linux" "nixos" name username;
+  linux-arm = username: name: mkNixos "aarch64-linux" "nixos" name username;
+  wsl = username: name: mkNixos "x86_64-linux" "wsl" name username;
 in
 {
   flake.lib = {
     mkSystems = { inherit linux linux-arm wsl; };
 
     loadNixosAndHmModuleForUser =
-      config: modules:
-      (builtins.map (module: config.flake.modules.nixos.${module} or { }) modules)
+      flakeConfig: modules:
+      (builtins.map (module: flakeConfig.flake.modules.nixos.${module} or { }) modules)
       ++ [
-        {
-          imports = [ inputs.home-manager.nixosModules.home-manager ];
-          home-manager.users.${username}.imports = builtins.map (
-            module: config.flake.modules.homeManager.${module} or { }
-          ) modules;
-        }
+        (
+          { username, ... }:
+          {
+            imports = [ inputs.home-manager.nixosModules.home-manager ];
+            home-manager.users.${username}.imports = builtins.map (
+              module: flakeConfig.flake.modules.homeManager.${module} or { }
+            ) modules;
+          }
+        )
       ];
   };
 }

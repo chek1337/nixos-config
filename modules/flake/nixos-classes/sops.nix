@@ -1,7 +1,7 @@
 { inputs, pkgs, ... }:
 {
   flake.modules.nixos.sops =
-    { pkgs, ... }:
+    { pkgs, username, ... }:
     {
       imports = [ inputs.sops-nix.nixosModules.sops ];
 
@@ -11,7 +11,7 @@
         defaultSopsFile = inputs.self + "/secrets/secrets.yaml";
         validateSopsFiles = false;
         age = {
-          keyFile = "/home/chek/.config/sops/age/keys.txt";
+          keyFile = "/home/${username}/.config/sops/age/keys.txt";
         };
       };
     };

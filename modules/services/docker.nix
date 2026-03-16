@@ -1,14 +1,14 @@
 { ... }:
 {
   flake.modules.nixos.docker =
-    { ... }:
+    { username, ... }:
     {
       virtualisation.docker = {
         enable = true;
         autoPrune.enable = true;
       };
 
-      users.users.chek.extraGroups = [ "docker" ];
+      users.users.${username}.extraGroups = [ "docker" ];
     };
 
   flake.modules.homeManager.docker =

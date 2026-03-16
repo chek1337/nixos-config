@@ -1,11 +1,11 @@
 {
   flake.modules.nixos.wireshark =
-    { pkgs, ... }:
+    { pkgs, username, ... }:
     {
       programs.wireshark = {
         enable = true;
         package = pkgs.wireshark;
       };
-      users.users.chek.extraGroups = [ "wireshark" ];
+      users.users.${username}.extraGroups = [ "wireshark" ];
     };
 }

@@ -1,7 +1,7 @@
 { config, inputs, ... }:
 {
   flake.modules.homeManager.kitty =
-    { pkgs, ... }:
+    { pkgs, config, username, ... }:
     let
       # Fix for: Freeze after entering search mode in less #9416
       # https://github.com/kovidgoyal/kitty/issues/9416
@@ -32,7 +32,7 @@
         };
         extraConfig = ''
           # kitty-scrollback.nvim Kitten alias
-          action_alias kitty_scrollback_nvim kitten '/home/chek/.local/share/nvim/lazy/kitty-scrollback.nvim/python/kitty_scrollback_nvim.py'
+          action_alias kitty_scrollback_nvim kitten '/home/${username}/.local/share/nvim/lazy/kitty-scrollback.nvim/python/kitty_scrollback_nvim.py'
 
           # Browse scrollback buffer in nvim
           map kitty_mod+h kitty_scrollback_nvim

@@ -1,7 +1,7 @@
 { ... }:
 {
   flake.modules.nixos.niri =
-    { pkgs, ... }:
+    { pkgs, username, ... }:
     {
       programs.niri.enable = true;
       security.polkit.enable = true;
@@ -9,7 +9,7 @@
         enable = true;
         settings.default_session = {
           command = "niri-session";
-          user = "chek";
+          user = username;
         };
       };
     };

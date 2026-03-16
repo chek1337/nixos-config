@@ -1,6 +1,8 @@
 { config, ... }:
 let
   flakeConfig = config;
+  hostname = "desktop-home";
+  username = "chek";
   theme = "nord";
   shell = "zsh";
   modules = [
@@ -30,15 +32,15 @@ let
 in
 {
   flake = {
-    nixosConfigurations.desktop-home = flakeConfig.flake.lib.mkSystems.linux "desktop-home";
-    modules.nixos."hosts/desktop-home" = {
+    nixosConfigurations.${hostname} = flakeConfig.flake.lib.mkSystems.linux username hostname;
+    modules.nixos."hosts/${hostname}" = {
       imports =
         (flakeConfig.flake.lib.loadNixosAndHmModuleForUser flakeConfig modules)
         ++ [ ./_hardware-configuration.nix ]
         ++ [ flakeConfig.flake.modules.nixos.${theme} ]
         ++ [ flakeConfig.flake.modules.nixos.${shell} ];
     };
-    modules.homeManager."hosts/desktop-home" = {
+    modules.homeManager."hosts/${hostname}" = {
       imports = [
         flakeConfig.flake.modules.homeManager.${theme}
         flakeConfig.flake.modules.homeManager.${shell}

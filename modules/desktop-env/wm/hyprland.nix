@@ -1,7 +1,7 @@
 { inputs, ... }:
 {
   flake.modules.nixos.hyprland =
-    { pkgs, ... }:
+    { pkgs, username, ... }:
     let
       hyprlandPkg = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
     in
@@ -17,7 +17,7 @@
         enable = true;
         settings.default_session = {
           command = "${hyprlandPkg}/bin/Hyprland";
-          user = "chek";
+          user = username;
         };
       };
       environment.systemPackages = with pkgs; [

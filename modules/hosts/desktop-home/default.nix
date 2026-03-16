@@ -23,6 +23,7 @@ let
 
     "docker"
     "wireshark"
+    "claude-code"
 
     "power"
   ];

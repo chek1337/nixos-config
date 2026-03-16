@@ -119,6 +119,9 @@
             set -g popup-style "bg=${c.base00}"
             set -g popup-border-style "fg=${c.base0D},bg=${c.base00}"
 
+            # Цвет полосы выбора
+            set -g mode-style "bg=${c.base0A},fg=${c.base00},bold"
+
             # -------------------------------------------------------
             # Nord override для catppuccin
             # -------------------------------------------------------

@@ -8,6 +8,7 @@ let
     "python-dev"
     "wsl-nvidia"
     "sops"
+    "vopono"
 
     "docker"
     "kitty"

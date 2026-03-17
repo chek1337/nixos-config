@@ -2,18 +2,15 @@
 
 return {
   "mfussenegger/nvim-dap",
-  event = "VeryLazy",
   dependencies = {
     {
       "mfussenegger/nvim-dap-python",
-      event = "VeryLazy",
       config = function()
         require("dap-python").setup("debugpy-adapter")
       end,
     },
     {
       "theHamsta/nvim-dap-virtual-text",
-      event = "VeryLazy",
       opts = {},
     },
   },

@@ -1,6 +1,5 @@
 return {
   "igorlfs/nvim-dap-view",
-  event = "VeryLazy",
   keys = {
     {
       "<leader>dd",

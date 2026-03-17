@@ -1,6 +1,6 @@
 return {
   "GCBallesteros/jupytext.nvim",
-  event = "VeryLazy",
+  event = "BufReadPre *.ipynb",
   config = function()
     require("jupytext").setup({
       style = "percent",

@@ -1,7 +1,10 @@
 return {
   "nvim-mini/mini.splitjoin",
   version = "*",
-  event = "VeryLazy",
+  keys = {
+    { "gjj", desc = "Join" },
+    { "gjs", desc = "Split" },
+  },
   opts = {
     mappings = {
       toggle = "",

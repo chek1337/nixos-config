@@ -1,6 +1,5 @@
 return {
   "andrewferrier/debugprint.nvim",
-  event = "VeryLazy",
   -- lazy = false, -- Required to make line highlighting work before debugprint is first used
   dependencies = {
     -- "nvim-mini/mini.hipatterns", -- Optional: Needed for line highlighting ('fine-grained' hipatterns plugin)

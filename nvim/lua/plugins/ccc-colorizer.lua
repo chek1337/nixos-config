@@ -1,7 +1,12 @@
 return {
   "uga-rosa/ccc.nvim",
   lazy = true,
-  event = "VeryLazy",
+  cmd = { "CccPick", "CccHighlighterToggle", "CccConvert" },
+  keys = {
+    { "<leader>Cp", "<cmd>CccPick<CR>", mode = { "n", "x" }, desc = "Color Picker" },
+    { "<leader>Ct", "<cmd>CccHighlighterToggle<CR>", mode = { "n", "x" }, desc = "Color Highlighter Toggle" },
+    { "<leader>Cc", "<cmd>CccConvert<CR>", mode = { "n", "x" }, desc = "Color Convert" },
+  },
   config = function()
     local ccc = require("ccc")
     local mapping = ccc.mapping
@@ -99,8 +104,5 @@ return {
       -- },
     })
 
-    vim.keymap.set({ "n", "x" }, "<leader>Cp", "<cmd>CccPick<CR>", { desc = "Color Picker" })
-    vim.keymap.set({ "n", "x" }, "<leader>Ct", "<cmd>CccHighlighterToggle<CR>", { desc = "Color Highlighter Toggle" })
-    vim.keymap.set({ "n", "x" }, "<leader>Cc", "<cmd>CccConvert<CR>", { desc = "Color Convert" })
   end,
 }

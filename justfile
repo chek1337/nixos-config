@@ -15,6 +15,8 @@ alias boi := boot-interactive
 alias up := update
 alias hw := gen-hardware
 alias hwi := gen-hardware-interactive
+alias iso := build-iso
+alias isoi := build-iso-interactive
 
 # Stage all changes
 [private]
@@ -93,6 +95,17 @@ update-input input: stage
 gc: stage
     sudo nix-collect-garbage -d
     nix-collect-garbage -d
+
+# Build offline installation ISO
+[group("iso")]
+build-iso hostname: stage
+    nix build ".#nixosConfigurations.iso-{{hostname}}.config.system.build.isoImage" -o result-iso --show-trace
+    @echo "ISO: $(readlink result-iso)/iso/*.iso"
+
+# Build ISO interactively
+[group("iso")]
+build-iso-interactive: stage
+    just build-iso $(ls modules/hosts | fzf --prompt="build-iso > ")
 
 # Format all nix files
 [group("utils")]

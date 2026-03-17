@@ -108,6 +108,9 @@
             bind | split-window -h
             bind - split-window -v
 
+            # Не выходить из copy-mode при отпускании мыши после выделения
+            unbind -T copy-mode-vi MouseDragEnd1Pane
+
             # Границы панелей
             set -g pane-border-style "fg=${c.base03},bg=default"
             set -g pane-active-border-style "fg=${c.base0D},bg=default"

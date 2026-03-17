@@ -1,7 +1,6 @@
 return {
   "esmuellert/codediff.nvim",
-  dependencies = { "MunifTanjim/nui.nvim", event = "VeryLazy" },
-  event = "VeryLazy",
+  dependencies = { "MunifTanjim/nui.nvim" },
   cmd = "CodeDiff",
   keys = {
     -- "<leader>gd" opening default git diff from Snacks.nvim (fallback)

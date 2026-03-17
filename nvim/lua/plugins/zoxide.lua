@@ -1,4 +1,4 @@
 return {
   "nanotee/zoxide.vim",
-  event = "VeryLazy",
+  cmd = { "Z", "Zi", "Lz", "Tz" },
 }

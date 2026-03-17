@@ -1,6 +1,6 @@
 return {
   "chrisgrieser/nvim-various-textobjs",
-  event = "VeryLazy",
+  event = "BufReadPost",
   opts = {
     keymaps = {
       useDefaults = true,

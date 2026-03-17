@@ -5,6 +5,7 @@
       eza
       yazi
       git
+      gh
       tmux
       zellij
       nvim

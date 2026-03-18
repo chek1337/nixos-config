@@ -16,6 +16,7 @@
       # pay-respects
       soundscope
 
+      rice
       network-managing
       cli-browsers
     ];

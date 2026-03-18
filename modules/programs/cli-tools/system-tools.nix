@@ -10,7 +10,7 @@ let
         just
         fzf
         nixfmt
-        fastfetch
+
         stow
         p7zip
         playerctl

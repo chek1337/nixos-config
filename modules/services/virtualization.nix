@@ -11,6 +11,8 @@
         };
       };
 
+      i18n.extraLocales = [ "ru_RU.UTF-8/UTF-8" ];
+
       programs.virt-manager.enable = true;
 
       users.users.${username}.extraGroups = [
@@ -45,7 +47,7 @@
 
       xdg.desktopEntries.virt-manager = {
         name = "Virtual Machine Manager";
-        exec = "env LANGUAGE=ru virt-manager";
+        exec = "env LANG=ru_RU.UTF-8 LANGUAGE=ru_RU:ru virt-manager";
         icon = "virt-manager";
         categories = [ "System" ];
         comment = "Manage virtual machines";

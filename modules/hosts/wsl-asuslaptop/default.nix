@@ -7,6 +7,7 @@ let
     "nord"
     "zsh"
     "cli-tools"
+    "direnv"
     "python-dev"
     "wsl-nvidia"
     "sops"

@@ -4,13 +4,8 @@ My personal NixOS configuration using the **dendritic** modular pattern with [fl
 
 ## Screenshots
 
-<!-- Add your screenshots here -->
-<!--
-![Desktop](assets/screenshot1.png)
-![Terminal](assets/screenshot2.png)
--->
-
-> *Screenshots coming soon*
+![Desktop](assets/example/main_screen.png)
+![Working](assets/example/working.png)
 
 ## Features
 

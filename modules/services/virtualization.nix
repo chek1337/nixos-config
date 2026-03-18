@@ -18,7 +18,22 @@
         "kvm"
       ];
 
-};
+      systemd.services.libvirtd-default-network = {
+        description = "Autostart libvirt default NAT network";
+        after = [ "libvirtd.service" ];
+        requires = [ "libvirtd.service" ];
+        wantedBy = [ "multi-user.target" ];
+        serviceConfig = {
+          Type = "oneshot";
+          RemainAfterExit = true;
+        };
+        path = [ pkgs.libvirt ];
+        script = ''
+          virsh net-autostart default
+          virsh net-start default || true
+        '';
+      };
+    };
 
   flake.modules.homeManager.virtualization =
     { pkgs, ... }:

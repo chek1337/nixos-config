@@ -1,8 +1,9 @@
 { config, inputs, ... }:
 {
   flake.modules.homeManager.kitty =
-    { pkgs, config, username, ... }:
+    { pkgs, config, ... }:
     let
+      username = config.home.username;
       # Fix for: Freeze after entering search mode in less #9416
       # https://github.com/kovidgoyal/kitty/issues/9416
       pkgsLess685 = import inputs.nixpkgs-less-685 { inherit (pkgs) system; };

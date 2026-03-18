@@ -1,8 +1,9 @@
 { inputs, ... }:
 {
   flake.modules.nixos.hyprland =
-    { pkgs, username, ... }:
+    { pkgs, config, ... }:
     let
+      username = config.settings.username;
       hyprlandPkg = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
     in
     {

@@ -1,5 +1,7 @@
 { config, ... }:
 {
+  flake.modules.nixos.gui-tools = { };
+
   flake.modules.homeManager.gui-tools = {
     imports = with config.flake.modules.homeManager; [
       gui-browsers

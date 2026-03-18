@@ -1,7 +1,10 @@
 { ... }:
 {
   flake.modules.nixos.docker =
-    { username, ... }:
+    { config, ... }:
+    let
+      username = config.settings.username;
+    in
     {
       virtualisation.docker = {
         enable = true;

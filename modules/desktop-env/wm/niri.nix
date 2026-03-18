@@ -1,7 +1,10 @@
 { ... }:
 {
   flake.modules.nixos.niri =
-    { pkgs, username, ... }:
+    { pkgs, config, ... }:
+    let
+      username = config.settings.username;
+    in
     {
       programs.niri.enable = true;
       security.polkit.enable = true;

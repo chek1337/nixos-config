@@ -8,16 +8,12 @@ let
   modules = [
     "cli-tools"
     "gui-tools"
-    "wayland-common"
+    "desktop-base"
     "niri"
     "terminals"
     "desktop-env"
-    "sops"
 
-    "wireguard"
-    "wireproxy"
-    "zapret"
-    "vopono"
+    "networking"
 
     "noctalia"
 

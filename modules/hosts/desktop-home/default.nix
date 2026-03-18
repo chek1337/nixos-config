@@ -8,17 +8,12 @@ let
   modules = [
     "cli-tools"
     "gui-tools"
-    "wayland-common"
+    "desktop-base"
     "niri"
     "terminals"
     "desktop-env"
-    "bluetooth"
-    "sops"
 
-    "wireguard"
-    "wireproxy"
-    "zapret"
-    "vopono"
+    "networking"
     "zmkbatx"
 
     "noctalia"
@@ -28,8 +23,6 @@ let
     "wireshark"
     "claude-code"
     "python-dev"
-
-    "power"
   ];
 in
 {

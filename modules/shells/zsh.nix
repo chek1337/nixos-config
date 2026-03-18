@@ -2,7 +2,10 @@
 # Select in hosts/*/default.nix via: shell = "zsh"
 {
   flake.modules.nixos.zsh =
-    { pkgs, username, ... }:
+    { pkgs, config, ... }:
+    let
+      username = config.settings.username;
+    in
     {
       programs.zsh.enable = true;
       users.users.${username}.shell = pkgs.zsh;

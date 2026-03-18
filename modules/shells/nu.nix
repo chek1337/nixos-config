@@ -2,7 +2,10 @@
 # Select in hosts/*/default.nix via: shell = "nu"
 {
   flake.modules.nixos.nu =
-    { pkgs, username, ... }:
+    { pkgs, config, ... }:
+    let
+      username = config.settings.username;
+    in
     {
       users.users.${username}.shell = pkgs.nushell;
     };

@@ -11,12 +11,12 @@ let
     system: cls: name: username:
     lib.nixosSystem {
       inherit system;
-      specialArgs = { inherit username; };
       modules = [
+        flakeConfig.flake.modules.nixos.settings
         flakeConfig.flake.modules.nixos.${cls}
         flakeConfig.flake.modules.nixos."hosts/${name}"
         {
-          home-manager.extraSpecialArgs = { inherit username; };
+          settings.username = username;
           home-manager.users.${username}.imports = [
             flakeConfig.flake.modules.homeManager.homeManager
             (flakeConfig.flake.modules.homeManager."hosts/${name}" or { })
@@ -75,10 +75,10 @@ in
       (builtins.map (module: flakeConfig.flake.modules.nixos.${module} or { }) modules)
       ++ [
         (
-          { username, ... }:
+          { config, ... }:
           {
             imports = [ inputs.home-manager.nixosModules.home-manager ];
-            home-manager.users.${username}.imports = builtins.map (
+            home-manager.users.${config.settings.username}.imports = builtins.map (
               module: flakeConfig.flake.modules.homeManager.${module} or { }
             ) modules;
           }

@@ -1,7 +1,10 @@
 { inputs, pkgs, ... }:
 {
   flake.modules.nixos.sops =
-    { pkgs, username, ... }:
+    { pkgs, config, ... }:
+    let
+      username = config.settings.username;
+    in
     {
       imports = [ inputs.sops-nix.nixosModules.sops ];
 

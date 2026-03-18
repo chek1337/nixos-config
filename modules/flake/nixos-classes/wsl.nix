@@ -1,7 +1,10 @@
 { inputs, ... }:
 {
   flake.modules.nixos.wsl =
-    { username, ... }:
+    { config, ... }:
+    let
+      username = config.settings.username;
+    in
     {
       imports = [ inputs.nixos-wsl.nixosModules.default ];
       wsl.enable = true;

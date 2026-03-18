@@ -1,6 +1,9 @@
 {
   flake.modules.nixos.wireshark =
-    { pkgs, username, ... }:
+    { pkgs, config, ... }:
+    let
+      username = config.settings.username;
+    in
     {
       programs.wireshark = {
         enable = true;

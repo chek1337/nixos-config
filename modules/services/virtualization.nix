@@ -1,7 +1,10 @@
 { ... }:
 {
   flake.modules.nixos.virtualization =
-    { pkgs, username, ... }:
+    { pkgs, config, ... }:
+    let
+      username = config.settings.username;
+    in
     {
       virtualisation.libvirtd = {
         enable = true;

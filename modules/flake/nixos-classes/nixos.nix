@@ -1,7 +1,10 @@
 { inputs, ... }:
 {
   flake.modules.nixos.nixos =
-    { username, ... }:
+    { config, ... }:
+    let
+      username = config.settings.username;
+    in
     {
       imports = [
         inputs.home-manager.nixosModules.home-manager

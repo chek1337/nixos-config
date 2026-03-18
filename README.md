@@ -19,7 +19,7 @@ My personal NixOS configuration using the **dendritic** modular pattern with [fl
 - **Wayland-native** — Niri / Hyprland with Noctalia shell
 - **Nord theme** via [Stylix](https://github.com/danth/stylix)
 - **Secrets management** with [sops-nix](https://github.com/Mic92/sops-nix)
-- **Neovim** configured through [nvf](https://github.com/notashelf/nvf)
+- **Neovim** configured through [lazyvim-nix](https://github.com/pfassina/lazyvim-nix)
 - **just** commands for all common operations
 
 ## Structure
@@ -33,15 +33,16 @@ My personal NixOS configuration using the **dendritic** modular pattern with [fl
 │   │   └── nixos-classes/    # nixos, wsl, boot, sops
 │   ├── hosts/
 │   │   ├── desktop-home/     # Desktop with Niri WM
-│   │   └── wsl-asuslaptop/  # WSL environment
+│   │   ├── generic/          # Universal desktop (for ISO)
+│   │   └── wsl-asuslaptop/   # WSL environment
 │   ├── programs/
-│   │   ├── cli-tools/        # bat, btop, eza, git, nvim, tmux...
-│   │   ├── gui-tools/        # discord, telegram, spicetify...
-│   │   └── terminals/        # alacritty, kitty, wezterm
-│   ├── services/             # docker, wireguard, zapret...
+│   │   ├── cli-tools/        # bat, btop, eza, git, nvim, tmux, yazi, zellij...
+│   │   ├── gui-tools/        # discord, telegram, spicetify, wireshark...
+│   │   └── terminals/        # alacritty, kitty
+│   ├── services/             # docker, wireguard, vopono, networking, virtualization...
 │   ├── hardware/             # bluetooth, power, wsl-nvidia
 │   ├── shells/               # zsh, nu
-│   ├── desktop-env/          # niri, hyprland, noctalia, wayland utils
+│   ├── desktop-env/          # niri, hyprland, noctalia, wayland-common
 │   └── themes/               # nord
 ├── nvim/                     # Neovim configuration
 └── secrets/                  # Encrypted secrets (sops)
@@ -51,9 +52,9 @@ My personal NixOS configuration using the **dendritic** modular pattern with [fl
 
 | Host | Type | WM | Shell | Modules |
 |------|------|----|-------|---------|
-| `desktop-home` | NixOS desktop | Niri | Zsh | cli-tools, gui-tools, wayland, bluetooth, docker, noctalia |
-| `generic` | NixOS desktop (universal) | Niri | Zsh | desktop-home without hardware-specific modules |
-| `wsl-asuslaptop` | WSL | — | Zsh | cli-tools, python-dev, docker, kitty |
+| `desktop-home` | NixOS desktop | Niri | Zsh | cli-tools, gui-tools, terminals, desktop-env, niri, noctalia, docker, virtualization, networking, wireshark, python-dev, direnv, claude-code, zmkbatx |
+| `generic` | NixOS desktop (universal) | Niri | Zsh | desktop-home without zmkbatx and virtualization |
+| `wsl-asuslaptop` | WSL | — | Zsh | cli-tools, kitty, docker, vopono, python-dev, direnv, wsl-nvidia, sops |
 
 ## Installation
 
@@ -66,7 +67,7 @@ My personal NixOS configuration using the **dendritic** modular pattern with [fl
 ### Clone
 
 ```bash
-git clone https://github.com/<your-username>/nixos-config.git ~/nixos_config
+git clone https://github.com/chek1337/nixos-config.git ~/nixos_config
 cd ~/nixos_config
 ```
 
@@ -115,7 +116,7 @@ Build an ISO containing all packages for offline NixOS installation on any x86_6
 ### Build ISO
 
 ```bash
-just iso generic
+just iso <hostname>
 # or interactively:
 just isoi
 ```
@@ -187,9 +188,9 @@ cp -r /iso/etc/nixos-config /tmp/nixos-config
 
 # Generate hardware config and install
 nixos-generate-config --root /mnt --show-hardware-config \
-  > /tmp/nixos-config/modules/hosts/generic/_hardware-configuration.nix
+  > /tmp/nixos-config/modules/hosts/<hostname>/_hardware-configuration.nix
 
-nixos-install --flake /tmp/nixos-config#generic --no-channel-copy
+nixos-install --flake /tmp/nixos-config#<hostname> --no-channel-copy
 
 # Set user password
 nixos-enter --root /mnt -c 'passwd chek'
@@ -221,9 +222,9 @@ cp -r /iso/etc/nixos-config /tmp/nixos-config
 
 # Generate hardware config and install
 nixos-generate-config --root /mnt --show-hardware-config \
-  > /tmp/nixos-config/modules/hosts/generic/_hardware-configuration.nix
+  > /tmp/nixos-config/modules/hosts/<hostname>/_hardware-configuration.nix
 
-nixos-install --flake /tmp/nixos-config#generic --no-channel-copy
+nixos-install --flake /tmp/nixos-config#<hostname> --no-channel-copy
 nixos-enter --root /mnt -c 'passwd chek'
 
 reboot
@@ -233,11 +234,7 @@ reboot
 
 ## Inspiration
 
-- [Misterio77/nix-config](https://github.com/Misterio77/nix-config)
-- [NotAShelf/nyx](https://github.com/NotAShelf/nyx)
-- [fufexan/dotfiles](https://github.com/fufexan/dotfiles)
-- [ryan4yin/nix-config](https://github.com/ryan4yin/nix-config)
-
-## License
-
-[MIT](LICENSE)
+- [Doc-Steve/dendritic-design-with-flake-parts](https://github.com/Doc-Steve/dendritic-design-with-flake-parts)
+- [onatustun/nix-config](https://github.com/onatustun/nix-config)
+- [TheMaxMur/NixOS-Configuration](https://github.com/TheMaxMur/NixOS-Configuration)
+- [khaneliman/khanelinix](https://github.com/khaneliman/khanelinix)

@@ -24,6 +24,7 @@ let
     "noctalia"
 
     "docker"
+    "virtualization"
     "wireshark"
     "claude-code"
     "python-dev"

@@ -32,7 +32,7 @@
         home = "/home/${username}";
         extraGroups = [ "wheel" ];
       };
-      time.timeZone = "Asia/Novosibirsk";
+      time.timeZone = config.settings.timeZone;
       programs.nix-ld.enable = true;
     };
 }

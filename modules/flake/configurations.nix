@@ -7,6 +7,12 @@
 let
   flakeConfig = config;
 
+  clsToHostType = {
+    nixos = "desktop";
+    wsl = "wsl";
+    server = "server";
+  };
+
   mkNixos =
     system: cls: name: username:
     lib.nixosSystem {
@@ -15,16 +21,20 @@ let
         flakeConfig.flake.modules.nixos.settings
         flakeConfig.flake.modules.nixos.${cls}
         flakeConfig.flake.modules.nixos."hosts/${name}"
-        {
-          settings.username = username;
-          home-manager.users.${username}.imports = [
-            flakeConfig.flake.modules.homeManager.homeManager
-            (flakeConfig.flake.modules.homeManager."hosts/${name}" or { })
-          ];
-          networking.hostName = lib.mkDefault name;
-          nixpkgs.hostPlatform = lib.mkDefault system;
-          system.stateVersion = "25.05";
-        }
+        (
+          { config, ... }:
+          {
+            settings.username = username;
+            settings.hostType = clsToHostType.${cls};
+            home-manager.users.${username}.imports = [
+              flakeConfig.flake.modules.homeManager.homeManager
+              (flakeConfig.flake.modules.homeManager."hosts/${name}" or { })
+            ];
+            networking.hostName = lib.mkDefault name;
+            nixpkgs.hostPlatform = lib.mkDefault system;
+            system.stateVersion = config.settings.stateVersion;
+          }
+        )
       ];
     };
 

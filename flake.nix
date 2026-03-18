@@ -53,10 +53,7 @@
     lazyvim-nix = {
       url = "github:pfassina/lazyvim-nix";
     };
-    nvf = {
-      url = "github:notashelf/nvf";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+
     kitty-session = {
       url = "github:mad01/kitty-session/5e975c0dd2ea6fd915c9d89ff13318ec162621bc";
       flake = false;
@@ -81,5 +78,5 @@
       url = "github:cachix/git-hooks.nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-};
+  };
 }

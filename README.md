@@ -156,6 +156,12 @@ The ISO mounts at `/iso`. The flake is available at:
 /iso/etc/nixos-config
 ```
 
+> The ISO filesystem is **read-only**. Copy the config to a writable location before making changes:
+> ```bash
+> cp -r /iso/etc/nixos-config /tmp/nixos-config
+> ```
+> All commands below use `/tmp/nixos-config` as the working copy.
+
 ### Install: Clean Disk
 
 ```bash
@@ -176,11 +182,14 @@ mount /dev/DISKp3 /mnt
 mount --mkdir /dev/DISKp1 /mnt/boot
 swapon /dev/DISKp2
 
+# Copy config from read-only ISO
+cp -r /iso/etc/nixos-config /tmp/nixos-config
+
 # Generate hardware config and install
 nixos-generate-config --root /mnt --show-hardware-config \
-  > /iso/etc/nixos-config/modules/hosts/generic/_hardware-configuration.nix
+  > /tmp/nixos-config/modules/hosts/generic/_hardware-configuration.nix
 
-nixos-install --flake /iso/etc/nixos-config#generic --no-channel-copy
+nixos-install --flake /tmp/nixos-config#generic --no-channel-copy
 
 # Set user password
 nixos-enter --root /mnt -c 'passwd chek'
@@ -207,11 +216,14 @@ mount /dev/DISKpY /mnt
 mount --mkdir /dev/DISKp1 /mnt/boot    # existing EFI
 swapon /dev/DISKpX
 
+# Copy config from read-only ISO
+cp -r /iso/etc/nixos-config /tmp/nixos-config
+
 # Generate hardware config and install
 nixos-generate-config --root /mnt --show-hardware-config \
-  > /iso/etc/nixos-config/modules/hosts/generic/_hardware-configuration.nix
+  > /tmp/nixos-config/modules/hosts/generic/_hardware-configuration.nix
 
-nixos-install --flake /iso/etc/nixos-config#generic --no-channel-copy
+nixos-install --flake /tmp/nixos-config#generic --no-channel-copy
 nixos-enter --root /mnt -c 'passwd chek'
 
 reboot

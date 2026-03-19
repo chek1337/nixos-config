@@ -186,6 +186,7 @@ nixos-generate-config --root /mnt --show-hardware-config \
   > /tmp/nixos-config/modules/hosts/<hostname>/_hardware-configuration.nix
 
 nixos-install --flake /tmp/nixos-config#<hostname> --no-channel-copy
+# Add --option substitute false to force fully offline install (no internet)
 
 # Set user password
 nixos-enter --root /mnt -c 'passwd chek'
@@ -220,6 +221,7 @@ nixos-generate-config --root /mnt --show-hardware-config \
   > /tmp/nixos-config/modules/hosts/<hostname>/_hardware-configuration.nix
 
 nixos-install --flake /tmp/nixos-config#<hostname> --no-channel-copy
+# Add --option substitute false to force fully offline install (no internet)
 nixos-enter --root /mnt -c 'passwd chek'
 
 reboot

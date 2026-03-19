@@ -10,6 +10,7 @@
       nautilus
       spicetify
       discord
+      libreoffice
     ];
   };
 }

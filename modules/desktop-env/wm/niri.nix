@@ -39,6 +39,10 @@
             numlock = true;
             track-layout = "global";
           };
+          mouse = {
+            accel-speed = -0.2;
+            accel-profile = "flat";
+          };
           touchpad = {
             tap = true;
             natural-scroll = true;

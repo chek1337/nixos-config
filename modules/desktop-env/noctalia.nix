@@ -9,6 +9,7 @@
     }:
     let
       isLaptop = osConfig.settings.isLaptop;
+      hasBluetooth = osConfig.hardware.bluetooth.enable;
     in
     {
       imports = [ inputs.noctalia.homeModules.default ];
@@ -72,10 +73,10 @@
                 {
                   id = "NotificationHistory";
                 }
-                {
-                  id = "Bluetooth";
-                }
               ]
+              ++ lib.optional hasBluetooth {
+                id = "Bluetooth";
+              }
               ++ lib.optional isLaptop {
                 id = "Battery";
                 displayMode = "alwaysShow";

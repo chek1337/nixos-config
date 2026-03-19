@@ -33,7 +33,6 @@ in
       imports = (flakeConfig.flake.lib.loadNixosAndHmModuleForUser flakeConfig modules) ++ [
         inputs.nixos-hardware.nixosModules.asus-fa507nv
         ./_hardware-configuration.nix
-        ./_asusd-compat.nix
       ];
 
       settings.isLaptop = true;

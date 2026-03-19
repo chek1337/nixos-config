@@ -21,7 +21,8 @@
     };
 
     import-tree.url = "github:vic/import-tree";
-    nixos-hardware.url = "github:NixOS/nixos-hardware";
+    # TODO: switch back to github:NixOS/nixos-hardware after PR #1779 is merged
+    nixos-hardware.url = "github:WaffleLapkin/nixos-hardware/disable-user-service";
     systems.url = "github:nix-systems/default-linux";
 
     niri = {

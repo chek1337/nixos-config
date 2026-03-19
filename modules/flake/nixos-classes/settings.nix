@@ -39,6 +39,12 @@
           description = "Whether this is a server host";
         };
 
+        isLaptop = lib.mkOption {
+          type = lib.types.bool;
+          default = false;
+          description = "Whether this is a laptop (portable) host";
+        };
+
         timeZone = lib.mkOption {
           type = lib.types.str;
           default = "Asia/Novosibirsk";

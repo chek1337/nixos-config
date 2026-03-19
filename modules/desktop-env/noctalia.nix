@@ -1,7 +1,15 @@
 { inputs, ... }:
 {
   flake.modules.homeManager.noctalia =
-    { pkgs, lib, ... }:
+    {
+      pkgs,
+      lib,
+      osConfig,
+      ...
+    }:
+    let
+      isLaptop = osConfig.settings.isLaptop;
+    in
     {
       imports = [ inputs.noctalia.homeModules.default ];
 
@@ -67,16 +75,20 @@
                 {
                   id = "Bluetooth";
                 }
-                {
-                  id = "Battery";
-                  displayMode = "alwaysShow";
-                }
+              ]
+              ++ lib.optional isLaptop {
+                id = "Battery";
+                displayMode = "alwaysShow";
+              }
+              ++ [
                 {
                   id = "Volume";
                 }
-                {
-                  id = "Brightness";
-                }
+              ]
+              ++ lib.optional isLaptop {
+                id = "Brightness";
+              }
+              ++ [
                 {
                   id = "ControlCenter";
                 }

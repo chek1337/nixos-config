@@ -32,11 +32,15 @@
     {
       home.packages = with pkgs; [
         bat
+        catdoc
+        pandoc
         delta
         gawk
         imv
         mpv
+        odt2txt
         w3m
+        xlsx2csv
         zathura
       ];
 
@@ -78,6 +82,13 @@
             "application/pdf" = "${pkgs.zathura}/bin/zathura -";
             "audio/*" = "${pkgs.mpv}/bin/mpv -";
             "image/*" = "${pkgs.imv}/bin/imv -";
+            "application/msword" = "${pkgs.catdoc}/bin/catdoc -";
+            "application/vnd.openxmlformats-officedocument.wordprocessingml.document" =
+              "${pkgs.pandoc}/bin/pandoc -f docx -t plain";
+            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" =
+              "${pkgs.xlsx2csv}/bin/xlsx2csv -";
+            "application/vnd.ms-excel" = "${pkgs.catdoc}/bin/xls2csv -";
+            "application/vnd.oasis.opendocument.text" = "${pkgs.odt2txt}/bin/odt2txt --subst=all -";
           };
         };
       };

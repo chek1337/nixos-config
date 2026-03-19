@@ -24,6 +24,8 @@ let
     "claude-code"
     "direnv"
     "python-dev"
+    "sops"
+    "aerc"
   ];
 in
 {

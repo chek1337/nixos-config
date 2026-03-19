@@ -21,6 +21,7 @@
     };
 
     import-tree.url = "github:vic/import-tree";
+    nixos-hardware.url = "github:NixOS/nixos-hardware";
     systems.url = "github:nix-systems/default-linux";
 
     niri = {

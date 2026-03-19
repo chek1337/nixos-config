@@ -16,8 +16,29 @@
 
   flake.modules.homeManager.aerc =
     { pkgs, ... }:
+    let
+      defaultAercConfig = {
+        aerc = {
+          enable = true;
+          extraAccounts = {
+            default = "INBOX";
+            check-mail = "5m";
+            check-mail-cmd = "${pkgs.isync}/bin/mbsync --all";
+            check-mail-timeout = "15s";
+          };
+        };
+      };
+    in
     {
-      home.packages = [ pkgs.catimg ];
+      home.packages = with pkgs; [
+        bat
+        delta
+        gawk
+        imv
+        mpv
+        w3m
+        zathura
+      ];
 
       programs.mbsync.enable = true;
 
@@ -31,7 +52,7 @@
         extraConfig = {
           general.unsafe-accounts-conf = true;
           viewer = {
-            pager = "less -R";
+            pager = "${pkgs.less}/bin/less -R";
             alternatives = "text/plain,text/html";
           };
           ui = {
@@ -43,16 +64,27 @@
             sort = "-r date";
           };
           filters = {
-            "text/plain" = "colorize";
-            "text/html" = "w3m -T text/html -o display_link_number=1";
-            "image/*" = "catimg -w $(tput cols) -";
+            "text/plain" =
+              "${pkgs.aerc}/libexec/aerc/filters/wrap -w 100 | ${pkgs.aerc}/libexec/aerc/filters/colorize";
+            "text/calendar" =
+              "${pkgs.gawk}/bin/awk --file ${pkgs.aerc}/libexec/aerc/filters/calendar | ${pkgs.aerc}/libexec/aerc/filters/colorize";
+            "text/html" =
+              "${pkgs.aerc}/libexec/aerc/filters/html-unsafe | ${pkgs.aerc}/libexec/aerc/filters/colorize";
+            "message/delivery-status" = "${pkgs.aerc}/libexec/aerc/filters/colorize";
+            "message/rfc822" = "${pkgs.aerc}/libexec/aerc/filters/colorize";
+            ".headers" = "${pkgs.aerc}/libexec/aerc/filters/colorize";
+            "subject,~^\\[PATCH" = "${pkgs.delta}/bin/delta --color-only";
+            "application/x-sh" = "${pkgs.bat}/bin/bat --force-colorization --paging=never --language sh";
+            "application/pdf" = "${pkgs.zathura}/bin/zathura -";
+            "audio/*" = "${pkgs.mpv}/bin/mpv -";
+            "image/*" = "${pkgs.imv}/bin/imv -";
           };
         };
       };
 
       accounts.email = {
         maildirBasePath = ".maildir";
-        accounts."YA-daniplay" = {
+        accounts."YA-daniplay" = defaultAercConfig // {
           address = "DaniPlay1337@yandex.ru";
           primary = true;
           flavor = "yandex.com";
@@ -64,14 +96,6 @@
             create = "maildir";
             patterns = [ "*" ];
           };
-          aerc = {
-            enable = true;
-            extraAccounts = {
-              default = "INBOX";
-              check-mail-cmd = "mbsync YA-daniplay";
-              check-mail-timeout = "30s";
-            };
-          };
           folders = {
             inbox = "INBOX";
             drafts = "Черновики";
@@ -79,7 +103,7 @@
             trash = "Удаленные";
           };
         };
-        accounts."YA-loychenko" = {
+        accounts."YA-loychenko" = defaultAercConfig // {
           address = "loychenko.d@yandex.ru";
           flavor = "yandex.com";
           userName = "loychenko.d@yandex.ru";
@@ -89,14 +113,6 @@
             enable = true;
             create = "maildir";
             patterns = [ "*" ];
-          };
-          aerc = {
-            enable = true;
-            extraAccounts = {
-              default = "INBOX";
-              check-mail-cmd = "mbsync YA-loychenko";
-              check-mail-timeout = "30s";
-            };
           };
           folders = {
             inbox = "INBOX";

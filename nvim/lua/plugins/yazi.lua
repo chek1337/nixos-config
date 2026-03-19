@@ -1,22 +1,23 @@
 return {
   "mikavilpas/yazi.nvim",
   version = "*",
+  event = "VeryLazy",
   dependencies = {
     { "nvim-lua/plenary.nvim", lazy = true },
   },
   keys = {
     {
       "<leader><leader>",
-      mode = { "n", "v" },
       "<cmd>Yazi<cr>",
+      mode = { "n", "v" },
       desc = "Open yazi at the current file",
     },
 
     -- p - provider
     {
       "<leader>pp",
-      mode = { "n", "v" },
       "<cmd>Yazi<cr>",
+      mode = { "n", "v" },
       desc = "Open yazi at the current file",
     },
     {

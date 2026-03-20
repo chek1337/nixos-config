@@ -76,8 +76,7 @@
           RestartSec = 3;
           Environment = "XDG_CONFIG_HOME=%h/.config/pttkey-mouse";
         };
-        # TODO: enable autostart after debugging
-        # Install.WantedBy = [ "graphical-session.target" ];
+        Install.WantedBy = [ "graphical-session.target" ];
       };
 
       systemd.user.services.pttkey-kbd = {
@@ -95,8 +94,7 @@
           RestartSec = 3;
           Environment = "XDG_CONFIG_HOME=%h/.config/pttkey-kbd";
         };
-        # TODO: enable autostart after debugging
-        # Install.WantedBy = [ "graphical-session.target" ];
+        Install.WantedBy = [ "graphical-session.target" ];
       };
 
       programs.zsh.shellAliases = {

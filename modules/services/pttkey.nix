@@ -41,6 +41,7 @@
       home.packages = [
         pttkey
         pkgs.evtest
+        pkgs.pavucontrol
       ];
 
       # To find the key name for pttkey:
@@ -52,7 +53,7 @@
       #   BTN_EXTRA (Mouse5), BTN_SIDE (Mouse4)
       #   KEY_PAUSE, KEY_SCROLLLOCK, KEY_F13..KEY_F24
       xdg.configFile."pttkey/config.toml".text = ''
-        key = "BTN_EXTRA"
+        keys = ["KEY_V"]
         mode = "mute"
       '';
 
@@ -70,7 +71,8 @@
           Restart = "on-failure";
           RestartSec = 3;
         };
-        Install.WantedBy = [ "graphical-session.target" ];
+        # TODO: enable autostart after debugging
+        # Install.WantedBy = [ "graphical-session.target" ];
       };
 
       programs.zsh.shellAliases = {

@@ -27,6 +27,7 @@ let
     "sops"
     "aerc"
     "pttkey"
+    # "push2talk"
   ];
 in
 {

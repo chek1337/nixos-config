@@ -38,7 +38,10 @@
       };
     in
     {
-      home.packages = [ pttkey ];
+      home.packages = [
+        pttkey
+        pkgs.evtest
+      ];
 
       # To find the key name for pttkey:
       #   sudo evtest → select device → press desired key → look for "code" field

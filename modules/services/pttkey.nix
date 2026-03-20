@@ -44,22 +44,26 @@
         pkgs.pavucontrol
       ];
 
-      # To find the key name for pttkey:
-      #   sudo evtest → select device → press desired key → look for "code" field
-      #   Example output: "Event: ... code 276 (BTN_EXTRA), value 1"
-      #   Use the name in parentheses (e.g. BTN_EXTRA, KEY_F9, BTN_SIDE)
+      # Two pttkey daemons: mouse (BTN_EXTRA) and keyboard (KEY_F13),
+      # so PTT works regardless of which hand is free.
+      # Each gets its own XDG_CONFIG_HOME to isolate config.toml.
       #
-      # Common key names:
-      #   BTN_EXTRA (Mouse5), BTN_SIDE (Mouse4)
-      #   KEY_PAUSE, KEY_SCROLLLOCK, KEY_F13..KEY_F24
-      xdg.configFile."pttkey/config.toml".text = ''
-        keys = ["KEY_V"]
+      # To find key names: sudo evtest → select device → press key → "code" field
+      # To find device_path: ls -la /dev/input/by-id/ | grep mouse
+      xdg.configFile."pttkey-mouse/pttkey/config.toml".text = ''
+        keys = ["BTN_EXTRA"]
+        mode = "mute"
+        device_path = "/dev/input/by-id/usb-E-Signal_USB_Gaming_Mouse-event-mouse"
+      '';
+
+      xdg.configFile."pttkey-kbd/pttkey/config.toml".text = ''
+        keys = ["KEY_F13"]
         mode = "mute"
       '';
 
-      systemd.user.services.pttkey = {
+      systemd.user.services.pttkey-mouse = {
         Unit = {
-          Description = "Push-to-talk mic toggle (pttkey)";
+          Description = "Push-to-talk via mouse (pttkey)";
           After = [
             "pipewire.service"
             "graphical-session.target"
@@ -70,16 +74,36 @@
           ExecStart = "${lib.meta.getExe pttkey}";
           Restart = "on-failure";
           RestartSec = 3;
+          Environment = "XDG_CONFIG_HOME=%h/.config/pttkey-mouse";
+        };
+        # TODO: enable autostart after debugging
+        # Install.WantedBy = [ "graphical-session.target" ];
+      };
+
+      systemd.user.services.pttkey-kbd = {
+        Unit = {
+          Description = "Push-to-talk via keyboard (pttkey)";
+          After = [
+            "pipewire.service"
+            "graphical-session.target"
+          ];
+          PartOf = [ "graphical-session.target" ];
+        };
+        Service = {
+          ExecStart = "${lib.meta.getExe pttkey}";
+          Restart = "on-failure";
+          RestartSec = 3;
+          Environment = "XDG_CONFIG_HOME=%h/.config/pttkey-kbd";
         };
         # TODO: enable autostart after debugging
         # Install.WantedBy = [ "graphical-session.target" ];
       };
 
       programs.zsh.shellAliases = {
-        ptt-up = "systemctl --user start pttkey.service";
-        ptt-down = "systemctl --user stop pttkey.service";
-        ptt-status = "systemctl --user status pttkey.service";
-        ptt-log = "journalctl --user -u pttkey.service -f";
+        ptt-up = "systemctl --user start pttkey-mouse.service pttkey-kbd.service";
+        ptt-down = "systemctl --user stop pttkey-mouse.service pttkey-kbd.service";
+        ptt-status = "systemctl --user status pttkey-mouse.service pttkey-kbd.service";
+        ptt-log = "journalctl --user -u 'pttkey-*' -f";
       };
     };
 }

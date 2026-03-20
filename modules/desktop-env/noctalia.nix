@@ -103,6 +103,13 @@
             enableKeyboardLayoutToast = false;
             density = "compact";
           };
+          osd = {
+            enabledTypes = [
+              "Volume"
+              "Brightness"
+              "LockKey"
+            ];
+          };
           colorSchemes = {
             predefinedScheme = "Nord";
             useWallpaperColors = false;

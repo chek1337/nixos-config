@@ -21,7 +21,7 @@
         aerc = {
           enable = true;
           extraAccounts = {
-            default = "INBOX";
+            default = "Inbox";
             check-mail = "5m";
             check-mail-cmd = "${pkgs.isync}/bin/mbsync --all";
             check-mail-timeout = "15s";
@@ -66,6 +66,7 @@
             new-message-bell = false;
             dirlist-delay = "200ms";
             sort = "-r date";
+            styleset-name = "nord";
           };
           filters = {
             "text/plain" =
@@ -91,6 +92,79 @@
             "application/vnd.oasis.opendocument.text" = "${pkgs.odt2txt}/bin/odt2txt --subst=all -";
           };
         };
+        stylesets.nord = ''
+          *.default=true
+          *.normal=true
+
+          title.bg=#5E81AC
+          title.fg=#ECEFF4
+          title.bold=true
+
+          header.bold=true
+          header.fg=#EBCB8B
+
+          tab.selected.fg=#ECEFF4
+          tab.selected.bg=#5E81AC
+          tab.selected.bold=false
+          dirlist*.selected.bg=#3B4252
+          dirlist*.selected.fg=#ECEFF4
+          dirlist*.selected.bold=false
+          dirlist*.selected.italic=false
+
+          *error.bold=true
+          *error.fg=#BF616A
+          *warning.fg=#EBCB8B
+          *success.fg=#A3BE8C
+
+          statusline_error.fg=#BF616A
+
+          msglist_unread.fg=#ECEFF4
+          msglist_unread.bold=true
+          msglist_deleted.fg=#4C566A
+          msglist_*.selected.bg=#3B4252
+          msglist_result.bg=#5E81AC
+          msglist_marked.fg=#ECEFF4
+          msglist_marked.bg=#4C566A
+          msglist_marked.bold=true
+          msglist_marked.selected.fg=#ECEFF4
+          msglist_marked.selected.bg=#4C566A
+          msglist_marked.selected.bold=true
+          msglist_pill.reverse=true
+
+          part_*.fg=#ECEFF4
+          part_mimetype.fg=#81A1C1
+          part_*.selected.fg=#ECEFF4
+          part_*.selected.bg=#3B4252
+          part_filename.selected.bold=true
+
+          completion_pill.reverse=false
+          selector_focused.bold=false
+          selector_focused.bg=#3B4252
+          selector_focused.fg=#ECEFF4
+          selector_chooser.bold=false
+          selector_chooser.bg=#3B4252
+          selector_chooser.fg=#ECEFF4
+          default.selected.bold=false
+          default.selected.fg=#ECEFF4
+          default.selected.bg=#3B4252
+
+          completion_default.selected.bg=#3B4252
+          completion_default.selected.fg=#ECEFF4
+
+          [viewer]
+          *.default=true
+          *.normal=true
+          url.fg=#81A1C1
+          header.bold=true
+          signature.dim=true
+          diff_meta.bold=true
+          diff_chunk.dim=true
+          diff_add.fg=#A3BE8C
+          diff_del.fg=#BF616A
+          quote_*.fg=#88C0D0
+          quote_*.dim=true
+          quote_1.dim=false
+        '';
       };
 
       accounts.email = {
@@ -107,12 +181,6 @@
             create = "maildir";
             patterns = [ "*" ];
           };
-          folders = {
-            inbox = "INBOX";
-            drafts = "Черновики";
-            sent = "Отправленные";
-            trash = "Удаленные";
-          };
         };
         accounts."YA-loychenko" = defaultAercConfig // {
           address = "loychenko.d@yandex.ru";
@@ -124,12 +192,6 @@
             enable = true;
             create = "maildir";
             patterns = [ "*" ];
-          };
-          folders = {
-            inbox = "INBOX";
-            drafts = "Drafts";
-            sent = "Sent";
-            trash = "Trash";
           };
         };
       };

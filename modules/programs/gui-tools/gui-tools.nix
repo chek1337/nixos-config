@@ -11,6 +11,9 @@
       spicetify
       discord
       libreoffice
+      zathura
+      imv
+      mpv
     ];
   };
 }

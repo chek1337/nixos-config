@@ -7,6 +7,7 @@
         satty
         grim
         slurp
+        wayfreeze
         cliphist
       ];
     };

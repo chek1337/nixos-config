@@ -226,9 +226,9 @@
           "Mod+Ctrl+V".action.switch-focus-between-floating-and-tiling = [ ];
           "Mod+W".action.toggle-column-tabbed-display = [ ];
 
-          "Print" = sh ''grim -g "$(slurp)" - | wl-copy'';
+          "Print" = sh ''wayfreeze & PID=$!; sleep 0.1; grim -g "$(slurp)" - | wl-copy; kill $PID'';
           "Ctrl+Print" =
-            sh ''grim -g "$(slurp)" - | satty --filename - --early-exit --copy-command 'wl-copy' '';
+            sh ''wayfreeze & PID=$!; sleep 0.1; grim -g "$(slurp)" - | satty --filename - --early-exit --copy-command 'wl-copy'; kill $PID'';
           "Alt+Print".action.screenshot-window = [ ];
           "Shift+Print".action.screenshot-screen = [ ];
           "Shift+Ctrl+Print" = sh "grim - | satty --filename - --early-exit --copy-command 'wl-copy'";

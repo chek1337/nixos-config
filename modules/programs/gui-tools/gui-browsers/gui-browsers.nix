@@ -5,6 +5,7 @@
       # firefox
       qutebrowser
       librewolf
+      zen
     ];
   };
 }

@@ -164,6 +164,31 @@
             set -g window-status-separator ""
           '';
       };
+      programs.zsh.shellAliases = {
+        tm = "tmux";
+        tmn = "tmux new -s";
+        tma = "tmux attach -t";
+        tml = "tmux list-sessions";
+        tmk = "tmux kill-session -t";
+        tmK = "tmux kill-server";
+        tmor = "tmuxinator";
+      };
+
       home.packages = [ pkgs.tmuxinator ];
+
+      xdg.configFile."tmuxinator/nixos-config.yml".text = ''
+        name: nixos-config
+        root: ~/nixos-config
+
+        windows:
+          - shell:
+              layout: even-horizontal
+              panes:
+                - vopono-exec claude
+                -
+          - editor:
+              panes:
+                - nvim
+      '';
     };
 }

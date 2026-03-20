@@ -7,6 +7,8 @@
       zapret
       vopono
     ];
+
+    networking.networkmanager.enable = true;
   };
 
   flake.modules.homeManager.networking = {

@@ -53,12 +53,14 @@
       xdg.configFile."pttkey-mouse/pttkey/config.toml".text = ''
         keys = ["BTN_EXTRA"]
         mode = "mute"
+        sounds = false
         device_path = "/dev/input/by-id/usb-E-Signal_USB_Gaming_Mouse-event-mouse"
       '';
 
       xdg.configFile."pttkey-kbd/pttkey/config.toml".text = ''
         keys = ["KEY_F13"]
         mode = "mute"
+        sounds = false
       '';
 
       systemd.user.services.pttkey-mouse = {

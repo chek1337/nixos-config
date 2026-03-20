@@ -10,6 +10,7 @@
         in
         {
           enable = true;
+          spotifyLaunchFlags = "--password-store=basic";
           enabledExtensions = with spicePkgs.extensions; [
             adblockify
             hidePodcasts

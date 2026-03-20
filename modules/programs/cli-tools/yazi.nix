@@ -20,6 +20,40 @@
               4
             ];
           };
+
+          opener = {
+            play = [
+              {
+                run = ''mpv --force-window "$@"'';
+                orphan = true;
+                for = "unix";
+              }
+            ];
+            image = [
+              {
+                run = ''imv "$@"'';
+                orphan = true;
+                for = "unix";
+              }
+            ];
+          };
+
+          open = {
+            rules = [
+              {
+                mime = "audio/*";
+                use = "play";
+              }
+              {
+                mime = "video/*";
+                use = "play";
+              }
+              {
+                mime = "image/*";
+                use = "image";
+              }
+            ];
+          };
         };
       };
 

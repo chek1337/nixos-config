@@ -19,6 +19,11 @@
     {
       programs.mbsync.enable = true;
 
+      xdg.mimeApps.defaultApplications = {
+        "x-scheme-handler/mailto" = "aerc.desktop";
+        "message/rfc822" = "aerc.desktop";
+      };
+
       programs.aerc = {
         enable = true;
         extraConfig = {

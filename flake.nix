@@ -76,6 +76,10 @@
       url = "github:bananaofhappiness/soundscope";
       flake = false;
     };
+    pttkey = {
+      url = "github:Wuild/pttkey";
+      flake = false;
+    };
 
     nixpkgs-less-685 = {
       url = "github:NixOS/nixpkgs/a1bab9e494f5f4939442a57a58d0449a109593fe";

@@ -26,6 +26,7 @@ let
     "python-dev"
     "sops"
     "aerc"
+    "pttkey"
   ];
 in
 {

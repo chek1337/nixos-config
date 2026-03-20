@@ -1083,6 +1083,22 @@
         "type": "github"
       }
     },
+    "pttkey": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1769852499,
+        "narHash": "sha256-d+Yvll8ryQE5zfoZ7SGyQ+HbCbGbtbLLmcBMXIegMpg=",
+        "owner": "Wuild",
+        "repo": "pttkey",
+        "rev": "6bd2dfd7afe9c9a0fbf85459bf56c1244b9747b9",
+        "type": "github"
+      },
+      "original": {
+        "owner": "Wuild",
+        "repo": "pttkey",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
         "flake-parts": "flake-parts",
@@ -1101,6 +1117,7 @@
         "nixpkgs-stable": "nixpkgs-stable_2",
         "noctalia": "noctalia",
         "noctalia-qs": "noctalia-qs",
+        "pttkey": "pttkey",
         "sops-nix": "sops-nix",
         "soundscope": "soundscope",
         "spicetify-nix": "spicetify-nix",

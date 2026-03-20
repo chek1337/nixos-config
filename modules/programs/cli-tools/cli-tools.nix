@@ -15,6 +15,7 @@
       bat
       # pay-respects
       soundscope
+      cmus
 
       rice
       network-managing

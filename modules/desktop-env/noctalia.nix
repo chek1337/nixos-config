@@ -71,15 +71,11 @@
                   showIcon = false;
                 }
                 {
-                  id = "NotificationHistory";
+                  id = "Network";
                 }
               ]
               ++ lib.optional hasBluetooth {
                 id = "Bluetooth";
-              }
-              ++ lib.optional isLaptop {
-                id = "Battery";
-                displayMode = "alwaysShow";
               }
               ++ [
                 {
@@ -89,7 +85,14 @@
               ++ lib.optional isLaptop {
                 id = "Brightness";
               }
+              ++ lib.optional isLaptop {
+                id = "Battery";
+                displayMode = "alwaysShow";
+              }
               ++ [
+                {
+                  id = "NotificationHistory";
+                }
                 {
                   id = "ControlCenter";
                 }

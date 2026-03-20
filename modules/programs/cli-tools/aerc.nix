@@ -195,5 +195,17 @@
           };
         };
       };
+
+      xdg.desktopEntries.aerc = {
+        name = "aerc";
+        exec = "aerc";
+        icon = "mail-client";
+        comment = "Terminal email client";
+        categories = [
+          "Network"
+          "Email"
+        ];
+        terminal = true;
+      };
     };
 }

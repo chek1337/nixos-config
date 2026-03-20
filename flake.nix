@@ -77,7 +77,7 @@
       flake = false;
     };
     pttkey = {
-      url = "github:Wuild/pttkey";
+      url = "github:Wuild/pttkey/6bd2dfd7afe9c9a0fbf85459bf56c1244b9747b9";
       flake = false;
     };
     push2talk = {

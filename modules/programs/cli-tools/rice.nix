@@ -15,7 +15,7 @@
         onefetch
         nitch
         asciiquarium
-        sl
+        # sl
         cowsay
         fortune
         genact

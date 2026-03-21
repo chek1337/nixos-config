@@ -6,6 +6,7 @@
       username = config.settings.username;
     in
     {
+      nixpkgs.overlays = [ inputs.niri.overlays.niri ];
       programs.niri.enable = true;
       programs.niri.package = inputs.niri.packages.${pkgs.system}.niri-unstable;
       security.polkit.enable = true;

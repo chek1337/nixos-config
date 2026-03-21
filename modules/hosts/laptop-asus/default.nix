@@ -14,6 +14,7 @@ let
     "desktop-env"
 
     "networking"
+    "zmkbatx"
 
     "noctalia"
 
@@ -23,6 +24,10 @@ let
     "claude-code"
     "direnv"
     "python-dev"
+    "sops"
+    "aerc"
+    "pttkey"
+    # "push2talk"
   ];
 in
 {

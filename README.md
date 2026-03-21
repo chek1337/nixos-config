@@ -68,13 +68,10 @@ git clone https://github.com/chek1337/nixos-config.git ~/nixos_config
 cd ~/nixos_config
 ```
 
-### Setup sops secrets
+### Enter dev shell
 
 ```bash
-mkdir -p ~/.config/sops/age
-nix-shell -p ssh-to-age --run \
-  "ssh-to-age -private-key < ~/.ssh/<your-key>" > ~/.config/sops/age/keys.txt
-chmod 600 ~/.config/sops/age/keys.txt
+nix-shell -p git just fzf
 ```
 
 ### Generate hardware config
@@ -91,6 +88,15 @@ just sw <hostname>
 
 # Or interactively select host
 just swi
+```
+
+### Setup sops secrets
+
+```bash
+mkdir -p ~/.config/sops/age
+nix-shell -p ssh-to-age --run \
+  "ssh-to-age -private-key < ~/.ssh/<your-key>" > ~/.config/sops/age/keys.txt
+chmod 600 ~/.config/sops/age/keys.txt
 ```
 
 ### Other commands

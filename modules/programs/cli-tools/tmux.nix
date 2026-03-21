@@ -105,6 +105,11 @@
             bind j select-pane -D
             bind k select-pane -U
             bind l select-pane -R
+            # Навигация по панелям (русская раскладка)
+            bind р select-pane -L
+            bind о select-pane -D
+            bind л select-pane -U
+            bind д select-pane -R
             bind | split-window -h
             bind - split-window -v
 

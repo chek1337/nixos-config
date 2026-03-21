@@ -13,6 +13,9 @@ let
 
         stow
         p7zip
+        atool
+        unzip
+        unrar
         playerctl
         tcpdump
         dig

@@ -36,6 +36,20 @@
                 for = "unix";
               }
             ];
+            extract = [
+              {
+                run = ''aunpack "$@"'';
+                desc = "Extract archive";
+                for = "unix";
+              }
+            ];
+            list-archive = [
+              {
+                run = ''als "$@" | less'';
+                desc = "List archive contents";
+                for = "unix";
+              }
+            ];
           };
 
           open = {
@@ -51,6 +65,69 @@
               {
                 mime = "image/*";
                 use = "image";
+              }
+              {
+                mime = "application/zip";
+                use = [
+                  "extract"
+                  "list-archive"
+                ];
+              }
+              {
+                mime = "application/*zip*";
+                use = [
+                  "extract"
+                  "list-archive"
+                ];
+              }
+              {
+                mime = "application/x-tar";
+                use = [
+                  "extract"
+                  "list-archive"
+                ];
+              }
+              {
+                mime = "application/x-bzip*";
+                use = [
+                  "extract"
+                  "list-archive"
+                ];
+              }
+              {
+                mime = "application/x-7z-compressed";
+                use = [
+                  "extract"
+                  "list-archive"
+                ];
+              }
+              {
+                mime = "application/x-rar";
+                use = [
+                  "extract"
+                  "list-archive"
+                ];
+              }
+              {
+                mime = "application/x-xz";
+                use = [
+                  "extract"
+                  "list-archive"
+                ];
+              }
+              {
+                mime = "application/gzip";
+                use = [
+                  "extract"
+                  "list-archive"
+                ];
+              }
+              {
+                mime = "application/zstd";
+                use = [
+                  "extract"
+                  "list-archive"
+                ];
               }
             ];
           };

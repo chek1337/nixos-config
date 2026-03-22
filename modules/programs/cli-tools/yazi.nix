@@ -12,6 +12,19 @@
         enableZshIntegration = true;
         shellWrapperName = "y";
 
+        keymap = {
+          mgr.prepend_keymap = [
+            {
+              on = [
+                "g"
+                "m"
+              ];
+              run = "cd /run/media/chek";
+              desc = "Go to mounted drives";
+            }
+          ];
+        };
+
         settings = {
           mgr = {
             ratio = [

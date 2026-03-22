@@ -1,12 +1,14 @@
 { ... }:
 {
   flake.modules.nixos.niri =
-    { config, ... }:
+    { config, pkgs, ... }:
     let
       username = config.settings.username;
     in
     {
       programs.niri.enable = true;
+      programs.xwayland.enable = true;
+      environment.systemPackages = [ pkgs.xwayland-satellite ];
       security.polkit.enable = true;
       services.greetd = {
         enable = true;

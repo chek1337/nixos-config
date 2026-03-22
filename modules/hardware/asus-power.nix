@@ -1,6 +1,9 @@
 {
   flake.modules.nixos.asus-power =
-    { pkgs, ... }:
+    { config, pkgs, ... }:
+    let
+      kbdColor = config.lib.stylix.colors.base00-hex;
+    in
     {
       services.asusd.asusdConfig.text = ''
         (
@@ -26,6 +29,19 @@
 
       # Keep sysfs service in sync with asusd config
       hardware.asus.battery.chargeUpto = 80;
+
+      # Keyboard backlight color from stylix palette
+      systemd.services.asusctl-aura = {
+        description = "Set ASUS keyboard backlight color";
+        after = [ "asusd.service" ];
+        wants = [ "asusd.service" ];
+        wantedBy = [ "multi-user.target" ];
+        serviceConfig = {
+          Type = "oneshot";
+          ExecStart = "${pkgs.asusctl}/bin/asusctl aura effect static -c ${kbdColor}";
+          RemainAfterExit = true;
+        };
+      };
 
       environment.systemPackages = [
         pkgs.asusctl

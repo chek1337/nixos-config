@@ -28,6 +28,7 @@ let
     "aerc"
     "pttkey"
     "usb-automount"
+    "gaming"
   ];
 in
 {

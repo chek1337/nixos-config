@@ -43,6 +43,16 @@ in
 
       settings.isLaptop = true;
     };
-    modules.homeManager."hosts/${hostname}" = { };
+    modules.homeManager."hosts/${hostname}" = {
+      services.pttkey.bindings = {
+        mouse = {
+          keys = [ "BTN_EXTRA" ];
+          devicePath = "/dev/input/event6";
+        };
+        kbd = {
+          keys = [ "KEY_F13" ];
+        };
+      };
+    };
   };
 }

@@ -28,6 +28,7 @@ let
     "aerc"
     "pttkey"
     "usb-automount"
+    "asus-power"
   ];
 in
 {

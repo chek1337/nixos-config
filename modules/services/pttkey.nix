@@ -10,8 +10,10 @@
     };
 
   flake.modules.homeManager.pttkey =
-    { pkgs, lib, ... }:
+    { pkgs, lib, config, ... }:
     let
+      cfg = config.services.pttkey;
+
       pttkey = pkgs.rustPlatform.buildRustPackage {
         pname = "pttkey";
         version = "0.2.6";
@@ -36,74 +38,83 @@
           mainProgram = "pttkey";
         };
       };
+
+      # Generate config.toml content for a binding
+      mkConfig = binding:
+        ''keys = [${lib.concatMapStringsSep ", " (k: ''"${k}"'') binding.keys}]
+mode = "mute"
+sounds = false''
+        + lib.optionalString (binding.devicePath != null) ''
+
+device_path = "${binding.devicePath}"'';
+
+      # Generate a systemd user service for a binding
+      mkService = name: _binding: {
+        Unit = {
+          Description = "Push-to-talk: ${name} (pttkey)";
+          After = [
+            "pipewire.service"
+            "graphical-session.target"
+          ];
+          PartOf = [ "graphical-session.target" ];
+        };
+        Service = {
+          ExecStart = "${lib.meta.getExe pttkey}";
+          Restart = "on-failure";
+          RestartSec = 3;
+          Environment = "XDG_CONFIG_HOME=%h/.config/pttkey-${name}";
+        };
+        Install.WantedBy = [ "graphical-session.target" ];
+      };
+
+      serviceNames = lib.mapAttrsToList (name: _: "pttkey-${name}.service") cfg.bindings;
     in
     {
-      home.packages = [
-        pttkey
-        pkgs.evtest
-        pkgs.pavucontrol
-      ];
-
-      # Two pttkey daemons: mouse (BTN_EXTRA) and keyboard (KEY_F13),
-      # so PTT works regardless of which hand is free.
-      # Each gets its own XDG_CONFIG_HOME to isolate config.toml.
-      #
-      # To find key names: sudo evtest → select device → press key → "code" field
-      # To find device_path: ls -la /dev/input/by-id/ | grep mouse
-      xdg.configFile."pttkey-mouse/pttkey/config.toml".text = ''
-        keys = ["BTN_EXTRA"]
-        mode = "mute"
-        sounds = false
-        device_path = "/dev/input/by-id/usb-E-Signal_USB_Gaming_Mouse-event-mouse"
-      '';
-
-      xdg.configFile."pttkey-kbd/pttkey/config.toml".text = ''
-        keys = ["KEY_F13"]
-        mode = "mute"
-        sounds = false
-      '';
-
-      systemd.user.services.pttkey-mouse = {
-        Unit = {
-          Description = "Push-to-talk via mouse (pttkey)";
-          After = [
-            "pipewire.service"
-            "graphical-session.target"
-          ];
-          PartOf = [ "graphical-session.target" ];
-        };
-        Service = {
-          ExecStart = "${lib.meta.getExe pttkey}";
-          Restart = "on-failure";
-          RestartSec = 3;
-          Environment = "XDG_CONFIG_HOME=%h/.config/pttkey-mouse";
-        };
-        Install.WantedBy = [ "graphical-session.target" ];
+      options.services.pttkey.bindings = lib.mkOption {
+        type = lib.types.attrsOf (lib.types.submodule {
+          options = {
+            keys = lib.mkOption {
+              type = lib.types.listOf lib.types.str;
+              description = "Key names to use as PTT trigger (e.g. BTN_EXTRA, KEY_F13)";
+            };
+            devicePath = lib.mkOption {
+              type = lib.types.nullOr lib.types.str;
+              default = null;
+              description = "Evdev device path (null = auto-detect)";
+            };
+          };
+        });
+        default = { };
+        description = ''
+          PTT key bindings. Each entry creates a config and systemd service.
+          To find key names: sudo evtest → select device → press key → "code" field
+          To find device_path: ls -la /dev/input/by-id/ | grep mouse
+        '';
       };
 
-      systemd.user.services.pttkey-kbd = {
-        Unit = {
-          Description = "Push-to-talk via keyboard (pttkey)";
-          After = [
-            "pipewire.service"
-            "graphical-session.target"
-          ];
-          PartOf = [ "graphical-session.target" ];
-        };
-        Service = {
-          ExecStart = "${lib.meta.getExe pttkey}";
-          Restart = "on-failure";
-          RestartSec = 3;
-          Environment = "XDG_CONFIG_HOME=%h/.config/pttkey-kbd";
-        };
-        Install.WantedBy = [ "graphical-session.target" ];
-      };
+      config = lib.mkIf (cfg.bindings != { }) {
+        home.packages = [
+          pttkey
+          pkgs.evtest
+          pkgs.pavucontrol
+        ];
 
-      programs.zsh.shellAliases = {
-        ptt-up = "systemctl --user start pttkey-mouse.service pttkey-kbd.service";
-        ptt-down = "systemctl --user stop pttkey-mouse.service pttkey-kbd.service";
-        ptt-status = "systemctl --user status pttkey-mouse.service pttkey-kbd.service";
-        ptt-log = "journalctl --user -u 'pttkey-*' -f";
+        xdg.configFile = lib.mapAttrs' (name: binding:
+          lib.nameValuePair "pttkey-${name}/pttkey/config.toml" {
+            text = mkConfig binding;
+          }
+        ) cfg.bindings;
+
+        systemd.user.services = lib.mapAttrs' (name: binding:
+          lib.nameValuePair "pttkey-${name}" (mkService name binding)
+        ) cfg.bindings;
+
+        programs.zsh.shellAliases = {
+          ptt-up = "systemctl --user start ${lib.concatStringsSep " " serviceNames}";
+          ptt-down = "systemctl --user stop ${lib.concatStringsSep " " serviceNames}";
+          ptt-status = "systemctl --user status ${lib.concatStringsSep " " serviceNames}";
+          ptt-log = "journalctl --user -u 'pttkey-*' -f";
+        };
       };
     };
 }

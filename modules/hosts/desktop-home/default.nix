@@ -39,6 +39,16 @@ in
         ./_hardware-configuration.nix
       ];
     };
-    modules.homeManager."hosts/${hostname}" = { };
+    modules.homeManager."hosts/${hostname}" = {
+      services.pttkey.bindings = {
+        mouse = {
+          keys = [ "BTN_EXTRA" ];
+          devicePath = "/dev/input/by-id/usb-E-Signal_USB_Gaming_Mouse-event-mouse";
+        };
+        kbd = {
+          keys = [ "KEY_F13" ];
+        };
+      };
+    };
   };
 }

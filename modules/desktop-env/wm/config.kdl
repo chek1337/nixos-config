@@ -185,6 +185,11 @@ workspace "7"
 workspace "8"
 workspace "9"
 
+environment {
+    DISPLAY ":0"
+}
+
+spawn-at-startup "xwayland-satellite"
 spawn-at-startup "kitty"
 spawn-at-startup "spotify"
 

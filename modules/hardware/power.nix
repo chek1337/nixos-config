@@ -1,23 +1,22 @@
 {
   flake.modules.nixos.power =
-    { ... }:
+    { config, lib, ... }:
+    let
+      isLaptop = config.settings.isLaptop;
+    in
     {
       services.upower = {
         enable = true;
-
-        # Laptop setting
-        # percentageLow = 20;
-        # percentageCritical = 10;
-        # percentageAction = 5;
-        # criticalPowerAction = "HybridSleep";
+      } // lib.optionalAttrs isLaptop {
+        percentageLow = 20;
+        percentageCritical = 10;
+        percentageAction = 5;
+        criticalPowerAction = "PowerOff";
       };
 
-      # Laptop settings
-      # services.power-profiles-daemon.enable = true;
-      #
-      # powerManagement = {
-      #   enable = true;
-      #   cpuFreqGovernor = "powersave";
-      # };
+      powerManagement.enable = lib.mkIf isLaptop true;
+
+      # Desktop: disable laptop-oriented services that may be pulled in
+      services.power-profiles-daemon.enable = lib.mkIf (!isLaptop) (lib.mkForce false);
     };
 }

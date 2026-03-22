@@ -29,6 +29,7 @@ let
     "pttkey"
     "usb-automount"
     "asus-power"
+    "gaming"
   ];
 in
 {

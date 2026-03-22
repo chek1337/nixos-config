@@ -27,6 +27,7 @@ let
     "sops"
     "aerc"
     "pttkey"
+    "usb-automount"
   ];
 in
 {

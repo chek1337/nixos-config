@@ -20,6 +20,8 @@ let
         tcpdump
         dig
         tldr
+        python3
+        jq
       ];
     };
 in

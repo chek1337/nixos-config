@@ -1,3 +1,7 @@
+output "eDP-2" {
+    variable-refresh-rate on-demand
+}
+
 input {
     keyboard {
         xkb {

@@ -102,6 +102,7 @@
           notifications = {
             enableKeyboardLayoutToast = false;
             density = "compact";
+            location = "bottom_right";
           };
           osd = {
             enabledTypes = [

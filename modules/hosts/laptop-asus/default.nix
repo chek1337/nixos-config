@@ -45,6 +45,9 @@ in
       settings.isLaptop = true;
     };
     modules.homeManager."hosts/${hostname}" = {
+      services.niri.outputs.eDP-2 = {
+        variableRefreshRate = "on-demand";
+      };
       services.pttkey.bindings = {
         mouse = {
           keys = [ "BTN_EXTRA" ];

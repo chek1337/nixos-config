@@ -82,7 +82,6 @@
                 set -g status-left-length 100
                 set -g status-right-length 100
                 set -g status-left ""
-                set -g status-right "#{E:@catppuccin_status_session}"
               '';
           }
         ];
@@ -167,6 +166,10 @@
             set -g status-fg    "${c.base04}"
 
             set -g window-status-separator ""
+
+            # Zoom indicator (styled to match catppuccin modules)
+            set -g @catppuccin_zoom_module "#[fg=${c.base0A}]#{@catppuccin_status_left_separator}#[fg=${c.base00},bg=${c.base0A}]󰁌 #[fg=${c.base04},bg=#{E:@catppuccin_status_module_text_bg}] zoom #[fg=#{E:@catppuccin_status_module_text_bg},bg=default]#{@catppuccin_status_right_separator}"
+            set -g status-right "#{?window_zoomed_flag,#{E:@catppuccin_zoom_module},}#{E:@catppuccin_status_session}"
           '';
       };
       programs.zsh.shellAliases = {

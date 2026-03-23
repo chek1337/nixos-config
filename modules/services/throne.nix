@@ -3,7 +3,10 @@
   flake.modules.nixos.throne =
     { ... }:
     {
-      programs.throne.enable = true;
+      programs.throne = {
+        enable = true;
+        tunMode.enable = true;
+      };
     };
 
   flake.modules.homeManager.throne =

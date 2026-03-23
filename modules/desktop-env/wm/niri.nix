@@ -55,6 +55,7 @@
             mouse {
                 accel-speed -0.2
                 accel-profile "flat"
+                scroll-factor 2.0
             }
 
             touchpad {

@@ -41,6 +41,19 @@ in
       ];
     };
     modules.homeManager."hosts/${hostname}" = {
+      services.niri.outputs.DP-1 = {
+        position = {
+          x = 0;
+          y = 180;
+        };
+      };
+      services.niri.outputs.HDMI-A-1 = {
+        mode = "1920x1080@60.000";
+        position = {
+          x = 1600;
+          y = 0;
+        };
+      };
       services.pttkey.bindings = {
         mouse = {
           keys = [ "BTN_EXTRA" ];

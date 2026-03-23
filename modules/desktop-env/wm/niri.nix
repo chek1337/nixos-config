@@ -24,14 +24,20 @@
     let
       cfg = config.services.niri;
 
-      mkOutputBlock = name: out:
+      mkOutputBlock =
+        name: out:
         let
-          lines = [ ]
-            ++ lib.optional (out.mode != null) ''    mode "${out.mode}"''
+          lines =
+            [ ]
+            ++ lib.optional (out.mode != null) ''mode "${out.mode}"''
             ++ lib.optional (out.scale != null) "    scale ${toString out.scale}"
-            ++ lib.optional (out.transform != null) ''    transform "${out.transform}"''
-            ++ lib.optional (out.position != null) "    position x=${toString out.position.x} y=${toString out.position.y}"
-            ++ lib.optional (out.variableRefreshRate != null) "    variable-refresh-rate ${out.variableRefreshRate}=true";
+            ++ lib.optional (out.transform != null) ''transform "${out.transform}"''
+            ++ lib.optional (
+              out.position != null
+            ) "    position x=${toString out.position.x} y=${toString out.position.y}"
+            ++ lib.optional (
+              out.variableRefreshRate != null
+            ) "    variable-refresh-rate ${out.variableRefreshRate}=true";
         in
         ''
           output "${name}" {
@@ -39,8 +45,7 @@
           }
         '';
 
-      outputsConfig = lib.concatStringsSep "\n"
-        (lib.mapAttrsToList mkOutputBlock cfg.outputs);
+      outputsConfig = lib.concatStringsSep "\n" (lib.mapAttrsToList mkOutputBlock cfg.outputs);
 
       niriBaseConfig = ''
         input {
@@ -221,46 +226,11 @@
         }
 
 
-        workspace "1"
-        workspace "2"
-        workspace "3"
-        workspace "4"
-        workspace "5"
-        workspace "6"
-        workspace "7"
-        workspace "8"
-        workspace "9"
-
         environment {
             DISPLAY ":0"
         }
 
         spawn-at-startup "xwayland-satellite"
-        spawn-at-startup "kitty"
-        spawn-at-startup "spotify"
-
-        window-rule {
-            match app-id="qutebrowser" at-startup=true
-            open-on-workspace "1"
-            open-maximized true
-        }
-
-        window-rule {
-            match app-id="kitty" at-startup=true
-            open-on-workspace "2"
-        }
-
-        window-rule {
-            match app-id="org.telegram.desktop" at-startup=true
-            open-on-workspace "3"
-            open-maximized true
-        }
-
-        window-rule {
-            match app-id="spotify" at-startup=true
-            open-on-workspace "4"
-            open-maximized true
-        }
 
         window-rule {
             match app-id=r#"firefox$"# title="^Picture-in-Picture$"
@@ -280,40 +250,49 @@
     in
     {
       options.services.niri.outputs = lib.mkOption {
-        type = lib.types.attrsOf (lib.types.submodule {
-          options = {
-            mode = lib.mkOption {
-              type = lib.types.nullOr lib.types.str;
-              default = null;
-              description = "Output mode, e.g. 1920x1080@144.063";
+        type = lib.types.attrsOf (
+          lib.types.submodule {
+            options = {
+              mode = lib.mkOption {
+                type = lib.types.nullOr lib.types.str;
+                default = null;
+                description = "Output mode, e.g. 1920x1080@144.063";
+              };
+              scale = lib.mkOption {
+                type = lib.types.nullOr lib.types.number;
+                default = null;
+                description = "Output scale factor";
+              };
+              transform = lib.mkOption {
+                type = lib.types.nullOr lib.types.str;
+                default = null;
+                description = "Output transform, e.g. 90, 180, flipped";
+              };
+              position = lib.mkOption {
+                type = lib.types.nullOr (
+                  lib.types.submodule {
+                    options = {
+                      x = lib.mkOption { type = lib.types.int; };
+                      y = lib.mkOption { type = lib.types.int; };
+                    };
+                  }
+                );
+                default = null;
+                description = "Output position {x, y}";
+              };
+              variableRefreshRate = lib.mkOption {
+                type = lib.types.nullOr (
+                  lib.types.enum [
+                    "on-demand"
+                    "true"
+                  ]
+                );
+                default = null;
+                description = "Variable refresh rate mode";
+              };
             };
-            scale = lib.mkOption {
-              type = lib.types.nullOr lib.types.number;
-              default = null;
-              description = "Output scale factor";
-            };
-            transform = lib.mkOption {
-              type = lib.types.nullOr lib.types.str;
-              default = null;
-              description = "Output transform, e.g. 90, 180, flipped";
-            };
-            position = lib.mkOption {
-              type = lib.types.nullOr (lib.types.submodule {
-                options = {
-                  x = lib.mkOption { type = lib.types.int; };
-                  y = lib.mkOption { type = lib.types.int; };
-                };
-              });
-              default = null;
-              description = "Output position {x, y}";
-            };
-            variableRefreshRate = lib.mkOption {
-              type = lib.types.nullOr (lib.types.enum [ "on-demand" "true" ]);
-              default = null;
-              description = "Variable refresh rate mode";
-            };
-          };
-        });
+          }
+        );
         default = { };
         description = "Niri output (monitor) configurations, keyed by output name";
       };

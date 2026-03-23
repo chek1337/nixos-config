@@ -14,6 +14,7 @@ in
         wireproxy
         zapret
         vopono
+        throne
       ];
 
       networking.networkmanager.enable = true;
@@ -26,6 +27,7 @@ in
       wireproxy
       zapret
       vopono
+      throne
     ];
   };
 }

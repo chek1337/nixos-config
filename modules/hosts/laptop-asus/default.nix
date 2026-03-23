@@ -46,6 +46,7 @@ in
     };
     modules.homeManager."hosts/${hostname}" = {
       services.niri.outputs.eDP-2 = {
+        mode = "1920x1080@144.063";
         variableRefreshRate = "on-demand";
       };
       services.pttkey.bindings = {

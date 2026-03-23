@@ -3,34 +3,6 @@
     { config, lib, pkgs, ... }:
     let
       kbdColor = config.lib.stylix.colors.base00-hex;
-      username = config.settings.username;
-
-      modeForAc = "1920x1080@144.063";
-      modeForBat = "1920x1080@60.061";
-
-      # For udev (runs as root, needs to find user's niri socket)
-      refreshRateUdev = pkgs.writeShellScript "refresh-rate-udev" ''
-        ac_online=$(cat /sys/class/power_supply/ACAD/online 2>/dev/null || echo "0")
-        if [ "$ac_online" = "1" ]; then
-          mode="${modeForAc}"
-        else
-          mode="${modeForBat}"
-        fi
-        uid=$(${pkgs.coreutils}/bin/id -u ${username} 2>/dev/null || echo "")
-        [ -z "$uid" ] && exit 0
-        XDG_RUNTIME_DIR="/run/user/$uid" ${pkgs.niri}/bin/niri msg output eDP-2 mode "$mode" 2>/dev/null || true
-      '';
-
-      # For user service (already running as user)
-      refreshRateUser = pkgs.writeShellScript "refresh-rate-user" ''
-        ac_online=$(cat /sys/class/power_supply/ACAD/online 2>/dev/null || echo "0")
-        if [ "$ac_online" = "1" ]; then
-          mode="${modeForAc}"
-        else
-          mode="${modeForBat}"
-        fi
-        ${pkgs.niri}/bin/niri msg output eDP-2 mode "$mode" 2>/dev/null || true
-      '';
     in
     {
       services.asusd.asusdConfig.text = ''
@@ -67,23 +39,6 @@
         serviceConfig = {
           Type = "oneshot";
           ExecStart = "${pkgs.asusctl}/bin/asusctl aura effect static -c ${kbdColor}";
-          RemainAfterExit = true;
-        };
-      };
-
-      # Switch display refresh rate based on AC/battery
-      services.udev.extraRules = ''
-        SUBSYSTEM=="power_supply", ATTR{type}=="Mains", RUN+="${refreshRateUdev}"
-      '';
-
-      # Set initial refresh rate on login
-      systemd.user.services.refresh-rate-init = {
-        description = "Set display refresh rate based on power source";
-        partOf = [ "graphical-session.target" ];
-        wantedBy = [ "graphical-session.target" ];
-        serviceConfig = {
-          Type = "oneshot";
-          ExecStart = refreshRateUser;
           RemainAfterExit = true;
         };
       };

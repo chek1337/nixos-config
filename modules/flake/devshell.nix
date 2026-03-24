@@ -34,7 +34,7 @@
           # Install post-commit hook: update .git-commit-msg with commit subject for boot entry labels
           if [ -d .git ]; then
             cat > .git/hooks/post-commit << 'HOOK'
-          #!/bin/bash
+          #!/usr/bin/env bash
           # Skip if triggered by our own amend
           [ -n "$_UPDATING_BOOT_LABEL" ] && exit 0
           git log -1 --format=%s > .git-commit-msg

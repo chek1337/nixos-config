@@ -1,1 +1,1 @@
-feat: use post-commit hook for boot entry labels instead of justfile hack
+fix: use env bash shebang in post-commit hook for NixOS compatibility

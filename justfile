@@ -18,12 +18,11 @@ alias hwi := gen-hardware-interactive
 alias iso := build-iso
 alias isoi := build-iso-interactive
 
-# Stage all changes and save git metadata for boot entries
+# Stage all changes and save git metadata for boot entries (only if tree is already dirty)
 [private]
 stage:
-    git log -1 --format=%s > .git-commit-msg
     git add .
-    git add -f .git-commit-msg
+    if [ -n "$(git status --porcelain)" ]; then git log -1 --format=%s > .git-commit-msg && git add -f .git-commit-msg; fi
 
 # Remove .git-commit-msg from staging after build
 [private]

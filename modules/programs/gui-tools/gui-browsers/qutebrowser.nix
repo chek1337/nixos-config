@@ -36,6 +36,9 @@
           c.tabs.indicator.width = 4
           c.fonts.tabs.selected = "bold default_size default_family"
           c.content.javascript.clipboard = "access"
+          c.content.autoplay = False
+          config.bind(",m", "spawn mpv {url}")
+          config.bind(",M", "hint links spawn mpv {hint-url}")
         '';
       };
     };

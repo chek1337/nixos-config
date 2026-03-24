@@ -1,1 +1,1 @@
-fix: disable Stylix Qt target to resolve Kvantum config conflict
+style: reformat nix files with nixfmt

@@ -1,6 +1,11 @@
 {
   flake.modules.nixos.power =
-    { config, lib, pkgs, ... }:
+    {
+      config,
+      lib,
+      pkgs,
+      ...
+    }:
     let
       isLaptop = config.settings.isLaptop;
       username = config.settings.username;
@@ -8,7 +13,8 @@
     {
       services.upower = {
         enable = true;
-      } // lib.optionalAttrs isLaptop {
+      }
+      // lib.optionalAttrs isLaptop {
         percentageLow = 20;
         percentageCritical = 10;
         percentageAction = 5;

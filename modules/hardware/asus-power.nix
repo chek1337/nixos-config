@@ -1,6 +1,11 @@
 {
   flake.modules.nixos.asus-power =
-    { config, lib, pkgs, ... }:
+    {
+      config,
+      lib,
+      pkgs,
+      ...
+    }:
     let
       kbdColor = config.lib.stylix.colors.base00-hex;
     in

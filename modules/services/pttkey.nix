@@ -10,7 +10,12 @@
     };
 
   flake.modules.homeManager.pttkey =
-    { pkgs, lib, config, ... }:
+    {
+      pkgs,
+      lib,
+      config,
+      ...
+    }:
     let
       cfg = config.services.pttkey;
 
@@ -40,13 +45,15 @@
       };
 
       # Generate config.toml content for a binding
-      mkConfig = binding:
-        ''keys = [${lib.concatMapStringsSep ", " (k: ''"${k}"'') binding.keys}]
-mode = "mute"
-sounds = false''
+      mkConfig =
+        binding:
+        ''
+          keys = [${lib.concatMapStringsSep ", " (k: ''"${k}"'') binding.keys}]
+          mode = "mute"
+          sounds = false''
         + lib.optionalString (binding.devicePath != null) ''
 
-device_path = "${binding.devicePath}"'';
+          device_path = "${binding.devicePath}"'';
 
       # Generate a systemd user service for a binding
       mkService = name: _binding: {
@@ -71,19 +78,21 @@ device_path = "${binding.devicePath}"'';
     in
     {
       options.services.pttkey.bindings = lib.mkOption {
-        type = lib.types.attrsOf (lib.types.submodule {
-          options = {
-            keys = lib.mkOption {
-              type = lib.types.listOf lib.types.str;
-              description = "Key names to use as PTT trigger (e.g. BTN_EXTRA, KEY_F13)";
+        type = lib.types.attrsOf (
+          lib.types.submodule {
+            options = {
+              keys = lib.mkOption {
+                type = lib.types.listOf lib.types.str;
+                description = "Key names to use as PTT trigger (e.g. BTN_EXTRA, KEY_F13)";
+              };
+              devicePath = lib.mkOption {
+                type = lib.types.nullOr lib.types.str;
+                default = null;
+                description = "Evdev device path (null = auto-detect)";
+              };
             };
-            devicePath = lib.mkOption {
-              type = lib.types.nullOr lib.types.str;
-              default = null;
-              description = "Evdev device path (null = auto-detect)";
-            };
-          };
-        });
+          }
+        );
         default = { };
         description = ''
           PTT key bindings. Each entry creates a config and systemd service.
@@ -99,14 +108,15 @@ device_path = "${binding.devicePath}"'';
           pkgs.pavucontrol
         ];
 
-        xdg.configFile = lib.mapAttrs' (name: binding:
+        xdg.configFile = lib.mapAttrs' (
+          name: binding:
           lib.nameValuePair "pttkey-${name}/pttkey/config.toml" {
             text = mkConfig binding;
           }
         ) cfg.bindings;
 
-        systemd.user.services = lib.mapAttrs' (name: binding:
-          lib.nameValuePair "pttkey-${name}" (mkService name binding)
+        systemd.user.services = lib.mapAttrs' (
+          name: binding: lib.nameValuePair "pttkey-${name}" (mkService name binding)
         ) cfg.bindings;
 
         programs.zsh.shellAliases = {

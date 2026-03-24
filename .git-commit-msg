@@ -1,1 +1,1 @@
-chore: remove Hyprland and move niri.nix to desktop-env
+feat: parametrize wireguard config name per host

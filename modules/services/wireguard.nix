@@ -2,9 +2,12 @@
 {
   flake.modules.nixos.wireguard =
     { config, pkgs, ... }:
+    let
+      wgName = config.settings.wireguardConfigName;
+    in
     {
-      sops.secrets.wireguard = {
-        sopsFile = inputs.self + "/secrets/wireguard.conf";
+      sops.secrets.${wgName} = {
+        sopsFile = inputs.self + "/secrets/${wgName}.conf";
         format = "binary";
       };
 
@@ -22,7 +25,7 @@
 
       # Режим 1: весь трафик через VPN (wg-quick)
       networking.wg-quick.interfaces.wg0 = {
-        configFile = config.sops.secrets.wireguard.path;
+        configFile = config.sops.secrets.${wgName}.path;
         autostart = false;
       };
 
@@ -36,7 +39,7 @@
           Type = "oneshot";
           RemainAfterExit = true;
           ExecStart = pkgs.writeShellScript "netns-vpn-start" ''
-            CONFFILE="${config.sops.secrets.wireguard.path}"
+            CONFFILE="${config.sops.secrets.${wgName}.path}"
 
             # Парсим Address и DNS из конфига (tr -d '\r' на случай Windows line endings)
             WG_ADDRESS=$(grep "^Address" "$CONFFILE" | head -1 | sed 's/.*= *//' | tr -d ' \r')

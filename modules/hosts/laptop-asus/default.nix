@@ -43,6 +43,7 @@ in
       ];
 
       settings.isLaptop = true;
+      settings.wireguardConfigName = "wireguard-laptop-asus";
     };
     modules.homeManager."hosts/${hostname}" = {
       services.niri.outputs.eDP-2 = {

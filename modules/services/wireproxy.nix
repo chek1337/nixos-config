@@ -2,9 +2,12 @@
 {
   flake.modules.nixos.wireproxy =
     { config, pkgs, ... }:
+    let
+      wgName = config.settings.wireguardConfigName;
+    in
     {
-      sops.secrets.wireguard = {
-        sopsFile = inputs.self + "/secrets/wireguard.conf";
+      sops.secrets.${wgName} = {
+        sopsFile = inputs.self + "/secrets/${wgName}.conf";
         format = "binary";
       };
 
@@ -34,7 +37,7 @@
 
           ExecStartPre = pkgs.writeShellScript "wireproxy-prepare" ''
                         cat > /run/wireproxy/wireproxy.conf << EOF
-            WGConfig = ${config.sops.secrets.wireguard.path}
+            WGConfig = ${config.sops.secrets.${wgName}.path}
 
             [Socks5]
             BindAddress = 127.0.0.1:1080

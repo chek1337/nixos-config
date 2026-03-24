@@ -39,6 +39,12 @@
           description = "Whether this is a server host";
         };
 
+        wireguardConfigName = lib.mkOption {
+          type = lib.types.str;
+          default = "wireguard-desktop-home";
+          description = "Name of the sops-encrypted wireguard config file (without .conf)";
+        };
+
         isLaptop = lib.mkOption {
           type = lib.types.bool;
           default = false;

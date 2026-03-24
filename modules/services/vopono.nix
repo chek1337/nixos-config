@@ -2,9 +2,12 @@
 {
   flake.modules.nixos.vopono =
     { config, pkgs, ... }:
+    let
+      wgName = config.settings.wireguardConfigName;
+    in
     {
-      sops.secrets.wireguard = {
-        sopsFile = inputs.self + "/secrets/wireguard.conf";
+      sops.secrets.${wgName} = {
+        sopsFile = inputs.self + "/secrets/${wgName}.conf";
         format = "binary";
       };
 
@@ -29,18 +32,26 @@
     };
 
   flake.modules.homeManager.vopono =
-    { config, pkgs, ... }:
+    {
+      config,
+      osConfig,
+      pkgs,
+      ...
+    }:
+    let
+      wgName = osConfig.settings.wireguardConfigName;
+    in
     {
       programs.zsh.shellAliases = {
         vopono-up = "sudo systemctl start vopono.service";
         vopono-down = "sudo systemctl stop vopono.service";
         vopono-status = "sudo systemctl status vopono.service";
-        vopono-exec = "vopono exec --custom /run/secrets/wireguard --protocol wireguard";
+        vopono-exec = "vopono exec --custom /run/secrets/${wgName} --protocol wireguard";
       };
       xdg.desktopEntries = {
         qutebrowser-vpn = {
           name = "qutebrowser (VPN)";
-          exec = "${pkgs.vopono}/bin/vopono exec --protocol wireguard --custom /run/secrets/wireguard ${pkgs.qutebrowser}/bin/qutebrowser %U";
+          exec = "${pkgs.vopono}/bin/vopono exec --protocol wireguard --custom /run/secrets/${wgName} ${pkgs.qutebrowser}/bin/qutebrowser %U";
           icon = "qutebrowser";
           comment = "qutebrowser via Vopono WireGuard";
           categories = [

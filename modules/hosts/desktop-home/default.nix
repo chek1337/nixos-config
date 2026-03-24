@@ -39,6 +39,8 @@ in
       imports = (flakeConfig.flake.lib.loadNixosAndHmModuleForUser flakeConfig modules) ++ [
         ./_hardware-configuration.nix
       ];
+
+      settings.wireguardConfigName = "wireguard-desktop-home";
     };
     modules.homeManager."hosts/${hostname}" = {
       services.niri.outputs.DP-1 = {

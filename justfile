@@ -25,10 +25,16 @@ stage:
     git add .
     git add -f .git-commit-msg
 
+# Remove .git-commit-msg from staging after build
+[private]
+unstage-meta:
+    -git rm --cached .git-commit-msg 2>/dev/null
+
 # Apply configuration for the current host
 [group("deploy")]
 switch hostname: stage
     sudo nixos-rebuild switch --flake "{{flake}}#{{hostname}}"
+    just unstage-meta
 
 # Interactively select host and apply
 [group("deploy")]
@@ -39,6 +45,7 @@ switch-interactive: stage
 [group("deploy")]
 test hostname: stage
     sudo nixos-rebuild test --flake "{{flake}}#{{hostname}}"
+    just unstage-meta
 
 # Test interactively
 [group("deploy")]
@@ -49,6 +56,7 @@ test-interactive: stage
 [group("deploy")]
 build hostname: stage
     nixos-rebuild build --flake "{{flake}}#{{hostname}}"
+    just unstage-meta
 
 # Build interactively
 [group("deploy")]
@@ -59,6 +67,7 @@ build-interactive: stage
 [group("deploy")]
 boot hostname: stage
     sudo nixos-rebuild boot --flake "{{flake}}#{{hostname}}"
+    just unstage-meta
 
 # Apply configuration on next boot interactively
 [group("deploy")]
@@ -102,6 +111,7 @@ gc: stage
 [group("iso")]
 build-iso hostname: stage
     nix build ".#nixosConfigurations.iso-{{hostname}}.config.system.build.isoImage" -o result-iso --show-trace
+    just unstage-meta
     @echo "ISO: $(readlink result-iso)/iso/*.iso"
 
 # Build ISO interactively

@@ -25,10 +25,6 @@
     nixos-hardware.url = "github:WaffleLapkin/nixos-hardware/disable-user-service";
     systems.url = "github:nix-systems/default-linux";
 
-    hyprland = {
-      url = "github:hyprwm/Hyprland";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     sops-nix = {
       url = "github:mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";

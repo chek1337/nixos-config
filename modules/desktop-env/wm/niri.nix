@@ -93,6 +93,33 @@
             }
         }
 
+        animations {
+            window-open {
+                duration-ms 150
+                curve "ease-out-expo"
+            }
+            window-close {
+                duration-ms 150
+                curve "ease-out-expo"
+            }
+            window-movement {
+                duration-ms 150
+                curve "ease-out-expo"
+            }
+            window-resize {
+                duration-ms 150
+                curve "ease-out-expo"
+            }
+            workspace-switch {
+                duration-ms 200
+                curve "ease-out-expo"
+            }
+            horizontal-view-movement {
+                duration-ms 200
+                curve "ease-out-expo"
+            }
+        }
+
         prefer-no-csd
 
         screenshot-path "~/Pictures/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png"

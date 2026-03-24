@@ -1,1 +1,1 @@
-feat: add manual Windows boot entry to appear first in boot menu
+revert: remove boot menu sorting customizations

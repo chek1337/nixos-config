@@ -21,6 +21,7 @@
         zapret-up = "sudo systemctl start zapret-discord-youtube.service";
         zapret-down = "sudo systemctl stop zapret-discord-youtube.service";
         zapret-status = "sudo systemctl status zapret-discord-youtube.service";
+        zapret-restart = "sudo systemctl restart zapret-discord-youtube.service";
       };
     };
 }

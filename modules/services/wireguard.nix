@@ -173,24 +173,26 @@
     {
       programs.zsh.shellAliases = {
         # Режим 1: весь трафик через VPN
-        vpn-full-up = "sudo systemctl start wg-quick-wg0.service";
-        vpn-full-down = "sudo systemctl stop wg-quick-wg0.service";
-        vpn-full-status = "sudo systemctl status wg-quick-wg0.service";
+        wg-full-up = "sudo systemctl start wg-quick-wg0.service";
+        wg-full-down = "sudo systemctl stop wg-quick-wg0.service";
+        wg-full-status = "sudo systemctl status wg-quick-wg0.service";
+        wg-full-restart = "sudo systemctl restart wg-quick-wg0.service";
 
         # Режим 2: только конкретные приложения через VPN (netns vpn)
-        vpn-app-up = "sudo systemctl start netns-vpn.service";
-        vpn-app-down = "sudo systemctl stop netns-vpn.service";
-        vpn-app-status = "sudo systemctl status netns-vpn.service";
-        vpn-app-show = "sudo ip netns exec vpn wg show";
-        vpn-app-exec = "sudo ip netns exec vpn sudo -u $USER env ${vpnEnv}";
+        wg-app-up = "sudo systemctl start netns-vpn.service";
+        wg-app-down = "sudo systemctl stop netns-vpn.service";
+        wg-app-status = "sudo systemctl status netns-vpn.service";
+        wg-app-restart = "sudo systemctl restart netns-vpn.service";
+        wg-app-show = "sudo ip netns exec vpn wg show";
+        wg-app-exec = "sudo ip netns exec vpn sudo -u $USER env ${vpnEnv}";
 
         # Режим 3: весь трафик через VPN (wg-quick), кроме приложений в bypass
-        # Порядок: сначала vpn-full-up, потом vpn-bypass-up
-        vpn-bypass-up = "sudo systemctl start netns-bypass.service";
-        vpn-bypass-down = "sudo systemctl stop netns-bypass.service";
-        vpn-bypass-status = "sudo systemctl status netns-bypass.service";
-        # Запустить приложение в обход VPN:
-        vpn-bypass-exec = "sudo ip netns exec bypass sudo -u $USER env ${vpnEnv}";
+        # Порядок: сначала wg-full-up, потом wg-bypass-up
+        wg-bypass-up = "sudo systemctl start netns-bypass.service";
+        wg-bypass-down = "sudo systemctl stop netns-bypass.service";
+        wg-bypass-status = "sudo systemctl status netns-bypass.service";
+        wg-bypass-restart = "sudo systemctl restart netns-bypass.service";
+        wg-bypass-exec = "sudo ip netns exec bypass sudo -u $USER env ${vpnEnv}";
       };
     };
 }

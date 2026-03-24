@@ -46,6 +46,7 @@
         vopono-up = "sudo systemctl start vopono.service";
         vopono-down = "sudo systemctl stop vopono.service";
         vopono-status = "sudo systemctl status vopono.service";
+        vopono-restart = "sudo systemctl restart vopono.service";
         vopono-exec = "vopono exec --custom /run/secrets/${wgName} --protocol wireguard";
       };
       xdg.desktopEntries = {

@@ -58,10 +58,11 @@
     { ... }:
     {
       programs.zsh.shellAliases = {
-        wpu = "sudo systemctl start wireproxy.service";
-        wpd = "sudo systemctl stop wireproxy.service";
-        wps = "systemctl status wireproxy.service";
-        proxied = "proxychains4 -q";
+        wp-up = "sudo systemctl start wireproxy.service";
+        wp-down = "sudo systemctl stop wireproxy.service";
+        wp-status = "systemctl status wireproxy.service";
+        wp-restart = "sudo systemctl restart wireproxy.service";
+        wp-exec = "proxychains4 -q";
       };
     };
 }

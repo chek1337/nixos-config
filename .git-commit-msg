@@ -1,1 +1,1 @@
-feat: parametrize wireguard config name per host
+feat: unify VPN shell aliases and add restart commands

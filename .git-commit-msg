@@ -1,1 +1,1 @@
-feat: prioritize Windows in boot menu by sorting NixOS entries last
+revert: remove boot menu generation limit

@@ -7,7 +7,12 @@
         # kernelPackages = pkgs.linuxPackages_latest;
         loader = {
           systemd-boot.enable = true;
-          systemd-boot.sortKey = "z-nixos";
+          systemd-boot.extraEntries = {
+            "00-windows.conf" = ''
+              title Windows
+              efi /EFI/Microsoft/Boot/bootmgfw.efi
+            '';
+          };
           efi.canTouchEfiVariables = true;
         };
       };

@@ -13,6 +13,18 @@ let
     server = "server";
   };
 
+  shortRev = inputs.self.shortRev or inputs.self.dirtyShortRev or "dirty";
+  commitMsgFile = "${inputs.self}/.git-commit-msg";
+  rawMsg =
+    if builtins.pathExists commitMsgFile then
+      lib.removeSuffix "\n" (builtins.readFile commitMsgFile)
+    else
+      "";
+  sanitize =
+    str: lib.stringAsChars (c: if builtins.match "[a-zA-Z0-9:_.-]" c != null then c else "-") str;
+  commitMsg = sanitize (builtins.substring 0 50 rawMsg);
+  nixosLabel = if commitMsg != "" then "${shortRev}.${commitMsg}" else shortRev;
+
   mkNixos =
     system: cls: name: username:
     lib.nixosSystem {
@@ -33,6 +45,8 @@ let
             networking.hostName = lib.mkDefault name;
             nixpkgs.hostPlatform = lib.mkDefault system;
             system.stateVersion = config.settings.stateVersion;
+            system.configurationRevision = inputs.self.rev or inputs.self.dirtyRev or "dirty";
+            system.nixos.label = nixosLabel;
           }
         )
       ];

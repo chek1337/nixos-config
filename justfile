@@ -18,10 +18,12 @@ alias hwi := gen-hardware-interactive
 alias iso := build-iso
 alias isoi := build-iso-interactive
 
-# Stage all changes
+# Stage all changes and save git metadata for boot entries
 [private]
 stage:
+    git log -1 --format=%s > .git-commit-msg
     git add .
+    git add -f .git-commit-msg
 
 # Apply configuration for the current host
 [group("deploy")]

@@ -1,1 +1,1 @@
-feat: add mpv-mini/umpv-mini wrappers and floating window rule
+fix: rebind float/tile focus switch to Mod+Shift+V

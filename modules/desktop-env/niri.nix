@@ -235,7 +235,7 @@
             Mod+Ctrl+Equal { set-window-height "+10%"; }
 
             Mod+V       { toggle-window-floating; }
-            Mod+Ctrl+V { switch-focus-between-floating-and-tiling; }
+            Mod+Shift+V { switch-focus-between-floating-and-tiling; }
             Mod+W       { toggle-column-tabbed-display; }
 
             Print      { spawn-sh "wayfreeze & PID=$!; sleep 0.1; grim -g \"$(slurp)\" - | wl-copy; kill $PID"; }

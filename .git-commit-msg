@@ -1,0 +1,1 @@
+feat: use post-commit hook for boot entry labels instead of justfile hack

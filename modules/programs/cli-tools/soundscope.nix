@@ -7,7 +7,7 @@
         pname = "soundscope";
         version = "unstable";
         src = inputs.soundscope;
-        cargoHash = "sha256-Z/6mi7rWXxF4V5E2TyIWPXp3blRq9BQ5IrvsZPvnRWo=";
+        cargoHash = "sha256-zoiRTjNBHc3/076L7JSFb1ebAOx9KgcE/PyDlIpmpZk=";
 
         nativeBuildInputs = [ pkgs.pkg-config ];
         buildInputs = [ pkgs.alsa-lib ];

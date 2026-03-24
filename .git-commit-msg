@@ -1,1 +1,1 @@
-style: reformat nix files with nixfmt
+fix: update soundscope cargoHash and silence gtk4 theme warning

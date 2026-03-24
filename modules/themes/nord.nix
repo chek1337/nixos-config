@@ -31,8 +31,9 @@
     };
 
   flake.modules.homeManager.nord =
-    { ... }:
+    { config, ... }:
     {
+      gtk.gtk4.theme = config.gtk.theme;
       stylix.targets.qt.enable = false;
       stylix.targets.firefox.profileNames = [ "default" ]; # not working
       stylix.targets.librewolf = {

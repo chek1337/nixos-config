@@ -37,8 +37,11 @@
           c.fonts.tabs.selected = "bold default_size default_family"
           c.content.javascript.clipboard = "access"
           c.content.autoplay = False
-          config.bind(",m", "spawn mpv {url}")
-          config.bind(",M", "hint links spawn mpv {hint-url}")
+          config.bind(",m", "spawn mpv-mini {url}")
+          config.bind(",M", "hint links spawn mpv-mini {hint-url}")
+          config.bind(",a", "spawn umpv-mini {url}")
+          config.bind(",A", "hint links spawn umpv-mini {hint-url}")
+          config.bind(";A", "hint --rapid links spawn umpv-mini {hint-url}")
         '';
       };
     };

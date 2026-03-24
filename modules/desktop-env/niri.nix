@@ -273,6 +273,14 @@
             match app-id="satty"
             open-floating true
         }
+
+        window-rule {
+            match app-id="mpv-mini"
+            open-floating true
+            default-column-width { fixed 320; }
+            default-window-height { fixed 180; }
+            default-floating-position relative-to="top-right" x=8 y=8
+        }
       '';
     in
     {

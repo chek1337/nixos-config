@@ -1,1 +1,1 @@
-feat: limit boot menu to 5 latest generations
+feat: prioritize Windows in boot menu by sorting NixOS entries last

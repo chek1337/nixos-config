@@ -1,1 +1,1 @@
-chore: update flake inputs
+fix: disable Stylix Qt target to resolve Kvantum config conflict

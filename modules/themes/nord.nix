@@ -33,6 +33,7 @@
   flake.modules.homeManager.nord =
     { ... }:
     {
+      stylix.targets.qt.enable = false;
       stylix.targets.firefox.profileNames = [ "default" ]; # not working
       stylix.targets.librewolf = {
         # not working

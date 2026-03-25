@@ -28,7 +28,7 @@ let
     "mail"
     "pttkey"
     "usb-automount"
-    "asus-power"
+    "asus-laptop-hardware"
     "gaming"
   ];
 in

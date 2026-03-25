@@ -1,5 +1,5 @@
 {
-  flake.modules.nixos.asus-power =
+  flake.modules.nixos.asus-laptop-hardware =
     {
       config,
       lib,
@@ -10,6 +10,8 @@
       kbdColor = config.lib.stylix.colors.base00-hex;
     in
     {
+      boot.kernelModules = [ "asus-armoury" ];
+
       services.asusd.asusdConfig.text = ''
         (
             charge_control_end_threshold: 80,

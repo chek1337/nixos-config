@@ -46,6 +46,13 @@
 
           # Show clicked command output in nvim
           mouse_map ctrl+shift+right press ungrabbed combine : mouse_select_command_output : kitty_scrollback_nvim --config ksb_builtin_last_visited_cmd_output
+
+          # Hints with letters instead of numbers
+          map kitty_mod+e kitten hints --alphabet abcdefghijklmnopqrstuvwxyz
+          map kitty_mod+p>f kitten hints --alphabet abcdefghijklmnopqrstuvwxyz --type path
+          map kitty_mod+p>l kitten hints --alphabet abcdefghijklmnopqrstuvwxyz --type line
+          map kitty_mod+p>w kitten hints --alphabet abcdefghijklmnopqrstuvwxyz --type word --program @
+          map kitty_mod+p>h kitten hints --alphabet abcdefghijklmnopqrstuvwxyz --type hash --program @
         '';
       };
 

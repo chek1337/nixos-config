@@ -14,6 +14,12 @@
         keyMode = "vi";
         plugins = with pkgs.tmuxPlugins; [
           {
+            plugin = jump;
+            extraConfig = ''
+              set -g @jump-key 'J'
+            '';
+          }
+          {
             plugin = tmux-thumbs;
             extraConfig = ''
               set -g @thumbs-key F

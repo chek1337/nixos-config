@@ -24,6 +24,7 @@
               bind -T fingers-mode f run -b "#{@fingers-cli} start #{pane_id} --patterns ip,uuid,sha,digit,url,path,hex,kubernetes,git-status,git-status-branch,diff"
               bind -T fingers-mode w run -b "#{@fingers-cli} start #{pane_id} --patterns word"
               bind -T fingers-mode l run -b "#{@fingers-cli} start #{pane_id} --patterns line"
+              bind -T fingers-mode j run -b "#{@fingers-cli} start #{pane_id} --mode jump --patterns ip,uuid,sha,digit,url,path,hex,kubernetes,git-status,git-status-branch,diff,word"
             '';
           }
           resurrect

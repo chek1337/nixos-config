@@ -1,1 +1,1 @@
-fix: use named patterns for tmux-fingers word/line modes
+feat: add jump mode binding to tmux-fingers key table

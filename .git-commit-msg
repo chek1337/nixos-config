@@ -1,1 +1,1 @@
-feat: add tmux-fingers key table with word/line/default modes
+fix: use named patterns for tmux-fingers word/line modes

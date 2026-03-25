@@ -14,16 +14,16 @@
         keyMode = "vi";
         plugins = with pkgs.tmuxPlugins; [
           {
-            plugin = jump;
+            plugin = fingers;
             extraConfig = ''
-              set -g @jump-key 'J'
-            '';
-          }
-          {
-            plugin = tmux-thumbs;
-            extraConfig = ''
-              set -g @thumbs-key F
-              set -g @thumbs-command 'echo -n {} | wl-copy'
+              set -g @fingers-key none
+              set -g @fingers-main-action 'echo -n {} | wl-copy'
+              set -g @fingers-pattern-0 '\S+'
+              set -g @fingers-pattern-1 '.+'
+              bind F switch-client -T fingers-mode
+              bind -T fingers-mode f run -b "#{@fingers-cli} start #{pane_id}"
+              bind -T fingers-mode w run -b "#{@fingers-cli} start #{pane_id} --patterns custom0"
+              bind -T fingers-mode l run -b "#{@fingers-cli} start #{pane_id} --patterns custom1"
             '';
           }
           resurrect

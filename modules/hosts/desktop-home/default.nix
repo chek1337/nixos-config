@@ -25,7 +25,7 @@ let
     "direnv"
     "python-dev"
     "sops"
-    "aerc"
+    "mail"
     "pttkey"
     "usb-automount"
     "gaming"

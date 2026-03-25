@@ -1,1 +1,1 @@
-fix: rebind float/tile focus switch to Mod+Shift+V
+feat: add Yandex Browser via yandex-browser.nix flake

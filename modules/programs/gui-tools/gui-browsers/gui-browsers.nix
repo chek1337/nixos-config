@@ -6,6 +6,7 @@
       qutebrowser
       librewolf
       zen
+      yandex-browser
     ];
   };
 }

@@ -49,6 +49,10 @@
       url = "github:0xc000022070/zen-browser-flake";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    yandex-browser = {
+      url = "github:miuirussia/yandex-browser.nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     zapret-discord-youtube = {
       url = "github:kartavkun/zapret-discord-youtube";
     };

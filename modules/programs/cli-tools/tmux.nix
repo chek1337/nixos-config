@@ -13,6 +13,13 @@
         mouse = true;
         keyMode = "vi";
         plugins = with pkgs.tmuxPlugins; [
+          {
+            plugin = tmux-thumbs;
+            extraConfig = ''
+              set -g @thumbs-key F
+              set -g @thumbs-command 'echo -n {} | wl-copy'
+            '';
+          }
           resurrect
           {
             plugin = continuum;

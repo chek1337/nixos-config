@@ -4,17 +4,10 @@ let
   hostname = "wsl-asuslaptop";
   username = "chek";
   modules = [
-    "nord"
-    "zsh"
-    "cli-tools"
-    "direnv"
-    "python-dev"
+    "base"
     "wsl-nvidia"
     "sops"
     "vopono"
-
-    "docker"
-    "kitty"
   ];
 in
 {

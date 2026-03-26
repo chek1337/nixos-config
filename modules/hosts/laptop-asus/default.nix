@@ -4,32 +4,10 @@ let
   hostname = "laptop-asus";
   username = "chek";
   modules = [
-    "nord"
-    "zsh"
-    "cli-tools"
-    "gui-tools"
-    "desktop-base"
-    "niri"
-    "terminals"
-    "desktop-env"
-
+    "desktop"
+    "homestation"
     "networking"
-    "zmkbatx"
-
-    "noctalia"
-
-    "docker"
-    "virtualization"
-    "wireshark"
-    "claude-code"
-    "direnv"
-    "python-dev"
-    "sops"
-    "mail"
-    "pttkey"
-    "usb-automount"
     "asus-laptop-hardware"
-    "gaming"
   ];
 in
 {

@@ -1,1 +1,1 @@
-fix: remove asus-armoury kernel module (not available in current kernel)
+feat: add aggregate module profiles to simplify host configs

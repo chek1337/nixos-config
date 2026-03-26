@@ -4,24 +4,8 @@ let
   hostname = "generic";
   username = "chek";
   modules = [
-    "nord"
-    "zsh"
-    "cli-tools"
-    "gui-tools"
-    "desktop-base"
-    "niri"
-    "terminals"
-    "desktop-env"
-
+    "desktop"
     "networking"
-
-    "noctalia"
-
-    "docker"
-    "wireshark"
-    "claude-code"
-    "direnv"
-    "python-dev"
   ];
 in
 {

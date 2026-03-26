@@ -9,9 +9,9 @@ My personal NixOS configuration using the **dendritic** modular pattern with [fl
 
 ## Features
 
-- **Modular architecture** — self-registering modules organized by category
+- **Modular architecture** — self-registering modules organized by category with aggregate profiles
 - **Multi-host** — single flake for desktop, laptop (ASUS TUF A15), and WSL
-- **Wayland-native** — Niri / Hyprland with Noctalia shell
+- **Wayland-native** — Niri compositor with Noctalia shell
 - **Nord theme** via [Stylix](https://github.com/danth/stylix)
 - **Secrets management** with [sops-nix](https://github.com/Mic92/sops-nix)
 - **Neovim** configured through [lazyvim-nix](https://github.com/pfassina/lazyvim-nix)
@@ -25,31 +25,49 @@ My personal NixOS configuration using the **dendritic** modular pattern with [fl
 ├── justfile                  # Build/deploy commands
 ├── modules/
 │   ├── flake/                # Core: flake-parts, configurations, system classes
-│   │   └── nixos-classes/    # nixos, wsl, boot, sops
+│   │   ├── nixos-classes/    # nixos, wsl, boot, sops, settings, installer
+│   │   └── profiles/         # Aggregate profiles (base, desktop, workstation, etc.)
 │   ├── hosts/
 │   │   ├── desktop-home/     # Desktop with Niri WM
 │   │   ├── laptop-asus/      # ASUS TUF A15 laptop (Niri WM + nixos-hardware)
 │   │   └── wsl-asuslaptop/   # WSL environment
 │   ├── programs/
-│   │   ├── cli-tools/        # bat, btop, eza, git, nvim, tmux, yazi, zellij...
-│   │   ├── gui-tools/        # discord, telegram, spicetify, wireshark...
-│   │   └── terminals/        # alacritty, kitty
-│   ├── services/             # docker, wireguard, vopono, networking, virtualization...
-│   ├── hardware/             # bluetooth, power, wsl-nvidia
-│   ├── shells/               # zsh, nu
-│   ├── desktop-env/          # niri, hyprland, noctalia, wayland-common
+│   │   ├── cli-tools/        # bat, btop, eza, git, nvim, tmux, yazi, zellij, cmus...
+│   │   ├── gui-tools/        # discord, telegram, spicetify, wireshark, mpv, zathura...
+│   │   │   ├── gui-browsers/ # firefox, zen, librewolf, qutebrowser, yandex-browser
+│   │   │   └── gui-code-editors/ # vscode, sublime
+│   │   ├── gaming/           # steam
+│   │   ├── mail/             # thunderbird, aerc
+│   │   └── terminals/        # alacritty, kitty, wezterm
+│   ├── services/             # docker, wireguard, vopono, networking, virtualization, pttkey, zmkbatx...
+│   ├── hardware/             # bluetooth, power, asus-laptop-hardware, usb-automount, wsl-nvidia
+│   ├── shells/               # zsh, nu, direnv
+│   ├── desktop-env/          # niri, noctalia, wayland-common
 │   └── themes/               # nord
-├── nvim/                     # Neovim configuration
+├── nvim/                     # Neovim configuration (30+ plugins)
 └── secrets/                  # Encrypted secrets (sops)
 ```
 
+## Profiles
+
+Profiles aggregate related modules to simplify host configs:
+
+| Profile | Includes |
+|---------|----------|
+| `base` | nord, zsh, cli-tools, dev-tools, docker, terminals |
+| `desktop-base` | sops, bluetooth, power, wayland-common |
+| `desktop` | base, gui-tools, desktop-base, niri, noctalia, wireshark |
+| `dev-tools` | claude-code, direnv, python-dev |
+| `workstation` | virtualization, mail, pttkey, usb-automount, zmkbatx |
+| `homestation` | workstation, gaming |
+
 ## Hosts
 
-| Host | Type | WM | Shell | Modules |
-|------|------|----|-------|---------|
-| `desktop-home` | NixOS desktop | Niri | Zsh | cli-tools, gui-tools, terminals, desktop-env, niri, noctalia, docker, virtualization, networking, wireshark, python-dev, direnv, claude-code, zmkbatx |
-| `laptop-asus` | NixOS laptop (ASUS TUF A15) | Niri | Zsh | desktop-home without zmkbatx + nixos-hardware drivers (AMD/NVIDIA PRIME, asusd) |
-| `wsl-asuslaptop` | WSL | — | Zsh | cli-tools, kitty, docker, vopono, python-dev, direnv, wsl-nvidia, sops |
+| Host | Type | WM | Shell | Profiles & Modules |
+|------|------|----|-------|--------------------|
+| `desktop-home` | NixOS desktop | Niri | Zsh | desktop, homestation, networking |
+| `laptop-asus` | NixOS laptop (ASUS TUF A15) | Niri | Zsh | desktop, homestation, networking, asus-laptop-hardware |
+| `wsl-asuslaptop` | WSL | — | Zsh | base, wsl-nvidia, sops, vopono |
 
 ## Installation
 
@@ -107,6 +125,7 @@ just bo <host>    # Apply on next boot
 just up           # Update all flake inputs
 just gc           # Garbage collect old generations
 just fmt          # Format all nix files
+just check        # nix flake check
 just iso <host>   # Build offline installation ISO
 ```
 

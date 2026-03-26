@@ -7,13 +7,17 @@
         quickmarks = {
           vk = "https://vk.com";
           yt = "https://youtube.com";
-          maps = "https://maps.google.com";
+          gmap = "https://www.google.com/maps";
+          yamap = "https://yandex.com/maps/65/novosibirsk/";
+          dmap = "https://2gis.ru/novosibirsk";
           translate = "https://translate.google.com";
-          grok = "https://grok.x.ai";
+          grok = "https://grok.com";
           deepseek = "https://chat.deepseek.com";
           gpt = "https://chatgpt.com";
           zai = "https://z.ai";
           claude = "https://claude.ai";
+          gh = "https://github.com";
+          snix = "https://search.nixos.org/packages";
         };
         extraConfig = ''
           config.unbind("q")

@@ -3,6 +3,15 @@
     { pkgs, config, ... }:
     let
       mpv = config.programs.mpv.finalPackage;
+      modernz = pkgs.mpvScripts.modernz.overrideAttrs {
+        version = "0.3.1";
+        src = pkgs.fetchFromGitHub {
+          owner = "Samillion";
+          repo = "ModernZ";
+          tag = "v0.3.1";
+          hash = "sha256-xHiKE84qBYa8wnLMhrTnOZPLwdY7ddW7ayIfFz1dIRw=";
+        };
+      };
     in
     {
       home.packages = [
@@ -22,19 +31,24 @@
       programs.mpv = {
         enable = true;
         scripts = [
-          (pkgs.mpvScripts.modernz.overrideAttrs {
-            version = "0.3.1";
-            src = pkgs.fetchFromGitHub {
-              owner = "Samillion";
-              repo = "ModernZ";
-              tag = "v0.3.1";
-              hash = "sha256-xHiKE84qBYa8wnLMhrTnOZPLwdY7ddW7ayIfFz1dIRw=";
-            };
-          })
+          modernz
+          pkgs.mpvScripts.quality-menu
         ];
+        config = {
+          osc = false;
+          load-select = true;
+          load-context-menu = true;
+        };
+        scriptOpts = {
+          modernz = {
+            layout = "modern-compact";
+          };
+        };
         bindings = {
           "Shift+LEFT" = "seek -0.1 exact";
           "Shift+RIGHT" = "seek 0.1 exact";
+          "Ctrl+f" = "script-binding quality_menu/video_formats_toggle";
+          "MBTN_RIGHT" = "script-binding select/context-menu";
         };
       };
 

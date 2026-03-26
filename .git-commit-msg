@@ -1,1 +1,1 @@
-fix: upgrade ModernZ to 0.3.1 and use wrapped mpv for mpv-mini
+feat: configure ModernZ 0.3.1 with compact layout and context menu

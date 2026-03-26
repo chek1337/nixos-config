@@ -18,6 +18,7 @@
 
       programs.mpv = {
         enable = true;
+        scripts = [ pkgs.mpvScripts.modernz ];
         bindings = {
           "Shift+LEFT" = "seek -0.1 exact";
           "Shift+RIGHT" = "seek 0.1 exact";

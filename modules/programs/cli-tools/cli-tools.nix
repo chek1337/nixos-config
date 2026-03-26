@@ -20,7 +20,6 @@ let
     "rice"
     "network-managing"
     "cli-browsers"
-    "aerc"
   ];
 in
 {

@@ -1,1 +1,1 @@
-fix: resolve pkgs not available in flake-parts HM module for lutris
+fix: resolve wsl-asuslaptop build failures

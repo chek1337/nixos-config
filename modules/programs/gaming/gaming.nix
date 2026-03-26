@@ -1,6 +1,6 @@
 { config, ... }:
 let
-  nixosMod = name: config.flake.modules.nixos.${name} or { };
+  inherit (config.flake.lib) nixosMod;
   modules = [
     "steam"
   ];

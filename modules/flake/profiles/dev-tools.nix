@@ -1,7 +1,6 @@
 { config, ... }:
 let
-  nixosMod = name: config.flake.modules.nixos.${name} or { };
-  hmMod = name: config.flake.modules.homeManager.${name} or { };
+  inherit (config.flake.lib) nixosMod hmMod;
   modules = [
     "claude-code"
     "direnv"

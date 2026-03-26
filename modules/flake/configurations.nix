@@ -82,9 +82,13 @@ let
         }
       ];
     };
+  nixosMod = name: flakeConfig.flake.modules.nixos.${name} or { };
+  hmMod = name: flakeConfig.flake.modules.homeManager.${name} or { };
 in
 {
   flake.lib = {
+    inherit nixosMod hmMod;
+
     mkSystems = {
       inherit
         linux

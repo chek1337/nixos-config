@@ -1,6 +1,6 @@
 { config, ... }:
 let
-  hmMod = name: config.flake.modules.homeManager.${name} or { };
+  inherit (config.flake.lib) hmMod;
   modules = [
     "kitty"
     "alacritty"

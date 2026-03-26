@@ -1,1 +1,1 @@
-refactor: use or-fallback pattern in all aggregate modules
+refactor: extract nixosMod/hmMod helpers to flake.lib

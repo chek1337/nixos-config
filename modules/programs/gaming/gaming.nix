@@ -1,12 +1,32 @@
 { config, ... }:
 let
-  inherit (config.flake.lib) nixosMod;
+  inherit (config.flake.lib) nixosMod hmMod;
   modules = [
     "steam"
+    "wine"
+    "bottles"
+  ];
+  hmModules = [
+    "lutris"
   ];
 in
 {
-  flake.modules.nixos.gaming = {
-    imports = map nixosMod modules;
+  flake.modules.nixos.gaming =
+    { pkgs, ... }:
+    {
+      imports = map nixosMod modules;
+
+      programs.gamemode.enable = true;
+
+      hardware.graphics.enable32Bit = true;
+
+      environment.systemPackages = with pkgs; [
+        mangohud
+        gamescope
+      ];
+    };
+
+  flake.modules.homeManager.gaming = {
+    imports = map hmMod hmModules;
   };
 }

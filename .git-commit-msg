@@ -1,1 +1,1 @@
-feat: enable gvfs for Nautilus trash support
+fix: propagate NixOS modules from gui-tools submodules

@@ -1,6 +1,6 @@
 { config, ... }:
 let
-  inherit (config.flake.lib) hmMod;
+  inherit (config.flake.lib) nixosMod hmMod;
   modules = [
     "gui-browsers"
     "gui-code-editors"
@@ -15,7 +15,9 @@ let
   ];
 in
 {
-  flake.modules.nixos.gui-tools = { };
+  flake.modules.nixos.gui-tools = {
+    imports = map nixosMod modules;
+  };
 
   flake.modules.homeManager.gui-tools = {
     imports = map hmMod modules;

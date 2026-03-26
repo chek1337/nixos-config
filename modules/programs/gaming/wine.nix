@@ -1,9 +1,11 @@
-{ pkgs, ... }:
+{ ... }:
 {
-  flake.modules.nixos.wine = {
-    environment.systemPackages = with pkgs; [
-      wineWowPackages.stable
-      winetricks
-    ];
-  };
+  flake.modules.nixos.wine =
+    { pkgs, ... }:
+    {
+      environment.systemPackages = with pkgs; [
+        wineWow64Packages.stable
+        winetricks
+      ];
+    };
 }

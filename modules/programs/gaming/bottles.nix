@@ -1,6 +1,8 @@
-{ pkgs, ... }:
+{ ... }:
 {
-  flake.modules.nixos.bottles = {
-    environment.systemPackages = [ pkgs.bottles ];
-  };
+  flake.modules.nixos.bottles =
+    { pkgs, ... }:
+    {
+      environment.systemPackages = [ pkgs.bottles ];
+    };
 }

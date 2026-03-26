@@ -1,1 +1,1 @@
-fix: resolve wsl-asuslaptop build failures
+fix: resolve pkgs scope and deprecation in gaming modules

@@ -16,6 +16,7 @@
 
       home.sessionVariables = {
         QT_QPA_PLATFORMTHEME = lib.mkForce "gtk3";
+        QS_ICON_THEME = "Nordzy-dark";
       };
 
       home.packages = with pkgs; [

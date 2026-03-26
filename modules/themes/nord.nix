@@ -31,8 +31,14 @@
     };
 
   flake.modules.homeManager.nord =
-    { config, ... }:
+    { config, pkgs, ... }:
     {
+      stylix.icons = {
+        enable = true;
+        package = pkgs.nordzy-icon-theme;
+        dark = "Nordzy-dark";
+        light = "Nordzy";
+      };
       gtk.gtk4.theme = config.gtk.theme;
       stylix.targets.qt.enable = false;
       stylix.targets.firefox.profileNames = [ "default" ]; # not working

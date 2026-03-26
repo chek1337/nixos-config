@@ -10,7 +10,7 @@ My personal NixOS configuration using the **dendritic** modular pattern with [fl
 ## Features
 
 - **Modular architecture** — self-registering modules organized by category
-- **Multi-host** — single flake for desktop, laptop (ASUS TUF A15), and WSL environments
+- **Multi-host** — single flake for desktop, laptop (ASUS TUF A15), and WSL
 - **Wayland-native** — Niri / Hyprland with Noctalia shell
 - **Nord theme** via [Stylix](https://github.com/danth/stylix)
 - **Secrets management** with [sops-nix](https://github.com/Mic92/sops-nix)
@@ -29,7 +29,6 @@ My personal NixOS configuration using the **dendritic** modular pattern with [fl
 │   ├── hosts/
 │   │   ├── desktop-home/     # Desktop with Niri WM
 │   │   ├── laptop-asus/      # ASUS TUF A15 laptop (Niri WM + nixos-hardware)
-│   │   ├── generic/          # Universal desktop (for ISO)
 │   │   └── wsl-asuslaptop/   # WSL environment
 │   ├── programs/
 │   │   ├── cli-tools/        # bat, btop, eza, git, nvim, tmux, yazi, zellij...
@@ -50,7 +49,6 @@ My personal NixOS configuration using the **dendritic** modular pattern with [fl
 |------|------|----|-------|---------|
 | `desktop-home` | NixOS desktop | Niri | Zsh | cli-tools, gui-tools, terminals, desktop-env, niri, noctalia, docker, virtualization, networking, wireshark, python-dev, direnv, claude-code, zmkbatx |
 | `laptop-asus` | NixOS laptop (ASUS TUF A15) | Niri | Zsh | desktop-home without zmkbatx + nixos-hardware drivers (AMD/NVIDIA PRIME, asusd) |
-| `generic` | NixOS desktop (universal) | Niri | Zsh | desktop-home without zmkbatx and virtualization |
 | `wsl-asuslaptop` | WSL | — | Zsh | cli-tools, kitty, docker, vopono, python-dev, direnv, wsl-nvidia, sops |
 
 ## Installation

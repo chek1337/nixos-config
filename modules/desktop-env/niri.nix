@@ -20,9 +20,26 @@
     };
 
   flake.modules.homeManager.niri =
-    { lib, config, ... }:
+    {
+      lib,
+      pkgs,
+      config,
+      ...
+    }:
     let
       cfg = config.services.niri;
+
+      niri-float-sticky = pkgs.buildGoModule {
+        pname = "niri-float-sticky";
+        version = "0.0.8";
+        src = pkgs.fetchFromGitHub {
+          owner = "probeldev";
+          repo = "niri-float-sticky";
+          rev = "v0.0.8";
+          hash = "sha256-iNd10SZgO+DY+VSqTfDYx19SU2styiG7AC+yLwb9yj8=";
+        };
+        vendorHash = "sha256-GqbY3qkPjMxyW9RTsN9hkgM3Bda6A8rb2kR4YQW1nFI=";
+      };
 
       mkOutputBlock =
         name: out:
@@ -258,6 +275,7 @@
         }
 
         spawn-at-startup "xwayland-satellite"
+        spawn-at-startup "${niri-float-sticky}/bin/niri-float-sticky"
 
         window-rule {
             match app-id=r#"firefox$"# title="^Picture-in-Picture$"

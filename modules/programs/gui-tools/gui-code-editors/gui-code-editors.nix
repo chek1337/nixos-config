@@ -1,9 +1,13 @@
 { config, ... }:
+let
+  hmMod = name: config.flake.modules.homeManager.${name} or { };
+  modules = [
+    "vscode"
+    "sublime"
+  ];
+in
 {
   flake.modules.homeManager.gui-code-editors = {
-    imports = with config.flake.modules.homeManager; [
-      vscode
-      sublime
-    ];
+    imports = map hmMod modules;
   };
 }

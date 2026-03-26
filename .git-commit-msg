@@ -1,1 +1,1 @@
-feat: add aggregate module profiles to simplify host configs
+refactor: use or-fallback pattern in all aggregate modules

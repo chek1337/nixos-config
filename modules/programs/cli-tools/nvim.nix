@@ -5,6 +5,8 @@
     {
       imports = [ inputs.lazyvim-nix.homeManagerModules.default ];
 
+      programs.neovim.extraLuaPackages = ps: with ps; [ luautf8 ];
+
       programs.lazyvim = {
         enable = true;
         configFiles = ./nvim;

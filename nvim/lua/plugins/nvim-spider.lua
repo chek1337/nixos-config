@@ -12,7 +12,7 @@ return {
   event = "VeryLazy",
   dependencies = {
     { "folke/snacks.nvim" },
-    -- { "rami3l/nvim-spider-utf8", build = "rockspec" },
+    -- luautf8 provided via Nix extraLuaPackages, no need for nvim-spider-utf8
   },
   opts = function()
     require("spider").setup({

@@ -1,1 +1,1 @@
-docs: update README to reflect current repo state
+fix: add luautf8 for Cyrillic support in nvim-spider

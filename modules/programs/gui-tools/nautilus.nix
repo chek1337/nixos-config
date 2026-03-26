@@ -1,4 +1,8 @@
 {
+  flake.modules.nixos.nautilus = {
+    services.gvfs.enable = true;
+  };
+
   flake.modules.homeManager.nautilus =
     { pkgs, config, ... }:
     let
@@ -6,6 +10,14 @@
     in
     {
       home.packages = with pkgs; [ nautilus ];
+
+      xdg.desktopEntries.nvim = {
+        name = "Neovim wrapper";
+        exec = "nvim %F";
+        terminal = true;
+        noDisplay = true;
+        type = "Application";
+      };
 
       xdg.desktopEntries.nvim-terminal = {
         name = "Neovim";

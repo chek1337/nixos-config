@@ -1,1 +1,1 @@
-feat: open text files in nvim via Nautilus using terminal .desktop entry
+feat: enable gvfs for Nautilus trash support

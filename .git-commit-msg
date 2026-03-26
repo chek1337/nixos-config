@@ -1,1 +1,1 @@
-feat: add wine, lutris, bottles and enhance gaming setup
+fix: resolve pkgs not available in flake-parts HM module for lutris

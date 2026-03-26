@@ -1,1 +1,1 @@
-refactor: extract nixosMod/hmMod helpers to flake.lib
+feat: rebind tmux fingers to lowercase f, add find-window on F

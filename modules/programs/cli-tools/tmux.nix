@@ -20,7 +20,8 @@
               set -g @fingers-main-action 'echo -n {} | wl-copy'
               set -g @fingers-pattern-word '\S+'
               set -g @fingers-pattern-line '.+'
-              bind F switch-client -T fingers-mode
+              bind f switch-client -T fingers-mode
+              bind F command-prompt "find-window -Z -- '%%'"
               bind -T fingers-mode f run -b "#{@fingers-cli} start #{pane_id} --patterns ip,uuid,sha,digit,url,path,hex,kubernetes,git-status,git-status-branch,diff"
               bind -T fingers-mode w run -b "#{@fingers-cli} start #{pane_id} --patterns word"
               bind -T fingers-mode l run -b "#{@fingers-cli} start #{pane_id} --patterns line"

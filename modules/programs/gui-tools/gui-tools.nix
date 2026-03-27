@@ -13,6 +13,7 @@ let
     "imv"
     "mpv"
     "qbittorrent"
+    "obs"
   ];
 in
 {

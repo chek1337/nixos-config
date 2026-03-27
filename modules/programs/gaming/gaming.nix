@@ -8,6 +8,7 @@ let
   ];
   hmModules = [
     "lutris"
+    "mangohud"
   ];
 in
 {
@@ -21,7 +22,6 @@ in
       hardware.graphics.enable32Bit = true;
 
       environment.systemPackages = with pkgs; [
-        mangohud
         gamescope
       ];
     };

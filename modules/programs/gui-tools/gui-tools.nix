@@ -12,6 +12,7 @@ let
     "zathura"
     "imv"
     "mpv"
+    "qbittorrent"
   ];
 in
 {

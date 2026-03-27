@@ -13,9 +13,14 @@ in
 {
   flake = {
     nixosConfigurations.${hostname} = flakeConfig.flake.lib.mkSystems.wsl username hostname;
+    homeConfigurations."${username}@${hostname}" =
+      flakeConfig.flake.lib.mkHomes.home-wsl username hostname;
+
     modules.nixos."hosts/${hostname}" = {
-      imports = flakeConfig.flake.lib.loadNixosAndHmModuleForUser flakeConfig modules;
+      imports = flakeConfig.flake.lib.loadNixosModules modules;
     };
-    modules.homeManager."hosts/${hostname}" = { };
+    modules.homeManager."hosts/${hostname}" = {
+      imports = flakeConfig.flake.lib.loadHmModules modules;
+    };
   };
 }

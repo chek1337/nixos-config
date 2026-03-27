@@ -1,4 +1,5 @@
 flake := "."
+username := "chek"
 
 # Show all available commands
 default:
@@ -12,6 +13,10 @@ alias b := build
 alias bi := build-interactive
 alias bo := boot
 alias boi := boot-interactive
+alias hm := home-manager-switch
+alias hmi := home-manager-switch-interactive
+alias a := apply-all
+alias ai := apply-all-interactive
 alias up := update
 alias hw := gen-hardware
 alias hwi := gen-hardware-interactive
@@ -32,6 +37,27 @@ switch hostname: stage
 [group("deploy")]
 switch-interactive: stage
     just switch $(ls modules/hosts | fzf --prompt="switch > ")
+
+# Apply Home Manager configuration for a host
+[group("deploy")]
+home-manager-switch hostname: stage
+    nix run home-manager -- switch --flake "{{flake}}#{{username}}@{{hostname}}"
+
+# Apply Home Manager interactively
+[group("deploy")]
+home-manager-switch-interactive: stage
+    just home-manager-switch $(ls modules/hosts | fzf --prompt="hm switch > ")
+
+# Apply both NixOS and Home Manager configuration
+[group("deploy")]
+apply-all hostname: stage
+    sudo nixos-rebuild switch --flake "{{flake}}#{{hostname}}"
+    nix run home-manager -- switch --flake "{{flake}}#{{username}}@{{hostname}}"
+
+# Apply both interactively
+[group("deploy")]
+apply-all-interactive: stage
+    just apply-all $(ls modules/hosts | fzf --prompt="apply all > ")
 
 # Test configuration without applying
 [group("deploy")]

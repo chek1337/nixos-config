@@ -6,9 +6,6 @@
       username = config.settings.username;
     in
     {
-      imports = [
-        inputs.home-manager.nixosModules.home-manager
-      ];
       nix.settings = {
         max-jobs = "auto";
         cores = 0;
@@ -35,7 +32,6 @@
       nixpkgs.config.permittedInsecurePackages = [
         # "openssl-1.1.1w"
       ];
-      home-manager.backupFileExtension = "backup";
       users.users.${username} = {
         isNormalUser = true;
         home = "/home/${username}";

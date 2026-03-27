@@ -4,12 +4,12 @@
     {
       pkgs,
       lib,
-      osConfig,
+      config,
       ...
     }:
     let
-      isLaptop = osConfig.settings.isLaptop;
-      hasBluetooth = osConfig.hardware.bluetooth.enable;
+      isLaptop = config.settings.isLaptop;
+      hasBluetooth = config.settings.hasBluetooth;
     in
     {
       imports = [ inputs.noctalia.homeModules.default ];

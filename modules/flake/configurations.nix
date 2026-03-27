@@ -38,10 +38,6 @@ let
           {
             settings.username = username;
             settings.hostType = clsToHostType.${cls};
-            home-manager.users.${username}.imports = [
-              flakeConfig.flake.modules.homeManager.homeManager
-              (flakeConfig.flake.modules.homeManager."hosts/${name}" or { })
-            ];
             networking.hostName = lib.mkDefault name;
             nixpkgs.hostPlatform = lib.mkDefault system;
             system.stateVersion = config.settings.stateVersion;
@@ -52,9 +48,32 @@ let
       ];
     };
 
+  mkHome =
+    system: cls: name: username:
+    inputs.home-manager.lib.homeManagerConfiguration {
+      pkgs = import inputs.nixpkgs {
+        inherit system;
+        config.allowUnfree = true;
+      };
+      modules = [
+        flakeConfig.flake.modules.homeManager.hmSettings
+        flakeConfig.flake.modules.homeManager.homeManager
+        flakeConfig.flake.modules.homeManager."hosts/${name}"
+        {
+          home.username = username;
+          home.homeDirectory = "/home/${username}";
+          settings.username = username;
+          settings.hostType = clsToHostType.${cls};
+        }
+      ];
+    };
+
   linux = username: name: mkNixos "x86_64-linux" "nixos" name username;
   linux-arm = username: name: mkNixos "aarch64-linux" "nixos" name username;
   wsl = username: name: mkNixos "x86_64-linux" "wsl" name username;
+
+  home-linux = username: name: mkHome "x86_64-linux" "nixos" name username;
+  home-wsl = username: name: mkHome "x86_64-linux" "wsl" name username;
 
   iso =
     username: name:
@@ -82,12 +101,24 @@ let
         }
       ];
     };
+
   nixosMod = name: flakeConfig.flake.modules.nixos.${name} or { };
   hmMod = name: flakeConfig.flake.modules.homeManager.${name} or { };
+
+  loadNixosModules =
+    modules: builtins.map (module: flakeConfig.flake.modules.nixos.${module} or { }) modules;
+
+  loadHmModules =
+    modules: builtins.map (module: flakeConfig.flake.modules.homeManager.${module} or { }) modules;
 in
 {
   flake.lib = {
-    inherit nixosMod hmMod;
+    inherit
+      nixosMod
+      hmMod
+      loadNixosModules
+      loadHmModules
+      ;
 
     mkSystems = {
       inherit
@@ -98,19 +129,11 @@ in
         ;
     };
 
-    loadNixosAndHmModuleForUser =
-      flakeConfig: modules:
-      (builtins.map (module: flakeConfig.flake.modules.nixos.${module} or { }) modules)
-      ++ [
-        (
-          { config, ... }:
-          {
-            imports = [ inputs.home-manager.nixosModules.home-manager ];
-            home-manager.users.${config.settings.username}.imports = builtins.map (
-              module: flakeConfig.flake.modules.homeManager.${module} or { }
-            ) modules;
-          }
-        )
-      ];
+    mkHomes = {
+      inherit
+        home-linux
+        home-wsl
+        ;
+    };
   };
 }

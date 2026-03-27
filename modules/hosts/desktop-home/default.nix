@@ -13,14 +13,22 @@ in
   flake = {
     nixosConfigurations.${hostname} = flakeConfig.flake.lib.mkSystems.linux username hostname;
     nixosConfigurations."iso-${hostname}" = flakeConfig.flake.lib.mkSystems.iso username hostname;
+    homeConfigurations."${username}@${hostname}" =
+      flakeConfig.flake.lib.mkHomes.home-linux username hostname;
+
     modules.nixos."hosts/${hostname}" = {
-      imports = (flakeConfig.flake.lib.loadNixosAndHmModuleForUser flakeConfig modules) ++ [
+      imports = (flakeConfig.flake.lib.loadNixosModules modules) ++ [
         ./_hardware-configuration.nix
       ];
 
       settings.wireguardConfigName = "wireguard-desktop-home";
     };
     modules.homeManager."hosts/${hostname}" = {
+      imports = flakeConfig.flake.lib.loadHmModules modules;
+
+      settings.wireguardConfigName = "wireguard-desktop-home";
+      settings.hasBluetooth = true;
+
       services.niri.outputs.DP-1 = {
         position = {
           x = 0;

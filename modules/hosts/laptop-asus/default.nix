@@ -14,8 +14,11 @@ in
   flake = {
     nixosConfigurations.${hostname} = flakeConfig.flake.lib.mkSystems.linux username hostname;
     nixosConfigurations."iso-${hostname}" = flakeConfig.flake.lib.mkSystems.iso username hostname;
+    homeConfigurations."${username}@${hostname}" =
+      flakeConfig.flake.lib.mkHomes.home-linux username hostname;
+
     modules.nixos."hosts/${hostname}" = {
-      imports = (flakeConfig.flake.lib.loadNixosAndHmModuleForUser flakeConfig modules) ++ [
+      imports = (flakeConfig.flake.lib.loadNixosModules modules) ++ [
         inputs.nixos-hardware.nixosModules.asus-fa507nv
         ./_hardware-configuration.nix
       ];
@@ -24,6 +27,12 @@ in
       settings.wireguardConfigName = "wireguard-laptop-asus";
     };
     modules.homeManager."hosts/${hostname}" = {
+      imports = flakeConfig.flake.lib.loadHmModules modules;
+
+      settings.isLaptop = true;
+      settings.wireguardConfigName = "wireguard-laptop-asus";
+      settings.hasBluetooth = true;
+
       services.niri.outputs.eDP-2 = {
         mode = "1920x1080@144.063";
         variableRefreshRate = "on-demand";

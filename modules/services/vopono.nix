@@ -34,12 +34,11 @@
   flake.modules.homeManager.vopono =
     {
       config,
-      osConfig,
       pkgs,
       ...
     }:
     let
-      wgName = osConfig.settings.wireguardConfigName;
+      wgName = config.settings.wireguardConfigName;
     in
     {
       programs.zsh.shellAliases = {

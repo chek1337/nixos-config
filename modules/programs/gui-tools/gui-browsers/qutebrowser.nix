@@ -20,7 +20,7 @@
           snix = "https://search.nixos.org/packages";
         };
         searchEngines = {
-          DEFAULT = "https://www.google.com/search?q={}";
+          DEFAULT = "https://duckduckgo.com/?q={}";
           yt = "https://www.youtube.com/results?search_query={}";
         };
         extraConfig = ''

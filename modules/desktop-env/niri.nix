@@ -1,12 +1,28 @@
-{ ... }:
+{ inputs, ... }:
 {
   flake.modules.nixos.niri =
     { config, pkgs, ... }:
     let
       username = config.settings.username;
+      niri-pinned = pkgs.niri.overrideAttrs (_old: {
+        src = inputs.niri-pinned;
+        cargoDeps = pkgs.rustPlatform.importCargoLock {
+          lockFile = "${inputs.niri-pinned}/Cargo.lock";
+          outputHashes = {
+            "smithay-0.7.0" = "sha256-D1thFIY9xzmAO903OUpvTMVSXw/o7MZVDfYUG4QJJzs=";
+            "smithay-drm-extras-0.1.0" = "sha256-D1thFIY9xzmAO903OUpvTMVSXw/o7MZVDfYUG4QJJzs=";
+          };
+        };
+        # Fork's niri.service uses `ExecStart=niri --session` (no /usr/bin prefix),
+        # so the upstream nixpkgs substituteInPlace would fail with --replace-fail.
+        postPatch = ''
+          patchShebangs resources/niri-session
+        '';
+      });
     in
     {
       programs.niri.enable = true;
+      programs.niri.package = niri-pinned;
       programs.xwayland.enable = true;
       environment.systemPackages = [ pkgs.xwayland-satellite ];
       security.polkit.enable = true;
@@ -254,6 +270,7 @@
             Mod+V       { toggle-window-floating; }
             Mod+Shift+V { switch-focus-between-floating-and-tiling; }
             Mod+W       { toggle-column-tabbed-display; }
+            Mod+P repeat=false { toggle-window-pinned; }
 
             Print      { spawn-sh "wayfreeze & PID=$!; sleep 0.1; grim -g \"$(slurp)\" - | wl-copy; kill $PID"; }
             Ctrl+Print { spawn-sh "wayfreeze & PID=$!; sleep 0.1; grim -g \"$(slurp)\" - | satty --filename - --early-exit --copy-command 'wl-copy'; kill $PID"; }
@@ -294,6 +311,7 @@
         window-rule {
             match app-id="mpv-mini"
             open-floating true
+            open-pinned true
             default-column-width { fixed 320; }
             default-window-height { fixed 180; }
             default-floating-position relative-to="top-right" x=8 y=8

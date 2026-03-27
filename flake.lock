@@ -433,6 +433,23 @@
         "type": "github"
       }
     },
+    "niri-pinned": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1773538252,
+        "narHash": "sha256-MU6uK9vtfsjqcG6qJff1qv8FGFJ4paF4CsesDbE+/Mg=",
+        "owner": "my4ng",
+        "repo": "niri",
+        "rev": "bfea5ee499684fd1eb651b00d08915827a359261",
+        "type": "github"
+      },
+      "original": {
+        "owner": "my4ng",
+        "repo": "niri",
+        "rev": "bfea5ee499684fd1eb651b00d08915827a359261",
+        "type": "github"
+      }
+    },
     "nixos-hardware": {
       "locked": {
         "lastModified": 1772460099,
@@ -691,6 +708,7 @@
         "kitty-session": "kitty-session",
         "kitty-zoxide-sessions": "kitty-zoxide-sessions",
         "lazyvim-nix": "lazyvim-nix",
+        "niri-pinned": "niri-pinned",
         "nixos-hardware": "nixos-hardware",
         "nixos-wsl": "nixos-wsl",
         "nixpkgs": "nixpkgs_2",

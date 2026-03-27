@@ -179,13 +179,13 @@
             Mod+Q repeat=false { close-window; }
 
             Mod+H { focus-column-left; }
-            Mod+J { focus-window-down; }
-            Mod+K { focus-window-up; }
+            Mod+U { focus-window-down; }
+            Mod+I { focus-window-up; }
             Mod+L { focus-column-right; }
 
             Mod+Ctrl+H { move-column-left; }
-            Mod+Ctrl+J { move-window-down; }
-            Mod+Ctrl+K { move-window-up; }
+            Mod+Ctrl+U { move-window-down; }
+            Mod+Ctrl+I { move-window-up; }
             Mod+Ctrl+L { move-column-right; }
 
             Mod+Home      { focus-column-first; }
@@ -194,21 +194,21 @@
             Mod+Ctrl+End  { move-column-to-last; }
 
             Mod+Shift+H { focus-monitor-left; }
-            Mod+Shift+J { focus-monitor-down; }
-            Mod+Shift+K { focus-monitor-up; }
+            Mod+Shift+U { focus-monitor-down; }
+            Mod+Shift+I { focus-monitor-up; }
             Mod+Shift+L { focus-monitor-right; }
 
             Mod+Shift+Ctrl+H { move-column-to-monitor-left; }
-            Mod+Shift+Ctrl+J { move-column-to-monitor-down; }
-            Mod+Shift+Ctrl+K { move-column-to-monitor-up; }
+            Mod+Shift+Ctrl+U { move-column-to-monitor-down; }
+            Mod+Shift+Ctrl+I { move-column-to-monitor-up; }
             Mod+Shift+Ctrl+L { move-column-to-monitor-right; }
 
-            Mod+U { focus-workspace-down; }
-            Mod+I { focus-workspace-up; }
-            Mod+Ctrl+U { move-column-to-workspace-down; }
-            Mod+Ctrl+I { move-column-to-workspace-up; }
-            Mod+Shift+U { move-workspace-down; }
-            Mod+Shift+I { move-workspace-up; }
+            Mod+J { focus-workspace-down; }
+            Mod+K { focus-workspace-up; }
+            Mod+Ctrl+J { move-column-to-workspace-down; }
+            Mod+Ctrl+K { move-column-to-workspace-up; }
+            Mod+Shift+J { move-workspace-down; }
+            Mod+Shift+K { move-workspace-up; }
 
             Mod+WheelScrollDown      cooldown-ms=150 { focus-workspace-down; }
             Mod+WheelScrollUp        cooldown-ms=150 { focus-workspace-up; }

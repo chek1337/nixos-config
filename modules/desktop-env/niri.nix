@@ -13,10 +13,10 @@
             "smithay-drm-extras-0.1.0" = "sha256-D1thFIY9xzmAO903OUpvTMVSXw/o7MZVDfYUG4QJJzs=";
           };
         };
-        # Fork's niri.service uses `ExecStart=niri --session` (no /usr/bin prefix),
-        # so the upstream nixpkgs substituteInPlace would fail with --replace-fail.
         postPatch = ''
           patchShebangs resources/niri-session
+          substituteInPlace resources/niri.service \
+            --replace-fail 'ExecStart=niri' "ExecStart=$out/bin/niri"
         '';
       });
     in

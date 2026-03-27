@@ -19,6 +19,10 @@
           gh = "https://github.com";
           snix = "https://search.nixos.org/packages";
         };
+        searchEngines = {
+          DEFAULT = "https://www.google.com/search?q={}";
+          yt = "https://www.youtube.com/results?search_query={}";
+        };
         extraConfig = ''
           config.unbind("q")
           config.bind("<Alt-q>", "record-macro")

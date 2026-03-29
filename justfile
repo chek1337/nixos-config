@@ -7,16 +7,18 @@ default:
 
 alias sw := switch
 alias swi := switch-interactive
+alias nsw := nixos-switch
+alias nswi := nixos-switch-interactive
+alias hm := home-manager-switch
+alias hmi := home-manager-switch-interactive
 alias t := test
 alias ti := test-interactive
 alias b := build
 alias bi := build-interactive
 alias bo := boot
 alias boi := boot-interactive
-alias hm := home-manager-switch
-alias hmi := home-manager-switch-interactive
-alias a := apply-all
-alias ai := apply-all-interactive
+alias nbo := nixos-boot
+alias nboi := nixos-boot-interactive
 alias up := update
 alias hw := gen-hardware
 alias hwi := gen-hardware-interactive
@@ -28,17 +30,28 @@ alias isoi := build-iso-interactive
 stage:
     git add .
 
-# Apply configuration for the current host
+# Apply NixOS + Home Manager configuration
 [group("deploy")]
 switch hostname: stage
     sudo nixos-rebuild switch --flake "{{flake}}#{{hostname}}"
+    nix run home-manager -- switch --flake "{{flake}}#{{username}}@{{hostname}}"
 
-# Interactively select host and apply
+# Apply NixOS + Home Manager interactively
 [group("deploy")]
 switch-interactive: stage
     just switch $(ls modules/hosts | fzf --prompt="switch > ")
 
-# Apply Home Manager configuration for a host
+# Apply NixOS configuration only
+[group("deploy")]
+nixos-switch hostname: stage
+    sudo nixos-rebuild switch --flake "{{flake}}#{{hostname}}"
+
+# Apply NixOS configuration only interactively
+[group("deploy")]
+nixos-switch-interactive: stage
+    just nixos-switch $(ls modules/hosts | fzf --prompt="nixos-switch > ")
+
+# Apply Home Manager configuration only
 [group("deploy")]
 home-manager-switch hostname: stage
     nix run home-manager -- switch --flake "{{flake}}#{{username}}@{{hostname}}"
@@ -48,16 +61,26 @@ home-manager-switch hostname: stage
 home-manager-switch-interactive: stage
     just home-manager-switch $(ls modules/hosts | fzf --prompt="hm switch > ")
 
-# Apply both NixOS and Home Manager configuration
+# Apply NixOS on next boot + Home Manager now
 [group("deploy")]
-apply-all hostname: stage
-    sudo nixos-rebuild switch --flake "{{flake}}#{{hostname}}"
+boot hostname: stage
+    sudo nixos-rebuild boot --flake "{{flake}}#{{hostname}}"
     nix run home-manager -- switch --flake "{{flake}}#{{username}}@{{hostname}}"
 
-# Apply both interactively
+# Apply NixOS on next boot + Home Manager now interactively
 [group("deploy")]
-apply-all-interactive: stage
-    just apply-all $(ls modules/hosts | fzf --prompt="apply all > ")
+boot-interactive: stage
+    just boot $(ls modules/hosts | fzf --prompt="boot > ")
+
+# Apply NixOS on next boot only
+[group("deploy")]
+nixos-boot hostname: stage
+    sudo nixos-rebuild boot --flake "{{flake}}#{{hostname}}"
+
+# Apply NixOS on next boot only interactively
+[group("deploy")]
+nixos-boot-interactive: stage
+    just nixos-boot $(ls modules/hosts | fzf --prompt="nixos-boot > ")
 
 # Test configuration without applying
 [group("deploy")]
@@ -78,16 +101,6 @@ build hostname: stage
 [group("deploy")]
 build-interactive: stage
     just build $(ls modules/hosts | fzf --prompt="build > ")
-
-# Apply configuration on next boot
-[group("deploy")]
-boot hostname: stage
-    sudo nixos-rebuild boot --flake "{{flake}}#{{hostname}}"
-
-# Apply configuration on next boot interactively
-[group("deploy")]
-boot-interactive: stage
-    just boot $(ls modules/hosts | fzf --prompt="boot > ")
 
 # Generate hardware config for current machine
 [group("utils")]

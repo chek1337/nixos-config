@@ -1,1 +1,1 @@
-update flake
+refactor: unify justfile command naming for NixOS and Home Manager

@@ -22,6 +22,9 @@ let
         tldr
         python3
         jq
+        dua
+        pciutils
+        toybox
       ];
     };
 in

@@ -23,6 +23,8 @@ in
 
       environment.systemPackages = with pkgs; [
         gamescope
+        umu-launcher
+        innoextract
       ];
     };
 

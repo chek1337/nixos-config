@@ -11,6 +11,7 @@
         rml = "trash-list";
         rme = "trash-empty";
         rmr = "trash-restore";
+        rms = "du -sh ~/.local/share/Trash 2>/dev/null || echo 'Trash is empty'";
       };
     };
 }

@@ -1,1 +1,1 @@
-refactor: unify justfile command naming for NixOS and Home Manager
+docs: update README to match current project state

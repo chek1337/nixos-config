@@ -36,15 +36,15 @@ My personal NixOS configuration using the **dendritic** modular pattern with [fl
 │   │   ├── gui-tools/        # discord, telegram, spicetify, wireshark, mpv, zathura...
 │   │   │   ├── gui-browsers/ # firefox, zen, librewolf, qutebrowser, yandex-browser
 │   │   │   └── gui-code-editors/ # vscode, sublime
-│   │   ├── gaming/           # steam
+│   │   ├── gaming/           # steam, wine, bottles, lutris, mangohud
 │   │   ├── mail/             # thunderbird, aerc
 │   │   └── terminals/        # alacritty, kitty, wezterm
-│   ├── services/             # docker, wireguard, vopono, networking, virtualization, pttkey, zmkbatx...
+│   ├── services/             # docker, wireguard, wireproxy, vopono, networking, virtualization, pttkey, push2talk, throne, zmkbatx
 │   ├── hardware/             # bluetooth, power, asus-laptop-hardware, usb-automount, wsl-nvidia
 │   ├── shells/               # zsh, nu, direnv
 │   ├── desktop-env/          # niri, noctalia, wayland-common
 │   └── themes/               # nord
-├── nvim/                     # Neovim configuration (30+ plugins)
+├── nvim/                     # Neovim configuration (40+ plugins)
 └── secrets/                  # Encrypted secrets (sops)
 ```
 
@@ -71,63 +71,53 @@ Profiles aggregate related modules to simplify host configs:
 
 ## Installation
 
-### Prerequisites
-
-- [NixOS](https://nixos.org/download/) installed
-- [Nix flakes](https://wiki.nixos.org/wiki/Flakes) enabled
-- [just](https://github.com/casey/just) command runner
-
-### Clone
-
 ```bash
-git clone https://github.com/chek1337/nixos-config.git ~/nixos_config
-cd ~/nixos_config
-```
+# Prerequisites: NixOS installed with flakes enabled
+# https://nixos.org/download/
+# https://wiki.nixos.org/wiki/Flakes
 
-### Enter dev shell
+# Clone the repository
+git clone https://github.com/chek1337/nixos-config.git ~/nixos-config
+cd ~/nixos-config
 
-```bash
+# Enter a temporary shell with required tools
 nix-shell -p git just fzf
-```
 
-### Generate hardware config
-
-```bash
+# Generate hardware config for your machine
 just hw <hostname>
-```
 
-### Apply configuration
+# Apply NixOS configuration on next boot + Home Manager now
+just bo <hostname>
 
-```bash
-# Switch to new configuration
-just sw <hostname>
+# Reboot to apply NixOS changes
+reboot
 
-# Or interactively select host
-just swi
-```
-
-### Setup sops secrets
-
-```bash
+# (Optional) Setup sops secrets for encrypted configs
 mkdir -p ~/.config/sops/age
 nix-shell -p ssh-to-age --run \
   "ssh-to-age -private-key < ~/.ssh/<your-key>" > ~/.config/sops/age/keys.txt
 chmod 600 ~/.config/sops/age/keys.txt
 ```
 
-### Other commands
+### Commands
 
 ```bash
 just              # Show all available commands
+just sw <host>    # Apply NixOS + Home Manager configuration
+just nsw <host>   # Apply NixOS configuration only
+just hm <host>    # Apply Home Manager configuration only
 just t <host>     # Test without applying
 just b <host>     # Build without applying
-just bo <host>    # Apply on next boot
+just bo <host>    # Apply NixOS on next boot + Home Manager now
+just nbo <host>   # Apply NixOS on next boot only
 just up           # Update all flake inputs
 just gc           # Garbage collect old generations
 just fmt          # Format all nix files
 just check        # nix flake check
 just iso <host>   # Build offline installation ISO
 ```
+
+All commands have interactive variants via fzf (`swi`, `nswi`, `hmi`, `ti`, `bi`, `boi`, `nboi`, `isoi`, `hwi`).
 
 ## Offline Installation (ISO)
 

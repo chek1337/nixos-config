@@ -3,6 +3,7 @@ return {
   opts = {
     spec = {
       { "<leader>dp", group = "print" },
+      { "<leader>W", group = "workspace" },
     },
   },
 }

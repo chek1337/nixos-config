@@ -292,6 +292,7 @@
         }
 
         spawn-at-startup "xwayland-satellite"
+        spawn-at-startup "noctalia-shell"
 
         window-rule {
             match app-id=r#"firefox$"# title="^Picture-in-Picture$"

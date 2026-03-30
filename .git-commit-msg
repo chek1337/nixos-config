@@ -1,1 +1,1 @@
-refactor: remove bottles nixpkgs module in favor of flatpak
+feat: add flatpak module with nix-flatpak for declarative package management

@@ -1,1 +1,1 @@
-refactor: separate bottles config from flatpak service module
+refactor: consolidate flatpak config into nixos module

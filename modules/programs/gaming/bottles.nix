@@ -3,6 +3,8 @@
   flake.modules.nixos.bottles = {
     services.flatpak.packages = [
       "com.usebottles.bottles"
+      "org.freedesktop.Platform.VulkanLayer.MangoHud"
+      "org.freedesktop.Platform.VulkanLayer.gamescope"
     ];
   };
 

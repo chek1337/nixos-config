@@ -1,1 +1,1 @@
-chore: update laptop hardware configuration with new disk UUIDs and kernel modules
+fix: enable supergfxd daemon for ASUS laptop GPU switching

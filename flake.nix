@@ -90,6 +90,7 @@
     nixpkgs-less-685 = {
       url = "github:NixOS/nixpkgs/a1bab9e494f5f4939442a57a58d0449a109593fe";
     };
+    nix-cachyos-kernel.url = "github:xddxdd/nix-cachyos-kernel/release";
     treefmt-nix = {
       url = "github:numtide/treefmt-nix";
       inputs.nixpkgs.follows = "nixpkgs";

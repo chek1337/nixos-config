@@ -1,1 +1,1 @@
-feat: add MangoHud and gamescope as Flatpak packages for Bottles
+fix: specify exact Flatpak branch for MangoHud and gamescope extensions

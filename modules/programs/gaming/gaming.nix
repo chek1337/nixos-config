@@ -21,6 +21,12 @@ in
 
       programs.gamemode.enable = true;
 
+      zramSwap = {
+        enable = true;
+        algorithm = "zstd";
+        memoryPercent = 100;
+      };
+
       hardware.graphics.enable = true;
       hardware.graphics.enable32Bit = true;
 

@@ -1,1 +1,1 @@
-fix: enable supergfxd daemon for ASUS laptop GPU switching
+feat: add zram swap to prevent OOM kills in games

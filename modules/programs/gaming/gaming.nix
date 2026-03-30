@@ -5,11 +5,11 @@ let
     "steam"
     "wine"
     "flatpak"
+    "bottles"
   ];
   hmModules = [
     "lutris"
     "mangohud"
-    "flatpak"
     "bottles"
   ];
 in

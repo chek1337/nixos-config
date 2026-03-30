@@ -1,1 +1,1 @@
-refactor: consolidate flatpak config into nixos module
+feat: add bottles-vpn alias and move bottles to nixos modules

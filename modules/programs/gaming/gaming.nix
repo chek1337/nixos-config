@@ -4,7 +4,7 @@ let
   modules = [
     "steam"
     "wine"
-    "bottles"
+    "flatpak"
   ];
   hmModules = [
     "lutris"

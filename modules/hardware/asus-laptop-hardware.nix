@@ -48,6 +48,8 @@
         };
       };
 
+      services.supergfxd.enable = true;
+
       environment.systemPackages = [
         pkgs.asusctl
         pkgs.supergfxctl

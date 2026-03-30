@@ -9,6 +9,8 @@ let
   hmModules = [
     "lutris"
     "mangohud"
+    "flatpak"
+    "bottles"
   ];
 in
 {

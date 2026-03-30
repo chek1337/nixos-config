@@ -1,1 +1,1 @@
-feat: add bottles installation via flatpak in gaming module
+refactor: separate bottles config from flatpak service module

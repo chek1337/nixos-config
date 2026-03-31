@@ -1,1 +1,1 @@
-fix: tune kernel VM params to prevent OOM kills during gaming
+fix: remove unnecessary kernel modules from laptop hardware config

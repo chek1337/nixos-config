@@ -1,1 +1,1 @@
-fix: restore desktop-home swap partition config
+fix: replace auto-generated yazi shell wrapper to fix mktemp failure

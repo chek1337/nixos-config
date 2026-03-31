@@ -9,8 +9,7 @@
     {
       programs.yazi = {
         enable = true;
-        enableZshIntegration = true;
-        shellWrapperName = "y";
+        enableZshIntegration = false;
 
         keymap = {
           mgr.prepend_keymap = [
@@ -146,6 +145,16 @@
           };
         };
       };
+
+      programs.zsh.initContent = ''
+        function y() {
+          local tmp="$(mktemp /tmp/yazi-cwd-XXXXXX)" cwd
+          command yazi "$@" --cwd-file="$tmp"
+          cwd="$(<"$tmp")"
+          [ -n "$cwd" ] && [ "$cwd" != "$PWD" ] && builtin cd -- "$cwd"
+          rm -f -- "$tmp"
+        }
+      '';
 
       xdg.desktopEntries.yazi = {
         name = "Yazi";

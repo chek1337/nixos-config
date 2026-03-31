@@ -25,6 +25,13 @@ in
 
       settings.isLaptop = true;
       settings.wireguardConfigName = "wireguard-laptop-asus";
+
+      swapDevices = [
+        {
+          device = "/var/lib/swapfile";
+          size = 16 * 1024; # 16 GiB
+        }
+      ];
     };
     modules.homeManager."hosts/${hostname}" = {
       imports = flakeConfig.flake.lib.loadHmModules modules;

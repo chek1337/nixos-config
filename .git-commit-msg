@@ -1,1 +1,1 @@
-fix: specify exact Flatpak branch for MangoHud and gamescope extensions
+fix: switch nixos-hardware back to upstream (PR #1779 merged)

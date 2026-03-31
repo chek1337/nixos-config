@@ -1,1 +1,1 @@
-fix: switch nixos-hardware back to upstream (PR #1779 merged)
+fix: tune kernel VM params to prevent OOM kills during gaming

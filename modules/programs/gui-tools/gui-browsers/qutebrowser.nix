@@ -10,7 +10,8 @@
           gmap = "https://www.google.com/maps";
           yamap = "https://yandex.com/maps/65/novosibirsk/";
           dmap = "https://2gis.ru/novosibirsk";
-          translate = "https://translate.google.com";
+          gtrans = "https://translate.google.com";
+          yatrans = "https://translate.yandex.com";
           grok = "https://grok.com";
           deepseek = "https://chat.deepseek.com";
           gpt = "https://chatgpt.com";
@@ -21,6 +22,8 @@
         };
         searchEngines = {
           DEFAULT = "https://duckduckgo.com/?q={}";
+          g = "https://www.google.com/search?q={}";
+          ya = "https://yandex.ru/search/?text={}";
           yt = "https://www.youtube.com/results?search_query={}";
         };
         extraConfig = ''

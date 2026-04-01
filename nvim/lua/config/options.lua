@@ -4,6 +4,7 @@
 
 vim.opt.cursorline = false
 vim.o.scrolloff = 2
+vim.opt.autoread = true
 
 vim.g.lazyvim_check_order = false
 

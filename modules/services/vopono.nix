@@ -61,6 +61,17 @@
           ];
           terminal = true;
         };
+        telegram-desktop-vpn = {
+          name = "Telegram (VPN)";
+          exec = "${pkgs.vopono}/bin/vopono exec --protocol wireguard --custom /run/secrets/${wgName} ${pkgs.telegram-desktop}/bin/Telegram -- %u";
+          icon = "telegram";
+          comment = "Telegram Desktop via Vopono WireGuard";
+          categories = [
+            "Network"
+            "InstantMessaging"
+          ];
+          terminal = true;
+        };
       };
     };
 }

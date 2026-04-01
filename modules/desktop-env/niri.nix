@@ -44,6 +44,18 @@
     }:
     let
       cfg = config.services.niri;
+      wgSecret = "/run/secrets/${config.settings.wireguardConfigName}";
+      vopono = "${pkgs.vopono}/bin/vopono";
+      voponoVpnApps = pkgs.writeShellScript "vopono-vpn-apps" ''
+        for i in $(seq 1 30); do
+          [ -f ${wgSecret} ] && ${pkgs.systemd}/bin/systemctl is-active --quiet vopono.service && break
+          sleep 1
+        done
+        ${vopono} exec --protocol wireguard --custom ${wgSecret} ${pkgs.qutebrowser}/bin/qutebrowser &
+        sleep 3
+        ${vopono} exec --protocol wireguard --custom ${wgSecret} ${pkgs.telegram-desktop}/bin/Telegram &
+        wait
+      '';
 
       # niri-float-sticky = pkgs.buildGoModule {
       #   pname = "niri-float-sticky";
@@ -291,12 +303,49 @@
             DISPLAY ":0"
         }
 
+        workspace "1"
+        workspace "2"
+        workspace "3"
+        workspace "4"
+        workspace "5"
+        workspace "6"
+        workspace "7"
+        workspace "8"
+        workspace "9"
+
         spawn-at-startup "xwayland-satellite"
         spawn-at-startup "noctalia-shell"
+        spawn-at-startup "${voponoVpnApps}"
+        spawn-at-startup "thunderbird"
+        spawn-at-startup "spotify"
 
         window-rule {
             match app-id=r#"firefox$"# title="^Picture-in-Picture$"
             open-floating true
+        }
+
+        window-rule {
+            match app-id="qutebrowser" at-startup=true
+            open-on-workspace "1"
+            open-maximized true
+        }
+
+        window-rule {
+            match app-id="org.telegram.desktop" at-startup=true
+            open-on-workspace "4"
+            open-maximized true
+        }
+
+        window-rule {
+            match app-id="thunderbird" at-startup=true
+            open-on-workspace "5"
+            open-maximized true
+        }
+
+        window-rule {
+            match app-id="spotify" at-startup=true
+            open-on-workspace "6"
+            open-maximized true
         }
 
         window-rule {

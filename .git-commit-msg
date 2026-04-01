@@ -1,1 +1,1 @@
-fix: replace auto-generated yazi shell wrapper to fix mktemp failure
+feat: add protonup-qt for managing Proton versions

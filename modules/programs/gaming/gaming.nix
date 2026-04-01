@@ -11,6 +11,7 @@ let
     "lutris"
     "mangohud"
     "bottles"
+    "protonup"
   ];
 in
 {

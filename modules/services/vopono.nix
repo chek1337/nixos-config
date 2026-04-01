@@ -11,6 +11,18 @@
         format = "binary";
       };
 
+      security.sudo.extraRules = [
+        {
+          users = [ config.settings.username ];
+          commands = [
+            {
+              command = "${pkgs.vopono}/bin/vopono";
+              options = [ "NOPASSWD" "SETENV" ];
+            }
+          ];
+        }
+      ];
+
       environment.systemPackages = with pkgs; [
         vopono
         wireguard-tools
@@ -59,7 +71,7 @@
             "Network"
             "WebBrowser"
           ];
-          terminal = true;
+          terminal = false;
         };
         telegram-desktop-vpn = {
           name = "Telegram (VPN)";
@@ -70,7 +82,7 @@
             "Network"
             "InstantMessaging"
           ];
-          terminal = true;
+          terminal = false;
         };
       };
     };

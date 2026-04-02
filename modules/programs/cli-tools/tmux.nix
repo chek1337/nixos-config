@@ -127,6 +127,13 @@
             bind | split-window -h
             bind - split-window -v
 
+            # Vi-like copy mode
+            bind -T copy-mode-vi v   send -X begin-selection
+            bind -T copy-mode-vi V   send -X select-line
+            bind -T copy-mode-vi C-v send -X rectangle-toggle
+            bind -T copy-mode-vi y   send -X copy-pipe-and-cancel "wl-copy"
+            bind -T copy-mode-vi Y   send -X copy-end-of-line \; run "tmux save-buffer - | wl-copy"
+
             # Не выходить из copy-mode при отпускании мыши после выделения
             unbind -T copy-mode-vi MouseDragEnd1Pane
 

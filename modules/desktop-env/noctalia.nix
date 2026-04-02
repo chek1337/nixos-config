@@ -10,6 +10,8 @@
     let
       isLaptop = config.settings.isLaptop;
       hasBluetooth = config.settings.hasBluetooth;
+      wgName = config.settings.wireguardConfigName;
+      voponoExec = "${pkgs.vopono}/bin/vopono exec --protocol wireguard --custom /run/secrets/${wgName}";
     in
     {
       imports = [ inputs.noctalia.homeModules.default ];
@@ -27,6 +29,36 @@
       programs.noctalia-shell = {
         enable = true;
         systemd.enable = false;
+        plugins = {
+          sources = [
+            {
+              enabled = true;
+              name = "Noctalia Plugins";
+              url = "https://github.com/noctalia-dev/noctalia-plugins";
+            }
+          ];
+          states = {
+            custom-commands = {
+              enabled = true;
+              sourceUrl = "https://github.com/noctalia-dev/noctalia-plugins";
+            };
+          };
+          version = 2;
+        };
+        pluginSettings.custom-commands = {
+          commands = [
+            {
+              name = "qutebrowser (VPN)";
+              command = "${voponoExec} ${pkgs.qutebrowser}/bin/qutebrowser";
+              icon = "world-www";
+            }
+            {
+              name = "Telegram (VPN)";
+              command = "${voponoExec} ${pkgs.telegram-desktop}/bin/Telegram";
+              icon = "brand-telegram";
+            }
+          ];
+        };
         settings = {
           general = {
             language = "ru";

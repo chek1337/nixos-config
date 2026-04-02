@@ -184,7 +184,8 @@
             Ctrl+Shift+2 { switch-layout "1"; }
 
             // Noctalia
-            Mod+Space { spawn-sh "noctalia-shell ipc call launcher toggle"; }
+            Mod+Space       { spawn-sh "noctalia-shell ipc call launcher toggle"; }
+            Mod+Alt+Space { spawn-sh "noctalia-shell ipc call plugin:custom-commands toggle"; }
             Mod+S     { spawn-sh "noctalia-shell ipc call controlCenter toggle"; }
             Mod+Comma { spawn-sh "noctalia-shell ipc call settings toggle"; }
 

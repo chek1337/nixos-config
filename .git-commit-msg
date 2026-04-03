@@ -1,1 +1,1 @@
-fix: use hints.uppercase instead of uppercase chars
+feat: mpv — hide osd-bar on seek, bind UP/DOWN to volume

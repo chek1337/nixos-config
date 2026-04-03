@@ -36,6 +36,7 @@
         ];
         config = {
           osc = false;
+          osd-bar = false;
           load-select = true;
           load-context-menu = true;
         };
@@ -45,6 +46,8 @@
           };
         };
         bindings = {
+          "UP" = "add volume 5";
+          "DOWN" = "add volume -5";
           "Shift+LEFT" = "seek -0.1 exact";
           "Shift+RIGHT" = "seek 0.1 exact";
           "Ctrl+f" = "script-binding quality_menu/video_formats_toggle";

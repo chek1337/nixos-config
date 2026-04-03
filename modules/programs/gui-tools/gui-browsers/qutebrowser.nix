@@ -7,6 +7,7 @@
         quickmarks = {
           vk = "https://vk.com";
           yt = "https://youtube.com";
+          yts = "https://www.youtube.com/feed/subscriptions";
           gmap = "https://www.google.com/maps";
           yamap = "https://yandex.com/maps/65/novosibirsk/";
           dmap = "https://2gis.ru/novosibirsk";

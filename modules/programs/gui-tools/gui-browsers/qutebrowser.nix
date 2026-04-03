@@ -53,7 +53,7 @@
           config.bind(",a", "spawn umpv-mini {url}")
           config.bind(",A", "hint links spawn umpv-mini {hint-url}")
           config.bind(";A", "hint --rapid links spawn umpv-mini {hint-url}")
-          c.hints.chars = "ASDFGHJKLQWERTYUIOP"
+          c.hints.uppercase = True
         '';
       };
     };

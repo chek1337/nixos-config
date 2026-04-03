@@ -4,13 +4,27 @@
     {
       home.packages = [ pkgs.imv ];
 
+      xdg.desktopEntries.imv-dir = {
+        name = "imv-dir";
+        exec = "imv-dir %f";
+        mimeType = [
+          "image/png"
+          "image/jpeg"
+          "image/gif"
+          "image/webp"
+          "image/bmp"
+          "image/tiff"
+        ];
+        noDisplay = true;
+      };
+
       xdg.mimeApps.defaultApplications = {
-        "image/png" = "imv.desktop";
-        "image/jpeg" = "imv.desktop";
-        "image/gif" = "imv.desktop";
-        "image/webp" = "imv.desktop";
-        "image/bmp" = "imv.desktop";
-        "image/tiff" = "imv.desktop";
+        "image/png" = "imv-dir.desktop";
+        "image/jpeg" = "imv-dir.desktop";
+        "image/gif" = "imv-dir.desktop";
+        "image/webp" = "imv-dir.desktop";
+        "image/bmp" = "imv-dir.desktop";
+        "image/tiff" = "imv-dir.desktop";
       };
     };
 }

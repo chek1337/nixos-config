@@ -59,6 +59,7 @@
 
       programs.zsh.shellAliases = {
         waydroid-apps = ''
+          (
           printf "%-8s %-30s %s\n" "VISIBLE" "NAME" "PACKAGE"
           printf "%-8s %-30s %s\n" "-------" "----" "-------"
           for f in ~/.local/share/applications/waydroid.*.desktop; do
@@ -68,7 +69,7 @@
             [ "''${nd}" = "true" ] && visible="no" || visible="yes"
             printf "%-8s %-30s %s\n" "$visible" "$name" "$pkg"
           done
-        '';
+          )'';
       };
     };
 }

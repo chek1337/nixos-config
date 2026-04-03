@@ -1,1 +1,1 @@
-feat: waydroid — filter launcher apps, add waydroid-apps alias
+fix: waydroid-apps — run in subshell to avoid polluting $name

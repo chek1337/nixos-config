@@ -1,8 +1,8 @@
-{ ... }:
+{ inputs, ... }:
 {
   flake.modules.homeManager.claude-code =
     { pkgs, ... }:
     {
-      home.packages = [ pkgs.claude-code ];
+      home.packages = [ inputs.claude-code-nix.packages.${pkgs.system}.claude-code ];
     };
 }

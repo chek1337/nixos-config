@@ -58,10 +58,10 @@
       '';
 
       programs.zsh.shellAliases = {
-        wd-up = "sudo systemctl start waydroid-container.service";
-        wd-down = "sudo systemctl stop waydroid-container.service";
-        wd-status = "systemctl status waydroid-container.service";
-        wd-restart = "sudo systemctl restart waydroid-container.service";
+        waydroid-up = "sudo systemctl start waydroid-container.service";
+        waydroid-down = "sudo systemctl stop waydroid-container.service";
+        waydroid-status = "systemctl status waydroid-container.service";
+        waydroid-restart = "sudo systemctl restart waydroid-container.service";
 
         waydroid-apps = ''
           (

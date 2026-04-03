@@ -115,20 +115,20 @@
         }
 
         layout {
-            gaps 8
+            gaps 0
 
             default-column-width {
                 proportion 0.5
             }
 
             focus-ring {
-                width 2
-                active-color "#81A1C1"
-                inactive-color "#4C566A"
+                off
             }
 
             border {
-                off
+                width 2
+                active-color "#81A1C1"
+                inactive-color "#4C566A"
             }
         }
 
@@ -349,10 +349,6 @@
             open-maximized true
         }
 
-        window-rule {
-            geometry-corner-radius 4
-            clip-to-geometry true
-        }
 
         window-rule {
             match app-id="satty"

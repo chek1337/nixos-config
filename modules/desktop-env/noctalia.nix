@@ -57,6 +57,11 @@
               command = "${voponoExec} ${pkgs.telegram-desktop}/bin/Telegram";
               icon = "brand-telegram";
             }
+            {
+              name = "Yandex Browser (VPN)";
+              command = "${voponoExec} yandex-browser-stable";
+              icon = "brand-yandex";
+            }
           ];
         };
         settings = {

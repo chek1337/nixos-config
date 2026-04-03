@@ -4,6 +4,7 @@ let
   modules = [
     "workstation"
     "gaming"
+    "waydroid"
   ];
 in
 {

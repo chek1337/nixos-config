@@ -58,6 +58,11 @@
       '';
 
       programs.zsh.shellAliases = {
+        wd-up = "sudo systemctl start waydroid-container.service";
+        wd-down = "sudo systemctl stop waydroid-container.service";
+        wd-status = "systemctl status waydroid-container.service";
+        wd-restart = "sudo systemctl restart waydroid-container.service";
+
         waydroid-apps = ''
           (
           printf "%-8s %-30s %s\n" "VISIBLE" "NAME" "PACKAGE"

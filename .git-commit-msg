@@ -1,1 +1,1 @@
-fix: waydroid-apps — run in subshell to avoid polluting $name
+feat: waydroid — add wd-up/down/status/restart aliases

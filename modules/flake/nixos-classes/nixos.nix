@@ -38,6 +38,7 @@
         extraGroups = [ "wheel" ];
       };
       time.timeZone = config.settings.timeZone;
+      i18n.defaultLocale = "ru_RU.UTF-8";
       programs.nix-ld.enable = true;
     };
 }

@@ -33,6 +33,7 @@ in
     {
       imports = [ inputs.stylix.nixosModules.stylix ];
       stylix = stylixBase { inherit pkgs; };
+      fonts.packages = [ pkgs.noto-fonts-cjk-sans ];
     };
 
   flake.modules.homeManager.nord =

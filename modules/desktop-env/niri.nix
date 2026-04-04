@@ -140,27 +140,27 @@
 
         animations {
             window-open {
-                duration-ms 150
+                duration-ms 75
                 curve "ease-out-expo"
             }
             window-close {
-                duration-ms 150
+                duration-ms 75
                 curve "ease-out-expo"
             }
             window-movement {
-                duration-ms 150
+                duration-ms 75
                 curve "ease-out-expo"
             }
             window-resize {
-                duration-ms 150
+                duration-ms 75
                 curve "ease-out-expo"
             }
             workspace-switch {
-                duration-ms 200
+                duration-ms 100
                 curve "ease-out-expo"
             }
             horizontal-view-movement {
-                duration-ms 200
+                duration-ms 100
                 curve "ease-out-expo"
             }
         }

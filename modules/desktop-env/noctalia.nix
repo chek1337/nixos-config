@@ -83,7 +83,7 @@
           bar = {
             outerCorners = false;
             frameRadius = 0;
-            showCapsule = false;
+            showCapsule = true;
             widgetSpacing = 2;
             contentPadding = 0;
             hideOnOverview = true;

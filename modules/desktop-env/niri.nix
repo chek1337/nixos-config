@@ -48,7 +48,7 @@ in
     let
       cfg = config.services.niri;
       c = config.lib.stylix.colors;
-      activeBorder = darken "#${c.base00-hex}" 0.07;
+      activeBorder = "#${c.base0D-hex}";
       inactiveBorder = "#${c.base00-hex}";
       backdrop = darken "#${c.base00-hex}" 0.15;
       wgSecret = "/run/secrets/${config.settings.wireguardConfigName}";
@@ -122,7 +122,7 @@ in
         }
 
         layout {
-            gaps 0
+            gaps 6
 
             default-column-width {
                 proportion 0.5

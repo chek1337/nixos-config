@@ -3,6 +3,7 @@ let
   schemes = {
     nord = import ./_schemes/nord.nix;
     catppuccin-mocha = import ./_schemes/catppuccin-mocha.nix;
+    gruvbox-dark-hard = import ./_schemes/gruvbox-dark-hard.nix;
   };
 
   getScheme =

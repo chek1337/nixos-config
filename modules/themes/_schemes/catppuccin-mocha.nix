@@ -1,6 +1,6 @@
 { self, pkgs }:
 {
-  image = self + "/assets/nord2.png"; # TODO: заменить на catppuccin-обои
+  image = self + "/assets/catppuccin-mocha.jpg";
   icons = {
     package = pkgs.catppuccin-papirus-folders;
     dark = "Papirus-Dark";

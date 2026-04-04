@@ -2,7 +2,7 @@
 let
   inherit (config.flake.lib) nixosMod hmMod;
   modules = [
-    "theme"
+    "themes"
     "zsh"
     "cli-tools"
     "dev-tools"

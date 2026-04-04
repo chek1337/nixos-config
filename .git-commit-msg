@@ -1,1 +1,1 @@
-feat(themes): add gruvbox-dark-hard theme with wallpapers
+refactor(hosts): deduplicate shared settings via sharedSettings let-binding

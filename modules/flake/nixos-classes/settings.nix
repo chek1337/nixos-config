@@ -51,6 +51,12 @@
           description = "Whether this is a laptop (portable) host";
         };
 
+        hasBluetooth = lib.mkOption {
+          type = lib.types.bool;
+          default = false;
+          description = "Whether this host has bluetooth";
+        };
+
         timeZone = lib.mkOption {
           type = lib.types.str;
           default = "Asia/Novosibirsk";

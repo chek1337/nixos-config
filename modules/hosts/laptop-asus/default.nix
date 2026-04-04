@@ -9,6 +9,12 @@ let
     "networking"
     "asus-laptop-hardware"
   ];
+  sharedSettings = {
+    isLaptop = true;
+    hasBluetooth = true;
+    wireguardConfigName = "wireguard-laptop-asus";
+    colorScheme = "nord";
+  };
 in
 {
   flake = {
@@ -23,9 +29,7 @@ in
         ./_hardware-configuration.nix
       ];
 
-      settings.isLaptop = true;
-      settings.wireguardConfigName = "wireguard-laptop-asus";
-      settings.colorScheme = "nord";
+      settings = sharedSettings;
 
       swapDevices = [
         {
@@ -37,10 +41,7 @@ in
     modules.homeManager."hosts/${hostname}" = {
       imports = flakeConfig.flake.lib.loadHmModules modules;
 
-      settings.isLaptop = true;
-      settings.wireguardConfigName = "wireguard-laptop-asus";
-      settings.colorScheme = "nord";
-      settings.hasBluetooth = true;
+      settings = sharedSettings;
 
       services.niri.outputs.eDP-2 = {
         mode = "1920x1080@144.063";

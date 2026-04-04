@@ -1,7 +1,12 @@
 { inputs, ... }:
 {
   flake.modules.homeManager.ks =
-    { pkgs, lib, config, ... }:
+    {
+      pkgs,
+      lib,
+      config,
+      ...
+    }:
     let
       c = config.lib.stylix.colors;
       kitty-session = pkgs.buildGoModule {

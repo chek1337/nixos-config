@@ -17,7 +17,10 @@
           commands = [
             {
               command = "${pkgs.vopono}/bin/vopono";
-              options = [ "NOPASSWD" "SETENV" ];
+              options = [
+                "NOPASSWD"
+                "SETENV"
+              ];
             }
           ];
         }

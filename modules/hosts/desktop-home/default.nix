@@ -8,6 +8,11 @@ let
     "homestation"
     "networking"
   ];
+  sharedSettings = {
+    hasBluetooth = true;
+    wireguardConfigName = "wireguard-desktop-home";
+    colorScheme = "nord";
+  };
 in
 {
   flake = {
@@ -21,15 +26,12 @@ in
         ./_hardware-configuration.nix
       ];
 
-      settings.wireguardConfigName = "wireguard-desktop-home";
-      settings.colorScheme = "nord";
+      settings = sharedSettings;
     };
     modules.homeManager."hosts/${hostname}" = {
       imports = flakeConfig.flake.lib.loadHmModules modules;
 
-      settings.wireguardConfigName = "wireguard-desktop-home";
-      settings.colorScheme = "nord";
-      settings.hasBluetooth = true;
+      settings = sharedSettings;
 
       services.niri.outputs.DP-1 = {
         position = {

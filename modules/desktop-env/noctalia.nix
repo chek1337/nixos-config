@@ -82,10 +82,10 @@
             widgets = {
               left = [
                 {
-                  id = "Clock";
+                  id = "SystemMonitor";
                 }
                 {
-                  id = "SystemMonitor";
+                  id = "Clock";
                 }
                 {
                   id = "MediaMini";

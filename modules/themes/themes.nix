@@ -65,7 +65,7 @@ in
           inherit (scheme.icons) package dark light;
         };
         targets = {
-          qt.enable = false;
+          qt.enable = true;
           firefox.profileNames = [ "default" ]; # not working
           librewolf = {
             # not working

@@ -14,6 +14,12 @@
         "gruvbox-dark-medium" = "Gruvbox";
       };
       noctaliaScheme = noctaliaSchemeMap.${config.settings.colorScheme} or "Nord";
+      iconThemeMap = {
+        "nord" = "Nordzy-dark";
+        "catppuccin-mocha" = "Papirus-Dark";
+        "gruvbox-dark-hard" = "Gruvbox-Plus-Dark";
+      };
+      iconTheme = iconThemeMap.${config.settings.colorScheme} or "Nordzy-dark";
       isLaptop = config.settings.isLaptop;
       hasBluetooth = config.settings.hasBluetooth;
       wgName = config.settings.wireguardConfigName;
@@ -24,7 +30,7 @@
 
       home.sessionVariables = {
         QT_QPA_PLATFORMTHEME = lib.mkForce "gtk3";
-        QS_ICON_THEME = "Nordzy-dark";
+        QS_ICON_THEME = iconTheme;
       };
 
       home.packages = with pkgs; [

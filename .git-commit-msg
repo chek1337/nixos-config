@@ -1,1 +1,1 @@
-feat(desktop): restore gaps, set active border blue; revert tmux status bg; enable noctalia capsule
+feat(nvim): make colorscheme depend on host theme

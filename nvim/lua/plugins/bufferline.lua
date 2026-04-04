@@ -9,12 +9,18 @@ return {
 		{ "<Tab>", "<cmd>BufferLineCycleNext<cr>", desc = "Next buffer" },
 		{ "<S-Tab>", "<cmd>BufferLineCyclePrev<cr>", desc = "Previous buffer" },
 	},
-	opts = {
-		highlights = {
+	config = function(_, opts)
+		local scheme = vim.g.colors_name or ""
+		opts.highlights = {
 			fill = {
-				bg = "#222730", -- Nord polar_night[1], чуть светлее дефолтного
+				bg = scheme:find("catppuccin") and "#181825"
+					or scheme == "gruvbox" and "#1d2021"
+					or "#222730", -- nord + fallback
 			},
-		},
+		}
+		require("bufferline").setup(opts)
+	end,
+	opts = {
 		options = {
 			right_mouse_command = false,
 			middle_mouse_command = function(bufnum)

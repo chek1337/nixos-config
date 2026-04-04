@@ -8,6 +8,12 @@
       ...
     }:
     let
+      noctaliaSchemeMap = {
+        "nord" = "Nord";
+        "catppuccin-mocha" = "Catppuccin";
+        "gruvbox-dark-medium" = "Gruvbox";
+      };
+      noctaliaScheme = noctaliaSchemeMap.${config.settings.colorScheme} or "Nord";
       isLaptop = config.settings.isLaptop;
       hasBluetooth = config.settings.hasBluetooth;
       wgName = config.settings.wireguardConfigName;
@@ -159,7 +165,7 @@
             ];
           };
           colorSchemes = {
-            predefinedScheme = "Nord";
+            predefinedScheme = noctaliaScheme;
             useWallpaperColors = false;
             darkMode = true;
           };

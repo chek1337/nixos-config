@@ -1,1 +1,1 @@
-feat(fonts): add noto-fonts-cjk-sans for Japanese support
+feat(theme): centralize theming via Stylix + nix-colorizer

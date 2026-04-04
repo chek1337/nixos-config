@@ -1,8 +1,9 @@
 { inputs, ... }:
 {
   flake.modules.homeManager.ks =
-    { pkgs, lib, ... }:
+    { pkgs, lib, config, ... }:
     let
+      c = config.lib.stylix.colors;
       kitty-session = pkgs.buildGoModule {
         pname = "kitty-session";
         version = "unstable-5e975c0";
@@ -11,16 +12,16 @@
         vendorHash = "sha256-aewfTkFkRjxwwDL+ik1XMzkB+H54TABa/rVOXFfbtYk=";
         doCheck = false;
 
-        # Патчим захардкоженные цвета на Nord палитру
+        # Патчим захардкоженные цвета на текущую Stylix-палитру
         postPatch = ''
           substituteInPlace internal/tui/styles.go \
-            --replace '"#7571F9"' '"#81A1C1"' \
-            --replace '"#02BF87"' '"#A3BE8C"' \
-            --replace '"#FFBF00"' '"#EBCB8B"' \
-            --replace '"#636363"' '"#4C566A"' \
-            --replace '"#ED567A"' '"#BF616A"' \
-            --replace '"#FFFDF5"' '"#ECEFF4"' \
-            --replace '"#C1C6B2"' '"#D8DEE9"'
+            --replace '"#7571F9"' '"#${c.base0D-hex}"' \
+            --replace '"#02BF87"' '"#${c.base0B-hex}"' \
+            --replace '"#FFBF00"' '"#${c.base0A-hex}"' \
+            --replace '"#636363"' '"#${c.base03-hex}"' \
+            --replace '"#ED567A"' '"#${c.base08-hex}"' \
+            --replace '"#FFFDF5"' '"#${c.base06-hex}"' \
+            --replace '"#C1C6B2"' '"#${c.base04-hex}"'
         '';
 
         meta = {

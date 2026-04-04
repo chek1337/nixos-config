@@ -1,3 +1,7 @@
+{ inputs, ... }:
+let
+  darken = inputs.nix-colorizer.hex.darken;
+in
 {
   flake.modules.homeManager.tmux =
     { pkgs, config, ... }:
@@ -183,8 +187,8 @@
             set -g @thm_mauve     "${c.base0E}"
             set -g @thm_pink      "${c.base0E}"
 
-            set -g status-style "bg=#191c23,fg=${c.base04}"
-            set -g status-bg    "#191c23"
+            set -g status-style "bg=${darken c.base00 0.12},fg=${c.base04}"
+            set -g status-bg    "${darken c.base00 0.12}"
             set -g status-fg    "${c.base04}"
 
             set -g window-status-separator ""

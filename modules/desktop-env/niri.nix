@@ -1,4 +1,7 @@
 { inputs, ... }:
+let
+  darken = inputs.nix-colorizer.hex.darken;
+in
 {
   flake.modules.nixos.niri =
     { config, pkgs, ... }:
@@ -44,6 +47,10 @@
     }:
     let
       cfg = config.services.niri;
+      c = config.lib.stylix.colors;
+      activeBorder = darken "#${c.base00-hex}" 0.07;
+      inactiveBorder = "#${c.base00-hex}";
+      backdrop = darken "#${c.base00-hex}" 0.15;
       wgSecret = "/run/secrets/${config.settings.wireguardConfigName}";
       vopono = "${pkgs.vopono}/bin/vopono";
       voponoVpnApps = pkgs.writeShellScript "vopono-vpn-apps" ''
@@ -127,8 +134,8 @@
 
             border {
                 width 2
-                active-color "#252830"
-                inactive-color "#2E3440"
+                active-color "${activeBorder}"
+                inactive-color "${inactiveBorder}"
             }
         }
 
@@ -170,7 +177,7 @@
         screenshot-path "~/Pictures/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png"
 
         overview {
-            backdrop-color "#1a1e2a"
+            backdrop-color "${backdrop}"
         }
 
         debug {

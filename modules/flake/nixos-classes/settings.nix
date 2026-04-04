@@ -62,6 +62,12 @@
           default = "25.05";
           description = "NixOS and home-manager state version";
         };
+
+        colorScheme = lib.mkOption {
+          type = lib.types.str;
+          default = "nord";
+          description = "Base16 scheme name matching a file in pkgs.base16-schemes (e.g. nord, catppuccin-mocha)";
+        };
       };
     };
 }

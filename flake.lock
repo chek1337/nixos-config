@@ -487,6 +487,21 @@
         "type": "github"
       }
     },
+    "nix-colorizer": {
+      "locked": {
+        "lastModified": 1750078528,
+        "narHash": "sha256-NuGAJx61f/r0xrpyOTUEsO+MDNpso0qE99k2/apv3as=",
+        "owner": "nutsalhan87",
+        "repo": "nix-colorizer",
+        "rev": "c9ce6c710f4ed749f773104a8092a3e542dd1d7c",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nutsalhan87",
+        "repo": "nix-colorizer",
+        "type": "github"
+      }
+    },
     "nix-flatpak": {
       "locked": {
         "lastModified": 1768656715,
@@ -761,6 +776,7 @@
         "kitty-zoxide-sessions": "kitty-zoxide-sessions",
         "lazyvim-nix": "lazyvim-nix",
         "niri-pinned": "niri-pinned",
+        "nix-colorizer": "nix-colorizer",
         "nix-flatpak": "nix-flatpak",
         "nixos-hardware": "nixos-hardware",
         "nixos-wsl": "nixos-wsl",

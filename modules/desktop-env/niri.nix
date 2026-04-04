@@ -127,8 +127,8 @@
 
             border {
                 width 2
-                active-color "#81A1C1"
-                inactive-color "#4C566A"
+                active-color "#252830"
+                inactive-color "#2E3440"
             }
         }
 

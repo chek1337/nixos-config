@@ -1,1 +1,1 @@
-feat(hosts): explicitly set colorScheme = nord on all hosts
+chore(themes): remove empty legacy files

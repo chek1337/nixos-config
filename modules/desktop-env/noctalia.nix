@@ -76,6 +76,10 @@
           };
           bar = {
             outerCorners = false;
+            frameRadius = 0;
+            showCapsule = false;
+            widgetSpacing = 2;
+            contentPadding = 0;
             hideOnOverview = true;
             marginVertical = 0;
             marginHorizontal = 0;
@@ -136,6 +140,11 @@
                 }
               ];
             };
+          };
+          general = {
+            radiusRatio = 0;
+            iRadiusRatio = 0;
+            boxRadiusRatio = 0;
           };
           notifications = {
             enableKeyboardLayoutToast = false;

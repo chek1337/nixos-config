@@ -25,6 +25,7 @@ in
 
       settings.isLaptop = true;
       settings.wireguardConfigName = "wireguard-laptop-asus";
+      settings.colorScheme = "nord";
 
       swapDevices = [
         {
@@ -38,6 +39,7 @@ in
 
       settings.isLaptop = true;
       settings.wireguardConfigName = "wireguard-laptop-asus";
+      settings.colorScheme = "nord";
       settings.hasBluetooth = true;
 
       services.niri.outputs.eDP-2 = {

@@ -22,11 +22,13 @@ in
       ];
 
       settings.wireguardConfigName = "wireguard-desktop-home";
+      settings.colorScheme = "nord";
     };
     modules.homeManager."hosts/${hostname}" = {
       imports = flakeConfig.flake.lib.loadHmModules modules;
 
       settings.wireguardConfigName = "wireguard-desktop-home";
+      settings.colorScheme = "nord";
       settings.hasBluetooth = true;
 
       services.niri.outputs.DP-1 = {

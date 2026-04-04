@@ -1,1 +1,1 @@
-refactor(themes): split into themes.nix (common) + per-scheme files
+feat(hosts): explicitly set colorScheme = nord on all hosts

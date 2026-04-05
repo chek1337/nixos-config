@@ -1,1 +1,1 @@
-feat(nvim): make colorscheme depend on host theme
+feat(telegram): replace telegram-desktop with ayugram-desktop from nixpkgs

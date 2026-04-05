@@ -2,6 +2,6 @@
   flake.modules.homeManager.telegram =
     { pkgs, ... }:
     {
-      home.packages = with pkgs; [ telegram-desktop ];
+      home.packages = with pkgs; [ ayugram-desktop ];
     };
 }

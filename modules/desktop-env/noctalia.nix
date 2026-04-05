@@ -66,7 +66,7 @@
             }
             {
               name = "Telegram (VPN)";
-              command = "${voponoExec} ${pkgs.telegram-desktop}/bin/Telegram";
+              command = "${voponoExec} ${pkgs.ayugram-desktop}/bin/AyuGram";
               icon = "brand-telegram";
             }
             {

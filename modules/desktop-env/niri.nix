@@ -60,7 +60,7 @@ in
         done
         ${vopono} exec --protocol wireguard --custom ${wgSecret} ${pkgs.qutebrowser}/bin/qutebrowser &
         sleep 3
-        ${vopono} exec --protocol wireguard --custom ${wgSecret} ${pkgs.telegram-desktop}/bin/Telegram &
+        ${vopono} exec --protocol wireguard --custom ${wgSecret} ${pkgs.ayugram-desktop}/bin/AyuGram &
         wait
       '';
 
@@ -339,7 +339,7 @@ in
         }
 
         window-rule {
-            match app-id="org.telegram.desktop" at-startup=true
+            match app-id="AyuGram" at-startup=true
             open-on-workspace "4"
             open-maximized true
         }

@@ -21,6 +21,7 @@
           # "zen-browser.cachix.org-1:z/QLGrEkiBYF/7zoHX1Hpuv0B26QrmbVBSy9yDD2tSs="
           "yandex-browser-nix.cachix.org-1:KTUynR1mK6m4ZVPgM2U5cb/yTa9vBGMU+eRY/l/b7vw="
         ];
+        connect-timeout = 3;
         keep-outputs = true;
         keep-derivations = true;
         experimental-features = [

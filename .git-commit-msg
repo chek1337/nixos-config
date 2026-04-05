@@ -1,1 +1,1 @@
-feat(telegram): replace telegram-desktop with ayugram-desktop from nixpkgs
+fix(nix): set connect-timeout=3 for substituters

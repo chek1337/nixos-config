@@ -180,6 +180,10 @@ in
             backdrop-color "${backdrop}"
         }
 
+        hotkey-overlay {
+            skip-at-startup
+        }
+
         debug {
             honor-xdg-activation-with-invalid-serial
         }

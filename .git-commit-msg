@@ -1,1 +1,1 @@
-feat: pin neovim to 0.11.6 and add quickshell-reload command
+feat: remove hotkey overlay on startup

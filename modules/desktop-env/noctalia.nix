@@ -38,6 +38,14 @@
         nwg-look
       ];
 
+      home.activation.reloadNoctalia = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+        if pgrep -f quickshell > /dev/null 2>&1; then
+          pkill -f quickshell || true
+          sleep 0.5
+          niri msg action spawn -- noctalia-shell
+        fi
+      '';
+
       programs.noctalia-shell = {
         enable = true;
         systemd.enable = false;

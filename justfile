@@ -62,6 +62,9 @@ nixos-switch-interactive: stage
 home-manager-switch hostname: stage
     nix run home-manager -- switch --flake "{{flake}}#{{username}}@{{hostname}}"
     just tmux-reload
+    pkill -f quickshell || true
+    sleep 1
+    niri msg action spawn -- noctalia-shell
 
 # Apply Home Manager interactively
 [group("deploy")]

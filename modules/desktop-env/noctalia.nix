@@ -11,7 +11,7 @@
       noctaliaSchemeMap = {
         "nord" = "Nord";
         "catppuccin-mocha" = "Catppuccin";
-        "gruvbox-dark-medium" = "Gruvbox";
+        "gruvbox-dark-hard" = "Gruvbox";
       };
       noctaliaScheme = noctaliaSchemeMap.${config.settings.colorScheme} or "Nord";
       iconThemeMap = {
@@ -36,15 +36,8 @@
       home.packages = with pkgs; [
         qt6Packages.qt6ct
         nwg-look
+        swww
       ];
-
-      home.activation.reloadNoctalia = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-        if pgrep -f quickshell > /dev/null 2>&1; then
-          pkill -f quickshell || true
-          sleep 0.5
-          niri msg action spawn -- noctalia-shell
-        fi
-      '';
 
       programs.noctalia-shell = {
         enable = true;

@@ -322,6 +322,7 @@ in
         workspace "9"
 
         spawn-at-startup "xwayland-satellite"
+        spawn-at-startup "swww-daemon"
         spawn-at-startup "noctalia-shell"
         spawn-at-startup "${voponoVpnApps}"
         spawn-at-startup "thunderbird"

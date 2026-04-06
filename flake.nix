@@ -59,6 +59,9 @@
     lazyvim-nix = {
       url = "github:pfassina/lazyvim-nix";
     };
+    nixpkgs-nvim-0_11_6 = {
+      url = "github:NixOS/nixpkgs/73a57bd3fe25d96c42311ae567e86ca542e62329";
+    };
     nix-flatpak.url = "github:gmodena/nix-flatpak";
 
     kitty-session = {

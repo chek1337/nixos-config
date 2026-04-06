@@ -1,1 +1,1 @@
-feat(noctalia): fix wallpaper support via swww and niri restart
+feat: pin neovim to 0.11.6 and add quickshell-reload command

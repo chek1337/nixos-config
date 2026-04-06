@@ -20,6 +20,7 @@ alias boi := boot-interactive
 alias nbo := nixos-boot
 alias nboi := nixos-boot-interactive
 alias up := update
+alias qs := quickshell-reload
 alias hw := gen-hardware
 alias hwi := gen-hardware-interactive
 alias iso := build-iso
@@ -57,14 +58,17 @@ nixos-switch hostname: stage
 nixos-switch-interactive: stage
     just nixos-switch $(ls modules/hosts | fzf --prompt="nixos-switch > ")
 
+# Restart quickshell / noctalia-shell
+[group("utils")]
+quickshell-reload:
+    systemd-run --user --no-block --setenv=PATH="$PATH" -- bash -c 'pids=$$(pgrep -f quickshell | grep -v $$$$); echo "$pids" | xargs -r kill -9; sleep 0.5; noctalia-shell'
+
 # Apply Home Manager configuration only
 [group("deploy")]
 home-manager-switch hostname: stage
     nix run home-manager -- switch --flake "{{flake}}#{{username}}@{{hostname}}"
     just tmux-reload
-    pkill -f quickshell || true
-    sleep 1
-    niri msg action spawn -- noctalia-shell
+    just quickshell-reload
 
 # Apply Home Manager interactively
 [group("deploy")]

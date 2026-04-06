@@ -13,7 +13,7 @@ let
     isLaptop = true;
     hasBluetooth = true;
     wireguardConfigName = "wireguard-laptop-asus";
-    colorScheme = "gruvbox-dark-hard";
+    colorScheme = "nord";
   };
 in
 {

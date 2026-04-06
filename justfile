@@ -30,11 +30,17 @@ alias isoi := build-iso-interactive
 stage:
     git add .
 
+# Reload tmux config if server is running
+[private]
+tmux-reload:
+    tmux source-file ~/.config/tmux/tmux.conf 2>/dev/null || true
+
 # Apply NixOS + Home Manager configuration
 [group("deploy")]
 switch hostname: stage
     sudo nixos-rebuild switch --flake "{{flake}}#{{hostname}}"
     nix run home-manager -- switch --flake "{{flake}}#{{username}}@{{hostname}}"
+    just tmux-reload
 
 # Apply NixOS + Home Manager interactively
 [group("deploy")]
@@ -55,6 +61,7 @@ nixos-switch-interactive: stage
 [group("deploy")]
 home-manager-switch hostname: stage
     nix run home-manager -- switch --flake "{{flake}}#{{username}}@{{hostname}}"
+    just tmux-reload
 
 # Apply Home Manager interactively
 [group("deploy")]
@@ -66,6 +73,7 @@ home-manager-switch-interactive: stage
 boot hostname: stage
     sudo nixos-rebuild boot --flake "{{flake}}#{{hostname}}"
     nix run home-manager -- switch --flake "{{flake}}#{{username}}@{{hostname}}"
+    just tmux-reload
 
 # Apply NixOS on next boot + Home Manager now interactively
 [group("deploy")]

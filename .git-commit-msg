@@ -1,1 +1,1 @@
-fix(nix): set connect-timeout=3 for substituters
+feat: fix ayugram for niri

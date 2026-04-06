@@ -339,7 +339,7 @@ in
         }
 
         window-rule {
-            match app-id="AyuGram" at-startup=true
+            match app-id=r"(?i)ayugram"
             open-on-workspace "4"
             open-maximized true
         }

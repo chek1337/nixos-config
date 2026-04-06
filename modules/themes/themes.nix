@@ -53,12 +53,15 @@ in
     };
 
   flake.modules.homeManager.themes =
-    { config, pkgs, ... }:
+    { config, pkgs, lib, ... }:
     let
       scheme = getScheme pkgs config.settings.colorScheme;
     in
     {
       imports = [ inputs.stylix.homeModules.default ];
+      programs.thunderbird = lib.mkIf config.programs.thunderbird.enable {
+        profiles."default".extensions = [ scheme.thunderbird ];
+      };
       stylix = (stylixCommon { inherit pkgs config; }) // {
         icons = {
           enable = true;

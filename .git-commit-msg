@@ -1,1 +1,1 @@
-feat(wsl-asuslaptop): add colorScheme for wsl
+fix(noctalia): read icon theme from gtk config, use systemd session vars

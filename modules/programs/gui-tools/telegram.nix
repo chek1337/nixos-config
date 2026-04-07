@@ -138,8 +138,12 @@
         dialogsVerifiedIconFg: color0;
         dialogsSendingIconFg: color5;
         dialogsSendingIconFgActive: color4;
-        dialogsSentIconFg: color13;
-        dialogsSentIconFgActive: color5;
+        dialogsSentIconFg:          color13;   // галочки в списке чатов (обычное состояние)
+        dialogsSentIconFgActive:    color13;   // когда чат активный
+        dialogsSentIconFgOver:      color13;   // при наведении
+
+        historyOutIconFg:           color13;   // галочки внутри чата (исходящее сообщение)
+        historyOutIconFgSelected:   color13;   // когда сообщение выделено
         dialogsUnreadBg: color13;
         dialogsUnreadBgMuted: color3;
         dialogsUnreadFg: color0;

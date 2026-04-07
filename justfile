@@ -68,7 +68,6 @@ quickshell-reload:
 home-manager-switch hostname: stage
     nix run home-manager -- switch --flake "{{flake}}#{{username}}@{{hostname}}"
     just tmux-reload
-    just quickshell-reload
 
 # Apply Home Manager interactively
 [group("deploy")]

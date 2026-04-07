@@ -18,6 +18,7 @@ let
     "cmus"
 
     "rice"
+    "wallpaper-colorizer"
     "network-managing"
     "cli-browsers"
   ];

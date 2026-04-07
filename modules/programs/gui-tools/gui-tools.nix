@@ -14,7 +14,7 @@ let
     "mpv"
     "qbittorrent"
     "obs"
-    "pinta"
+    "image-editors"
   ];
 in
 {

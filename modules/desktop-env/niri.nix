@@ -58,7 +58,7 @@ in
           -e bash -c 'clear; ${pkgs.nitch}/bin/nitch; read -r _' &
         sleep 0.3
         ${pkgs.alacritty}/bin/alacritty --class rice-lava --title "lavat" \
-          -e ${pkgs.lavat}/bin/lavat -g -G -c ${c.base0D-hex} -k ${c.base0E-hex} -R 2 &
+          -e bash -c 'while true; do ${pkgs.lavat}/bin/lavat -g -G -c ${c.base0D-hex} -k ${c.base0E-hex} -R 2; done' &
         sleep 0.3
         ${pkgs.alacritty}/bin/alacritty --class rice-nvim --title "nixos" \
           -e bash -c 'PATH="${pkgs.tmux}/bin:${pkgs.tmuxinator}/bin:$PATH" ${pkgs.tmuxinator}/bin/tmuxinator start rice' &

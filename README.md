@@ -4,8 +4,9 @@ My personal NixOS configuration using the **dendritic** modular pattern with [fl
 
 ## Screenshots
 
-![Desktop](assets/example/main_screen.png)
-![Working](assets/example/working.png)
+![Nord](assets/example/nord-example-1.png)
+![Catppuccin Mocha](assets/example/catppuccin-mocha-example-1.png)
+![Gruvbox Dark Hard](assets/example/gruvbox-dark-hard-example-1.png)
 
 ## Features
 

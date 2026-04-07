@@ -340,7 +340,7 @@ in
         spawn-at-startup "swww-daemon"
         spawn-at-startup "noctalia-shell"
         spawn-at-startup "${voponoVpnApps}"
-        spawn-at-startup "${riceTerminals}"
+        ${lib.optionalString config.settings.enableRice ''spawn-at-startup "${riceTerminals}"''}
         spawn-at-startup "thunderbird"
         spawn-at-startup "spotify"
 
@@ -351,7 +351,7 @@ in
 
         window-rule {
             match app-id="qutebrowser" at-startup=true
-            open-on-workspace "3"
+            open-on-workspace "1"
             open-maximized true
         }
 

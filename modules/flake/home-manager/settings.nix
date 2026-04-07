@@ -62,6 +62,12 @@
           default = "nord";
           description = "Base16 scheme name matching a file in pkgs.base16-schemes (e.g. nord, catppuccin-mocha)";
         };
+
+        enableRice = lib.mkOption {
+          type = lib.types.bool;
+          default = false;
+          description = "Whether to spawn rice terminals on startup (nitch, lavat, nvim rice session)";
+        };
       };
     };
 }

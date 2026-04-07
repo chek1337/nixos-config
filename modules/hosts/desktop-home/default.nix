@@ -11,7 +11,7 @@ let
   sharedSettings = {
     hasBluetooth = true;
     wireguardConfigName = "wireguard-desktop-home";
-    colorScheme = "nord";
+    colorScheme = "catppuccin-mocha";
   };
 in
 {

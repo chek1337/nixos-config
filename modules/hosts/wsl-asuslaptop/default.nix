@@ -9,6 +9,9 @@ let
     "sops"
     "vopono"
   ];
+  sharedSettings = {
+    colorScheme = "nord";
+  };
 in
 {
   flake = {
@@ -18,9 +21,13 @@ in
 
     modules.nixos."hosts/${hostname}" = {
       imports = flakeConfig.flake.lib.loadNixosModules modules;
+
+      settings = sharedSettings;
     };
     modules.homeManager."hosts/${hostname}" = {
       imports = flakeConfig.flake.lib.loadHmModules modules;
+
+      settings = sharedSettings;
     };
   };
 }

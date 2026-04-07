@@ -53,6 +53,17 @@ in
       backdrop = darken "#${c.base00-hex}" 0.15;
       wgSecret = "/run/secrets/${config.settings.wireguardConfigName}";
       vopono = "${pkgs.vopono}/bin/vopono";
+      riceTerminals = pkgs.writeShellScript "rice-terminals" ''
+        ${pkgs.alacritty}/bin/alacritty --class rice-nitch --title "nitch" \
+          -e bash -c 'clear; ${pkgs.nitch}/bin/nitch; read -r _' &
+        sleep 0.3
+        ${pkgs.alacritty}/bin/alacritty --class rice-lava --title "lavat" \
+          -e ${pkgs.lavat}/bin/lavat -g -G -c ${c.base0D-hex} -k ${c.base0E-hex} -R 2 &
+        sleep 0.3
+        ${pkgs.alacritty}/bin/alacritty --class rice-nvim --title "nixos" \
+          -e bash -c 'PATH="${pkgs.tmux}/bin:${pkgs.tmuxinator}/bin:$PATH" ${pkgs.tmuxinator}/bin/tmuxinator start rice' &
+      '';
+
       voponoVpnApps = pkgs.writeShellScript "vopono-vpn-apps" ''
         for i in $(seq 1 30); do
           [ -f ${wgSecret} ] && ${pkgs.systemd}/bin/systemctl is-active --quiet vopono.service && break
@@ -329,6 +340,7 @@ in
         spawn-at-startup "swww-daemon"
         spawn-at-startup "noctalia-shell"
         spawn-at-startup "${voponoVpnApps}"
+        spawn-at-startup "${riceTerminals}"
         spawn-at-startup "thunderbird"
         spawn-at-startup "spotify"
 
@@ -339,8 +351,35 @@ in
 
         window-rule {
             match app-id="qutebrowser" at-startup=true
-            open-on-workspace "1"
+            open-on-workspace "3"
             open-maximized true
+        }
+
+        window-rule {
+            match app-id="rice-nvim"
+            open-floating true
+            open-on-workspace "1"
+            default-column-width { fixed 630; }
+            default-window-height { fixed 970; }
+            default-floating-position relative-to="top-left" x=40 y=40
+        }
+
+        window-rule {
+            match app-id="rice-nitch"
+            open-floating true
+            open-on-workspace "1"
+            default-column-width { fixed 320; }
+            default-window-height { fixed 375; }
+            default-floating-position relative-to="top-right" x=40 y=40
+        }
+
+        window-rule {
+            match app-id="rice-lava"
+            open-floating true
+            open-on-workspace "1"
+            default-column-width { fixed 1170; }
+            default-window-height { fixed 250; }
+            default-floating-position relative-to="bottom-left" x=710 y=40
         }
 
         window-rule {

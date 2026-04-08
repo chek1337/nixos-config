@@ -50,7 +50,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     yandex-browser = {
-      url = "github:chek1337/yandex-browser.nix/feat/extensions-support";
+      url = "github:miuirussia/yandex-browser.nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     zapret-discord-youtube = {

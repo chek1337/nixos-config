@@ -1,1 +1,1 @@
-feat(yandex-browser): switch to fork with extensions support
+refactor(yandex-browser): switch back to home.file for extensions

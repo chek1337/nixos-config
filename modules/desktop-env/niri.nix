@@ -294,6 +294,7 @@ in
             Mod+Ctrl+R  { reset-window-height; }
             Mod+F       { maximize-column; }
             Mod+Shift+F { fullscreen-window; }
+            Mod+Alt+F   { maximize-window-to-edges; }
             Mod+Ctrl+F  { expand-column-to-available-width; }
             Mod+C       { center-column; }
 

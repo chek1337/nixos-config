@@ -1205,15 +1205,16 @@
         ]
       },
       "locked": {
-        "lastModified": 1775004424,
-        "narHash": "sha256-P6rPcGEtegUGDIFpnJAVNZuhJ49C+2pv2OunOSrFIp8=",
-        "owner": "miuirussia",
+        "lastModified": 1775663929,
+        "narHash": "sha256-giqVOi9ExjlxgYx2kfIIlvNf31Nvhtaei2Yj9L7dABM=",
+        "owner": "chek1337",
         "repo": "yandex-browser.nix",
-        "rev": "c717343e64ab44a7dfaf967731928377a536fcba",
+        "rev": "e8e9b71f161c5d0d5a3da51666ab2596798dbbc7",
         "type": "github"
       },
       "original": {
-        "owner": "miuirussia",
+        "owner": "chek1337",
+        "ref": "feat/extensions-support",
         "repo": "yandex-browser.nix",
         "type": "github"
       }

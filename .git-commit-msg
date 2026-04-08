@@ -1,1 +1,1 @@
-refactor(browsers): move stylix targets into browser modules
+refactor(nvim): move stylix neovim target into nvim module

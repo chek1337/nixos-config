@@ -53,7 +53,12 @@ in
     };
 
   flake.modules.homeManager.themes =
-    { config, pkgs, lib, ... }:
+    {
+      config,
+      pkgs,
+      lib,
+      ...
+    }:
     let
       scheme = getScheme pkgs config.settings.colorScheme;
     in
@@ -69,7 +74,6 @@ in
         };
         targets = {
           qt.enable = true;
-          neovim.enable = false;
         };
       };
       gtk.gtk4.theme = config.gtk.theme;

@@ -1,1 +1,1 @@
-fix(noctalia): read icon theme from gtk config, use systemd session vars
+fix(nvim): disable stylix neovim target to prevent lazy.nvim conflict

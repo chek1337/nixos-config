@@ -69,6 +69,7 @@ in
         };
         targets = {
           qt.enable = true;
+          neovim.enable = false;
           firefox.profileNames = [ "default" ]; # not working
           librewolf = {
             # not working

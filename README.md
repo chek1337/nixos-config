@@ -13,7 +13,7 @@ My personal NixOS configuration using the **dendritic** modular pattern with [fl
 - **Modular architecture** — self-registering modules organized by category with aggregate profiles
 - **Multi-host** — single flake for desktop, laptop (ASUS TUF A15), and WSL
 - **Wayland-native** — Niri compositor with Noctalia shell
-- **Nord theme** via [Stylix](https://github.com/danth/stylix)
+- **Themes** (Nord, Catppuccin Mocha, Gruvbox Dark Hard) via [Stylix](https://github.com/danth/stylix)
 - **Secrets management** with [sops-nix](https://github.com/Mic92/sops-nix)
 - **Neovim** configured through [lazyvim-nix](https://github.com/pfassina/lazyvim-nix)
 - **just** commands for all common operations
@@ -44,7 +44,7 @@ My personal NixOS configuration using the **dendritic** modular pattern with [fl
 │   ├── hardware/             # bluetooth, power, asus-laptop-hardware, usb-automount, wsl-nvidia
 │   ├── shells/               # zsh, nu, direnv
 │   ├── desktop-env/          # niri, noctalia, wayland-common
-│   └── themes/               # nord
+│   └── themes/               # nord, catppuccin-mocha, gruvbox-dark-hard
 ├── nvim/                     # Neovim configuration (40+ plugins)
 └── secrets/                  # Encrypted secrets (sops)
 ```

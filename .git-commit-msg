@@ -1,1 +1,1 @@
-fix(nvim): disable stylix neovim target to prevent lazy.nvim conflict
+chore(assets): update example screenshots, remove old ones

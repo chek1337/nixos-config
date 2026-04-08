@@ -42,7 +42,7 @@
 
         firefoxCommon.policies = {
           Bookmarks = map (b: {
-            Title = b.title;
+            Title = b.name;
             URL = b.url;
           }) config.browserBookmarks;
           AppAutoUpdate = false;

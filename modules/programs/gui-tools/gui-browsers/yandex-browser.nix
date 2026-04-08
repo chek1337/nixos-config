@@ -38,7 +38,7 @@
                 date_last_used = "0";
                 guid = "bookmark-${toString i}-0000-0000-0000-000000000000";
                 id = toString (i + 4);
-                name = b.title;
+                name = b.name;
                 source = "unknown";
                 type = "url";
                 url = b.url;

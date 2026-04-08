@@ -1,1 +1,1 @@
-refactor(yandex-browser): switch back to home.file for extensions
+feat(yandex-browser): add declarative bookmarks via home.activation

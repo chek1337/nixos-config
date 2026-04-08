@@ -59,10 +59,6 @@
         '';
       };
 
-      home.sessionVariables = {
-        TERMINAL = "kitty";
-      };
-
       home.packages = [ pkgsLess685.less ];
     };
 }

@@ -117,11 +117,6 @@ in
 
       home.file.".config/nvim/lua/plugins/colorscheme.lua".text = colorschemeContent;
 
-      home.sessionVariables = {
-        EDITOR = "nvim";
-        VISUAL = "nvim";
-      };
-
       programs.zsh.shellAliases = {
         v = "nvim";
       };

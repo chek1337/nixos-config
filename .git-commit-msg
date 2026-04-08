@@ -1,1 +1,1 @@
-refactor(nvim): move stylix neovim target into nvim module
+feat(xdg): centralize default applications and MIME associations

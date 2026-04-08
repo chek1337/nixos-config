@@ -57,9 +57,5 @@
 
       programs.zsh.shellAliases.mpva = "mpv --no-video";
 
-      xdg.mimeApps.defaultApplications = {
-        "audio/*" = "mpv.desktop";
-        "video/*" = "mpv.desktop";
-      };
     };
 }

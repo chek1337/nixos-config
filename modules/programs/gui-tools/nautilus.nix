@@ -38,12 +38,5 @@
         ];
       };
 
-      xdg.mimeApps.defaultApplications = {
-        "inode/directory" = "org.gnome.Nautilus.desktop";
-        "audio/*" = "mpv.desktop";
-        "video/*" = "mpv.desktop";
-        "image/*" = "imv.desktop";
-        "text/plain" = "nvim-terminal.desktop";
-      };
     };
 }

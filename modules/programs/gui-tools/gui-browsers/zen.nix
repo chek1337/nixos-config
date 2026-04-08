@@ -1,22 +1,19 @@
 { inputs, ... }:
 {
   flake.modules.homeManager.zen =
-    { ... }:
+    { config, ... }:
     {
       imports = [ inputs.zen-browser.homeModules.beta ];
 
       programs.zen-browser = {
         enable = true;
-        policies = {
+        policies = config.firefoxCommon.policies // {
           DisableAppUpdate = true;
         };
         profiles.default = {
           isDefault = true;
-          settings = {
-            "zen.view.compact" = true;
-            "zen.view.compact.hide-tabbar" = true;
-            "zen.view.sidebar.expanded" = false;
-          };
+          extensions.packages = config.firefoxCommon.extensions;
+          settings = config.firefoxCommon.settings;
         };
       };
 

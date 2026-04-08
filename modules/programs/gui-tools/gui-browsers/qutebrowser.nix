@@ -1,26 +1,12 @@
 {
   flake.modules.homeManager.qutebrowser =
-    { ... }:
+    { lib, config, ... }:
     {
       programs.qutebrowser = {
         enable = true;
-        quickmarks = {
-          vk = "https://vk.com";
-          yt = "https://youtube.com";
-          yts = "https://www.youtube.com/feed/subscriptions";
-          gmap = "https://www.google.com/maps";
-          yamap = "https://yandex.com/maps/65/novosibirsk/";
-          dmap = "https://2gis.ru/novosibirsk";
-          gtrans = "https://translate.google.com";
-          yatrans = "https://translate.yandex.com";
-          grok = "https://grok.com";
-          deepseek = "https://chat.deepseek.com";
-          gpt = "https://chatgpt.com";
-          zai = "https://z.ai";
-          claude = "https://claude.ai";
-          gh = "https://github.com";
-          snix = "https://search.nixos.org/packages";
-        };
+        quickmarks = lib.listToAttrs (
+          map (b: { name = b.name; value = b.url; }) config.browserBookmarks
+        );
         searchEngines = {
           DEFAULT = "https://duckduckgo.com/?q={}";
           g = "https://www.google.com/search?q={}";

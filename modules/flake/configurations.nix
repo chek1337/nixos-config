@@ -54,6 +54,7 @@ let
       pkgs = import inputs.nixpkgs {
         inherit system;
         config.allowUnfree = true;
+        overlays = [ inputs.nix-firefox-addons.overlays.default ];
       };
       modules = [
         flakeConfig.flake.modules.homeManager.hmSettings

@@ -1,16 +1,16 @@
 {
   flake.modules.homeManager.firefox =
-    { pkgs, config, ... }:
+    { lib, config, ... }:
     {
+      home.sessionVariables.DEFAULT_BROWSER = lib.getExe config.programs.firefox.package;
+
       programs.firefox = {
         enable = true;
+        policies = config.firefoxCommon.policies;
         profiles.default = {
           name = "default";
-          settings = {
-            "browser.theme.content-theme" = 0;
-            "browser.theme.toolbar-theme" = 0;
-            "browser.display.background_color" = "#${config.lib.stylix.colors.base00-hex}";
-          };
+          extensions.packages = config.firefoxCommon.extensions;
+          settings = config.firefoxCommon.settings;
         };
       };
     };

@@ -17,7 +17,11 @@
         };
       };
 
-      stylix.targets.zen-browser.enable = false;
+      stylix.targets.zen-browser = {
+        # not working
+        enable = true;
+        profileNames = [ "default" ];
+      };
 
       xdg.mimeApps = {
         enable = true;

@@ -1,1 +1,1 @@
-feat(browsers): add shared Firefox browser configuration
+refactor(browsers): move stylix targets into browser modules

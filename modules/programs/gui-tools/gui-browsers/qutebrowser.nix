@@ -9,56 +9,77 @@
     let
       useFuzzel = true;
 
+      fuzzelStyle = ''
+        --background-color=181818ff
+        --text-color=d4d4d4ff
+        --input-color=e8e8e8ff
+        --prompt-color=666666ff
+        --match-color=5b9bd5ff
+        --selection-color=2a2a2aff
+        --selection-text-color=e8e8e8ff
+        --selection-match-color=7ab8f5ff
+        --border-color=333333ff
+        --border-width=1
+        --border-radius=0
+        --line-height=16
+        -w 120
+        -f monospace:size=9
+      '';
+
       fuzzelOpen = pkgs.writeShellScriptBin "qute-fuzzel-open" ''
         mode="''${1:-open}"
 
+        TITLE_WIDTH=50
+
+        fmt_line() {
+          local title="$1" url="$2" short chars spaces
+          if [ "''${#title}" -gt "$TITLE_WIDTH" ]; then
+            short="''${title:0:$((TITLE_WIDTH - 1))}…"
+          else
+            short="$title"
+          fi
+          chars=''${#short}
+          spaces=$((TITLE_WIDTH - chars))
+          printf '%s%*s    %s\n' "$short" "$spaces" "" "$url"
+        }
+
         create_menu() {
-          [ -n "$QUTE_URL" ] && printf '%s\n' "$QUTE_URL"
+          [ -n "$QUTE_URL" ] && fmt_line "[current]" "$QUTE_URL"
 
           if [ -f "$QUTE_CONFIG_DIR/quickmarks" ]; then
-            while read -r line; do
-              name="''${line%% *}"
-              url="''${line#* }"
-              printf '[%s] %s\n' "$name" "$url"
+            while read -r qm_name qm_url; do
+              fmt_line "[$qm_name]" "$qm_url"
             done < "$QUTE_CONFIG_DIR/quickmarks"
           fi
 
           if [ -f "$QUTE_CONFIG_DIR/bookmarks/urls" ]; then
-            cat "$QUTE_CONFIG_DIR/bookmarks/urls"
+            while read -r bm_url bm_title; do
+              fmt_line "''${bm_title:-$bm_url}" "$bm_url"
+            done < "$QUTE_CONFIG_DIR/bookmarks/urls"
           fi
 
-          ${pkgs.sqlite}/bin/sqlite3 -separator '  ' "$QUTE_DATA_DIR/history.sqlite" \
-            'SELECT COALESCE(title, url), url FROM CompletionHistory ORDER BY last_atime DESC LIMIT 500'
+          ${pkgs.sqlite}/bin/sqlite3 -separator $'\t' "$QUTE_DATA_DIR/history.sqlite" \
+            'SELECT COALESCE(title, url), url FROM CompletionHistory ORDER BY last_atime DESC LIMIT 500' \
+            | while IFS=$'\t' read -r title url; do
+                fmt_line "$title" "$url"
+              done
         }
 
         create_bookmarks_menu() {
           if [ -f "$QUTE_CONFIG_DIR/quickmarks" ]; then
-            while read -r line; do
-              name="''${line%% *}"
-              url="''${line#* }"
-              printf '[%s] %s\n' "$name" "$url"
+            while read -r qm_name qm_url; do
+              fmt_line "[$qm_name]" "$qm_url"
             done < "$QUTE_CONFIG_DIR/quickmarks"
           fi
 
           if [ -f "$QUTE_CONFIG_DIR/bookmarks/urls" ]; then
-            cat "$QUTE_CONFIG_DIR/bookmarks/urls"
+            while read -r bm_url bm_title; do
+              fmt_line "''${bm_title:-$bm_url}" "$bm_url"
+            done < "$QUTE_CONFIG_DIR/bookmarks/urls"
           fi
         }
 
-        fuzzel_style="
-          --background-color=1e1e2eff
-          --text-color=cdd6f4ff
-          --input-color=cdd6f4ff
-          --prompt-color=6c7086ff
-          --match-color=89b4faff
-          --selection-color=313244ff
-          --selection-text-color=cdd6f4ff
-          --selection-match-color=89b4faff
-          --border-color=45475aff
-          --border-width=2
-          --border-radius=6
-          -w 100
-        "
+        fuzzel_style="${fuzzelStyle}"
 
         case "$mode" in
           bookmarks) menu=create_bookmarks_menu; prompt="bookmark:" ;;
@@ -67,7 +88,7 @@
         esac
 
         # shellcheck disable=SC2086
-        fuzzel_args="--dmenu -p $prompt -l 8 $fuzzel_style"
+        fuzzel_args="--dmenu -p $prompt -l 12 $fuzzel_style"
         if [ "$mode" = "edit" ] && [ -n "$QUTE_URL" ]; then
           fuzzel_args="$fuzzel_args --search=$QUTE_URL"
         fi
@@ -111,8 +132,8 @@
             with open(session_file) as f:
                 data = yaml.safe_load(f)
 
-            lines = []
-            tabs_info = []
+            TITLE_WIDTH = 45
+            entries = []
             for wid, window in enumerate(data.get('windows', [])):
                 for tid, tab in enumerate(window.get('tabs', [])):
                     history = tab.get('history', [])
@@ -122,15 +143,25 @@
                     title = last.get('title') or ""
                     url = last.get('url') or ""
                     active = '* ' if tab.get('active') else '  '
-                    line = f'[W{wid+1} T{tid+1}]{active}{title}  {url}'
-                    lines.append(line)
-                    tabs_info.append((wid + 1, tid + 1))
+                    prefix = f'[{tid+1}]{active}'
+                    t = title[:TITLE_WIDTH - 1] + '…' \
+                        if len(title) > TITLE_WIDTH else title
+                    line = f'{prefix:<8}{t:<{TITLE_WIDTH}}  {url}'
+                    entries.append((tid + 1, wid + 1, line))
 
-            if not lines:
+            if not entries:
                 sys.exit(1)
 
+            entries.sort(key=lambda e: e[0])
+            lines = [e[2] for e in entries]
+            tabs_info = [(e[1], e[0]) for e in entries]
+
+            FUZZEL_STYLE = """${fuzzelStyle}""".split()
+
             proc = subprocess.run(
-                [FUZZEL, '--dmenu', '-p', 'tab: ', '-l', '20'],
+                [FUZZEL] + FUZZEL_STYLE + [
+                    '--dmenu', '--no-sort', '-p', 'tab: ', '-l', '12',
+                ],
                 input='\n'.join(lines),
                 capture_output=True,
                 text=True,
@@ -208,7 +239,7 @@
             config.bind("o", "spawn --userscript qute-fuzzel-open open")
             config.bind("O", "spawn --userscript qute-fuzzel-open tab")
             config.bind("go", "spawn --userscript qute-fuzzel-open open")
-            config.bind("e", "spawn --userscript qute-fuzzel-open edit")
+            config.bind("ge", "spawn --userscript qute-fuzzel-open edit")
             config.bind("b", "spawn --userscript qute-fuzzel-open bookmarks")
             config.bind("T", "spawn --userscript qute-fuzzel-tabs")
           ''}

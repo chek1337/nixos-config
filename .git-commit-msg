@@ -1,1 +1,1 @@
-refactor(qutebrowser): clean up fuzzel scripts structure
+fix(qutebrowser): match tabs by number only in fuzzel switcher

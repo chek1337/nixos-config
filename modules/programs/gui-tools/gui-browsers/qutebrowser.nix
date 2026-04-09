@@ -144,7 +144,8 @@
                         active = '* ' if tab.get('active') else '  '
                         prefix = f'[{tid + 1}]{active}'
                         t = truncate(title, TITLE_WIDTH)
-                        line = f'{prefix:<8}{t:<{TITLE_WIDTH}}    {url}'
+                        display = f'{prefix:<8}{t:<{TITLE_WIDTH}}    {url}'
+                        line = f'{prefix}\t{display}'
                         entries.append((tid + 1, wid + 1, line))
                 return sorted(entries, key=lambda e: e[0])
 
@@ -152,13 +153,17 @@
             def pick_tab(lines):
                 proc = subprocess.run(
                     [FUZZEL] + FUZZEL_STYLE + [
-                        '--dmenu', '--no-sort', '-p', 'tab:', '-l', '12',
+                      '--dmenu', '--no-sort', '--match-mode=exact',
+                      '--match-nth=1', '--with-nth=2', '--index',
+                      '-p', 'tab:', '-l', '12',
                     ],
                     input='\n'.join(lines),
                     capture_output=True,
                     text=True,
                 )
-                return proc.stdout.strip() if proc.returncode == 0 else None
+                if proc.returncode != 0 or not proc.stdout.strip():
+                    return None
+                return int(proc.stdout.strip())
 
 
             def main():
@@ -179,16 +184,13 @@
                 lines = [e[2] for e in entries]
                 tabs_info = [(e[1], e[0]) for e in entries]
 
-                selection = pick_tab(lines)
-                if not selection:
+                idx = pick_tab(lines)
+                if idx is None:
                     sys.exit(0)
 
-                for i, line in enumerate(lines):
-                    if line == selection:
-                        _, tid = tabs_info[i]
-                        with open(fifo, 'a') as f:
-                            f.write(f'tab-focus {tid}\n')
-                        break
+                _, tid = tabs_info[idx]
+                with open(fifo, 'a') as f:
+                    f.write(f'tab-focus {tid}\n')
 
 
             main()
@@ -226,8 +228,7 @@
           config.bind("<Alt-q>", "record-macro")
           config.bind("J", "tab-prev")
           config.bind("K", "tab-next")
-          config.unbind("d")
-          config.bind("dd", "tab-close")
+          config.bind("x", "tab-close")
           config.unbind("<Ctrl-w>")
           c.auto_save.session = True
           c.session.lazy_restore = True

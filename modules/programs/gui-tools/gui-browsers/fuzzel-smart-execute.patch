@@ -1,0 +1,289 @@
+diff --git a/render.c b/render.c
+index 2ba509f..b5d7231 100644
+--- a/render.c
++++ b/render.c
+@@ -68,6 +68,8 @@ struct render {
+     struct fcft_text_run *message_text_run;
+     struct fcft_text_run *placeholder_text_run;
+ 
++    bool show_selection;   /* false until user explicitly navigates */
++
+     /* Cached selection corners */
+     pixman_image_t *selection_corners;
+ 
+@@ -1783,7 +1785,7 @@ render_match_list(struct render *render, struct buffer *buf,
+         if (render->workers.count == 0) {
+             const struct match *match = matches_get(matches, i);
+             render_one_match_entry(
+-                render, matches, match, render_icons, i, i == selected,
++                render, matches, match, render_icons, i, render->show_selection && i == selected,
+                 buf->width, buf->height, buf->pix[0],
+ #if defined(FUZZEL_ENABLE_CAIRO)
+                 buf->cairo[0]
+@@ -1862,7 +1864,7 @@ render_worker_thread(void *_ctx)
+                 const struct match *match = matches_get(matches, row_no);
+                 render_one_match_entry(
+                     render, matches, match, render_icons,
+-                    row_no, row_no == selected, buf->width, buf->height,
++                    row_no, render->show_selection && row_no == selected, buf->width, buf->height,
+                     buf->pix[my_id],
+ #if defined(FUZZEL_ENABLE_CAIRO)
+                     buf->cairo[my_id]
+@@ -1973,6 +1975,12 @@ render_set_subpixel(struct render *render, enum fcft_subpixel subpixel)
+     render->subpixel = subpixel;
+ }
+ 
++void
++render_set_show_selection(struct render *render, bool show)
++{
++    render->show_selection = show;
++}
++
+ void
+ render_resized(struct render *render, int *new_width, int *new_height)
+ {
+diff --git a/render.h b/render.h
+index f220fab..cfa0a05 100644
+--- a/render.h
++++ b/render.h
+@@ -18,6 +18,7 @@ void render_initialize_colors(
+     struct render *render, const struct config *conf, bool gamma_correct);
+ 
+ void render_set_subpixel(struct render *render, enum fcft_subpixel subpixel);
++void render_set_show_selection(struct render *render, bool show);
+ bool render_set_font_and_update_sizes(
+     struct render *render, struct fcft_font *font, struct fcft_font *font_bold,
+     float scale, float dpi, bool size_font_by_dpi,
+diff --git a/wayland.c b/wayland.c
+index e767b01..ce5cb5a 100644
+--- a/wayland.c
++++ b/wayland.c
+@@ -138,6 +138,7 @@ struct wayland {
+         void *data;
+     } font_reloaded;
+ 
++    bool selection_navigated;   /* true after explicit Up/Down/Tab/scroll, false after text edit */
+     bool render_first_frame_transparent;
+     int width;
+     int height;
+@@ -726,36 +727,42 @@ execute_binding(struct seat *seat, const struct key_binding *binding, bool *refr
+         *refresh = prompt_erase_prev_char(wayl->prompt);
+         if (*refresh)
+             matches_update(wayl->matches);
++        seat->wayl->selection_navigated = false;
+         return true;
+ 
+     case BIND_ACTION_DELETE_PREV_WORD:
+         *refresh = prompt_erase_prev_word(wayl->prompt);
+         if (*refresh)
+             matches_update(wayl->matches);
++        seat->wayl->selection_navigated = false;
+         return true;
+ 
+     case BIND_ACTION_DELETE_LINE_BACKWARD:
+         *refresh = prompt_erase_before_cursor(wayl->prompt);
+         if (*refresh)
+             matches_update(wayl->matches);
++        seat->wayl->selection_navigated = false;
+         return true;
+ 
+     case BIND_ACTION_DELETE_NEXT:
+         *refresh = prompt_erase_next_char(wayl->prompt);
+         if (*refresh)
+             matches_update(wayl->matches);
++        seat->wayl->selection_navigated = false;
+         return true;
+ 
+     case BIND_ACTION_DELETE_NEXT_WORD:
+         *refresh = prompt_erase_next_word(wayl->prompt);
+         if (*refresh)
+             matches_update(wayl->matches);
++        seat->wayl->selection_navigated = false;
+         return true;
+ 
+     case BIND_ACTION_DELETE_LINE_FORWARD:
+         *refresh = prompt_erase_after_cursor(wayl->prompt);
+         if (*refresh)
+             matches_update(wayl->matches);
++        seat->wayl->selection_navigated = false;
+         return true;
+ 
+     case BIND_ACTION_INSERT_SELECTED: {
+@@ -797,10 +804,12 @@ execute_binding(struct seat *seat, const struct key_binding *binding, bool *refr
+ 
+     case BIND_ACTION_CLIPBOARD_PASTE:
+         paste_from_clipboard(seat);
++        seat->wayl->selection_navigated = false;
+         return true;
+ 
+     case BIND_ACTION_PRIMARY_PASTE:
+         paste_from_primary(seat);
++        seat->wayl->selection_navigated = false;
+         return true;
+ 
+     case BIND_ACTION_MATCHES_EXECUTE: {
+@@ -819,15 +828,21 @@ execute_binding(struct seat *seat, const struct key_binding *binding, bool *refr
+             return true;
+         }
+ 
+-        execute_selected(seat, false, -1);
++        /* In dmenu mode: return raw input unless user explicitly navigated the list */
++        execute_selected(seat, dmenu_enabled && !seat->wayl->selection_navigated, -1);
+         return true;
+     }
+ 
+     case BIND_ACTION_MATCHES_EXECUTE_OR_NEXT:
+         if (matches_get_total_count(wayl->matches) == 1)
+             execute_selected(seat, false, -1);
+-        else
+-            *refresh = matches_selected_next(wayl->matches, true);
++        else {
++            if (wayl->selection_navigated)
++                *refresh = matches_selected_next(wayl->matches, true);
++            else
++                *refresh = true;
++            wayl->selection_navigated = true;
++        }
+         return true;
+ 
+     case BIND_ACTION_MATCHES_EXECUTE_INPUT:
+@@ -835,35 +850,69 @@ execute_binding(struct seat *seat, const struct key_binding *binding, bool *refr
+         return true;
+ 
+     case BIND_ACTION_MATCHES_PREV:
+-        *refresh = matches_selected_prev(wayl->matches, false);
++        if (!wayl->selection_navigated)
++            return true;
++        if (matches_get_match_index(wayl->matches) == 0) {
++            wayl->selection_navigated = false;
++            *refresh = true;
++        } else {
++            *refresh = matches_selected_prev(wayl->matches, false);
++        }
+         return true;
+ 
+     case BIND_ACTION_MATCHES_PREV_WITH_WRAP:
+-        *refresh = matches_selected_prev(wayl->matches, true);
++        if (!wayl->selection_navigated)
++            return true;
++        if (matches_get_match_index(wayl->matches) == 0) {
++            wayl->selection_navigated = false;
++            *refresh = true;
++        } else {
++            *refresh = matches_selected_prev(wayl->matches, true);
++        }
+         return true;
+ 
+     case BIND_ACTION_MATCHES_PREV_PAGE:
+-        *refresh = matches_selected_prev_page(wayl->matches, false);
++        if (!wayl->selection_navigated)
++            return true;
++        if (matches_get_match_index(wayl->matches) == 0) {
++            wayl->selection_navigated = false;
++            *refresh = true;
++        } else {
++            *refresh = matches_selected_prev_page(wayl->matches, false);
++        }
+         return true;
+ 
+     case BIND_ACTION_MATCHES_NEXT:
+-        *refresh = matches_selected_next(wayl->matches, false);
++        if (wayl->selection_navigated)
++            *refresh = matches_selected_next(wayl->matches, false);
++        else
++            *refresh = true;
++        wayl->selection_navigated = true;
+         return true;
+ 
+     case BIND_ACTION_MATCHES_NEXT_WITH_WRAP:
+-        *refresh = matches_selected_next(wayl->matches, true);
++        if (wayl->selection_navigated) {
++            *refresh = matches_selected_next(wayl->matches, true);
++            wayl->selection_navigated = matches_get_match_index(wayl->matches) != 0;
++        } else {
++            *refresh = true;
++            wayl->selection_navigated = true;
++        }
+         return true;
+ 
+     case BIND_ACTION_MATCHES_NEXT_PAGE:
+         *refresh = matches_selected_next_page(wayl->matches, false);
++        seat->wayl->selection_navigated = true;
+         return true;
+ 
+     case BIND_ACTION_MATCHES_FIRST:
+         *refresh = matches_selected_first(wayl->matches);
++        wayl->selection_navigated = false;
+         return true;
+ 
+     case BIND_ACTION_MATCHES_LAST:
+         *refresh = matches_selected_last(wayl->matches);
++        seat->wayl->selection_navigated = true;
+         return true;
+ 
+     case BIND_ACTION_CUSTOM_1:
+@@ -1057,6 +1106,7 @@ keyboard_key(void *data, struct wl_keyboard *wl_keyboard, uint32_t serial,
+         return;
+ 
+     prompt_insert_chars(wayl->prompt, buf, count);
++    seat->wayl->selection_navigated = false;
+ 
+     matches_update_incremental(wayl->matches);
+     matches_selected_set(wayl->matches, 0);
+@@ -1282,9 +1332,15 @@ wl_pointer_frame(void *data, struct wl_pointer *wl_pointer)
+         if (seat->pointer.accumulated_scroll > 0.) {
+             seat->pointer.accumulated_scroll -= threshold;
+             refresh = matches_selected_next(wayl->matches, true);
++            wayl->selection_navigated = matches_get_match_index(wayl->matches) != 0;
+         } else {
+             seat->pointer.accumulated_scroll += threshold;
+-            refresh = matches_selected_prev(wayl->matches, true);
++            if (wayl->selection_navigated && matches_get_match_index(wayl->matches) == 0) {
++                wayl->selection_navigated = false;
++                refresh = true;
++            } else {
++                refresh = matches_selected_prev(wayl->matches, true);
++            }
+         }
+     }
+ 
+@@ -1444,7 +1500,10 @@ wl_touch_motion(void *data, struct wl_touch *wl_touch, uint32_t time,
+ 
+     if (seat->touch.active_touch.accumulated_scroll > scroll_threshold) {
+         /* Finger moving down - select previous item (scroll up in list) */
+-        if (matches_selected_prev(seat->wayl->matches, true)) {
++        if (seat->wayl->selection_navigated && matches_get_match_index(seat->wayl->matches) == 0) {
++            seat->wayl->selection_navigated = false;
++            wayl_refresh(seat->wayl);
++        } else if (matches_selected_prev(seat->wayl->matches, true)) {
+             wayl_refresh(seat->wayl);
+         }
+         seat->touch.active_touch.accumulated_scroll = 0.0;
+@@ -1452,6 +1511,7 @@ wl_touch_motion(void *data, struct wl_touch *wl_touch, uint32_t time,
+         /* Finger moving up - select next item (scroll down in list) */
+         if (matches_selected_next(seat->wayl->matches, true)) {
+             wayl_refresh(seat->wayl);
++            seat->wayl->selection_navigated = matches_get_match_index(seat->wayl->matches) != 0;
+         }
+         seat->touch.active_touch.accumulated_scroll = 0.0;
+     }
+@@ -2592,6 +2652,7 @@ wayl_refresh(struct wayland *wayl)
+     }
+ 
+     render_set_subpixel(wayl->render, wayl->subpixel);
++    render_set_show_selection(wayl->render, wayl->selection_navigated);
+ 
+     /* Background + border */
+     render_background(wayl->render, buf);
+diff --git a/wayland.h b/wayland.h
+index 528cd36..a082968 100644
+--- a/wayland.h
++++ b/wayland.h
+@@ -80,6 +80,7 @@ struct seat {
+     struct zwp_primary_selection_device_v1 *primary_selection_device;
+ 
+     bool is_pasting;
++    bool selection_navigated;
+     struct wl_clipboard clipboard;
+     struct wl_primary primary;
+ };

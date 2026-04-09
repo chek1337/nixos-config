@@ -1,1 +1,1 @@
-feat(qutebrowser): move scroll d/u from Ctrl+d/u to plain d/u
+feat(fuzzel): patch smart-execute, hide-selection, nav-undo behaviors

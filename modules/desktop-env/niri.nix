@@ -304,7 +304,7 @@ in
             Mod+Ctrl+Equal { set-window-height "+10%"; }
 
             Mod+V       { toggle-window-floating; }
-            Mod+Shift+V { switch-focus-between-floating-and-tiling; }
+            Mod+Alt+V { switch-focus-between-floating-and-tiling; }
             Mod+W       { toggle-column-tabbed-display; }
             Mod+P repeat=false { toggle-window-pinned; }
 

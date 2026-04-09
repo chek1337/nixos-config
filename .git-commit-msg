@@ -1,1 +1,1 @@
-fix(vimium): correct XPI build hook and clear stale extension storage
+feat(justfile): support optional input arg and interactive update via fzf

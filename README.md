@@ -112,13 +112,14 @@ just b <host>     # Build without applying
 just bo <host>    # Apply NixOS on next boot + Home Manager now
 just nbo <host>   # Apply NixOS on next boot only
 just up           # Update all flake inputs
+just up <input>   # Update specific flake input
 just gc           # Garbage collect old generations
 just fmt          # Format all nix files
 just check        # nix flake check
 just iso <host>   # Build offline installation ISO
 ```
 
-All commands have interactive variants via fzf (`swi`, `nswi`, `hmi`, `ti`, `bi`, `boi`, `nboi`, `isoi`, `hwi`).
+All commands have interactive variants via fzf (`swi`, `nswi`, `hmi`, `ti`, `bi`, `boi`, `nboi`, `isoi`, `hwi`, `upi`).
 
 ## Offline Installation (ISO)
 

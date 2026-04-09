@@ -20,6 +20,7 @@ alias boi := boot-interactive
 alias nbo := nixos-boot
 alias nboi := nixos-boot-interactive
 alias up := update
+alias upi := update-interactive
 alias qs := quickshell-reload
 alias hw := gen-hardware
 alias hwi := gen-hardware-interactive
@@ -133,15 +134,15 @@ gen-hardware-interactive: stage
 check: stage
     nix flake check
 
-# Update all inputs
+# Update all inputs or a specific one: just up / just up <input>
 [group("utils")]
-update: stage
-    nix flake update
+update *input: stage
+    @if [ -z "{{input}}" ]; then nix flake update; else nix flake update {{input}}; fi
 
-# Update specific input
+# Update specific input interactively via fzf
 [group("utils")]
-update-input input: stage
-    nix flake update {{input}}
+update-interactive: stage
+    just update $(jq -r '.nodes | keys[] | select(. != "root")' flake.lock | fzf --prompt="update input > ")
 
 # Remove old generations
 [group("utils")]

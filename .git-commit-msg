@@ -1,1 +1,1 @@
-fix(fuzzel): use page+index for deselect boundary, not within-page index
+fix(fuzzel): assert version 1.14.1 to catch nixpkgs upgrades

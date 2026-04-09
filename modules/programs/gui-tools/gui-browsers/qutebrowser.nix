@@ -9,7 +9,7 @@
     let
       useFuzzel = true;
 
-      fuzzel = pkgs.fuzzel.overrideAttrs (old: {
+      fuzzel = assert lib.assertMsg (pkgs.fuzzel.version == "1.14.1") "fuzzel version changed to ${pkgs.fuzzel.version}, review and re-generate patches"; pkgs.fuzzel.overrideAttrs (old: {
         patches = (old.patches or [ ]) ++ [
           ./fuzzel-word-boundary.patch
           ./fuzzel-smart-execute.patch

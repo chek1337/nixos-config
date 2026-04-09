@@ -33,5 +33,17 @@
         $DRY_RUN_CMD mkdir -p "${profileDir}"
         $DRY_RUN_CMD cp --no-preserve=all ${config.chromiumCommon.bookmarksFile} "${profileDir}/Bookmarks"
       '';
+
+      home.activation.vimiumCssYandex = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+        VIMIUM_BASE="${profileDir}/Extensions/dbepggeogbaibhgnhhndojpepiihcmeb"
+        if [ -d "$VIMIUM_BASE" ]; then
+          VIMIUM_VERSION=$(ls "$VIMIUM_BASE" | sort -V | tail -1)
+          SETTINGS_JS="$VIMIUM_BASE/$VIMIUM_VERSION/lib/settings.js"
+          if [ -f "$SETTINGS_JS" ]; then
+            $DRY_RUN_CMD ${pkgs.python3}/bin/python3 \
+              ${config.patchVimiumScript} "$SETTINGS_JS" ${config.vimiumCssFile}
+          fi
+        fi
+      '';
     };
 }

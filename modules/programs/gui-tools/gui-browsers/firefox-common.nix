@@ -1,7 +1,6 @@
 {
   flake.modules.homeManager.firefox-common =
     {
-      pkgs,
       config,
       lib,
       ...
@@ -111,15 +110,7 @@
           };
         };
 
-        firefoxCommon.extensions = with pkgs.firefoxAddons; [
-          ublock-origin
-          sponsorblock
-          darkreader
-          vimium-ff
-          privacy-badger17
-          decentraleyes
-          istilldontcareaboutcookies
-        ];
+        firefoxCommon.extensions = config.browserExtensions.firefoxPackages;
 
       };
     };

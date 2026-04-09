@@ -3,11 +3,14 @@ let
   inherit (config.flake.lib) hmMod;
   modules = [
     "browser-bookmarks"
+    "browser-extensions"
     "firefox-common"
     "firefox"
     "qutebrowser"
     "librewolf"
     "zen"
+    "chromium-common"
+    "chromium"
     "yandex-browser"
   ];
 in

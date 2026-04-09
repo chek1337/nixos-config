@@ -9,6 +9,10 @@
     let
       useFuzzel = true;
 
+      fuzzel = pkgs.fuzzel.overrideAttrs (old: {
+        patches = (old.patches or [ ]) ++ [ ./fuzzel-word-boundary.patch ];
+      });
+
       # Used in bash as a proper array (no word-splitting issues)
       fuzzelStyleArgs = [
         "--background-color=181818ff"
@@ -33,7 +37,7 @@
       fuzzelOpen = pkgs.writeShellScriptBin "qute-fuzzel-open" ''
         mode="''${1:-open}"
 
-        readonly FUZZEL="${pkgs.fuzzel}/bin/fuzzel"
+        readonly FUZZEL="${fuzzel}/bin/fuzzel"
         readonly SQLITE="${pkgs.sqlite}/bin/sqlite3"
         readonly TITLE_WIDTH=50
         readonly FUZZEL_STYLE=(${lib.escapeShellArgs fuzzelStyleArgs})
@@ -122,7 +126,7 @@
             import subprocess
             import yaml
 
-            FUZZEL = "${pkgs.fuzzel}/bin/fuzzel"
+            FUZZEL = "${fuzzel}/bin/fuzzel"
             FUZZEL_STYLE = """${fuzzelStyle}""".split()
             TITLE_WIDTH = 45
 

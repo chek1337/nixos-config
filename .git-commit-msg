@@ -1,1 +1,1 @@
-feat(qutebrowser): blue active tab + remove bold font
+fix(fuzzel): stop Ctrl+Backspace at special chars via patch

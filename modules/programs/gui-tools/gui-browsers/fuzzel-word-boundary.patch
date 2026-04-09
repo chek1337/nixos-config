@@ -1,0 +1,18 @@
+--- a/prompt.c
++++ b/prompt.c
+@@ -113,10 +113,10 @@ idx_prev_word(const struct prompt *prompt)
+     const char32_t *space = &prompt->text[prev_char];
+
+-    /* Ignore initial spaces */
+-    while (space >= prompt->text && iswspace(*space))
++    /* Ignore initial non-alphanumeric chars */
++    while (space >= prompt->text && !iswalnum(*space))
+         space--;
+
+-    /* Skip non-spaces */
+-    while (space >= prompt->text && !iswspace(*space))
++    /* Skip alphanumeric word chars */
++    while (space >= prompt->text && iswalnum(*space))
+         space--;
+
+     return space - prompt->text + 1;

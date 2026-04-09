@@ -1,1 +1,1 @@
-feat(qutebrowser): bind X to undo tab-close, unbind u
+feat(qutebrowser): move scroll d/u from Ctrl+d/u to plain d/u

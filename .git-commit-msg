@@ -1,1 +1,1 @@
-fix(fuzzel): assert version 1.14.1 to catch nixpkgs upgrades
+fix(fuzzel): pin src to 1.14.1 to keep patches stable

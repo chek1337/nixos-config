@@ -9,7 +9,12 @@
     let
       useFuzzel = true;
 
-      fuzzel = assert lib.assertMsg (pkgs.fuzzel.version == "1.14.1") "fuzzel version changed to ${pkgs.fuzzel.version}, review and re-generate patches"; pkgs.fuzzel.overrideAttrs (old: {
+      fuzzel = pkgs.fuzzel.overrideAttrs (old: {
+        version = "1.14.1";
+        src = pkgs.fetchurl {
+          url = "https://codeberg.org/dnkl/fuzzel/archive/1.14.1.tar.gz";
+          hash = "sha256-xkFnhsOgYAuK2R7ZUcQ8ACpjmHDDgjtKYMkQRC9K4Jc=";
+        };
         patches = (old.patches or [ ]) ++ [
           ./fuzzel-word-boundary.patch
           ./fuzzel-smart-execute.patch

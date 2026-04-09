@@ -9,27 +9,34 @@
     let
       useFuzzel = true;
 
-      fuzzelStyle = ''
-        --background-color=181818ff
-        --text-color=d4d4d4ff
-        --input-color=e8e8e8ff
-        --prompt-color=666666ff
-        --match-color=5b9bd5ff
-        --selection-color=2a2a2aff
-        --selection-text-color=e8e8e8ff
-        --selection-match-color=7ab8f5ff
-        --border-color=333333ff
-        --border-width=1
-        --border-radius=0
-        --line-height=16
-        -w 120
-        -f monospace:size=9
-      '';
+      # Used in bash as a proper array (no word-splitting issues)
+      fuzzelStyleArgs = [
+        "--background-color=181818ff"
+        "--text-color=d4d4d4ff"
+        "--input-color=e8e8e8ff"
+        "--prompt-color=666666ff"
+        "--match-color=5b9bd5ff"
+        "--selection-color=2a2a2aff"
+        "--selection-text-color=e8e8e8ff"
+        "--selection-match-color=7ab8f5ff"
+        "--border-color=333333ff"
+        "--border-width=1"
+        "--border-radius=0"
+        "--line-height=16"
+        "--width=120"
+        "--font=monospace:size=9"
+      ];
+
+      # Used in Python via .split() — newline-separated string
+      fuzzelStyle = lib.concatStringsSep "\n" fuzzelStyleArgs;
 
       fuzzelOpen = pkgs.writeShellScriptBin "qute-fuzzel-open" ''
         mode="''${1:-open}"
 
-        TITLE_WIDTH=50
+        readonly FUZZEL="${pkgs.fuzzel}/bin/fuzzel"
+        readonly SQLITE="${pkgs.sqlite}/bin/sqlite3"
+        readonly TITLE_WIDTH=50
+        readonly FUZZEL_STYLE=(${lib.escapeShellArgs fuzzelStyleArgs})
 
         fmt_line() {
           local title="$1" url="$2" short chars spaces
@@ -43,58 +50,53 @@
           printf '%s%*s    %s\n' "$short" "$spaces" "" "$url"
         }
 
-        create_menu() {
-          [ -n "$QUTE_URL" ] && fmt_line "[current]" "$QUTE_URL"
+        show_quickmarks() {
+          [ -f "$QUTE_CONFIG_DIR/quickmarks" ] || return
+          while read -r name url; do
+            fmt_line "[$name]" "$url"
+          done < "$QUTE_CONFIG_DIR/quickmarks"
+        }
 
-          if [ -f "$QUTE_CONFIG_DIR/quickmarks" ]; then
-            while read -r qm_name qm_url; do
-              fmt_line "[$qm_name]" "$qm_url"
-            done < "$QUTE_CONFIG_DIR/quickmarks"
-          fi
+        show_bookmarks() {
+          [ -f "$QUTE_CONFIG_DIR/bookmarks/urls" ] || return
+          while read -r url title; do
+            fmt_line "''${title:-$url}" "$url"
+          done < "$QUTE_CONFIG_DIR/bookmarks/urls"
+        }
 
-          if [ -f "$QUTE_CONFIG_DIR/bookmarks/urls" ]; then
-            while read -r bm_url bm_title; do
-              fmt_line "''${bm_title:-$bm_url}" "$bm_url"
-            done < "$QUTE_CONFIG_DIR/bookmarks/urls"
-          fi
-
-          ${pkgs.sqlite}/bin/sqlite3 -separator $'\t' "$QUTE_DATA_DIR/history.sqlite" \
+        show_history() {
+          "$SQLITE" -separator $'\t' "$QUTE_DATA_DIR/history.sqlite" \
             'SELECT COALESCE(title, url), url FROM CompletionHistory ORDER BY last_atime DESC LIMIT 500' \
             | while IFS=$'\t' read -r title url; do
                 fmt_line "$title" "$url"
               done
         }
 
-        create_bookmarks_menu() {
-          if [ -f "$QUTE_CONFIG_DIR/quickmarks" ]; then
-            while read -r qm_name qm_url; do
-              fmt_line "[$qm_name]" "$qm_url"
-            done < "$QUTE_CONFIG_DIR/quickmarks"
-          fi
-
-          if [ -f "$QUTE_CONFIG_DIR/bookmarks/urls" ]; then
-            while read -r bm_url bm_title; do
-              fmt_line "''${bm_title:-$bm_url}" "$bm_url"
-            done < "$QUTE_CONFIG_DIR/bookmarks/urls"
-          fi
+        menu_open() {
+          [ -n "$QUTE_URL" ] && fmt_line "[current]" "$QUTE_URL"
+          show_quickmarks
+          show_bookmarks
+          show_history
         }
 
-        fuzzel_style="${fuzzelStyle}"
+        menu_bookmarks() {
+          show_quickmarks
+          show_bookmarks
+        }
+
+        run_fuzzel() {
+          local prompt="$1" search="$2"
+          local args=(--dmenu -p "$prompt:" -l 12 "''${FUZZEL_STYLE[@]}")
+          [ -n "$search" ] && args+=(--search="$search")
+          "$FUZZEL" "''${args[@]}"
+        }
 
         case "$mode" in
-          bookmarks) menu=create_bookmarks_menu; prompt="bookmark:" ;;
-          edit)      menu=create_menu;           prompt="open:" ;;
-          *)         menu=create_menu;           prompt="open:" ;;
+          bookmarks) selection=$(menu_bookmarks | run_fuzzel "bookmark" "") ;;
+          edit)      selection=$(menu_open      | run_fuzzel "open"     "$QUTE_URL") ;;
+          *)         selection=$(menu_open      | run_fuzzel "open"     "") ;;
         esac
 
-        # shellcheck disable=SC2086
-        fuzzel_args="--dmenu -p $prompt -l 12 $fuzzel_style"
-        if [ "$mode" = "edit" ] && [ -n "$QUTE_URL" ]; then
-          fuzzel_args="$fuzzel_args --search=$QUTE_URL"
-        fi
-
-        # shellcheck disable=SC2086
-        selection=$($menu | ${pkgs.fuzzel}/bin/fuzzel $fuzzel_args)
         [ -z "$selection" ] && exit 0
 
         url=$(printf '%s' "$selection" | grep -oE 'https?://\S+' | tail -1)
@@ -102,10 +104,10 @@
         [ -z "$url" ] && exit 0
 
         case "$mode" in
-          open|edit|bookmarks) printf 'open %s\n' "$url" >> "$QUTE_FIFO" ;;
-          tab)                 printf 'open -t %s\n' "$url" >> "$QUTE_FIFO" ;;
-          window)              printf 'open -w %s\n' "$url" >> "$QUTE_FIFO" ;;
-          private)             printf 'open -p %s\n' "$url" >> "$QUTE_FIFO" ;;
+          tab)     printf 'open -t %s\n' "$url" >> "$QUTE_FIFO" ;;
+          window)  printf 'open -w %s\n' "$url" >> "$QUTE_FIFO" ;;
+          private) printf 'open -p %s\n' "$url" >> "$QUTE_FIFO" ;;
+          *)       printf 'open %s\n'    "$url" >> "$QUTE_FIFO" ;;
         esac
       '';
 
@@ -121,62 +123,75 @@
             import yaml
 
             FUZZEL = "${pkgs.fuzzel}/bin/fuzzel"
-
-            data_dir = os.environ.get('QUTE_DATA_DIR') or ""
-            fifo = os.environ.get('QUTE_FIFO') or ""
-            session_file = os.path.join(data_dir, 'sessions', '_autosave.yml')
-
-            if not os.path.exists(session_file):
-                sys.exit(1)
-
-            with open(session_file) as f:
-                data = yaml.safe_load(f)
-
-            TITLE_WIDTH = 45
-            entries = []
-            for wid, window in enumerate(data.get('windows', [])):
-                for tid, tab in enumerate(window.get('tabs', [])):
-                    history = tab.get('history', [])
-                    if not history:
-                        continue
-                    last = history[-1]
-                    title = last.get('title') or ""
-                    url = last.get('url') or ""
-                    active = '* ' if tab.get('active') else '  '
-                    prefix = f'[{tid+1}]{active}'
-                    t = title[:TITLE_WIDTH - 1] + '…' \
-                        if len(title) > TITLE_WIDTH else title
-                    line = f'{prefix:<8}{t:<{TITLE_WIDTH}}  {url}'
-                    entries.append((tid + 1, wid + 1, line))
-
-            if not entries:
-                sys.exit(1)
-
-            entries.sort(key=lambda e: e[0])
-            lines = [e[2] for e in entries]
-            tabs_info = [(e[1], e[0]) for e in entries]
-
             FUZZEL_STYLE = """${fuzzelStyle}""".split()
+            TITLE_WIDTH = 45
 
-            proc = subprocess.run(
-                [FUZZEL] + FUZZEL_STYLE + [
-                    '--dmenu', '--no-sort', '-p', 'tab: ', '-l', '12',
-                ],
-                input='\n'.join(lines),
-                capture_output=True,
-                text=True,
-            )
 
-            if proc.returncode != 0 or not proc.stdout.strip():
-                sys.exit(0)
+            def truncate(text, width):
+                return text[:width - 1] + '…' if len(text) > width else text
 
-            selection = proc.stdout.strip()
-            for i, line in enumerate(lines):
-                if line == selection:
-                    _, tid = tabs_info[i]
-                    with open(fifo, 'a') as f:
-                        f.write(f'tab-focus {tid}\n')
-                    break
+
+            def build_entries(data):
+                entries = []
+                for wid, window in enumerate(data.get('windows', [])):
+                    for tid, tab in enumerate(window.get('tabs', [])):
+                        history = tab.get('history', [])
+                        if not history:
+                            continue
+                        last = history[-1]
+                        title = last.get('title') or ""
+                        url = last.get('url') or ""
+                        active = '* ' if tab.get('active') else '  '
+                        prefix = f'[{tid + 1}]{active}'
+                        t = truncate(title, TITLE_WIDTH)
+                        line = f'{prefix:<8}{t:<{TITLE_WIDTH}}    {url}'
+                        entries.append((tid + 1, wid + 1, line))
+                return sorted(entries, key=lambda e: e[0])
+
+
+            def pick_tab(lines):
+                proc = subprocess.run(
+                    [FUZZEL] + FUZZEL_STYLE + [
+                        '--dmenu', '--no-sort', '-p', 'tab:', '-l', '12',
+                    ],
+                    input='\n'.join(lines),
+                    capture_output=True,
+                    text=True,
+                )
+                return proc.stdout.strip() if proc.returncode == 0 else None
+
+
+            def main():
+                data_dir = os.environ.get('QUTE_DATA_DIR') or ""
+                fifo = os.environ.get('QUTE_FIFO') or ""
+                session_file = os.path.join(data_dir, 'sessions', '_autosave.yml')
+
+                if not os.path.exists(session_file):
+                    sys.exit(1)
+
+                with open(session_file) as f:
+                    data = yaml.safe_load(f)
+
+                entries = build_entries(data)
+                if not entries:
+                    sys.exit(1)
+
+                lines = [e[2] for e in entries]
+                tabs_info = [(e[1], e[0]) for e in entries]
+
+                selection = pick_tab(lines)
+                if not selection:
+                    sys.exit(0)
+
+                for i, line in enumerate(lines):
+                    if line == selection:
+                        _, tid = tabs_info[i]
+                        with open(fifo, 'a') as f:
+                            f.write(f'tab-focus {tid}\n')
+                        break
+
+
+            main()
           '';
     in
     {

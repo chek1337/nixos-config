@@ -1,1 +1,1 @@
-feat(fuzzel): patch smart-execute, hide-selection, nav-undo behaviors
+fix(fuzzel): use page+index for deselect boundary, not within-page index

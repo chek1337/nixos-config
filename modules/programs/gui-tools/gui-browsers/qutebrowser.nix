@@ -37,7 +37,7 @@
       # Used in Python via .split() — newline-separated string
       fuzzelStyle = lib.concatStringsSep "\n" fuzzelStyleArgs;
 
-fuzzelOpen = pkgs.writeShellScriptBin "qute-fuzzel-open" ''
+      fuzzelOpen = pkgs.writeShellScriptBin "qute-fuzzel-open" ''
         mode="''${1:-open}"
 
         readonly FUZZEL="${fuzzel}/bin/fuzzel"

@@ -55,7 +55,7 @@ index f220fab..cfa0a05 100644
      struct render *render, struct fcft_font *font, struct fcft_font *font_bold,
      float scale, float dpi, bool size_font_by_dpi,
 diff --git a/wayland.c b/wayland.c
-index e767b01..ce5cb5a 100644
+index e767b01..040b7ce 100644
 --- a/wayland.c
 +++ b/wayland.c
 @@ -138,6 +138,7 @@ struct wayland {
@@ -154,7 +154,7 @@ index e767b01..ce5cb5a 100644
 -        *refresh = matches_selected_prev(wayl->matches, false);
 +        if (!wayl->selection_navigated)
 +            return true;
-+        if (matches_get_match_index(wayl->matches) == 0) {
++        if (matches_get_page(wayl->matches) == 0 && matches_get_match_index(wayl->matches) == 0) {
 +            wayl->selection_navigated = false;
 +            *refresh = true;
 +        } else {
@@ -166,7 +166,7 @@ index e767b01..ce5cb5a 100644
 -        *refresh = matches_selected_prev(wayl->matches, true);
 +        if (!wayl->selection_navigated)
 +            return true;
-+        if (matches_get_match_index(wayl->matches) == 0) {
++        if (matches_get_page(wayl->matches) == 0 && matches_get_match_index(wayl->matches) == 0) {
 +            wayl->selection_navigated = false;
 +            *refresh = true;
 +        } else {
@@ -178,7 +178,7 @@ index e767b01..ce5cb5a 100644
 -        *refresh = matches_selected_prev_page(wayl->matches, false);
 +        if (!wayl->selection_navigated)
 +            return true;
-+        if (matches_get_match_index(wayl->matches) == 0) {
++        if (matches_get_page(wayl->matches) == 0 && matches_get_match_index(wayl->matches) == 0) {
 +            wayl->selection_navigated = false;
 +            *refresh = true;
 +        } else {
@@ -199,7 +199,7 @@ index e767b01..ce5cb5a 100644
 -        *refresh = matches_selected_next(wayl->matches, true);
 +        if (wayl->selection_navigated) {
 +            *refresh = matches_selected_next(wayl->matches, true);
-+            wayl->selection_navigated = matches_get_match_index(wayl->matches) != 0;
++            wayl->selection_navigated = matches_get_page(wayl->matches) != 0 || matches_get_match_index(wayl->matches) != 0;
 +        } else {
 +            *refresh = true;
 +            wayl->selection_navigated = true;
@@ -234,11 +234,11 @@ index e767b01..ce5cb5a 100644
          if (seat->pointer.accumulated_scroll > 0.) {
              seat->pointer.accumulated_scroll -= threshold;
              refresh = matches_selected_next(wayl->matches, true);
-+            wayl->selection_navigated = matches_get_match_index(wayl->matches) != 0;
++            wayl->selection_navigated = matches_get_page(wayl->matches) != 0 || matches_get_match_index(wayl->matches) != 0;
          } else {
              seat->pointer.accumulated_scroll += threshold;
 -            refresh = matches_selected_prev(wayl->matches, true);
-+            if (wayl->selection_navigated && matches_get_match_index(wayl->matches) == 0) {
++            if (wayl->selection_navigated && matches_get_page(wayl->matches) == 0 && matches_get_match_index(wayl->matches) == 0) {
 +                wayl->selection_navigated = false;
 +                refresh = true;
 +            } else {
@@ -252,7 +252,7 @@ index e767b01..ce5cb5a 100644
      if (seat->touch.active_touch.accumulated_scroll > scroll_threshold) {
          /* Finger moving down - select previous item (scroll up in list) */
 -        if (matches_selected_prev(seat->wayl->matches, true)) {
-+        if (seat->wayl->selection_navigated && matches_get_match_index(seat->wayl->matches) == 0) {
++        if (seat->wayl->selection_navigated && matches_get_page(seat->wayl->matches) == 0 && matches_get_match_index(seat->wayl->matches) == 0) {
 +            seat->wayl->selection_navigated = false;
 +            wayl_refresh(seat->wayl);
 +        } else if (matches_selected_prev(seat->wayl->matches, true)) {
@@ -263,7 +263,7 @@ index e767b01..ce5cb5a 100644
          /* Finger moving up - select next item (scroll down in list) */
          if (matches_selected_next(seat->wayl->matches, true)) {
              wayl_refresh(seat->wayl);
-+            seat->wayl->selection_navigated = matches_get_match_index(seat->wayl->matches) != 0;
++            seat->wayl->selection_navigated = matches_get_page(seat->wayl->matches) != 0 || matches_get_match_index(seat->wayl->matches) != 0;
          }
          seat->touch.active_touch.accumulated_scroll = 0.0;
      }

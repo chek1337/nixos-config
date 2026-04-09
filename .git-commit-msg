@@ -1,1 +1,1 @@
-fix(fuzzel): stop Ctrl+Backspace at special chars via patch
+feat(qutebrowser): bind X to undo tab-close, unbind u

@@ -234,6 +234,8 @@
           config.bind("K", "tab-next")
           config.unbind("d")
           config.bind("x", "tab-close")
+          config.bind("X", "undo")
+          config.unbind("u")
           config.unbind("<Ctrl-w>")
           c.auto_save.session = True
           c.session.lazy_restore = True

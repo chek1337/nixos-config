@@ -1,1 +1,1 @@
-feat(vimium): patch hint CSS from stylix colors at deploy time
+fix(vimium): correct XPI build hook and clear stale extension storage

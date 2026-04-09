@@ -35,7 +35,7 @@
           pkgs.unzip
           pkgs.zip
         ];
-        postInstall = (old.postInstall or "") + ''
+        buildCommand = (old.buildCommand or "") + ''
           XPI=$(find $out -name "*.xpi" | head -1)
           TMPDIR=$(mktemp -d)
           unzip -q "$XPI" -d "$TMPDIR"

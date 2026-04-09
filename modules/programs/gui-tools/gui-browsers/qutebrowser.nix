@@ -228,6 +228,7 @@
           config.bind("<Alt-q>", "record-macro")
           config.bind("J", "tab-prev")
           config.bind("K", "tab-next")
+          config.unbind("d")
           config.bind("x", "tab-close")
           config.unbind("<Ctrl-w>")
           c.auto_save.session = True
@@ -241,7 +242,7 @@
           config.bind("<Ctrl-d>", "cmd-run-with-count 15 scroll down")
           config.bind("<Ctrl-u>", "cmd-run-with-count 15 scroll up")
           c.tabs.indicator.width = 4
-          c.fonts.tabs.selected = "bold default_size default_family"
+          c.fonts.tabs.selected = "default_size default_family"
           c.content.javascript.clipboard = "access"
           c.content.autoplay = False
           config.bind(",m", "spawn mpv-mini {url}")
@@ -250,6 +251,10 @@
           config.bind(",A", "hint links spawn umpv-mini {hint-url}")
           config.bind(";A", "hint --rapid links spawn umpv-mini {hint-url}")
           c.hints.uppercase = True
+          c.colors.tabs.selected.odd.bg = "#${config.lib.stylix.colors.base0D}"
+          c.colors.tabs.selected.even.bg = "#${config.lib.stylix.colors.base0D}"
+          c.colors.tabs.selected.odd.fg = "#${config.lib.stylix.colors.base00}"
+          c.colors.tabs.selected.even.fg = "#${config.lib.stylix.colors.base00}"
 
           ${lib.optionalString useFuzzel ''
             config.bind("o", "spawn --userscript qute-fuzzel-open open")

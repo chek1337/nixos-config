@@ -1,1 +1,1 @@
-fix(qutebrowser): match tabs by number only in fuzzel switcher
+feat(qutebrowser): blue active tab + remove bold font

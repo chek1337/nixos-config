@@ -79,22 +79,22 @@
       config = {
         vimiumHintCss = lib.mkDefault ''
           div > .vimiumHintMarker {
-            background: #${config.lib.stylix.colors.base01};
-            border: none;
-            outline: none;
-            box-shadow: none;
-            padding: 2px 5px;
-            border-radius: 3px;
+            background: #${config.lib.stylix.colors.base01} !important;
+            border: none !important;
+            outline: none !important;
+            box-shadow: none !important;
+            padding: 2px 5px !important;
+            border-radius: 3px !important;
           }
 
           div > .vimiumHintMarker span {
-            color: #${config.lib.stylix.colors.base05};
-            font-weight: bold;
-            font-size: 13px;
+            color: #${config.lib.stylix.colors.base05} !important;
+            font-weight: bold !important;
+            font-size: 13px !important;
           }
 
           div > .vimiumHintMarker > .matchingCharacter {
-            color: #${config.lib.stylix.colors.base0B};
+            color: #${config.lib.stylix.colors.base0B} !important;
           }
         '';
 

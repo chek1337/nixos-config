@@ -60,6 +60,7 @@
           toggle-pane = pkgs.yaziPlugins.toggle-pane;
           piper = pkgs.yaziPlugins.piper;
           chmod = pkgs.yaziPlugins.chmod;
+          restore = pkgs.yaziPlugins.restore;
           # local custom plugins
           search = ./yazi/plugins/search.yazi;
           searchjump = ./yazi/plugins/searchjump.yazi;
@@ -235,6 +236,26 @@
               run = "shell 'trash-put \"$@\"'";
               desc = "Trash selected files";
             }
+            {
+              on = "<Delete>";
+              run = "shell 'trash-put \"$@\"'";
+              desc = "Trash selected files";
+            }
+            {
+              on = "X";
+              run = "noop";
+              desc = "Permanent delete disabled (use D or Delete for trash)";
+            }
+            {
+              on = "u";
+              run = "plugin restore";
+              desc = "Restore last trashed files";
+            }
+            {
+              on = "U";
+              run = "plugin restore -- --interactive";
+              desc = "Restore trashed files (interactive, выбор)";
+            }
 
             # --- rename ---
             {
@@ -397,12 +418,20 @@
 
             # --- search ---
             {
-              on = "f";
+              on = [
+                "<Space>"
+                "s"
+                "G"
+              ];
               run = "plugin search 'fzf_content'";
               desc = "Find contents (fzf)";
             }
             {
-              on = "<C-f>";
+              on = [
+                "<Space>"
+                "f"
+                "f"
+              ];
               run = "plugin search 'fzf_filename'";
               desc = "Find filenames (fzf)";
             }
@@ -415,7 +444,11 @@
               desc = "Find filenames (flat fd)";
             }
             {
-              on = "F";
+              on = [
+                "<Space>"
+                "s"
+                "g"
+              ];
               run = "plugin search 'ripgrep_content'";
               desc = "Find contents (ripgrep)";
             }
@@ -821,6 +854,10 @@
                   "extract"
                   "list-archive"
                 ];
+              }
+              {
+                mime = "*";
+                use = "edit";
               }
             ];
           };

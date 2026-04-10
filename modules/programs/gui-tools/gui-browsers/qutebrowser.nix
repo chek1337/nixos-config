@@ -98,7 +98,7 @@
 
         run_fuzzel() {
           local prompt="$1" search="$2"
-          local args=(--dmenu -p "$prompt:" -l 12 "''${FUZZEL_STYLE[@]}")
+          local args=(--dmenu -p "$prompt: " -l 12 "''${FUZZEL_STYLE[@]}")
           [ -n "$search" ] && args+=(--search="$search")
           "$FUZZEL" "''${args[@]}"
         }
@@ -167,7 +167,7 @@
                     [FUZZEL] + FUZZEL_STYLE + [
                       '--dmenu', '--no-sort', '--match-mode=exact',
                       '--match-nth=1', '--with-nth=2', '--index',
-                      '-p', 'tab:', '-l', '12',
+                      '-p', 'tab: ', '-l', '12',
                     ],
                     input='\n'.join(lines),
                     capture_output=True,

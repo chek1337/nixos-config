@@ -96,9 +96,10 @@ in
 
       imports = [ inputs.lazyvim-nix.homeManagerModules.default ];
 
-      programs.neovim.package =
-        pkgs.lib.mkForce
-          inputs.nixpkgs-nvim-0_11_6.legacyPackages.${pkgs.system}.neovim-unwrapped;
+      # programs.neovim.package =
+      #   pkgs.lib.mkForce
+      #     inputs.nixpkgs-nvim-0_11_6.legacyPackages.${pkgs.system}.neovim-unwrapped;
+
       programs.neovim.extraLuaPackages = ps: with ps; [ luautf8 ];
 
       programs.lazyvim = {

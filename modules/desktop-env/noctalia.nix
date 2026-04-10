@@ -67,7 +67,7 @@
             }
             {
               name = "Yandex Browser (VPN)";
-              command = "${voponoExec} yandex-browser-beta";
+              command = "${voponoExec} yandex-browser-stable";
               icon = "brand-yandex";
             }
           ];

@@ -234,6 +234,8 @@
           g = "https://www.google.com/search?q={}";
           ya = "https://yandex.ru/search/?text={}";
           yt = "https://www.youtube.com/results?search_query={}";
+          gh = "https://github.com/search?q={}";
+          snix = "https://search.nixos.org/packages?query={}";
         };
         extraConfig = ''
           config.unbind("q")

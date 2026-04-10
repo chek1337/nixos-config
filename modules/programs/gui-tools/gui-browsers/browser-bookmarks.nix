@@ -88,8 +88,33 @@
         }
         {
           name = "snix";
-          title = "NixOS Search";
+          title = "NixOS Packages";
           url = "https://search.nixos.org/packages";
+        }
+        {
+          name = "snix-opt";
+          title = "NixOS Options";
+          url = "https://search.nixos.org/options";
+        }
+        {
+          name = "shm";
+          title = "Home Manager Options";
+          url = "https://home-manager-options.extranix.com";
+        }
+        {
+          name = "smynix";
+          title = "MyNixOS";
+          url = "https://mynixos.com";
+        }
+        {
+          name = "snixwiki";
+          title = "NixOS Wiki";
+          url = "https://wiki.nixos.org";
+        }
+        {
+          name = "snixver";
+          title = "Nix Package Versions";
+          url = "https://lazamar.co.uk/nix-versions";
         }
       ];
     };

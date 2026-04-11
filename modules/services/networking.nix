@@ -15,6 +15,7 @@ in
         zapret
         vopono
         throne
+        v2rayn
       ];
 
       networking.networkmanager.enable = true;
@@ -28,6 +29,7 @@ in
       zapret
       vopono
       throne
+      v2rayn
     ];
   };
 }

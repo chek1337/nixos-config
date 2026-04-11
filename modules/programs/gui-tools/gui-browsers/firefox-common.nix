@@ -37,6 +37,7 @@
           "privacy.clearOnShutdown.history" = false;
           "privacy.clearOnShutdown.cookies" = false;
           "network.cookie.lifetimePolicy" = 0;
+          "xpinstall.signatures.required" = false;
         };
 
         firefoxCommon.policies = {
@@ -95,6 +96,10 @@
           PostQuantumKeyAgreementEnabled = true;
           Preferences = {
             "extensions.autoDisableScopes" = 0;
+            "xpinstall.signatures.required" = {
+              Value = false;
+              Status = "user";
+            };
           };
           SearchSuggestEnabled = false;
           ShowHomeButton = false;
@@ -111,7 +116,6 @@
         };
 
         firefoxCommon.extensions = config.browserExtensions.firefoxPackages;
-
       };
     };
 }

@@ -7,6 +7,7 @@ let
     "git"
     "gh"
     "tmux"
+    "television"
     "zellij"
     "nvim"
     "zoxide"

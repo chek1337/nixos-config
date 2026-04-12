@@ -26,20 +26,20 @@ in
               set -g @fingers-pattern-line '.+'
               bind f switch-client -T fingers-mode
               bind F command-prompt "find-window -Z -- '%%'"
-              bind -T fingers-mode f run -b "#{@fingers-cli} start #{pane_id} --patterns ip,uuid,sha,digit,url,path,hex,kubernetes,git-status,git-status-branch,diff"
-              bind -T fingers-mode w run -b "#{@fingers-cli} start #{pane_id} --patterns word"
-              bind -T fingers-mode l run -b "#{@fingers-cli} start #{pane_id} --patterns line"
-              bind -T fingers-mode j run -b "#{@fingers-cli} start #{pane_id} --mode jump --patterns ip,uuid,sha,digit,url,path,hex,kubernetes,git-status,git-status-branch,diff,word"
+              bind f run -b "#{@fingers-cli} start #{pane_id} --mode jump --patterns ip,uuid,sha,digit,url,path,hex,kubernetes,git-status,git-status-branch,diff,word"
             '';
+            # bind -T fingers-mode f run -b "#{@fingers-cli} start #{pane_id} --patterns ip,uuid,sha,digit,url,path,hex,kubernetes,git-status,git-status-branch,diff"
+            # bind -T fingers-mode w run -b "#{@fingers-cli} start #{pane_id} --patterns word"
+            # bind -T fingers-mode l run -b "#{@fingers-cli} start #{pane_id} --patterns line"
           }
-          resurrect
-          {
-            plugin = continuum;
-            extraConfig = ''
-              set -g @continuum-restore 'on'
-              set -g @continuum-save-interval '10'
-            '';
-          }
+          # resurrect
+          # {
+          #   plugin = continuum;
+          #   extraConfig = ''
+          #     set -g @continuum-restore 'on'
+          #     set -g @continuum-save-interval '10'
+          #   '';
+          # }
           {
             plugin = tmux-floax;
             extraConfig = ''
@@ -49,33 +49,9 @@ in
               set -g @floax-height '80%'
               set -g @floax-border-color '${config.lib.stylix.colors.withHashtag.base0D}'
               set -g @floax-text-color '${config.lib.stylix.colors.withHashtag.base05}'
-              set -g @floax-change-path 'true'
+              set -g @floax-change-path 'false'
+              set -g @floax-title 'PopupSession'
             '';
-          }
-          {
-            plugin = tmux-sessionx;
-            extraConfig =
-              let
-                c = config.lib.stylix.colors.withHashtag;
-              in
-              ''
-                set -g @sessionx-tmuxinator-mode 'on'
-                set -g @sessionx-zoxide-mode 'on'
-                set -g @sessionx-git-branch 'on'
-                set -g @sessionx-filter-current 'false'
-                set -g @sessionx-window-height '95%'
-                set -g @sessionx-window-width '95%'
-                # set -g @sessionx-preview-enabled 'false'
-                set -g @sessionx-preview-location 'top'
-                set -g @sessionx-preview-ratio '65%'
-                set -g @sessionx-layout 'reverse'
-                set -g @sessionx-bind 's'
-                set -g @sessionx-bind-tmuxinator-list 'ctrl-/'
-                bind S choose-tree -Zs
-                set -g @sessionx-custom-paths-subdirectories 'false'
-
-                set -g @sessionx-additional-options "--color=bg:${c.base00},bg+:${c.base01},fg:${c.base04},fg+:${c.base06},hl:${c.base0C},hl+:${c.base0D},border:${c.base03},header:${c.base0B},info:${c.base0A},prompt:${c.base0D},pointer:${c.base08},marker:${c.base0B},spinner:${c.base0C},preview-bg:${c.base00}"
-              '';
           }
           {
             plugin = catppuccin;
@@ -196,6 +172,11 @@ in
             # Zoom indicator (styled to match catppuccin modules)
             set -g @catppuccin_zoom_module "#[fg=${c.base0A}]#{@catppuccin_status_left_separator}#[fg=${c.base00},bg=${c.base0A}]󰁌 #[fg=${c.base04},bg=#{E:@catppuccin_status_module_text_bg}] zoom #[fg=#{E:@catppuccin_status_module_text_bg},bg=default]#{@catppuccin_status_right_separator}"
             set -g status-right "#{?window_zoomed_flag,#{E:@catppuccin_zoom_module},}#{E:@catppuccin_status_session}"
+
+            # Sesh session manager (via television)
+            bind -n C-s display-popup -E -w 80% -h 80% -d '#{pane_current_path}' -T 'Sesh' tv sesh
+            bind S choose-tree -Zs
+            bind -N "last-session (via sesh)" L run-shell "sesh last"
           '';
       };
       programs.zsh.shellAliases = {
@@ -208,7 +189,15 @@ in
         tmor = "tmuxinator";
       };
 
-      home.packages = [ pkgs.tmuxinator ];
+      home.packages = [
+        pkgs.tmuxinator
+        pkgs.sesh
+      ];
+
+      xdg.configFile."sesh/sesh.toml".text = ''
+        sort_order = ["tmuxinator", "config", "tmux", "zoxide"]
+        blacklist = ["scratch"]
+      '';
 
       xdg.configFile."tmuxinator/rice.yml".text = ''
         name: rice

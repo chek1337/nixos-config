@@ -16,7 +16,7 @@ let
     "obs"
     "image-editors"
     "zoom"
-    "showmethekey"
+    "hibiki"
   ];
 in
 {

@@ -106,5 +106,6 @@
       url = "github:sadjow/claude-code-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    hibiki.url = "github:linuxmobile/hibiki";
   };
 }

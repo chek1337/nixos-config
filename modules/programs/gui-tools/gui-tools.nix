@@ -15,6 +15,7 @@ let
     "qbittorrent"
     "obs"
     "image-editors"
+    "zoom"
   ];
 in
 {

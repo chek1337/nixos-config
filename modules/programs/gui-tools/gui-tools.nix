@@ -16,6 +16,7 @@ let
     "obs"
     "image-editors"
     "zoom"
+    "showmethekey"
   ];
 in
 {

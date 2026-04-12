@@ -409,6 +409,16 @@ in
         }
 
         window-rule {
+            match app-id=r"(?i)showmethekey"
+            open-floating true
+            open-pinned true
+            opacity 0.7
+            default-column-width { fixed 800; }
+            default-window-height { fixed 180; }
+            default-floating-position relative-to="bottom" x=0 y=20
+        }
+
+        window-rule {
             match app-id="mpv-mini"
             open-floating true
             open-pinned true

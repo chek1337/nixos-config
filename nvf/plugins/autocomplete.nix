@@ -1,4 +1,7 @@
-{ ... }:
+{ lib, ... }:
+let
+  inherit (lib.generators) mkLuaInline;
+in
 
 {
   vim.autocomplete.blink-cmp = {
@@ -50,6 +53,24 @@
           "snippets"
           "buffer"
         ];
+      };
+
+      cmdline = {
+        sources = [ "cmdline" ];
+        keymap = {
+          preset = "cmdline";
+          "<Right>" = [ ];
+          "<Left>" = [ ];
+        };
+        completion = {
+          list.selection.preselect = false;
+          menu.auto_show = mkLuaInline ''
+            function(ctx)
+              return vim.fn.getcmdtype() == ":"
+            end
+          '';
+          ghost_text.enabled = true;
+        };
       };
 
       fuzzy = {

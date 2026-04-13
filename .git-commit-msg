@@ -1,1 +1,1 @@
-feat: add dial.nvim, codediff.nvim, replace nvf nord with gbprod/nord.nvim
+feat: expand nvf config — plugins, noice, blink cmdline, bufferline, harpoon

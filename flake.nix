@@ -1,7 +1,14 @@
 {
   description = "My NixOS config";
 
-  outputs = inputs: inputs.flake-parts.lib.mkFlake { inherit inputs; } (inputs.import-tree ./modules);
+  outputs =
+    inputs:
+    inputs.flake-parts.lib.mkFlake { inherit inputs; } {
+      imports = [
+        (inputs.import-tree ./modules)
+        ./nvf
+      ];
+    };
 
   inputs = {
     nixpkgs.url = "nixpkgs/nixos-unstable";

@@ -4,12 +4,6 @@
     viAlias = true;
     vimAlias = true;
 
-    theme = {
-      enable = true;
-      name = "nord";
-      style = "dark";
-    };
-
     opts = {
       cursorline = false;
       scrolloff = 2;

@@ -9,6 +9,7 @@ let
     "tmux"
     "television"
     "zellij"
+    "nvim"
     "nvf"
     "zoxide"
     "trash-cli"

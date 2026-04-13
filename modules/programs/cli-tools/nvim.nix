@@ -81,7 +81,12 @@ let
 in
 {
   flake.modules.homeManager.nvim =
-    { pkgs, config, ... }:
+    {
+      pkgs,
+      config,
+      lib,
+      ...
+    }:
     let
       colorschemeContent =
         if config.settings.colorScheme == "catppuccin-mocha" then
@@ -120,8 +125,12 @@ in
 
       home.file.".config/nvim/lua/plugins/colorscheme.lua".text = colorschemeContent;
 
-      programs.zsh.shellAliases = {
-        v = "nvim";
-      };
+      home.packages = [
+        (pkgs.writeShellScriptBin "lvim" ''
+          exec ${config.programs.neovim.finalPackage}/bin/nvim "$@"
+        '')
+      ];
+
+      programs.zsh.shellAliases.lv = "lvim";
     };
 }

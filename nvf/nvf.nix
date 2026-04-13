@@ -1,7 +1,7 @@
 { inputs, ... }:
 {
   flake.modules.homeManager.nvf =
-    { ... }:
+    { config, lib, ... }:
     {
       stylix.targets.neovim.enable = false;
       stylix.targets.nvf.enable = false;
@@ -17,6 +17,9 @@
           ./plugins
         ];
       };
+
+      # Победить в коллизии с lazyvim-nix (приоритет 5 по умолчанию)
+      home.packages = [ (lib.hiPrio config.programs.nvf.finalPackage) ];
 
       programs.zsh.shellAliases.v = "nvim";
     };

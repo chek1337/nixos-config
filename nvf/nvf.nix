@@ -10,12 +10,15 @@
 
       programs.nvf = {
         enable = true;
-        settings.imports = [
-          ./options.nix
-          ./keymaps.nix
-          ./lsp.nix
-          ./plugins
-        ];
+        settings = {
+          imports = [
+            ./options.nix
+            ./keymaps.nix
+            ./lsp.nix
+            ./plugins
+          ];
+          _module.args.stylixColors = config.lib.stylix.colors;
+        };
       };
 
       # Победить в коллизии с lazyvim-nix (приоритет 5 по умолчанию)

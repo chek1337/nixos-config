@@ -1,4 +1,9 @@
 { ... }:
 {
-  vim.binds.whichKey.enable = true;
+  vim.binds.whichKey = {
+    enable = true;
+    setupOpts = {
+      preset = "helix";
+    };
+  };
 }

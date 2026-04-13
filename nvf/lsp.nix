@@ -20,7 +20,7 @@
       lua.enable = true;
       python = {
         enable = true;
-        lsp.servers = [ "basedpyright" ];
+        lsp.servers = [ "ty" ];
       };
       markdown.enable = true;
       bash.enable = true;
@@ -33,6 +33,7 @@
       stylua
       ruff
       basedpyright
+      ty
     ];
   };
 }

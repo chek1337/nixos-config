@@ -1,7 +1,6 @@
 { ... }:
 {
   vim.keymaps = [
-    # Insert mode — выход
     {
       key = "jk";
       mode = "i";
@@ -15,7 +14,6 @@
       desc = "Exit insert mode with jj";
     }
 
-    # Отключить макросы, перенести на Alt+q
     {
       key = "q";
       mode = [
@@ -35,7 +33,6 @@
       desc = "Write macros";
     }
 
-    # Терминал
     {
       key = "<Esc>";
       mode = "t";
@@ -43,7 +40,6 @@
       desc = "Exit terminal mode";
     }
 
-    # Вставка без перезаписи буфера обмена
     {
       key = "p";
       mode = "x";
@@ -51,7 +47,6 @@
       desc = "Paste without overwriting clipboard";
     }
 
-    # Удаление без перезаписи буфера обмена
     {
       key = "x";
       mode = [
@@ -62,7 +57,6 @@
       desc = "Delete char without overwriting clipboard";
     }
 
-    # Навигация в insert mode
     {
       key = "<C-h>";
       mode = "i";

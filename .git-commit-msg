@@ -1,1 +1,1 @@
-feat(tmux): replace sesh last with tmux-last script to skip scratch session
+docs: update README for nvf — replace lazyvim-nix, add standalone install section

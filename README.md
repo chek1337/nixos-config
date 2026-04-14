@@ -15,7 +15,7 @@ My personal NixOS configuration using the **dendritic** modular pattern with [fl
 - **Wayland-native** — Niri compositor with Noctalia shell
 - **Themes** (Nord, Catppuccin Mocha, Gruvbox Dark Hard) via [Stylix](https://github.com/danth/stylix)
 - **Secrets management** with [sops-nix](https://github.com/Mic92/sops-nix)
-- **Neovim** configured through [lazyvim-nix](https://github.com/pfassina/lazyvim-nix)
+- **Neovim** configured declaratively through [nvf](https://github.com/NotAShelf/nvf) with 30+ plugins
 - **just** commands for all common operations
 
 ## Structure
@@ -45,7 +45,14 @@ My personal NixOS configuration using the **dendritic** modular pattern with [fl
 │   ├── shells/               # zsh, nu, direnv
 │   ├── desktop-env/          # niri, noctalia, wayland-common
 │   └── themes/               # nord, catppuccin-mocha, gruvbox-dark-hard
-├── nvim/                     # Neovim configuration (40+ plugins)
+├── nvf/                      # Neovim configuration via nvf (declarative, 30+ plugins)
+│   ├── default.nix           # Entry point
+│   ├── keymaps.nix           # Keybindings
+│   ├── lsp.nix               # LSP + formatters
+│   ├── options.nix           # Vim options
+│   ├── package.nix           # Standalone flake package/app
+│   └── plugins/              # Plugin configs (snacks, harpoon, flash, blink, etc.)
+├── nvim/                     # Legacy Neovim config (lazyvim-nix, kept for reference)
 └── secrets/                  # Encrypted secrets (sops)
 ```
 
@@ -120,6 +127,35 @@ just iso <host>   # Build offline installation ISO
 ```
 
 All commands have interactive variants via fzf (`swi`, `nswi`, `hmi`, `ti`, `bi`, `boi`, `nboi`, `isoi`, `hwi`, `upi`).
+
+## Standalone Neovim (nvf)
+
+The Neovim configuration is exposed as a standalone flake package and can be used independently — no NixOS required.
+
+### Run without installing
+
+```bash
+nix run github:chek1337/nixos-config#nvim
+```
+
+### Install to user profile
+
+```bash
+nix profile install github:chek1337/nixos-config#nvim
+```
+
+### Add to your own flake
+
+```nix
+{
+  inputs.nixos-config.url = "github:chek1337/nixos-config";
+
+  outputs = { nixos-config, nixpkgs, ... }: {
+    # Use the built package directly
+    packages.x86_64-linux.nvim = nixos-config.packages.x86_64-linux.nvim;
+  };
+}
+```
 
 ## Offline Installation (ISO)
 

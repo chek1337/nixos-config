@@ -1,1 +1,1 @@
-feat(snacks): add custom picker layouts (my_vertical, reverse_dropdown)
+feat(tmux): replace sesh last with tmux-last script to skip scratch session

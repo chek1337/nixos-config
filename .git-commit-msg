@@ -1,1 +1,1 @@
-docs: update README for nvf — replace lazyvim-nix, add standalone install section
+feat(nvf): add colorScheme theming support (nord/catppuccin-mocha/gruvbox-dark-hard)

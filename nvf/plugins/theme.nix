@@ -1,4 +1,8 @@
-{ pkgs, lib, ... }:
+{
+  pkgs,
+  colorScheme ? "nord",
+  ...
+}:
 let
   gbprod-nord = pkgs.vimUtils.buildVimPlugin {
     pname = "nord.nvim";
@@ -10,10 +14,9 @@ let
       hash = "sha256-+nZb7P2z4S26amtguGAvAevf60Dn/uniSVZvR0DM+zw=";
     };
   };
-in
-{
-  vim.extraPlugins = {
-    nord-nvim = {
+
+  themes = {
+    nord = {
       package = gbprod-nord;
       setup = ''
         require("nord").setup({
@@ -32,5 +35,24 @@ in
         vim.cmd.colorscheme("nord")
       '';
     };
+    "catppuccin-mocha" = {
+      package = pkgs.vimPlugins.catppuccin-nvim;
+      setup = ''
+        require("catppuccin").setup({ flavour = "mocha" })
+        vim.cmd.colorscheme("catppuccin")
+      '';
+    };
+    "gruvbox-dark-hard" = {
+      package = pkgs.vimPlugins.gruvbox-nvim;
+      setup = ''
+        require("gruvbox").setup({ contrast = "hard" })
+        vim.cmd.colorscheme("gruvbox")
+      '';
+    };
   };
+
+  theme = themes.${colorScheme} or themes.nord;
+in
+{
+  vim.extraPlugins.colorscheme = theme;
 }

@@ -18,6 +18,7 @@
             ./plugins
           ];
           _module.args.stylixColors = config.lib.stylix.colors;
+          _module.args.colorScheme = config.settings.colorScheme;
         };
       };
 

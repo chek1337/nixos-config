@@ -1,1 +1,1 @@
-feat(nvf): standalone defaults to no colorscheme (classic palette)
+fix(nvf): explicitly pass colorScheme to standalone package via _module.args

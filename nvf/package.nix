@@ -7,6 +7,7 @@
         (inputs.nvf.lib.neovimConfiguration {
           inherit pkgs;
           modules = [
+            { _module.args.colorScheme = ""; }
             ./options.nix
             ./keymaps.nix
             ./lsp.nix

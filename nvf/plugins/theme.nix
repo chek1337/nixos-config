@@ -1,7 +1,7 @@
 {
   pkgs,
   lib,
-  colorScheme ? "nord",
+  colorScheme ? "",
   ...
 }:
 let

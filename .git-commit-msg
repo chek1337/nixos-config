@@ -1,1 +1,1 @@
-feat(nvf): fallback to default colorscheme when colorScheme is unknown
+feat(nvf): standalone defaults to no colorscheme (classic palette)

@@ -17,11 +17,26 @@
         lsp.servers = [ "nixd" ];
         format.type = [ "nixfmt" ];
       };
+
       lua.enable = true;
+
       python = {
         enable = true;
         lsp.servers = [ "ty" ];
+        format.type = [ "ruff" ];
       };
+
+      clang = {
+        enable = true;
+        lsp.servers = [ "clangd" ];
+      };
+
+      json = {
+        enable = true;
+        lsp.servers = [ "jsonls" ];
+        format.type = [ "jsonfmt" ];
+      };
+
       markdown.enable = true;
       bash.enable = true;
     };
@@ -34,6 +49,9 @@
       ruff
       basedpyright
       ty
+      clang-tools
+      vscode-langservers-extracted
+      jsonfmt
     ];
   };
 }

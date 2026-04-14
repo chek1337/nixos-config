@@ -14,6 +14,7 @@
       number = true;
       relativenumber = true;
       signcolumn = "yes";
+      confirm = true;
     };
 
     clipboard = {

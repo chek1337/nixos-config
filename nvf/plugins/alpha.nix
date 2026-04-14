@@ -79,7 +79,7 @@ in
           }
           {
             type = "button";
-            val = "   Find Text";
+            val = "  Find Text";
             on_press = lua ''function() require("snacks").picker.grep() end'';
             opts = {
               position = "center";
@@ -99,6 +99,20 @@ in
               position = "center";
               shortcut = "r";
               keymap = keymap "r" "lua require('snacks').picker.recent()";
+              cursor = 3;
+              width = 50;
+              align_shortcut = "right";
+              hl_shortcut = "Keyword";
+            };
+          }
+          {
+            type = "button";
+            val = "  Restore Session";
+            on_press = lua ''function() require("persistence").load() end'';
+            opts = {
+              position = "center";
+              shortcut = "s";
+              keymap = keymap "s" "lua require('persistence').load()";
               cursor = 3;
               width = 50;
               align_shortcut = "right";

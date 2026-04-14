@@ -77,5 +77,71 @@
       mode = "i";
       action = "<Right>";
     }
+
+    {
+      key = "J";
+      mode = "n";
+      action = "<cmd>BufferLineCyclePrev<cr>";
+      desc = "Previous buffer";
+    }
+    {
+      key = "K";
+      mode = "n";
+      action = "<cmd>BufferLineCycleNext<cr>";
+      desc = "Next buffer";
+    }
+
+    {
+      key = "gh";
+      mode = "n";
+      action = "<cmd>lua vim.lsp.buf.hover()<cr>";
+      desc = "LSP Hover";
+    }
+
+    {
+      key = "H";
+      mode = "n";
+      action = "<Nop>";
+      silent = true;
+    }
+    {
+      key = "L";
+      mode = "n";
+      action = "<Nop>";
+      silent = true;
+    }
+
+    {
+      key = "<leader>M";
+      mode = "n";
+      action = "<cmd>Mason<CR>";
+      desc = "Open Mason";
+    }
+    {
+      key = "<leader>L";
+      mode = "n";
+      action = "<cmd>Lazy<CR>";
+      desc = "Open Lazy";
+    }
+
+    {
+      key = "<C-Del>";
+      mode = "i";
+      action = "<C-o>dw";
+      desc = "Delete word forward";
+    }
+
+    {
+      key = "<leader>fd";
+      mode = "n";
+      action = "<cmd>lua require('conform').format({ async = true, lsp_fallback = true })<cr>";
+      desc = "Format document";
+    }
+    {
+      key = "<leader>fd";
+      mode = "v";
+      action = "<cmd>lua require('conform').format({ async = true, lsp_fallback = true, range = { [\"start\"] = vim.api.nvim_buf_get_mark(0, \"<\"), [\"end\"] = vim.api.nvim_buf_get_mark(0, \">\") } })<cr>";
+      desc = "Format selection";
+    }
   ];
 }

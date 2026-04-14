@@ -1,1 +1,1 @@
-feat: rewrite alpha.nix using nvf declarative dashboard API
+feat: add keymaps, persistence.nvim sessions, and vim options

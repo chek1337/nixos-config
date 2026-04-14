@@ -32,13 +32,35 @@
 
       nvim-dap-virtual-text = {
         package = nvim-dap-virtual-text;
-        setup = ''require("nvim-dap-virtual-text").setup({})'';
+        setup = ''
+          require("nvim-dap-virtual-text").setup({
+            display_callback = function(variable, buf, stackframe, node, options)
+              local val = variable.value:gsub("%s+", " ")
+              if #val > 20 then val = val:sub(1, 20) .. "…" end
+              if options.virt_text_pos == "inline" then
+                return " = " .. val
+              else
+                return variable.name .. " = " .. val
+              end
+            end,
+          })
+        '';
         after = [ "nvim-dap" ];
       };
 
       persistent-breakpoints = {
         package = persistent-breakpoints-nvim;
         after = [ "nvim-dap" ];
+        setup = ''
+          require("persistent-breakpoints").setup({
+            save_dir = vim.fn.stdpath("data") .. "/nvim_checkpoints",
+            load_breakpoints_event = { "BufReadPost" },
+            always_reload = true,
+          })
+          -- BufReadPost уже отработал к моменту загрузки плагина,
+          -- вручную инициализируем bps для текущего буфера
+          require("persistent-breakpoints.api").load_breakpoints()
+        '';
       };
 
       nvim-dap-view = {

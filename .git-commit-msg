@@ -1,1 +1,1 @@
-feat(nvf): add autoread checktime autocmd
+feat(nvf): fix persistent-breakpoints setup and limit dap virtual text length

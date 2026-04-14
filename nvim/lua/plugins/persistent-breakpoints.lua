@@ -7,5 +7,8 @@ return {
       load_breakpoints_event = { "BufReadPost" },
       always_reload = true,
     })
+    -- BufReadPost уже отработал к моменту ленивой загрузки плагина,
+    -- поэтому вручную загружаем breakpoints для текущего буфера
+    require("persistent-breakpoints.api").load_breakpoints()
   end,
 }

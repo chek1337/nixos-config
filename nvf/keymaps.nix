@@ -143,5 +143,85 @@
       action = "<cmd>lua require('conform').format({ async = true, lsp_fallback = true, range = { [\"start\"] = vim.api.nvim_buf_get_mark(0, \"<\"), [\"end\"] = vim.api.nvim_buf_get_mark(0, \">\") } })<cr>";
       desc = "Format selection";
     }
+
+    # Quickfix list
+    {
+      key = "<leader>xq";
+      mode = "n";
+      lua = true;
+      action = ''
+        function()
+          local success, err = pcall(vim.fn.getqflist({ winid = 0 }).winid ~= 0 and vim.cmd.cclose or vim.cmd.copen)
+          if not success and err then
+            vim.notify(err, vim.log.levels.ERROR)
+          end
+        end
+      '';
+      desc = "Quickfix List";
+    }
+    {
+      key = "[q";
+      mode = "n";
+      action = "<cmd>cprev<cr>";
+      desc = "Previous Quickfix";
+    }
+    {
+      key = "]q";
+      mode = "n";
+      action = "<cmd>cnext<cr>";
+      desc = "Next Quickfix";
+    }
+
+    # Better indenting
+    {
+      key = "<";
+      mode = "x";
+      action = "<gv";
+      desc = "Indent left";
+    }
+    {
+      key = ">";
+      mode = "x";
+      action = ">gv";
+      desc = "Indent right";
+    }
+
+    # Move Lines
+    {
+      key = "<A-j>";
+      mode = "n";
+      action = "<cmd>execute 'move .+' . v:count1<cr>==";
+      desc = "Move Down";
+    }
+    {
+      key = "<A-k>";
+      mode = "n";
+      action = "<cmd>execute 'move .-' . (v:count1 + 1)<cr>==";
+      desc = "Move Up";
+    }
+    {
+      key = "<A-j>";
+      mode = "i";
+      action = "<esc><cmd>m .+1<cr>==gi";
+      desc = "Move Down";
+    }
+    {
+      key = "<A-k>";
+      mode = "i";
+      action = "<esc><cmd>m .-2<cr>==gi";
+      desc = "Move Up";
+    }
+    {
+      key = "<A-j>";
+      mode = "v";
+      action = ":<C-u>execute \"'<,'>move '>+\" . v:count1<cr>gv=gv";
+      desc = "Move Down";
+    }
+    {
+      key = "<A-k>";
+      mode = "v";
+      action = ":<C-u>execute \"'<,'>move '<-\" . (v:count1 + 1)<cr>gv=gv";
+      desc = "Move Up";
+    }
   ];
 }

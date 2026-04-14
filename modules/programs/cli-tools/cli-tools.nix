@@ -10,6 +10,7 @@ let
     "television"
     "zellij"
     "nvim"
+    "nvf"
     "zoxide"
     "trash-cli"
     "btop"

@@ -62,9 +62,9 @@
         };
       };
 
-      programs.zsh.initContent = ''
-        bindkey -s '^S' 'tv --ui-scale 80 sesh\n'
-      '';
+      # programs.zsh.initContent = ''
+      #   bindkey -s '^S' 'tv --ui-scale 80 sesh\n'
+      # '';
 
       home.packages = [ pkgs.fd ];
     };

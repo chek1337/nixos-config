@@ -1,1 +1,1 @@
-feat: replace tmux-sessionx with sesh + television
+feat(tmux): replace sesh last with tmux-last script to skip scratch session

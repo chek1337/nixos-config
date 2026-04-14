@@ -174,9 +174,12 @@ in
             set -g status-right "#{?window_zoomed_flag,#{E:@catppuccin_zoom_module},}#{E:@catppuccin_status_session}"
 
             # Sesh session manager (via television)
-            bind -n C-s display-popup -E -w 80% -h 80% -d '#{pane_current_path}' -T 'Sesh' tv sesh
+            bind s display-popup -E -w 80% -h 80% -d '#{pane_current_path}' -T 'Sesh' 'tv sesh'
             bind S choose-tree -Zs
-            bind -N "last-session (via sesh)" L run-shell "sesh last"
+            bind -N "last-session (skip scratch)" L run-shell "tmux-last"
+
+            unbind d
+            bind D detach-client
           '';
       };
       programs.zsh.shellAliases = {
@@ -192,6 +195,13 @@ in
       home.packages = [
         pkgs.tmuxinator
         pkgs.sesh
+        (pkgs.writeShellScriptBin "tmux-last" ''
+          current=$(tmux display-message -p '#S')
+          tmux list-sessions -F '#{session_last_attached} #{session_name}' \
+            | sort -rn \
+            | awk -v cur="$current" '$2 != "scratch" && $2 != cur {print $2; exit}' \
+            | xargs -I{} tmux switch-client -t {}
+        '')
       ];
 
       xdg.configFile."sesh/sesh.toml".text = ''

@@ -1,7 +1,14 @@
 {
   description = "My NixOS config";
 
-  outputs = inputs: inputs.flake-parts.lib.mkFlake { inherit inputs; } (inputs.import-tree ./modules);
+  outputs =
+    inputs:
+    inputs.flake-parts.lib.mkFlake { inherit inputs; } {
+      imports = [
+        (inputs.import-tree ./modules)
+        ./nvf
+      ];
+    };
 
   inputs = {
     nixpkgs.url = "nixpkgs/nixos-unstable";
@@ -58,6 +65,10 @@
     };
     lazyvim-nix = {
       url = "github:pfassina/lazyvim-nix";
+    };
+    nvf = {
+      url = "github:notashelf/nvf";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
     nixpkgs-nvim-0_11_6 = {
       url = "github:NixOS/nixpkgs/73a57bd3fe25d96c42311ae567e86ca542e62329";

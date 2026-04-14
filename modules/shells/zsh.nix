@@ -25,6 +25,7 @@
         initContent = ''
           WORDCHARS='*?_[]~=&;!#$%^(){}'
           bindkey " " magic-space
+          bindkey -r "^L"  # отдаём ctrl+l tmux/nvim для навигации
 
           # z4h-style word deletion: удаляет по одной группе символов за раз
           # (буквы/цифры, спецсимволы, пробелы — каждая группа отдельно)

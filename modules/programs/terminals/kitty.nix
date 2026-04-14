@@ -32,6 +32,12 @@
           shell_integration = "enabled";
         };
         extraConfig = ''
+          # Ctrl+hjkl → передаём без перехвата (для tmux/nvim навигации)
+          map ctrl+h send_text all \x08
+          map ctrl+j send_text all \x0a
+          map ctrl+k send_text all \x0b
+          map ctrl+l send_text all \x0c
+
           # Ctrl+Backspace → delete word backward (works in zsh, nvim, and through tmux)
           map ctrl+backspace send_text all \x17
 

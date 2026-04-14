@@ -94,7 +94,11 @@ in
             set -g set-clipboard on
             set -ga terminal-overrides ",xterm-256color:Tc"
 
-            # Навигация по панелям
+            # Навигация по панелям (с ручным @pane-is-vim из nvim)
+            bind-key -n C-h if -F "#{@pane-is-vim}" 'send-keys C-h' 'select-pane -L'
+            bind-key -n C-j if -F "#{@pane-is-vim}" 'send-keys C-j' 'select-pane -D'
+            bind-key -n C-k if -F "#{@pane-is-vim}" 'send-keys C-k' 'select-pane -U'
+            bind-key -n C-l if -F "#{@pane-is-vim}" 'send-keys C-l' 'select-pane -R'
             bind h select-pane -L
             bind j select-pane -D
             bind k select-pane -U

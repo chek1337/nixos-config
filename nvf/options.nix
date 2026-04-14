@@ -29,5 +29,14 @@
       mapleader = " ";
       maplocalleader = " ";
     };
+
+    luaConfigRC.autoread-checktime = ''
+      vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "CursorHoldI" }, {
+        group = vim.api.nvim_create_augroup("AutoReadOnChange", { clear = true }),
+        callback = function()
+          vim.cmd("silent! checktime")
+        end,
+      })
+    '';
   };
 }

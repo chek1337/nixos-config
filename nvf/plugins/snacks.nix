@@ -1,12 +1,54 @@
 { lib, ... }:
+let
+  inherit (lib.generators) mkLuaInline;
+in
 {
   vim.utility.snacks-nvim = {
     enable = true;
     setupOpts = {
+      picker = {
+        enable = true;
+        layout = "my_vertical";
+        layouts.my_vertical.layout = mkLuaInline ''
+          {
+            backdrop = false,
+            width = 0.5,
+            min_width = 80,
+            height = 0.8,
+            min_height = 30,
+            box = "vertical",
+            border = true,
+            title = "{title} {live} {flags}",
+            title_pos = "center",
+            { win = "input", height = 1, border = "bottom" },
+            { win = "list", height = 0.3, border = "none" },
+            { win = "preview", title = "{preview}", height = 0.6, border = "top" },
+          }
+        '';
+        layouts.reverse_dropdown.layout = mkLuaInline ''
+          {
+            backdrop = false,
+            row = 0,
+            width = 0.75,
+            min_width = 120,
+            height = 0.8,
+            border = "none",
+            box = "vertical",
+            {
+              box = "vertical",
+              border = true,
+              title = "{title} {live} {flags}",
+              title_pos = "center",
+              { win = "input", height = 1, border = "bottom" },
+              { win = "list", border = "none" },
+            },
+            { win = "preview", title = "{preview}", height = 0.7, border = true },
+          }
+        '';
+      };
       bigfile.enable = true;
       bufdelete.enable = true;
       gitbrowse.enable = true;
-      picker.enable = true;
       toggle.enable = true;
       zen.enable = true;
       dim.enable = true;

@@ -1,1 +1,1 @@
-feat(nvf): fix persistent-breakpoints setup and limit dap virtual text length
+feat(nvf): add yank highlight

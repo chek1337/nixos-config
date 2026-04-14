@@ -1,1 +1,1 @@
-feat(nvf): add colorScheme theming support (nord/catppuccin-mocha/gruvbox-dark-hard)
+feat(nvf): fallback to default colorscheme when colorScheme is unknown

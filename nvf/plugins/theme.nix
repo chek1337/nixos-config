@@ -1,5 +1,6 @@
 {
   pkgs,
+  lib,
   colorScheme ? "nord",
   ...
 }:
@@ -51,8 +52,8 @@ let
     };
   };
 
-  theme = themes.${colorScheme} or themes.nord;
+  theme = themes.${colorScheme} or null;
 in
 {
-  vim.extraPlugins.colorscheme = theme;
+  vim.extraPlugins = lib.optionalAttrs (theme != null) { colorscheme = theme; };
 }

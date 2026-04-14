@@ -1,1 +1,1 @@
-fix(nvf): explicitly pass colorScheme to standalone package via _module.args
+feat(nvf): use nord as default colorScheme for standalone package

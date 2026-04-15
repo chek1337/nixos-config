@@ -1000,6 +1000,7 @@
         "spicetify-nix": "spicetify-nix",
         "stylix": "stylix",
         "systems": "systems_10",
+        "tmux-floax-fork": "tmux-floax-fork",
         "treefmt-nix": "treefmt-nix_2",
         "yandex-browser": "yandex-browser",
         "zapret-discord-youtube": "zapret-discord-youtube",
@@ -1341,6 +1342,23 @@
       "original": {
         "owner": "tinted-theming",
         "repo": "base16-zed",
+        "type": "github"
+      }
+    },
+    "tmux-floax-fork": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1776289957,
+        "narHash": "sha256-tBEPD3qlMvMuvmiXTh/eg/+fH8hPXZ3InPNoTlzGy8c=",
+        "owner": "chek1337",
+        "repo": "tmux-floax",
+        "rev": "0503ec76b377ab8a699b2c843154283e167a0b37",
+        "type": "github"
+      },
+      "original": {
+        "owner": "chek1337",
+        "ref": "feat/per-session-popup",
+        "repo": "tmux-floax",
         "type": "github"
       }
     },

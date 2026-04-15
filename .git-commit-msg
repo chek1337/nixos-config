@@ -1,1 +1,1 @@
-feat(nvf): disable all vendored keymaps
+feat(tmux): use tmux-floax fork with per-session popup support

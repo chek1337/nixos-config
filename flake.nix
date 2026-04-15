@@ -118,5 +118,9 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     hibiki.url = "github:linuxmobile/hibiki";
+    tmux-floax-fork = {
+      url = "github:chek1337/tmux-floax/feat/per-session-popup";
+      flake = false;
+    };
   };
 }

@@ -41,7 +41,12 @@ in
           #   '';
           # }
           {
-            plugin = tmux-floax;
+            plugin = pkgs.tmuxPlugins.mkTmuxPlugin {
+              pluginName = "tmux-floax";
+              rtpFilePath = "floax.tmux";
+              version = "unstable";
+              src = inputs.tmux-floax-fork;
+            };
             extraConfig = ''
               set -g @floax-bind 'p'
               set -g @floax-bind-menu 'P'
@@ -51,6 +56,7 @@ in
               set -g @floax-text-color '${config.lib.stylix.colors.withHashtag.base05}'
               set -g @floax-change-path 'false'
               set -g @floax-title 'PopupSession'
+              set -g @floax-per-session 'true'
             '';
           }
           {
@@ -78,7 +84,6 @@ in
                 set -g status-right-length 100
                 set -g status-left ""
 
-                bind p run-shell -b "tmux-popup-session"
               '';
           }
         ];
@@ -197,21 +202,7 @@ in
       home.packages = [
         pkgs.tmuxinator
         pkgs.sesh
-        # 1. Добавить скрипт в home.packages
-        (pkgs.writeShellScriptBin "tmux-popup-session" ''
-          SESS=$(tmux display-message -p "#{session_name}")
-
-          if [[ "$SESS" == scratch_* ]]; then
-            tmux detach-client
-          else
-            tmux popup \
-              -xC -yC \
-              -w 80% -h 80% \
-              -E "tmux new-session -A -s scratch_''${SESS}"
-          fi
-        '')
-
-        # 2. tmux-last — обновить фильтр scratch_*
+        # tmux-last — переключение на предыдущую сессию (skip scratch_*)
         (pkgs.writeShellScriptBin "tmux-last" ''
           current=$(tmux display-message -p '#S')
           tmux list-sessions -F '#{session_last_attached} #{session_name}' \

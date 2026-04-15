@@ -77,6 +77,8 @@ in
                 set -g status-left-length 100
                 set -g status-right-length 100
                 set -g status-left ""
+
+                bind p run-shell -b "tmux-popup-session"
               '';
           }
         ];
@@ -195,18 +197,34 @@ in
       home.packages = [
         pkgs.tmuxinator
         pkgs.sesh
+        # 1. Добавить скрипт в home.packages
+        (pkgs.writeShellScriptBin "tmux-popup-session" ''
+          SESS=$(tmux display-message -p "#{session_name}")
+
+          if [[ "$SESS" == scratch_* ]]; then
+            tmux detach-client
+          else
+            tmux popup \
+              -xC -yC \
+              -w 80% -h 80% \
+              -E "tmux new-session -A -s scratch_''${SESS}"
+          fi
+        '')
+
+        # 2. tmux-last — обновить фильтр scratch_*
         (pkgs.writeShellScriptBin "tmux-last" ''
           current=$(tmux display-message -p '#S')
           tmux list-sessions -F '#{session_last_attached} #{session_name}' \
             | sort -rn \
-            | awk -v cur="$current" '$2 != "scratch" && $2 != cur {print $2; exit}' \
+            | awk -v cur="$current" '$2 !~ /^scratch_/ && $2 != cur {print $2; exit}' \
             | xargs -I{} tmux switch-client -t {}
         '')
       ];
 
+      # 4. sesh.toml — обновить blacklist (поддерживает glob)
       xdg.configFile."sesh/sesh.toml".text = ''
         sort_order = ["tmuxinator", "config", "tmux", "zoxide"]
-        blacklist = ["scratch"]
+        blacklist = ["^scratch_"]
       '';
 
       xdg.configFile."tmuxinator/rice.yml".text = ''

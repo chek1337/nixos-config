@@ -25,6 +25,8 @@
       };
     };
 
+    vendoredKeymaps.enable = false;
+
     globals = {
       mapleader = " ";
       maplocalleader = "\\";

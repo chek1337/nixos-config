@@ -76,10 +76,10 @@
             },
             windows = {
               size = 0.35,
-              position = "below",
+              position = "right",
               terminal = {
                 size = 0.45,
-                position = "right",
+                position = "below",
               },
             },
             auto_toggle = true,

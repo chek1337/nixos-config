@@ -1,1 +1,1 @@
-feat(tmux): per-session scratch popups with sesh blacklist
+feat(nvf): add iron.nvim + venv-selector, set localleader to backslash

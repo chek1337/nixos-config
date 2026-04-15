@@ -27,7 +27,7 @@
 
     globals = {
       mapleader = " ";
-      maplocalleader = " ";
+      maplocalleader = "\\";
     };
 
     luaConfigRC.autoread-checktime = # lua

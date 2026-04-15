@@ -210,7 +210,7 @@ in
       desc = "Toggle Inlay Hints";
     }
     {
-      key = "<leader>wm";
+      key = "<C-W>z";
       mode = [ "n" ];
       action = "function() require('snacks').toggle.zoom():toggle() end";
       lua = true;

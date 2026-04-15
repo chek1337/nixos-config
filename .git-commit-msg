@@ -1,1 +1,1 @@
-feat(nvf): fix virtual text length
+refactor(nvf): split dap.nix into per-plugin modules under plugins/dap/

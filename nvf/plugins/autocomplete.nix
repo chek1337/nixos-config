@@ -58,9 +58,28 @@ in
       cmdline = {
         sources = [ "cmdline" ];
         keymap = {
-          preset = "cmdline";
-          "<Right>" = [ ];
-          "<Left>" = [ ];
+          preset = "enter";
+
+          "<Tab>" = [
+            "select_and_accept"
+            "snippet_forward"
+            "fallback"
+          ];
+          "<S-Tab>" = [
+            "select_prev"
+            "snippet_backward"
+            "fallback"
+          ];
+
+          "<C-Space>" = [
+            "show"
+            "show_documentation"
+            "hide_documentation"
+          ];
+          "<C-e>" = [
+            "hide"
+            "fallback"
+          ];
         };
         completion = {
           list.selection.preselect = false;

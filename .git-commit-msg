@@ -1,1 +1,1 @@
-feat(nvf): add iron.nvim + venv-selector, set localleader to backslash
+feat(nvf): fix virtual text length

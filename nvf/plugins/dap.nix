@@ -36,7 +36,7 @@
           require("nvim-dap-virtual-text").setup({
             display_callback = function(variable, buf, stackframe, node, options)
               local val = variable.value:gsub("%s+", " ")
-              if #val > 20 then val = val:sub(1, 20) .. "…" end
+              if #val > 40 then val = val:sub(1, 20) .. "…" .. val:sub(-20) end
               if options.virt_text_pos == "inline" then
                 return " = " .. val
               else

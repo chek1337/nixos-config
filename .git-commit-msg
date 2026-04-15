@@ -1,1 +1,1 @@
-feat(tmux): use tmux-floax fork with per-session popup support
+refactor(tmux): split tmux.nix into tmux/ with per-plugin modules

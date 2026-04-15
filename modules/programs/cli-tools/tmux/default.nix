@@ -16,76 +16,10 @@ in
         prefix = "C-Space";
         mouse = true;
         keyMode = "vi";
-        plugins = with pkgs.tmuxPlugins; [
-          {
-            plugin = fingers;
-            extraConfig = ''
-              set -g @fingers-key none
-              set -g @fingers-main-action 'echo -n {} | wl-copy'
-              set -g @fingers-pattern-word '\S+'
-              set -g @fingers-pattern-line '.+'
-              bind f switch-client -T fingers-mode
-              bind F command-prompt "find-window -Z -- '%%'"
-              bind f run -b "#{@fingers-cli} start #{pane_id} --mode jump --patterns ip,uuid,sha,digit,url,path,hex,kubernetes,git-status,git-status-branch,diff,word"
-            '';
-            # bind -T fingers-mode f run -b "#{@fingers-cli} start #{pane_id} --patterns ip,uuid,sha,digit,url,path,hex,kubernetes,git-status,git-status-branch,diff"
-            # bind -T fingers-mode w run -b "#{@fingers-cli} start #{pane_id} --patterns word"
-            # bind -T fingers-mode l run -b "#{@fingers-cli} start #{pane_id} --patterns line"
-          }
-          # resurrect
-          # {
-          #   plugin = continuum;
-          #   extraConfig = ''
-          #     set -g @continuum-restore 'on'
-          #     set -g @continuum-save-interval '10'
-          #   '';
-          # }
-          {
-            plugin = pkgs.tmuxPlugins.mkTmuxPlugin {
-              pluginName = "tmux-floax";
-              rtpFilePath = "floax.tmux";
-              version = "unstable";
-              src = inputs.tmux-floax-fork;
-            };
-            extraConfig = ''
-              set -g @floax-bind 'p'
-              set -g @floax-bind-menu 'P'
-              set -g @floax-width '80%'
-              set -g @floax-height '80%'
-              set -g @floax-border-color '${config.lib.stylix.colors.withHashtag.base0D}'
-              set -g @floax-text-color '${config.lib.stylix.colors.withHashtag.base05}'
-              set -g @floax-change-path 'false'
-              set -g @floax-title 'PopupSession'
-              set -g @floax-per-session 'true'
-            '';
-          }
-          {
-            plugin = catppuccin;
-            extraConfig =
-              let
-                c = config.lib.stylix.colors.withHashtag;
-              in
-              ''
-                set -g @catppuccin_flavor "mocha"
-                set -g @catppuccin_window_status_style "basic"
-
-                set -g @catppuccin_window_number_color "${c.base03}"
-                set -g @catppuccin_window_current_number_color "#{@thm_blue}"
-
-                set -g @catppuccin_window_text " #W"
-                set -g @catppuccin_window_current_text " #W"
-
-                set -g @catppuccin_status_module_bg_color "${c.base01}"
-
-                set -g @catppuccin_status_left_separator "█"
-                set -g @catppuccin_status_right_separator "█"
-
-                set -g status-left-length 100
-                set -g status-right-length 100
-                set -g status-left ""
-
-              '';
-          }
+        plugins = [
+          (import ./_plugins/fingers.nix { inherit pkgs; })
+          (import ./_plugins/floax.nix { inherit pkgs config inputs; })
+          (import ./_plugins/catppuccin.nix { inherit pkgs config; })
         ];
         extraConfig =
           let
@@ -202,7 +136,6 @@ in
       home.packages = [
         pkgs.tmuxinator
         pkgs.sesh
-        # tmux-last — переключение на предыдущую сессию (skip scratch_*)
         (pkgs.writeShellScriptBin "tmux-last" ''
           current=$(tmux display-message -p '#S')
           tmux list-sessions -F '#{session_last_attached} #{session_name}' \

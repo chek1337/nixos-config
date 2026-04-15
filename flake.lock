@@ -1348,11 +1348,11 @@
     "tmux-floax-fork": {
       "flake": false,
       "locked": {
-        "lastModified": 1776289957,
-        "narHash": "sha256-tBEPD3qlMvMuvmiXTh/eg/+fH8hPXZ3InPNoTlzGy8c=",
+        "lastModified": 1776333014,
+        "narHash": "sha256-zgI+ArGMRSxPF5/k3PItsaB7cOpty9tv1wJcgqkVtuY=",
         "owner": "chek1337",
         "repo": "tmux-floax",
-        "rev": "0503ec76b377ab8a699b2c843154283e167a0b37",
+        "rev": "976115461e2c92d8e1659f5b08cf6d7347baf8a2",
         "type": "github"
       },
       "original": {

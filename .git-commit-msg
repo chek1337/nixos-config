@@ -1,1 +1,1 @@
-refactor(nvf): organize plugins into semantic subdirectories
+refactor(nvf): split git.nix into config and mappings

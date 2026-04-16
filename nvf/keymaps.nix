@@ -159,6 +159,42 @@
       desc = "Next Quickfix";
     }
 
+    # Saner n/N search behavior (https://github.com/mhinz/vim-galore#saner-behavior-of-n-and-n)
+    {
+      key = "n";
+      mode = "n";
+      action = "'Nn'[v:searchforward].'zv'";
+      expr = true;
+      desc = "Next Search Result";
+    }
+    {
+      key = "n";
+      mode = [
+        "x"
+        "o"
+      ];
+      action = "'Nn'[v:searchforward]";
+      expr = true;
+      desc = "Next Search Result";
+    }
+    {
+      key = "N";
+      mode = "n";
+      action = "'nN'[v:searchforward].'zv'";
+      expr = true;
+      desc = "Prev Search Result";
+    }
+    {
+      key = "N";
+      mode = [
+        "x"
+        "o"
+      ];
+      action = "'nN'[v:searchforward]";
+      expr = true;
+      desc = "Prev Search Result";
+    }
+
     # Tabs
     {
       key = "<leader><tab>l";

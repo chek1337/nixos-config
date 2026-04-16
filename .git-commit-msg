@@ -1,1 +1,1 @@
-feat(noctalia): add show-keys alias for plugin toggle
+fix(noctalia): use noctalia-shell instead of qs in show-keys alias

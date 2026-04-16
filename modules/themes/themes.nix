@@ -73,7 +73,7 @@ in
           inherit (scheme.icons) package dark light;
         };
         targets = {
-          qt.enable = true;
+          qt.enable = false;
         };
       };
       gtk.gtk4.theme = config.gtk.theme;

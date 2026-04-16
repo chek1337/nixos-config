@@ -1,1 +1,1 @@
-feat(qutebrowser): support direct tab number input in fuzzel tabs menu
+fix(tmux): stay in copy-mode after yanking

@@ -1,1 +1,1 @@
-feat(noctalia): add zen browser VPN launcher
+fix(boot): limit systemd-boot generations to 3 to prevent /boot overflow

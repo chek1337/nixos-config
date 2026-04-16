@@ -14,6 +14,7 @@ let
     "mpv"
     "qbittorrent"
     "obs"
+    "kdenlive"
     "image-editors"
     "zoom"
     "hibiki"

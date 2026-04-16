@@ -1,1 +1,1 @@
-refactor(tmux): split tmux.nix into tmux/ with per-plugin modules
+feat(gui-tools): add kdenlive

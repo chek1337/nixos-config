@@ -59,7 +59,7 @@
           version = 2;
         };
         pluginSettings.show-keys = {
-          captureEnabled = true;
+          captureEnabled = false;
           evtestDevice = "/dev/input/event20";
           position = "bottom";
           marginPx = 60;

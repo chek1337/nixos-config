@@ -1,1 +1,1 @@
-feat(noctalia): add show-keys plugin
+fix(noctalia): disable show-keys capture by default

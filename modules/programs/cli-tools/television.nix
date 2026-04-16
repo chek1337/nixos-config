@@ -5,6 +5,11 @@
     {
       programs.television = {
         enable = true;
+        package = pkgs.television.overrideAttrs (_old: {
+          postPatch = (_old.postPatch or "") + ''
+            sed -i '/\.italic(),/d' television/screen/input.rs
+          '';
+        });
         enableZshIntegration = true;
 
         settings = { };

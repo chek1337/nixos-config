@@ -1,1 +1,1 @@
-refactor(nvf): split git.nix into config and mappings
+feat(nvf): rename git files

@@ -4,6 +4,7 @@ let
   modules = [
     "kitty"
     "alacritty"
+    "ghostty"
     # "wezterm"
   ];
 in

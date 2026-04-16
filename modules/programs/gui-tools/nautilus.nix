@@ -6,7 +6,7 @@
   flake.modules.homeManager.nautilus =
     { pkgs, config, ... }:
     let
-      terminal = config.home.sessionVariables.TERMINAL or "kitty";
+      terminal = config.home.sessionVariables.TERMINAL or "ghostty";
     in
     {
       home.packages = with pkgs; [ nautilus ];

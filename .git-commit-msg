@@ -1,1 +1,1 @@
-fix(television): remove hardcoded italic from input bar
+feat(qutebrowser): support direct tab number input in fuzzel tabs menu

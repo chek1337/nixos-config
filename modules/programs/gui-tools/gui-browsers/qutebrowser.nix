@@ -174,7 +174,7 @@
                 proc = subprocess.run(
                     [FUZZEL] + FUZZEL_STYLE + [
                       '--dmenu', '--no-sort', '--match-mode=exact',
-                      '--match-nth=1', '--with-nth=2', '--index',
+                      '--match-nth=1', '--with-nth=2',
                       '-p', 'tab: ', '-l', '12',
                     ],
                     input='\n'.join(lines),
@@ -183,7 +183,13 @@
                 )
                 if proc.returncode != 0 or not proc.stdout.strip():
                     return None
-                return int(proc.stdout.strip())
+                result = proc.stdout.strip()
+                if result.startswith('['):
+                    return int(result[1:result.index(']')])
+                try:
+                    return int(result)
+                except ValueError:
+                    return None
 
 
             def main():
@@ -202,13 +208,11 @@
                     sys.exit(1)
 
                 lines = [e[2] for e in entries]
-                tabs_info = [(e[1], e[0]) for e in entries]
 
-                idx = pick_tab(lines)
-                if idx is None:
+                tid = pick_tab(lines)
+                if tid is None:
                     sys.exit(0)
 
-                _, tid = tabs_info[idx]
                 with open(fifo, 'a') as f:
                     f.write(f'tab-focus {tid}\n')
 

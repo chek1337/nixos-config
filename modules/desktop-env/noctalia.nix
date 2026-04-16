@@ -32,6 +32,7 @@
         qt6Packages.qt6ct
         nwg-look
         swww
+        evtest
       ];
 
       programs.noctalia-shell = {
@@ -50,8 +51,20 @@
               enabled = true;
               sourceUrl = "https://github.com/noctalia-dev/noctalia-plugins";
             };
+            show-keys = {
+              enabled = true;
+              sourceUrl = "https://github.com/noctalia-dev/noctalia-plugins";
+            };
           };
           version = 2;
+        };
+        pluginSettings.show-keys = {
+          captureEnabled = true;
+          evtestDevice = "/dev/input/event20";
+          position = "bottom";
+          marginPx = 60;
+          hideDelaySec = 2;
+          disabledScreens = [ ];
         };
         pluginSettings.custom-commands = {
           commands = [

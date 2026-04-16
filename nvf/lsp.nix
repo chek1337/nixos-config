@@ -17,7 +17,6 @@
     lsp = {
       enable = true;
       formatOnSave = false;
-      trouble.enable = true;
       lspkind.enable = true;
     };
 

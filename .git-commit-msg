@@ -1,1 +1,1 @@
-fix(gui-tools): use kdePackages.kdenlive
+fix(gui-tools): disable stylix for kdenlive

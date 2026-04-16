@@ -159,6 +159,14 @@
       desc = "Next Quickfix";
     }
 
+    # Clear search, diff update and redraw
+    {
+      key = "<leader>ur";
+      mode = "n";
+      action = "<Cmd>nohlsearch<Bar>diffupdate<Bar>normal! <C-L><CR>";
+      desc = "Redraw / Clear hlsearch / Diff Update";
+    }
+
     # Saner n/N search behavior (https://github.com/mhinz/vim-galore#saner-behavior-of-n-and-n)
     {
       key = "n";

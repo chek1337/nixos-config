@@ -159,6 +159,50 @@
       desc = "Next Quickfix";
     }
 
+    # Tabs
+    {
+      key = "<leader><tab>l";
+      mode = "n";
+      action = "<cmd>tablast<cr>";
+      desc = "Last Tab";
+    }
+    {
+      key = "<leader><tab>o";
+      mode = "n";
+      action = "<cmd>tabonly<cr>";
+      desc = "Close Other Tabs";
+    }
+    {
+      key = "<leader><tab>f";
+      mode = "n";
+      action = "<cmd>tabfirst<cr>";
+      desc = "First Tab";
+    }
+    {
+      key = "<leader><tab><tab>";
+      mode = "n";
+      action = "<cmd>tabnew<cr>";
+      desc = "New Tab";
+    }
+    {
+      key = "<leader><tab>]";
+      mode = "n";
+      action = "<cmd>tabnext<cr>";
+      desc = "Next Tab";
+    }
+    {
+      key = "<leader><tab>d";
+      mode = "n";
+      action = "<cmd>tabclose<cr>";
+      desc = "Close Tab";
+    }
+    {
+      key = "<leader><tab>[";
+      mode = "n";
+      action = "<cmd>tabprevious<cr>";
+      desc = "Previous Tab";
+    }
+
     # Better indenting
     {
       key = "<";

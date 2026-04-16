@@ -211,7 +211,7 @@ in
             Mod+S     { spawn-sh "noctalia-shell ipc call controlCenter toggle"; }
             Mod+Comma { spawn-sh "noctalia-shell ipc call settings toggle"; }
 
-            Mod+T { spawn "ghostty"; }
+            Mod+T { spawn "kitty"; }
             Mod+Alt+L { spawn-sh "noctalia-shell ipc call lockScreen lock"; }
 
             XF86AudioRaiseVolume  { spawn "noctalia-shell" "ipc" "call" "volume" "increase"; }

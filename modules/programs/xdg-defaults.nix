@@ -5,7 +5,7 @@
       home.sessionVariables = {
         EDITOR = "nvim";
         VISUAL = "nvim";
-        TERMINAL = "ghostty";
+        TERMINAL = "kitty";
         BROWSER = "zen-beta";
       };
 

@@ -2,9 +2,6 @@
 {
   vim = {
     ui = {
-      # borders.enable = true;
-      # colorizer.enable = true;
-
       noice = {
         enable = true;
         setupOpts.routes = [

@@ -12,6 +12,13 @@
       "<leader>s" = "Search";
       "<leader>u" = "UI";
       "<leader>f" = "File";
+      "<leader>C" = "Color";
+      "<leader>gh" = "Hunks";
+      "<leader>dp" = "Print";
+
+      "<leader>gd" = "Diff";
+      "<leader>gdh" = "History";
+      "<leader>S" = "Session";
     };
   };
 }

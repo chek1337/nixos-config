@@ -112,19 +112,6 @@
     }
 
     {
-      key = "<leader>M";
-      mode = "n";
-      action = "<cmd>Mason<CR>";
-      desc = "Open Mason";
-    }
-    {
-      key = "<leader>L";
-      mode = "n";
-      action = "<cmd>Lazy<CR>";
-      desc = "Open Lazy";
-    }
-
-    {
       key = "<C-Del>";
       mode = "i";
       action = "<C-o>dw";

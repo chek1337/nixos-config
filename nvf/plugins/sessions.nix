@@ -15,19 +15,19 @@
 
   vim.keymaps = [
     {
-      key = "<leader>ss";
+      key = "<leader>Ss";
       mode = "n";
       action = "<cmd>lua require('persistence').load()<cr>";
       desc = "Restore session (CWD)";
     }
     {
-      key = "<leader>sl";
+      key = "<leader>Sl";
       mode = "n";
       action = "<cmd>lua require('persistence').load({ last = true })<cr>";
       desc = "Restore last session";
     }
     {
-      key = "<leader>sd";
+      key = "<leader>Sd";
       mode = "n";
       action = "<cmd>lua require('persistence').stop()<cr>";
       desc = "Stop session saving";

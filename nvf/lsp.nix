@@ -46,7 +46,7 @@
 
       json = {
         enable = true;
-        lsp.servers = [ "jsonls" ];
+        lsp.servers = [ "vscode-json-language-server" ];
         format.type = [ "jsonfmt" ];
       };
 

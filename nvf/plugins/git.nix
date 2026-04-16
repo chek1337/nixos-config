@@ -26,7 +26,7 @@
           function(buffer)
             vim.keymap.set("n", "<leader>ghp",
               package.loaded.gitsigns.preview_hunk_inline,
-              { buffer = buffer, desc = "Preview Hunk Inline", silent = true })
+              { buffer = buffer, desc = "Preview Hunk Inline [Gitsigns]", silent = true })
           end
         '';
       };

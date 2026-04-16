@@ -1,1 +1,1 @@
-feat(gui-tools): add kdenlive
+fix(gui-tools): use kdePackages.kdenlive

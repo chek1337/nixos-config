@@ -1,1 +1,1 @@
-fix(noctalia): disable show-keys capture by default
+feat(noctalia): add show-keys alias for plugin toggle

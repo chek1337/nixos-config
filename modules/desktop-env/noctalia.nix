@@ -23,6 +23,8 @@
     {
       imports = [ inputs.noctalia.homeModules.default ];
 
+      programs.zsh.shellAliases.show-keys = "qs -c noctalia-shell ipc call plugin:show-keys toggle";
+
       systemd.user.sessionVariables = {
         QT_QPA_PLATFORMTHEME = lib.mkForce "gtk3";
         QS_ICON_THEME = iconTheme;

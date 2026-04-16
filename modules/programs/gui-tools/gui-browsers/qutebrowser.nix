@@ -43,23 +43,30 @@
       fuzzelStyle = lib.concatStringsSep "\n" fuzzelStyleArgs;
 
       fuzzelOpen = pkgs.writeShellScriptBin "qute-fuzzel-open" ''
-        mode="''${1:-open}"
+        menu="''${1:-open}"
+        action="''${2:-current}"
 
         readonly FUZZEL="${fuzzel}/bin/fuzzel"
         readonly SQLITE="${pkgs.sqlite}/bin/sqlite3"
+        readonly URL_WIDTH=60
         readonly TITLE_WIDTH=50
         readonly FUZZEL_STYLE=(${lib.escapeShellArgs fuzzelStyleArgs})
 
         fmt_line() {
-          local title="$1" url="$2" short chars spaces
-          if [ "''${#title}" -gt "$TITLE_WIDTH" ]; then
-            short="''${title:0:$((TITLE_WIDTH - 1))}…"
+          local title="$1" url="$2" short_url short_title chars spaces
+          if [ "''${#url}" -gt "$URL_WIDTH" ]; then
+            short_url="''${url:0:$((URL_WIDTH - 1))}…"
           else
-            short="$title"
+            short_url="$url"
           fi
-          chars=''${#short}
-          spaces=$((TITLE_WIDTH - chars))
-          printf '%s%*s    %s\n' "$short" "$spaces" "" "$url"
+          if [ "''${#title}" -gt "$TITLE_WIDTH" ]; then
+            short_title="''${title:0:$((TITLE_WIDTH - 1))}…"
+          else
+            short_title="$title"
+          fi
+          chars=''${#short_url}
+          spaces=$((URL_WIDTH - chars))
+          printf '%s%*s    %s\n' "$short_url" "$spaces" "" "$short_title"
         }
 
         show_quickmarks() {
@@ -98,12 +105,12 @@
 
         run_fuzzel() {
           local prompt="$1" search="$2"
-          local args=(--dmenu -p "$prompt: " -l 12 "''${FUZZEL_STYLE[@]}")
+          local args=(--dmenu --no-sort --match-mode=exact -p "$prompt: " -l 12 "''${FUZZEL_STYLE[@]}")
           [ -n "$search" ] && args+=(--search="$search")
           "$FUZZEL" "''${args[@]}"
         }
 
-        case "$mode" in
+        case "$menu" in
           bookmarks) selection=$(menu_bookmarks | run_fuzzel "bookmark" "") ;;
           edit)      selection=$(menu_open      | run_fuzzel "open"     "$QUTE_URL") ;;
           *)         selection=$(menu_open      | run_fuzzel "open"     "") ;;
@@ -111,11 +118,12 @@
 
         [ -z "$selection" ] && exit 0
 
-        url=$(printf '%s' "$selection" | grep -oE 'https?://\S+' | tail -1)
+        url=$(printf '%s' "$selection" | grep -oE 'https?://\S+' | head -1)
+        url="''${url%…}"
         [ -z "$url" ] && url="$selection"
         [ -z "$url" ] && exit 0
 
-        case "$mode" in
+        case "$action" in
           tab)     printf 'open -t %s\n' "$url" >> "$QUTE_FIFO" ;;
           window)  printf 'open -w %s\n' "$url" >> "$QUTE_FIFO" ;;
           private) printf 'open -p %s\n' "$url" >> "$QUTE_FIFO" ;;
@@ -273,11 +281,12 @@
           c.colors.tabs.selected.even.fg = "#${config.lib.stylix.colors.base00}"
 
           ${lib.optionalString useFuzzel ''
-            config.bind("o", "spawn --userscript qute-fuzzel-open open")
-            config.bind("O", "spawn --userscript qute-fuzzel-open tab")
-            config.bind("go", "spawn --userscript qute-fuzzel-open open")
-            config.bind("ge", "spawn --userscript qute-fuzzel-open edit")
-            config.bind("b", "spawn --userscript qute-fuzzel-open bookmarks")
+            config.bind("o", "spawn --userscript qute-fuzzel-open open current")
+            config.bind("O", "spawn --userscript qute-fuzzel-open open tab")
+            config.bind("go", "spawn --userscript qute-fuzzel-open open current")
+            config.bind("ge", "spawn --userscript qute-fuzzel-open edit current")
+            config.bind("b", "spawn --userscript qute-fuzzel-open bookmarks current")
+            config.bind("B", "spawn --userscript qute-fuzzel-open bookmarks tab")
             config.bind("T", "spawn --userscript qute-fuzzel-tabs")
           ''}
 

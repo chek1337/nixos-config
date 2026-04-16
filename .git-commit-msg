@@ -1,1 +1,1 @@
-feat(nvf): add redraw/clear hlsearch/diff update keymap
+feat(nvf): add <leader>gg keymap to open Neogit

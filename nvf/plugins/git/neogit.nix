@@ -1,5 +1,14 @@
 { ... }:
 {
+  vim.keymaps = [
+    {
+      key = "<leader>gg";
+      mode = "n";
+      action = "<cmd>Neogit<cr>";
+      desc = "Neogit";
+    }
+  ];
+
   vim.git.neogit = {
     enable = true;
 

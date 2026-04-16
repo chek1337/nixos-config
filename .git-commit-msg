@@ -1,1 +1,1 @@
-fix(boot): limit systemd-boot generations to 3 to prevent /boot overflow
+feat: update flake

@@ -10,7 +10,7 @@ let
     version = "unstable";
     src = inputs.tmux-floax-fork;
   };
-  floaxDir = "${floaxPlugin}/share/tmux-plugins/tmux-floax";
+  floaxDir = "${floaxPlugin}/share/tmux-plugins/tmux-floax/scripts";
 in
 {
   plugin = floaxPlugin;
@@ -24,6 +24,9 @@ in
     set -g @floax-change-path 'false'
     set -g @floax-title 'PopupSession'
     set -g @floax-per-session 'true'
+    # floax — переопределяем с правильным путём (форк переместил скрипты в scripts/)
+    bind p run-shell "${floaxDir}/floax.sh"
+    bind P run-shell "${floaxDir}/menu.sh"
     # floax (русская раскладка)
     bind з run-shell "${floaxDir}/floax.sh"
     bind З run-shell "${floaxDir}/menu.sh"

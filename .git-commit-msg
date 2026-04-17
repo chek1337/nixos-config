@@ -1,1 +1,1 @@
-feat(tmux): add Russian layout keybindings for fingers and floax plugins
+fix(tmux): fix floax script paths and add Russian layout keybindings

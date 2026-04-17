@@ -12,7 +12,7 @@ in
         layouts.my_vertical.layout = mkLuaInline ''
           {
             backdrop = false,
-            width = 0.5,
+            width = 0.7,
             min_width = 80,
             height = 0.8,
             min_height = 30,

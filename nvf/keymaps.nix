@@ -247,6 +247,70 @@
       desc = "Previous Tab";
     }
 
+    # Window management
+    {
+      key = "<C-W>x";
+      mode = "n";
+      action = "<cmd>close<cr>";
+      desc = "Close Window";
+    }
+    {
+      key = "<C-W>|";
+      mode = "n";
+      action = "<cmd>vsplit<cr>";
+      desc = "Split Window Right";
+    }
+    {
+      key = "<C-W>-";
+      mode = "n";
+      action = "<cmd>split<cr>";
+      desc = "Split Window Below";
+    }
+    {
+      key = "<C-W>s";
+      mode = "n";
+      action = "<C-W>x";
+      desc = "Swap Windows";
+    }
+
+    # Disable default window resize/tab keybinds
+    {
+      key = "<C-W><tab>";
+      mode = "n";
+      action = "<Nop>";
+      silent = true;
+    }
+    {
+      key = "<C-W>+";
+      mode = "n";
+      action = "<Nop>";
+      silent = true;
+    }
+    {
+      key = "<C-W><";
+      mode = "n";
+      action = "<Nop>";
+      silent = true;
+    }
+    {
+      key = "<C-W>=";
+      mode = "n";
+      action = "<Nop>";
+      silent = true;
+    }
+    {
+      key = "<C-W>>";
+      mode = "n";
+      action = "<Nop>";
+      silent = true;
+    }
+    {
+      key = "<C-W>_";
+      mode = "n";
+      action = "<Nop>";
+      silent = true;
+    }
+
     # Better indenting
     {
       key = "<";

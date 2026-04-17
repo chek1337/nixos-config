@@ -1,1 +1,1 @@
-feat(niri): add Fn+F11 touchpad toggle via sysfs inhibited
+feat(nvf): configure lualine statusline with LSP, trouble, and smart path

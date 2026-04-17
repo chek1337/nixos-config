@@ -148,12 +148,13 @@ in
             bind ж last-pane
 
             # Буфер / copy mode (русская раскладка)
-            bind х copy-mode
+            bind б copy-mode
             bind ъ paste-buffer
 
             # Разное (русская раскладка)
             bind к refresh-client
             bind ш display-message
+
           '';
       };
       programs.zsh.shellAliases = {

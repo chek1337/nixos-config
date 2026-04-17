@@ -3,13 +3,17 @@
   config,
   inputs,
 }:
-{
-  plugin = pkgs.tmuxPlugins.mkTmuxPlugin {
+let
+  floaxPlugin = pkgs.tmuxPlugins.mkTmuxPlugin {
     pluginName = "tmux-floax";
     rtpFilePath = "floax.tmux";
     version = "unstable";
     src = inputs.tmux-floax-fork;
   };
+  floaxDir = "${floaxPlugin}/share/tmux-plugins/tmux-floax";
+in
+{
+  plugin = floaxPlugin;
   extraConfig = ''
     set -g @floax-bind 'p'
     set -g @floax-bind-menu 'P'
@@ -20,5 +24,8 @@
     set -g @floax-change-path 'false'
     set -g @floax-title 'PopupSession'
     set -g @floax-per-session 'true'
+    # floax (русская раскладка)
+    bind з run-shell "${floaxDir}/floax.sh"
+    bind З run-shell "${floaxDir}/menu.sh"
   '';
 }

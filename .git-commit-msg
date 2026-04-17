@@ -1,1 +1,1 @@
-fix(noctalia): use noctalia-shell instead of qs in show-keys alias
+feat(tmux): add Russian layout keybindings for all actions

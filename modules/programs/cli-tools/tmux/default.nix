@@ -54,6 +54,11 @@ in
             bind -T copy-mode-vi C-v send -X rectangle-toggle
             bind -T copy-mode-vi y   send -X copy-pipe "wl-copy"
             bind -T copy-mode-vi Y   send -X copy-end-of-line \; run "tmux save-buffer - | wl-copy"
+            # Vi-like copy mode (русская раскладка)
+            bind -T copy-mode-vi м   send -X begin-selection
+            bind -T copy-mode-vi М   send -X select-line
+            bind -T copy-mode-vi н   send -X copy-pipe "wl-copy"
+            bind -T copy-mode-vi Н   send -X copy-end-of-line \; run "tmux save-buffer - | wl-copy"
 
             # Не выходить из copy-mode при отпускании мыши после выделения
             unbind -T copy-mode-vi MouseDragEnd1Pane
@@ -118,9 +123,14 @@ in
             bind s display-popup -E -w 80% -h 80% -d '#{pane_current_path}' -T 'Sesh' 'tv sesh'
             bind S choose-tree -Zs
             bind -N "last-session (skip scratch)" L run-shell "tmux-last"
+            # Sesh / sessions (русская раскладка)
+            bind ы display-popup -E -w 80% -h 80% -d '#{pane_current_path}' -T 'Sesh' 'tv sesh'
+            bind Ы choose-tree -Zs
+            bind -N "last-session (skip scratch)" Д run-shell "tmux-last"
 
             unbind d
             bind D detach-client
+            bind В detach-client
           '';
       };
       programs.zsh.shellAliases = {

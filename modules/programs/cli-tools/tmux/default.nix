@@ -131,6 +131,29 @@ in
             unbind d
             bind D detach-client
             bind В detach-client
+
+            # Окна (русская раскладка)
+            bind с new-window
+            bind т next-window
+            bind ц choose-tree -Zw
+
+            # Панели (русская раскладка)
+            bind щ select-pane -t :.+
+            bind й display-panes
+            bind я resize-pane -Z
+            bind ч confirm-before -p "kill-pane #P? (y/n)" kill-pane
+            bind Ч confirm-before -p "kill-window #W? (y/n)" kill-window
+            bind Х swap-pane -U
+            bind Ъ swap-pane -D
+            bind ж last-pane
+
+            # Буфер / copy mode (русская раскладка)
+            bind х copy-mode
+            bind ъ paste-buffer
+
+            # Разное (русская раскладка)
+            bind к refresh-client
+            bind ш display-message
           '';
       };
       programs.zsh.shellAliases = {

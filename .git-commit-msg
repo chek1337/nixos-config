@@ -1,1 +1,1 @@
-feat(nvf): remap window keybindings and disable resize keys
+feat(niri): add Fn+F11 touchpad toggle via sysfs inhibited

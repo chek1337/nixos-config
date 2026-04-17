@@ -7,6 +7,17 @@ in
     { config, pkgs, ... }:
     let
       username = config.settings.username;
+      toggleTouchpad = pkgs.writeShellScript "toggle-touchpad" ''
+        INHIBITED=""
+        for input in /sys/class/input/input*; do
+          name=$(cat "$input/name" 2>/dev/null || true)
+          echo "$name" | grep -qi touchpad || continue
+          [ -f "$input/inhibited" ] && INHIBITED="$input/inhibited" && break
+        done
+        [ -z "$INHIBITED" ] && exit 1
+        STATE=$(cat "$INHIBITED")
+        if [ "$STATE" = "0" ]; then echo 1 > "$INHIBITED"; else echo 0 > "$INHIBITED"; fi
+      '';
       niri-pinned = pkgs.niri.overrideAttrs (_old: {
         src = inputs.niri-pinned;
         cargoDeps = pkgs.rustPlatform.importCargoLock {
@@ -29,6 +40,17 @@ in
       programs.xwayland.enable = true;
       environment.systemPackages = [ pkgs.xwayland-satellite ];
       security.polkit.enable = true;
+      security.sudo.extraRules = [
+        {
+          users = [ username ];
+          commands = [
+            {
+              command = "${toggleTouchpad}";
+              options = [ "NOPASSWD" ];
+            }
+          ];
+        }
+      ];
       services.greetd = {
         enable = true;
         settings.default_session = {
@@ -62,6 +84,18 @@ in
         sleep 0.3
         ${pkgs.alacritty}/bin/alacritty --class rice-nvim --title "nixos" \
           -e bash -c 'PATH="${pkgs.tmux}/bin:${pkgs.tmuxinator}/bin:$PATH" ${pkgs.tmuxinator}/bin/tmuxinator start rice' &
+      '';
+
+      toggleTouchpad = pkgs.writeShellScript "toggle-touchpad" ''
+        INHIBITED=""
+        for input in /sys/class/input/input*; do
+          name=$(cat "$input/name" 2>/dev/null || true)
+          echo "$name" | grep -qi touchpad || continue
+          [ -f "$input/inhibited" ] && INHIBITED="$input/inhibited" && break
+        done
+        [ -z "$INHIBITED" ] && exit 1
+        STATE=$(cat "$INHIBITED")
+        if [ "$STATE" = "0" ]; then echo 1 > "$INHIBITED"; else echo 0 > "$INHIBITED"; fi
       '';
 
       voponoVpnApps = pkgs.writeShellScript "vopono-vpn-apps" ''
@@ -314,6 +348,8 @@ in
             Alt+Print  { screenshot-window; }
             Shift+Print { spawn-sh "set -e; grim -t ppm - | satty --filename - --copy-command=wl-copy --output-filename=\"~/Pictures/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png\" --actions-on-escape=\"save-to-clipboard,exit\""; }
             Shift+Ctrl+Print { screenshot-screen; }
+
+            Ctrl+Mod+F24 repeat=false { spawn "sudo" "${toggleTouchpad}"; }
 
             Mod+Alt+S { spawn-sh "noctalia-shell ipc call sessionMenu toggle"; }
 

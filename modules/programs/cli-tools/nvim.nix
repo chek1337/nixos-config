@@ -117,6 +117,7 @@ in
           nixfmt
           lua-language-server
           stylua
+          clang-tools
         ];
         treesitterParsers = with pkgs.vimPlugins.nvim-treesitter.grammarPlugins; [
           nix

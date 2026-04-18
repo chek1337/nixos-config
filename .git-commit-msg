@@ -1,1 +1,1 @@
-feat(snacks): add missing picker keymaps and replace telescope todo bindings
+feat(nvim): add clangd LSP and clang-format for C/C++, add snacks LSP picker keymaps

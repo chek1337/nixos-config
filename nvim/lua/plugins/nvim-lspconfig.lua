@@ -8,6 +8,7 @@ return {
 						{ "K", false },
 					},
 				},
+				clangd = {},
 				lua_ls = {},
 				nixd = {},
 				pyright = { enabled = false },

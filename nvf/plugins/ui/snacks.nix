@@ -489,6 +489,34 @@ in
       desc = "Quickfix List";
     }
     {
+      key = "<leader>ss";
+      mode = [ "n" ];
+      action = "function() require('snacks').picker.lsp_symbols() end";
+      lua = true;
+      desc = "LSP Symbols";
+    }
+    {
+      key = "<leader>sS";
+      mode = [ "n" ];
+      action = "function() require('snacks').picker.lsp_workspace_symbols() end";
+      lua = true;
+      desc = "LSP Workspace Symbols";
+    }
+    {
+      key = "gai";
+      mode = [ "n" ];
+      action = "function() require('snacks').picker.lsp_incoming_calls() end";
+      lua = true;
+      desc = "Calls Incoming";
+    }
+    {
+      key = "gao";
+      mode = [ "n" ];
+      action = "function() require('snacks').picker.lsp_outgoing_calls() end";
+      lua = true;
+      desc = "Calls Outgoing";
+    }
+    {
       key = "gd";
       mode = [ "n" ];
       action = "function() require('snacks').picker.lsp_definitions() end";

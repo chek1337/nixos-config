@@ -1,10 +1,10 @@
 { ... }:
 {
   flake.modules.nixos.nixos =
-    { pkgs, config, ... }:
+    { pkgs, ... }:
     {
       boot = {
-        kernelPackages = pkgs.${"linuxPackages_" + config.settings.kernel};
+        kernelPackages = pkgs.linuxPackages_latest;
         loader = {
           systemd-boot = {
             enable = true;

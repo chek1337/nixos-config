@@ -74,12 +74,6 @@
           default = "nord";
           description = "Base16 scheme name matching a file in pkgs.base16-schemes (e.g. nord, catppuccin-mocha)";
         };
-
-        kernel = lib.mkOption {
-          type = lib.types.str;
-          default = "6_19";
-          description = "Linux kernel version suffix (e.g. 6_19, latest, zen)";
-        };
       };
     };
 }

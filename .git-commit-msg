@@ -1,1 +1,1 @@
-feat(kernel): add per-host kernel setting and pin to 6.19
+Revert "feat(kernel): add per-host kernel setting and pin to 6.19"

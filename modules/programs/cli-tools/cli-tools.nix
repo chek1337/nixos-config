@@ -15,14 +15,11 @@ let
     "trash-cli"
     "btop"
     "bat"
-    # "pay-respects"
     "soundscope"
     "cmus"
-
     "rice"
     "wallpaper-colorizer"
     "network-managing"
-    "cli-browsers"
   ];
 in
 {

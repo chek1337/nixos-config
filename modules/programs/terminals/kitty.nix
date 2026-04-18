@@ -10,7 +10,6 @@
     in
     {
       imports = with config.flake.modules.homeManager; [
-        # ks
         # kitty-zoxide-sessions
       ];
 

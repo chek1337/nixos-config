@@ -6,7 +6,6 @@ let
   ];
   hmModules = [
     "email-accounts"
-    "aerc"
     "thunderbird"
   ];
 in

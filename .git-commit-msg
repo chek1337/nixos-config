@@ -1,1 +1,1 @@
-feat(dev-tools): add ollama and opencode
+chore: remove unused modules (browsh, w3m, aerc, pay-respects, ks, cli-browsers)

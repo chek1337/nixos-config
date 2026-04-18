@@ -1,1 +1,1 @@
-feat(nvf): configure lualine statusline with LSP, trouble, and smart path
+fix(niri): correct VRR KDL syntax and reapply output mode at startup

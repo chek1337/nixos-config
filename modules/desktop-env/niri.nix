@@ -132,9 +132,12 @@ in
             ++ lib.optional (
               out.position != null
             ) "    position x=${toString out.position.x} y=${toString out.position.y}"
-            ++ lib.optional (
-              out.variableRefreshRate != null
-            ) "    variable-refresh-rate ${out.variableRefreshRate}=true";
+            ++ lib.optional (out.variableRefreshRate != null) (
+              if out.variableRefreshRate == "on-demand" then
+                "    variable-refresh-rate on-demand=true"
+              else
+                "    variable-refresh-rate"
+            );
         in
         ''
           output "${name}" {
@@ -143,6 +146,19 @@ in
         '';
 
       outputsConfig = lib.concatStringsSep "\n" (lib.mapAttrsToList mkOutputBlock cfg.outputs);
+
+      reapplyOutputModes =
+        let
+          cmds = lib.concatStringsSep "\n" (
+            lib.mapAttrsToList (
+              name: out: lib.optionalString (out.mode != null) ''niri msg output "${name}" mode "${out.mode}"''
+            ) cfg.outputs
+          );
+        in
+        pkgs.writeShellScript "reapply-output-modes" ''
+          sleep 2
+          ${cmds}
+        '';
 
       niriBaseConfig = ''
         input {
@@ -374,6 +390,7 @@ in
         workspace "8"
         workspace "9"
 
+        spawn-at-startup "${reapplyOutputModes}"
         spawn-at-startup "xwayland-satellite"
         spawn-at-startup "swww-daemon"
         spawn-at-startup "noctalia-shell"

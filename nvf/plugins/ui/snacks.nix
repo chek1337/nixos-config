@@ -308,7 +308,7 @@ in
       desc = "Git Stash";
     }
     {
-      key = "<leader>sb";
+      key = "<leader>sB";
       mode = [ "n" ];
       action = "function() require('snacks').picker.lines() end";
       lua = true;
@@ -372,6 +372,121 @@ in
       action = "function() require('snacks').picker.undo() end";
       lua = true;
       desc = "Undotree";
+    }
+    {
+      key = "<leader>sb";
+      mode = [ "n" ];
+      action = "function() require('snacks').picker.grep_buffers() end";
+      lua = true;
+      desc = "Grep Open Buffers";
+    }
+    {
+      key = "<leader>sp";
+      mode = [ "n" ];
+      action = "function() require('snacks').picker.lazy() end";
+      lua = true;
+      desc = "Search for Plugin Spec";
+    }
+    {
+      key = "<leader>sW";
+      mode = [
+        "n"
+        "x"
+      ];
+      action = "function() require('snacks').picker.grep_word({ root = false }) end";
+      lua = true;
+      desc = "Visual selection or word (cwd)";
+    }
+    {
+      key = ''<leader>s"'';
+      mode = [ "n" ];
+      action = "function() require('snacks').picker.registers() end";
+      lua = true;
+      desc = "Registers";
+    }
+    {
+      key = "<leader>s/";
+      mode = [ "n" ];
+      action = "function() require('snacks').picker.search_history() end";
+      lua = true;
+      desc = "Search History";
+    }
+    {
+      key = "<leader>sa";
+      mode = [ "n" ];
+      action = "function() require('snacks').picker.autocmds() end";
+      lua = true;
+      desc = "Autocmds";
+    }
+    {
+      key = "<leader>sc";
+      mode = [ "n" ];
+      action = "function() require('snacks').picker.command_history() end";
+      lua = true;
+      desc = "Command History";
+    }
+    {
+      key = "<leader>sC";
+      mode = [ "n" ];
+      action = "function() require('snacks').picker.commands() end";
+      lua = true;
+      desc = "Commands";
+    }
+    {
+      key = "<leader>sH";
+      mode = [ "n" ];
+      action = "function() require('snacks').picker.highlights() end";
+      lua = true;
+      desc = "Highlights";
+    }
+    {
+      key = "<leader>si";
+      mode = [ "n" ];
+      action = "function() require('snacks').picker.icons() end";
+      lua = true;
+      desc = "Icons";
+    }
+    {
+      key = "<leader>sj";
+      mode = [ "n" ];
+      action = "function() require('snacks').picker.jumps() end";
+      lua = true;
+      desc = "Jumps";
+    }
+    {
+      key = "<leader>sl";
+      mode = [ "n" ];
+      action = "function() require('snacks').picker.loclist() end";
+      lua = true;
+      desc = "Location List";
+    }
+    {
+      key = "<leader>sM";
+      mode = [ "n" ];
+      action = "function() require('snacks').picker.man() end";
+      lua = true;
+      desc = "Man Pages";
+    }
+    {
+      key = "<leader>sm";
+      mode = [ "n" ];
+      action = "function() require('snacks').picker.marks() end";
+      lua = true;
+      desc = "Marks";
+    }
+    {
+      key = "<leader>sR";
+      mode = [ "n" ];
+      action = "function() require('snacks').picker.resume() end";
+      lua = true;
+      desc = "Resume";
+    }
+    {
+      key = "<leader>sq";
+      mode = [ "n" ];
+      action = "function() require('snacks').picker.qflist() end";
+      lua = true;
+      desc = "Quickfix List";
     }
     {
       key = "gd";

@@ -40,13 +40,15 @@
     {
       key = "<leader>st";
       mode = "n";
-      action = "<cmd>TodoTelescope<CR>";
+      lua = true;
+      action = "function() require('snacks').picker.todo_comments() end";
       desc = "Todo";
     }
     {
       key = "<leader>sT";
       mode = "n";
-      action = "<cmd>TodoTelescope keywords=TODO,FIX,FIXME<CR>";
+      lua = true;
+      action = "function() require('snacks').picker.todo_comments({ keywords = { 'TODO', 'FIX', 'FIXME' } }) end";
       desc = "Todo/Fix/Fixme";
     }
   ];

@@ -10,7 +10,7 @@
             sed -i '/\.italic(),/d' television/screen/input.rs
           '';
         });
-        enableZshIntegration = true;
+        enableZshIntegration = false;
 
         settings = { };
 

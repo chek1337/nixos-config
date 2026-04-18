@@ -1,1 +1,1 @@
-fix(niri): correct VRR KDL syntax and reapply output mode at startup
+Revert "fix(niri): correct VRR KDL syntax and reapply output mode at startup"

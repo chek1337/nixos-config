@@ -120,12 +120,13 @@ in
             set -g status-right "#{?window_zoomed_flag,#{E:@catppuccin_zoom_module},}#{E:@catppuccin_status_session}"
 
             # Sesh session manager (via television)
-            bind s display-popup -E -w 80% -h 80% -d '#{pane_current_path}' -T 'Sesh' 'tv sesh'
+            bind s display-popup -E -w 80% -h 80% -d '#{pane_current_path}' -T 'Sesh' -b rounded 'tv sesh'
             bind S choose-tree -Zs
             bind -N "last-session (skip scratch)" L run-shell "tmux-last"
             # Sesh / sessions (русская раскладка)
-            bind ы display-popup -E -w 80% -h 80% -d '#{pane_current_path}' -T 'Sesh' 'tv sesh'
+            bind ы display-popup -E -w 80% -h 80% -d '#{pane_current_path}' -T 'Sesh' -b rounded 'tv sesh'
             bind Ы choose-tree -Zs
+
             bind -N "last-session (skip scratch)" Д run-shell "tmux-last"
 
             unbind d

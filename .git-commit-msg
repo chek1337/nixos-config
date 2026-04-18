@@ -1,1 +1,1 @@
-feat(nvim): add clangd LSP and clang-format for C/C++, add snacks LSP picker keymaps
+feat(nvim): add keymaps to toggle diagnostic virtual lines

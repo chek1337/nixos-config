@@ -362,5 +362,43 @@
       action = ":<C-u>execute \"'<,'>move '<-\" . (v:count1 + 1)<cr>gv=gv";
       desc = "Move Up";
     }
+
+    # Diagnostic virtual lines
+    {
+      key = "<leader>udd";
+      mode = "n";
+      lua = true;
+      action = ''
+        function()
+          local cfg = vim.diagnostic.config()
+          local virt = cfg.virtual_lines
+
+          if type(virt) == "table" and virt.current_line then
+            vim.diagnostic.config({ virtual_lines = false })
+          else
+            vim.diagnostic.config({ virtual_lines = { current_line = true } })
+          end
+        end
+      '';
+      desc = "Toggle virtual lines for current line only";
+    }
+    {
+      key = "<leader>udD";
+      mode = "n";
+      lua = true;
+      action = ''
+        function()
+          local cfg = vim.diagnostic.config()
+          local virt = cfg.virtual_lines
+
+          if virt == true or (type(virt) == "table" and not virt.current_line) then
+            vim.diagnostic.config({ virtual_lines = false })
+          else
+            vim.diagnostic.config({ virtual_lines = true })
+          end
+        end
+      '';
+      desc = "Toggle full virtual lines";
+    }
   ];
 }

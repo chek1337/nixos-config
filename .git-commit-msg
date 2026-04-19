@@ -1,1 +1,1 @@
-feat(nvim): add ts-comments.nvim for improved treesitter comment handling
+fix(nvim): remove invalid lazy.plugins entry for ts-comments-nvim extraPlugin

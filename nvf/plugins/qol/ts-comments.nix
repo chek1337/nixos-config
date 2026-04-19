@@ -6,6 +6,4 @@
       setup = ''require("ts-comments").setup({})'';
     };
   };
-
-  vim.lazy.plugins."ts-comments-nvim".event = "VeryLazy";
 }

@@ -1,1 +1,1 @@
-feat(nvim): add keymaps to toggle diagnostic virtual lines
+refactor(snacks): split monolithic snacks.nix into focused modules

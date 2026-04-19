@@ -118,19 +118,6 @@
       desc = "Delete word forward";
     }
 
-    {
-      key = "<leader>fd";
-      mode = "n";
-      action = "<cmd>lua require('conform').format({ async = true, lsp_fallback = true })<cr>";
-      desc = "Format document";
-    }
-    {
-      key = "<leader>fd";
-      mode = "v";
-      action = "<cmd>lua require('conform').format({ async = true, lsp_fallback = true, range = { [\"start\"] = vim.api.nvim_buf_get_mark(0, \"<\"), [\"end\"] = vim.api.nvim_buf_get_mark(0, \">\") } })<cr>";
-      desc = "Format selection";
-    }
-
     # Quickfix list
     {
       key = "<leader>xq";
@@ -361,6 +348,62 @@
       mode = "v";
       action = ":<C-u>execute \"'<,'>move '<-\" . (v:count1 + 1)<cr>gv=gv";
       desc = "Move Up";
+    }
+
+    {
+      key = "<leader>cf";
+      mode = "n";
+      action = "<cmd>lua require('conform').format({ async = true, lsp_fallback = true })<cr>";
+      desc = "Format document";
+    }
+    {
+      key = "<leader>cf";
+      mode = "v";
+      action = "<cmd>lua require('conform').format({ async = true, lsp_fallback = true, range = { [\"start\"] = vim.api.nvim_buf_get_mark(0, \"<\"), [\"end\"] = vim.api.nvim_buf_get_mark(0, \">\") } })<cr>";
+      desc = "Format selection";
+    }
+
+    # LSP code actions
+    {
+      key = "<leader>ca";
+      mode = [
+        "n"
+        "x"
+      ];
+      lua = true;
+      action = "function() vim.lsp.buf.code_action() end";
+      desc = "Code Action";
+    }
+    {
+      key = "<leader>cr";
+      mode = "n";
+      lua = true;
+      action = "function() vim.lsp.buf.rename() end";
+      desc = "Rename";
+    }
+    {
+      key = "<leader>cR";
+      mode = "n";
+      lua = true;
+      action = "function() require('snacks').rename.rename_file() end";
+      desc = "Rename File";
+    }
+    {
+      key = "<leader>cc";
+      mode = [
+        "n"
+        "x"
+      ];
+      lua = true;
+      action = "function() vim.lsp.codelens.run() end";
+      desc = "Run Codelens";
+    }
+    {
+      key = "<leader>cC";
+      mode = "n";
+      lua = true;
+      action = "function() vim.lsp.codelens.refresh() end";
+      desc = "Refresh & Display Codelens";
     }
 
     # Diagnostic virtual lines

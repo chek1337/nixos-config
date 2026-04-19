@@ -1,1 +1,1 @@
-refactor(snacks): split monolithic snacks.nix into focused modules
+feat(nvim): add LSP code action keymaps and enable snacks rename

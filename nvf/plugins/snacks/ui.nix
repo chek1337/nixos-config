@@ -4,6 +4,7 @@
     toggle.enable = true;
     zen.enable = true;
     dim.enable = true;
+    rename.enable = true;
   };
 
   vim.keymaps = [

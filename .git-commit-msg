@@ -1,1 +1,1 @@
-feat(nvim): add LSP code action keymaps and enable snacks rename
+feat(nvim): add LSP capability check for <leader>cR rename file keymap

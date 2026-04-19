@@ -385,7 +385,19 @@
       key = "<leader>cR";
       mode = "n";
       lua = true;
-      action = "function() require('snacks').rename.rename_file() end";
+      action = ''
+        function()
+          local clients = vim.lsp.get_clients({ bufnr = 0 })
+          for _, client in ipairs(clients) do
+            if client:supports_method("workspace/willRenameFiles")
+              or client:supports_method("workspace/didRenameFiles") then
+              require('snacks').rename.rename_file()
+              return
+            end
+          end
+          vim.notify("LSP does not support file rename", vim.log.levels.WARN)
+        end
+      '';
       desc = "Rename File";
     }
     {

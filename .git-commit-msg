@@ -1,1 +1,1 @@
-feat(nvim): add Format Injected Langs and Snacks word reference keymaps
+feat(nvim): add ts-comments.nvim for improved treesitter comment handling

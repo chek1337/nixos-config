@@ -57,5 +57,19 @@
       lua = true;
       desc = "Goto Type Definition";
     }
+    {
+      key = "<a-n>";
+      mode = [ "n" ];
+      action = "function() require('snacks').words.jump(vim.v.count1, true) end";
+      lua = true;
+      desc = "Next Reference";
+    }
+    {
+      key = "<a-p>";
+      mode = [ "n" ];
+      action = "function() require('snacks').words.jump(-vim.v.count1, true) end";
+      lua = true;
+      desc = "Prev Reference";
+    }
   ];
 }

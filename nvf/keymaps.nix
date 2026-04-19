@@ -357,6 +357,16 @@
       desc = "Format document";
     }
     {
+      key = "<leader>cF";
+      mode = [
+        "n"
+        "x"
+      ];
+      lua = true;
+      action = "function() require('conform').format({ formatters = { 'injected' }, timeout_ms = 3000 }) end";
+      desc = "Format Injected Langs";
+    }
+    {
       key = "<leader>cf";
       mode = "v";
       action = "<cmd>lua require('conform').format({ async = true, lsp_fallback = true, range = { [\"start\"] = vim.api.nvim_buf_get_mark(0, \"<\"), [\"end\"] = vim.api.nvim_buf_get_mark(0, \">\") } })<cr>";

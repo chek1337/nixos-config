@@ -1,1 +1,1 @@
-feat(nvim): add LSP capability check for <leader>cR rename file keymap
+feat(nvim): add Format Injected Langs and Snacks word reference keymaps

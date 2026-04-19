@@ -15,11 +15,12 @@
       relativenumber = true;
       signcolumn = "yes";
       confirm = true;
-      ignorecase = true;
-      smartcase = true;
-      undofile = true;
       undolevels = 10000;
     };
+
+    searchCase = "smart";
+
+    undoFile.enable = true;
 
     clipboard = {
       enable = true;

@@ -1,1 +1,1 @@
-feat(nvim): add persistent undo and case-insensitive search
+fix(nvim): use nvf native options for searchCase and undoFile

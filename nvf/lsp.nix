@@ -35,8 +35,8 @@
       python = {
         enable = true;
         lsp.servers = [
-          "basedpyright"
-          # "ty"
+          # "basedpyright"
+          "ty"
         ];
         format.type = [ "ruff" ];
       };

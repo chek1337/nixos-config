@@ -6,7 +6,7 @@
     inputs.flake-parts.lib.mkFlake { inherit inputs; } {
       imports = [
         (inputs.import-tree ./modules)
-        ./nvf
+        # ./nvf
       ];
     };
 
@@ -70,9 +70,9 @@
       url = "github:notashelf/nvf";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    nixpkgs-nvim-0_11_6 = {
-      url = "github:NixOS/nixpkgs/73a57bd3fe25d96c42311ae567e86ca542e62329";
-    };
+    # nixpkgs-nvim-0_11_6 = {
+    #   url = "github:NixOS/nixpkgs/73a57bd3fe25d96c42311ae567e86ca542e62329";
+    # };
     nix-flatpak.url = "github:gmodena/nix-flatpak";
     nix-firefox-addons.url = "github:OsiPog/nix-firefox-addons";
 

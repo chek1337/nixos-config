@@ -1,1 +1,1 @@
-feat: add CryptoPro VPN via distrobox container module
+feat(cryptopro): add work-vpn-status command and wvpns alias

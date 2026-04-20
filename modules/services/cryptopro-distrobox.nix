@@ -205,6 +205,16 @@
         echo "VPN отключен."
       '';
 
+      # Статус VPN
+      work-vpn-status = pkgs.writeShellScriptBin "work-vpn-status" ''
+        if ip link show tun0 &>/dev/null; then
+          echo "VPN: подключен (tun0 active)"
+          echo "DNS: $(${pkgs.systemd}/bin/resolvectl status tun0 2>/dev/null | grep 'DNS Servers' || echo 'не настроен')"
+        else
+          echo "VPN: отключен"
+        fi
+      '';
+
       # Выполнение команды внутри контейнера
       work-vpn-exec = pkgs.writeShellScriptBin "work-vpn-exec" ''
         exec ${distrobox} enter ${containerName} --root -- "$@"
@@ -229,12 +239,14 @@
         work-vpn-setup
         work-vpn
         work-vpn-down
+        work-vpn-status
         work-vpn-exec
       ];
 
       programs.zsh.shellAliases = {
         wvpn = "work-vpn";
         wvpnd = "work-vpn-down";
+        wvpns = "work-vpn-status";
       };
     };
 }

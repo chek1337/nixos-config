@@ -1,7 +1,7 @@
 { ... }:
 {
   flake.modules.homeManager.yazi =
-    { pkgs, ... }:
+    { pkgs, config, ... }:
     let
       yaziLauncher = pkgs.writeShellScript "yazi-launcher" ''
         exec kitty -e zsh -ic "y; exec zsh"
@@ -619,7 +619,7 @@
                 "g"
                 "m"
               ];
-              run = "cd /run/media/chek";
+              run = "cd /run/media/${config.settings.username}";
               desc = "Go to mounted drives";
             }
             {

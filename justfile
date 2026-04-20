@@ -1,5 +1,5 @@
 flake := "."
-username := "chek"
+username := "daniil"
 
 # Show all available commands
 default:

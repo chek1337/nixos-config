@@ -236,8 +236,7 @@ in
         binds {
             Mod+Shift+Slash { show-hotkey-overlay; }
 
-            Ctrl+Shift+1 { switch-layout "0"; }
-            Ctrl+Shift+2 { switch-layout "1"; }
+            Alt+Shift { switch-layout "next"; }
 
             // Noctalia
             Mod+Space       { spawn-sh "noctalia-shell ipc call launcher toggle"; }

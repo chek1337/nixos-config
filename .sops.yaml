@@ -1,7 +1,7 @@
 keys:
-  - &chek age1dl0a5av78sz58ckchwrpxf3mk8svq3ffwlre54grpcf5xhzd6gfs2dvj6k
+  - &daniil age1fvlzldrd0et7kvx04mlp43ahn5gu58k608mjs5r9w6n8u65n4u9skd7e3s
 creation_rules:
   - path_regex: secrets/.*\.(yaml|conf)$
     key_groups:
       - age:
-        - *chek
+        - *daniil

@@ -5,8 +5,8 @@
       programs.git = {
         enable = true;
         settings = {
-          user.name = "chek1337";
-          user.email = "DaniPlay1337@yandex.ru";
+          user.name = "daniil225";
+          user.email = "danil.isacin.78@gmail.com";
           pull.rebase = true;
         };
       };

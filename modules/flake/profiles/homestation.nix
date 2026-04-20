@@ -3,7 +3,7 @@ let
   inherit (config.flake.lib) nixosMod hmMod;
   modules = [
     "workstation"
-    "gaming"
+    # "gaming"
     "waydroid"
   ];
 in

@@ -4,9 +4,9 @@ let
   modules = [
     "virtualization"
     "mail"
-    "pttkey"
+    # "pttkey"
     "usb-automount"
-    "zmkbatx"
+    # "zmkbatx"
   ];
 in
 {

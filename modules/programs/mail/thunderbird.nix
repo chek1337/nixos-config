@@ -31,14 +31,14 @@
         };
       };
 
-      accounts.email.accounts."YA-daniplay".thunderbird = {
-        enable = true;
-        profiles = [ "default" ];
-      };
-      accounts.email.accounts."YA-loychenko".thunderbird = {
-        enable = true;
-        profiles = [ "default" ];
-      };
+      # accounts.email.accounts."YA-daniplay".thunderbird = {
+      #   enable = true;
+      #   profiles = [ "default" ];
+      # };
+      # accounts.email.accounts."YA-loychenko".thunderbird = {
+      #   enable = true;
+      #   profiles = [ "default" ];
+      # };
 
     };
 }

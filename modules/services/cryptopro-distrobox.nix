@@ -6,18 +6,20 @@
 #
 # Первоначальная настройка:
 #   1. Добавить пароль VPN в sops: sops secrets/secrets.yaml
-#      Ключ: work-vpn-pass
+#      Ключ: work-vpn-pass (пароль от доменной учётки YADRO)
 #
 #   2. Положить файлы установки в ~/.config/cryptopro/distrobox/:
 #        - linux-amd64_deb.tgz  (архив CryptoPro CSP)
 #        - ngate-client.deb     (установщик NGate, .deb или self-extracting)
+#
+#   3. Положить сертификаты в ~/.config/cryptopro/certs/:
 #        - CryproPro_GOST_Root_CA.cer  (корневой сертификат)
 #        - CryptoPro_TLS_CA.cer        (промежуточный сертификат)
 #
-#   3. Запустить: work-vpn-setup
-#      Это создаст контейнер и установит всё внутри.
+#   4. Запустить: work-vpn-setup
+#      Это создаст контейнер, установит CryptoPro и импортирует сертификаты.
 #
-#   4. Задать лицензию CryptoPro CSP:
+#   5. Задать лицензию CryptoPro CSP:
 #        work-vpn-exec cpconfig -license -set <ключ-лицензии>
 #
 # Использование:

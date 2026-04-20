@@ -1,1 +1,1 @@
-feat(cryptopro): switch to local file installation, fetchurl as fallback
+feat: add CryptoPro VPN via distrobox container module

@@ -17,6 +17,7 @@ in
         throne
         v2rayn
         cryptopro-vpn
+        cryptopro-distrobox
       ];
 
       networking.networkmanager.enable = true;
@@ -32,6 +33,7 @@ in
       throne
       v2rayn
       cryptopro-vpn
+      cryptopro-distrobox
     ];
   };
 }

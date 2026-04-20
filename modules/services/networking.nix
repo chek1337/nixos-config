@@ -16,6 +16,7 @@ in
         vopono
         throne
         v2rayn
+        cryptopro-vpn
       ];
 
       networking.networkmanager.enable = true;
@@ -30,6 +31,7 @@ in
       vopono
       throne
       v2rayn
+      cryptopro-vpn
     ];
   };
 }

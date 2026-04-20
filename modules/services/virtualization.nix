@@ -43,6 +43,7 @@
   flake.modules.homeManager.virtualization =
     { pkgs, ... }:
     {
+     # uncoment this later
      # dconf.settings."org/virt-manager/virt-manager/connections" = {
      #   autoconnect = [ "qemu:///system" ];
      #   uris = [ "qemu:///system" ];

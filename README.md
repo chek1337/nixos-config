@@ -80,16 +80,16 @@ Profiles aggregate related modules to simplify host configs:
 ## Installation
 
 ```bash
-# Prerequisites: NixOS installed with flakes enabled
+# Prerequisites: NixOS installed with flakes enabled - nix.settings.experimental-features = [ "nix-command" "flakes" ];
 # https://nixos.org/download/
 # https://wiki.nixos.org/wiki/Flakes
+
+# Enter a temporary shell with required tools
+nix-shell -p git just fzf
 
 # Clone the repository
 git clone https://github.com/chek1337/nixos-config.git ~/nixos-config
 cd ~/nixos-config
-
-# Enter a temporary shell with required tools
-nix-shell -p git just fzf
 
 # Generate hardware config for your machine
 just hw <hostname>

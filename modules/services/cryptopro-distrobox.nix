@@ -21,8 +21,9 @@
 #        work-vpn-exec cpconfig -license -set <ключ-лицензии>
 #
 # Использование:
-#   - work-vpn          — подключиться к VPN
+#   - work-vpn-up       — подключиться к VPN
 #   - work-vpn-down     — отключиться от VPN
+#   - work-vpn-status   — проверить статус подключения
 #   - work-vpn-setup    — создать/пересоздать контейнер и установить CryptoPro
 #   - work-vpn-exec ... — выполнить команду внутри контейнера
 
@@ -158,11 +159,11 @@
 
         echo ""
         echo "=== Готово! ==="
-        echo "Для подключения: work-vpn"
+        echo "Для подключения: work-vpn-up"
       '';
 
       # Подключение к VPN
-      work-vpn = pkgs.writeShellScriptBin "work-vpn" ''
+      work-vpn-up = pkgs.writeShellScriptBin "work-vpn-up" ''
         set -euo pipefail
 
         WORK_PASS="$(cat /run/secrets/work-vpn-pass)"
@@ -237,16 +238,10 @@
 
       home.packages = [
         work-vpn-setup
-        work-vpn
+        work-vpn-up
         work-vpn-down
         work-vpn-status
         work-vpn-exec
       ];
-
-      programs.zsh.shellAliases = {
-        wvpn = "work-vpn";
-        wvpnd = "work-vpn-down";
-        wvpns = "work-vpn-status";
-      };
     };
 }

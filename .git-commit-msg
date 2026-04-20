@@ -1,1 +1,1 @@
-feat(cryptopro): add work-vpn-status command and wvpns alias
+refactor(cryptopro): rename work-vpn to work-vpn-up for consistency

@@ -1,1 +1,1 @@
-refactor(cryptopro): rename work-vpn to work-vpn-up for consistency
+refactor(cryptopro): extract podman into separate module, add sops comment

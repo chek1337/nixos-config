@@ -27,7 +27,10 @@
 #   - work-vpn-setup    — создать/пересоздать контейнер и установить CryptoPro
 #   - work-vpn-exec ... — выполнить команду внутри контейнера
 
-{ inputs, ... }:
+{ inputs, config, ... }:
+let
+  flakeConfig = config;
+in
 {
   flake.modules.nixos.cryptopro-distrobox =
     { config, pkgs, ... }:
@@ -35,18 +38,11 @@
       username = config.settings.username;
     in
     {
-      # Podman для rootful distrobox-контейнеров
-      virtualisation.podman = {
-        enable = true;
-        dockerCompat = false;
-      };
+      imports = [ flakeConfig.flake.modules.nixos.podman ];
 
-      environment.systemPackages = with pkgs; [
-        distrobox
-      ];
-
-      users.users.${username}.extraGroups = [ "podman" ];
-
+      # Секрет с паролем от доменной учётки YADRO (используется в work-vpn-up).
+      # Чтобы добавить: sops secrets/secrets.yaml → добавить ключ "work-vpn-pass" со значением пароля.
+      # В рантайме доступен как /run/secrets/work-vpn-pass
       sops.secrets."work-vpn-pass" = {
         sopsFile = inputs.self + "/secrets/secrets.yaml";
         key = "work-vpn-pass";

@@ -16,7 +16,7 @@ in
         vopono
         throne
         v2rayn
-        cryptopro-vpn
+        # cryptopro-vpn
         cryptopro-distrobox
       ];
 
@@ -32,7 +32,7 @@ in
       vopono
       throne
       v2rayn
-      cryptopro-vpn
+      # cryptopro-vpn
       cryptopro-distrobox
     ];
   };

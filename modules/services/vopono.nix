@@ -62,7 +62,6 @@
         vopono-status = "sudo systemctl status vopono.service";
         vopono-restart = "sudo systemctl restart vopono.service";
         vopono-exec = "vopono exec --custom /run/secrets/${wgName} --protocol wireguard";
-
       };
       # VPN desktop entries replaced by noctalia custom-commands plugin
       # xdg.desktopEntries = {

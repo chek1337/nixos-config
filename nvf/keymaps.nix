@@ -35,6 +35,12 @@
 
     {
       key = "<Esc>";
+      mode = "n";
+      action = "<cmd>nohlsearch<cr><esc>";
+      desc = "Clear search highlight";
+    }
+    {
+      key = "<Esc>";
       mode = "t";
       action = "<C-\\><C-n>";
       desc = "Exit terminal mode";

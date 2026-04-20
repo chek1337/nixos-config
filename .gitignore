@@ -2,3 +2,9 @@
 result-iso
 result
 CLAUDE.md
+
+# Проприетарные пакеты (бинарники не коммитим, только .gitkeep)
+packages/cryptopro/*.tgz
+packages/cryptopro/*.deb
+packages/cryptopro/*.run
+packages/cryptopro/*.bin

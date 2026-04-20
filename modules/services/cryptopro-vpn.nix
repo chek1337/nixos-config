@@ -7,24 +7,26 @@
 #   Деривации распаковывают .deb/.tgz пакеты, а FHS-обёртка монтирует их
 #   по ожидаемым путям. Сверху — скрипты-обёртки для удобного запуска.
 #
-# Что нужно сделать пользователю:
-#   1. Заменить URL и hash в fetchurl для cryptopro-csp и cryptopro-ngate
-#      (помечены "TODO"). Для получения hash:
-#        nix-prefetch-url --type sha256 <URL>
-#        nix hash to-sri --type sha256 <полученный-hex-hash>
+# Установка из локальных файлов:
+#   1. Скачать архив CryptoPro CSP (linux-amd64_deb.tgz) и положить в:
+#        packages/cryptopro/linux-amd64_deb.tgz
 #
-#   2. Задеплоить конфигурацию: just sw laptop-asus
+#   2. Скачать установщик NGate и положить в:
+#        packages/cryptopro/ngate-client.deb
+#      (или .run/.bin — модуль пробует разные форматы)
 #
-#   3. Задать лицензию CryptoPro CSP:
+#   3. Задеплоить конфигурацию: just sw laptop-asus
+#
+#   4. Задать лицензию CryptoPro CSP:
 #        cryptopro-cli cpconfig -license -set <ключ-лицензии>
 #
-#   4. Положить сертификаты в ~/.config/cryptopro/certs/:
+#   5. Положить сертификаты в ~/.config/cryptopro/certs/:
 #        - CryproPro_GOST_Root_CA.cer
 #        - CryptoPro_TLS_CA.cer
 #      Затем запустить: cryptopro-import-certs
 #      (либо пересобрать HM — activation сделает это автоматически)
 #
-#   5. Запустить ngate, указать адрес: https://global.gw.yadro.com
+#   6. Запустить ngate, указать адрес: https://global.gw.yadro.com
 #      Ввести доменную учётку (без @yadro.com) и пароль.
 #
 # Доступные команды после установки:
@@ -32,6 +34,9 @@
 #   - cryptopro-cli ...  — запуск любой CLI утилиты CryptoPro (certmgr, cpconfig и т.д.)
 #   - cryptopro-import-certs — импорт сертификатов из ~/.config/cryptopro/certs/
 #   - cryptopro          — вход в FHS-окружение (bash) для ручной отладки
+#
+# Альтернатива: если нужна установка через fetchurl (например для CI),
+#   раскомментируйте блок ниже и закомментируйте src = ./... строки.
 
 { inputs, ... }:
 {
@@ -50,11 +55,14 @@
         pname = "cryptopro-csp";
         version = "5.0";
 
-        # TODO: заменить URL и hash на актуальные
-        src = pkgs.fetchurl {
-          url = "https://example.com/linux-amd64_deb.tgz";
-          hash = "sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=";
-        };
+        # Локальный файл — положите архив в packages/cryptopro/
+        src = inputs.self + "/packages/cryptopro/linux-amd64_deb.tgz";
+
+        # --- Вариант с fetchurl (раскомментировать при необходимости): ---
+        # src = pkgs.fetchurl {
+        #   url = "https://example.com/linux-amd64_deb.tgz";
+        #   hash = "sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=";
+        # };
 
         nativeBuildInputs = with pkgs; [
           dpkg
@@ -96,12 +104,15 @@
         pname = "cryptopro-ngate";
         version = "1.0.30";
 
-        # TODO: заменить URL и hash на актуальные
-        src = pkgs.fetchurl {
-          url = "https://example.com/ngate-client-installer-lin-offline-1.0.30-128-g5ebbbb2-x64";
-          hash = "sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=";
-          executable = true;
-        };
+        # Локальный файл — положите установщик в packages/cryptopro/
+        src = inputs.self + "/packages/cryptopro/ngate-client.deb";
+
+        # --- Вариант с fetchurl (раскомментировать при необходимости): ---
+        # src = pkgs.fetchurl {
+        #   url = "https://example.com/ngate-client-installer-lin-offline-1.0.30-128-g5ebbbb2-x64";
+        #   hash = "sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=";
+        #   executable = true;
+        # };
 
         nativeBuildInputs = with pkgs; [
           dpkg
@@ -127,13 +138,12 @@
 
         installPhase = ''
           mkdir -p $out
-          # Installer — это self-extracting archive, извлекаем содержимое
-          # Пробуем как .deb, если не получится — как self-extracting
+          # Пробуем как .deb, если не получится — как self-extracting archive
           if dpkg-deb -x $src $out 2>/dev/null; then
             echo "Extracted as .deb"
           else
             # Self-extracting binary: пропускаем shell-скрипт header, извлекаем payload
-            local offset=$(grep -abon 'PAYLOAD_START' $src | tail -1 | cut -d: -f1 || echo "")
+            offset=$(grep -abon 'PAYLOAD_START' $src | tail -1 | cut -d: -f1 || echo "")
             if [ -n "$offset" ]; then
               tail -c +$((offset + 14)) $src | tar -xz -C $out
             else

@@ -1,1 +1,1 @@
-feat: add CryptoPro CSP + NGate corporate VPN module
+feat(cryptopro): switch to local file installation, fetchurl as fallback

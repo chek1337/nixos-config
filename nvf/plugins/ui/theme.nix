@@ -19,11 +19,14 @@ let
   themes = {
     nord = {
       package = gbprod-nord;
+      # old diffadd "#1d3042"
+      # old diffdelete "#351d2b"
+
       setup = ''
         require("nord").setup({
           on_highlights = function(highlights, colors)
-            highlights.DiffAdd = { bg = "#1d3042" }
-            highlights.DiffDelete = { bg = "#351d2b" }
+            highlights.DiffAdd = { bg = "#022800" }
+            highlights.DiffDelete = { bg = "#3d0100" }
           end,
         })
         vim.api.nvim_create_autocmd("ColorScheme", {

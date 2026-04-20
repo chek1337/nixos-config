@@ -7,9 +7,13 @@
         settings = {
           user.name = "chek1337";
           user.email = "DaniPlay1337@yandex.ru";
-          alias.gdsbs = "diff --side-by-side";
           pull.rebase = true;
         };
+      };
+
+      home.shellAliases = {
+        gdsbs = "git -c delta.side-by-side=true diff";
+        gdsbss = "git -c delta.side-by-side=true diff --staged";
       };
 
       programs.delta = {

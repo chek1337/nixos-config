@@ -149,6 +149,7 @@ in
             keyboard {
                 xkb {
                     layout "us,ru"
+                    options "grp:alt_shift_toggle"
                 }
                 numlock
                 track-layout "global"
@@ -235,8 +236,6 @@ in
 
         binds {
             Mod+Shift+Slash { show-hotkey-overlay; }
-
-            Alt+Shift { switch-layout "next"; }
 
             // Noctalia
             Mod+Space       { spawn-sh "noctalia-shell ipc call launcher toggle"; }

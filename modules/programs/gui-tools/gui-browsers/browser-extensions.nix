@@ -30,21 +30,29 @@
             f.write(patched)
       '';
 
-      patchedVimiumFf = pkgs.firefoxAddons.vimium-ff.overrideAttrs (old: {
-        nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ [
-          pkgs.unzip
-          pkgs.zip
-        ];
-        buildCommand = (old.buildCommand or "") + ''
-          XPI=$(find $out -name "*.xpi" | head -1)
-          TMPDIR=$(mktemp -d)
-          unzip -q "$XPI" -d "$TMPDIR"
-          ${pkgs.python3}/bin/python3 ${patchScript} "$TMPDIR/lib/settings.js" ${cssFile}
-          rm "$XPI"
-          (cd "$TMPDIR" && zip -qr "$XPI" .)
-          rm -rf "$TMPDIR"
-        '';
-      });
+      # NOTE: патчинг XPI не работает надёжно в некоторых браузерах — отключено.
+      # Используй `vimium-css` для получения CSS и ручной вставки в настройки Vimium.
+      # patchedVimiumFf = pkgs.firefoxAddons.vimium-ff.overrideAttrs (old: {
+      #   nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ [
+      #     pkgs.unzip
+      #     pkgs.zip
+      #   ];
+      #   buildCommand = (old.buildCommand or "") + ''
+      #     XPI=$(find $out -name "*.xpi" | head -1)
+      #     TMPDIR=$(mktemp -d)
+      #     unzip -q "$XPI" -d "$TMPDIR"
+      #     ${pkgs.python3}/bin/python3 ${patchScript} "$TMPDIR/lib/settings.js" ${cssFile}
+      #     rm "$XPI"
+      #     (cd "$TMPDIR" && zip -qr "$XPI" .)
+      #     rm -rf "$TMPDIR"
+      #   '';
+      # });
+
+      vimiumCssScript = pkgs.writeShellScriptBin "vimium-css" ''
+        echo "Вставь этот CSS в настройки Vimium (CSS for link hints):"
+        echo ""
+        cat ${cssFile}
+      '';
     in
     {
       options = {
@@ -77,6 +85,8 @@
       };
 
       config = {
+        home.packages = [ vimiumCssScript ];
+
         vimiumHintCss = lib.mkDefault ''
           div > .vimiumHintMarker {
             background: #${config.lib.stylix.colors.base01} !important;
@@ -115,7 +125,7 @@
             ublock-origin
             sponsorblock
             darkreader
-            patchedVimiumFf
+            vimium-ff
             privacy-badger17
             decentraleyes
             istilldontcareaboutcookies

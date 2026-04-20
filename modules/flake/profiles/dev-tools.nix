@@ -5,7 +5,7 @@ let
     "claude-code"
     "direnv"
     "python-dev"
-    "ollama"
+    # "ollama"
     "opencode"
   ];
 in

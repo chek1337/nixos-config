@@ -12,7 +12,7 @@ let
       owner = "gbprod";
       repo = "nord.nvim";
       rev = "main";
-      hash = "sha256-+nZb7P2z4S26amtguGAvAevf60Dn/uniSVZvR0DM+zw=";
+      hash = "sha256-M3xH9XsWNu7f49qRI9dgfk85iQVUKCuwAYo+xORo2Wk=";
     };
   };
 

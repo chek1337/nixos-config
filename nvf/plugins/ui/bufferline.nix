@@ -47,7 +47,7 @@ in
           buffer_close_icon = "×";
           indicator.style = "none";
           hover = {
-            enabled = true;
+            enabled = false;
             delay = 200;
             reveal = [ "close" ];
           };

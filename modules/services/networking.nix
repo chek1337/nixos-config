@@ -23,6 +23,14 @@ in
 
       networking.networkmanager.enable = true;
       users.users.${username}.extraGroups = [ "networkmanager" ];
+
+      services.resolved = {
+        enable = true;
+        fallbackDns = [
+          "1.1.1.1"
+          "8.8.8.8"
+        ];
+      };
     };
 
   flake.modules.homeManager.networking = {

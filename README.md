@@ -105,7 +105,25 @@ mkdir -p ~/.config/sops/age
 nix-shell -p ssh-to-age --run \
   "ssh-to-age -private-key < ~/.ssh/<your-key>" > ~/.config/sops/age/keys.txt
 chmod 600 ~/.config/sops/age/keys.txt
+
+# Switch origin to SSH
+git remote set-url origin git@github.com:<user>/<repo>.git
+
+# Correct permissions (SSH refuses keys with overly-open modes)
+chmod 700 ~/.ssh
+chmod 600 ~/.ssh/<key>
+chmod 644 ~/.ssh/<key>.pub
+
+# (Re)load the key into ssh-agent
+ssh-add -D
+ssh-add ~/.ssh/<key>
+
+# Verify
+ssh -T git@github.com
+# Expected: Hi <user>! You've successfully authenticated...
 ```
+
+If `git push` fails with `agent refused operation` / `Permission denied (publickey)`, the cause is almost always wrong file modes on the private key or a stale entry in ssh-agent — the steps above fix both.
 
 ### Commands
 

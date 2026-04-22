@@ -41,6 +41,7 @@
       programs.yazi = {
         enable = true;
         enableZshIntegration = false;
+        shellWrapperName = "y";
 
         theme = {
           indicator = {

@@ -89,6 +89,44 @@
         "type": "github"
       }
     },
+    "elegant-grub2-theme-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1757749486,
+        "narHash": "sha256-fbZLWHxnLBrqBrS2MnM2G08HgEM2dmZvitiCERie0Cc=",
+        "owner": "vinceliuice",
+        "repo": "Elegant-grub2-themes",
+        "rev": "92cdac334cf7bc5c1d68c2fbb266164653b4b502",
+        "type": "github"
+      },
+      "original": {
+        "owner": "vinceliuice",
+        "repo": "Elegant-grub2-themes",
+        "type": "github"
+      }
+    },
+    "elegant-grub2-themes": {
+      "inputs": {
+        "elegant-grub2-theme-src": "elegant-grub2-theme-src",
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1769941481,
+        "narHash": "sha256-4yPldMZ7g6FrGGvoF2oxvS6cGlM2X/ALX0mfq/Dax8c=",
+        "owner": "Kolby11",
+        "repo": "Elegant-grub2-themes",
+        "rev": "dd3f171d94a8960a9b4955474783c4c38fa6eb68",
+        "type": "github"
+      },
+      "original": {
+        "owner": "Kolby11",
+        "repo": "Elegant-grub2-themes",
+        "rev": "dd3f171d94a8960a9b4955474783c4c38fa6eb68",
+        "type": "github"
+      }
+    },
     "firefox-gnome-theme": {
       "flake": false,
       "locked": {
@@ -956,6 +994,7 @@
     "root": {
       "inputs": {
         "claude-code-nix": "claude-code-nix",
+        "elegant-grub2-themes": "elegant-grub2-themes",
         "flake-parts": "flake-parts",
         "git-hooks": "git-hooks",
         "hibiki": "hibiki",

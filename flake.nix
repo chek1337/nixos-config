@@ -118,6 +118,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     hibiki.url = "github:linuxmobile/hibiki";
+    elegant-grub2-themes = {
+      url = "github:Kolby11/Elegant-grub2-themes/dd3f171d94a8960a9b4955474783c4c38fa6eb68";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     tmux-floax-fork = {
       url = "github:chek1337/tmux-floax/feat/per-session-popup";
       flake = false;

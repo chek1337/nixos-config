@@ -8,8 +8,6 @@ let
     "vopono"
     "throne"
     "v2rayn"
-    # "cryptopro-vpn"
-    # "cryptopro-distrobox"
   ];
 in
 {

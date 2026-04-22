@@ -1,1 +1,1 @@
-chore: small cleanups in zen and wireguard modules
+refactor(services): remove cryptopro vpn modules

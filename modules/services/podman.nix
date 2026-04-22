@@ -12,6 +12,7 @@
       };
 
       environment.systemPackages = with pkgs; [
+        # distrobox enter --root mybox -- env TERM=xterm-256color zsh
         distrobox
       ];
 

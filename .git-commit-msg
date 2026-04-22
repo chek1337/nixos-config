@@ -1,1 +1,1 @@
-refactor(services): remove cryptopro vpn modules
+refactor: rename host and aggregator default.nix files

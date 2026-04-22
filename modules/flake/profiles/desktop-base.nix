@@ -6,6 +6,7 @@ let
     "bluetooth"
     "power"
     "wayland-common"
+    "x11-compat"
   ];
 in
 {

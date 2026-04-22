@@ -43,11 +43,11 @@
   flake.modules.homeManager.virtualization =
     { pkgs, ... }:
     {
-     # uncoment this later
-     # dconf.settings."org/virt-manager/virt-manager/connections" = {
-     #   autoconnect = [ "qemu:///system" ];
-     #   uris = [ "qemu:///system" ];
-     # };
+      # uncoment this later
+      # dconf.settings."org/virt-manager/virt-manager/connections" = {
+      #   autoconnect = [ "qemu:///system" ];
+      #   uris = [ "qemu:///system" ];
+      # };
 
       xdg.desktopEntries.virt-manager = {
         name = "Virtual Machine Manager";

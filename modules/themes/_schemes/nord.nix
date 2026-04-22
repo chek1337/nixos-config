@@ -12,10 +12,16 @@ in
     dark = "Nordzy-dark";
     light = "Nordzy";
   };
-  thunderbird = pkgs.runCommandLocal "nord-dark-thunderbird" {
-    nativeBuildInputs = with pkgs; [ jq unzip ];
-  } ''
-    extId=$(unzip -qc ${xpi} manifest.json | jq -r '(.applications.gecko.id // .browser_specific_settings.gecko.id)')
-    install -Dv ${xpi} $out/share/mozilla/extensions/{ec8030f7-c20a-464f-9b0e-13a3a9e97384}/$extId.xpi
-  '';
+  thunderbird =
+    pkgs.runCommandLocal "nord-dark-thunderbird"
+      {
+        nativeBuildInputs = with pkgs; [
+          jq
+          unzip
+        ];
+      }
+      ''
+        extId=$(unzip -qc ${xpi} manifest.json | jq -r '(.applications.gecko.id // .browser_specific_settings.gecko.id)')
+        install -Dv ${xpi} $out/share/mozilla/extensions/{ec8030f7-c20a-464f-9b0e-13a3a9e97384}/$extId.xpi
+      '';
 }

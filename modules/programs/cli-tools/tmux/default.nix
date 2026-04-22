@@ -205,9 +205,7 @@ in
 
         windows:
           - shell:
-              layout: even-horizontal
               panes:
-                - vopono-exec claude
                 -
           - editor:
               panes:

@@ -6,7 +6,7 @@
         EDITOR = "nvim";
         VISUAL = "nvim";
         TERMINAL = "kitty";
-        BROWSER = "zen-beta";
+        BROWSER = "qutebrowser";
       };
 
       xdg.mimeApps = {

@@ -1,1 +1,1 @@
-refactor(niri): split niri.nix into niri/ folder and extract unrelated modules
+feat: refactor wireguard

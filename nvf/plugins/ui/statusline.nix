@@ -73,12 +73,6 @@ in
         lualine_a = [ (mkLuaInline "{ 'mode' }") ];
         lualine_b = [
           (mkLuaInline "{ 'branch', icon = '' }")
-          (mkLuaInline ''
-            {
-              'diff',
-              symbols = { added = ' ', modified = ' ', removed = ' ' },
-            }
-          '')
         ];
         lualine_c = [
           (mkLuaInline ''
@@ -181,6 +175,24 @@ in
         lualine_x = [
           (mkLuaInline ''
             {
+              'diagnostics',
+              symbols = {
+                error = ' ',
+                warn = ' ',
+                info = ' ',
+                hint = ' ',
+              },
+            }
+          '')
+          # for that?
+          # (mkLuaInline ''
+          #   {
+          #     'diff',
+          #     symbols = { added = ' ', modified = ' ', removed = ' ' },
+          #   }
+          # '')
+          (mkLuaInline ''
+            {
               function()
                 local clients = vim.lsp.get_clients({ bufnr = vim.api.nvim_get_current_buf() })
                 if #clients == 0 then return "" end
@@ -198,17 +210,6 @@ in
           '')
         ];
         lualine_y = [
-          (mkLuaInline ''
-            {
-              'diagnostics',
-              symbols = {
-                error = ' ',
-                warn = ' ',
-                info = ' ',
-                hint = ' ',
-              },
-            }
-          '')
           (mkLuaInline "{ 'filetype' }")
         ];
 

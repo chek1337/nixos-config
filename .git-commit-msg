@@ -1,1 +1,1 @@
-refactor(desktop-env): move xwayland.enable to wayland-common
+feat(nvf): changs statusline

@@ -1,1 +1,1 @@
-refactor(qutebrowser): split into core and fuzzel submodules
+refactor(desktop-env): move xwayland.enable to wayland-common

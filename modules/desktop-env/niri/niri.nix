@@ -25,7 +25,6 @@ in
     {
       programs.niri.enable = true;
       programs.niri.package = niri-pinned;
-      programs.xwayland.enable = true;
       environment.systemPackages = [ pkgs.xwayland-satellite ];
     };
 

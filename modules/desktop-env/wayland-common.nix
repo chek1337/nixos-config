@@ -11,6 +11,8 @@
         cliphist
       ];
 
+      programs.xwayland.enable = true;
+
       services.pipewire = {
         enable = true;
         alsa.enable = true;

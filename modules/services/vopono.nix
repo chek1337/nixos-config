@@ -54,8 +54,22 @@
     }:
     let
       wgName = config.settings.wireguardConfigName;
+      wgSecret = "/run/secrets/${wgName}";
+      vopono = "${pkgs.vopono}/bin/vopono";
+      voponoVpnApps = pkgs.writeShellScript "vopono-vpn-apps" ''
+        for i in $(seq 1 30); do
+          [ -f ${wgSecret} ] && ${pkgs.systemd}/bin/systemctl is-active --quiet vopono.service && break
+          sleep 1
+        done
+        ${vopono} exec --protocol wireguard --custom ${wgSecret} ${pkgs.qutebrowser}/bin/qutebrowser &
+        sleep 3
+        ${vopono} exec --protocol wireguard --custom ${wgSecret} ${pkgs.ayugram-desktop}/bin/AyuGram &
+        wait
+      '';
     in
     {
+      services.niri.spawnAtStartup = [ "${voponoVpnApps}" ];
+
       programs.zsh.shellAliases = {
         vopono-up = "sudo systemctl start vopono.service";
         vopono-down = "sudo systemctl stop vopono.service";

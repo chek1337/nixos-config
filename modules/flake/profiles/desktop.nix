@@ -5,8 +5,10 @@ let
     "base"
     "gui-tools"
     "desktop-base"
+    "greetd"
     "niri"
     "noctalia"
+    "rice"
     "wireshark"
   ];
 in

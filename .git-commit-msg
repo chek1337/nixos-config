@@ -1,1 +1,1 @@
-docs: note distrobox enter command in podman module
+refactor(niri): split niri.nix into niri/ folder and extract unrelated modules

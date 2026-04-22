@@ -8,6 +8,7 @@ let
     "homestation"
     "networking"
     "asus-laptop-hardware"
+    "touchpad"
   ];
   sharedSettings = {
     isLaptop = true;

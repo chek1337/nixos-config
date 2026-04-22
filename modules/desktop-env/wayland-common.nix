@@ -18,6 +18,11 @@
         pulse.enable = true;
       };
       security.rtkit.enable = true;
+      security.polkit.enable = true;
+
+      # X server is enabled for distrobox and other containerized apps that
+      # require X11; the Wayland session (niri) is unaffected.
+      services.xserver.enable = true;
 
       # xdg-desktop-portal-gnome provides the ScreenCast portal needed for
       # screen sharing in Zoom, Discord, browsers, etc. on niri/Wayland.

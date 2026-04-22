@@ -1,5 +1,5 @@
 # Shell option: nu
-# Select in hosts/*/default.nix via: shell = "nu"
+# Select in hosts/*/host.nix via: shell = "nu"
 {
   flake.modules.nixos.nu =
     { pkgs, config, ... }:

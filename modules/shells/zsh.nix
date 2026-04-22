@@ -1,5 +1,5 @@
 # Shell option: zsh
-# Select in hosts/*/default.nix via: shell = "zsh"
+# Select in hosts/*/host.nix via: shell = "zsh"
 {
   flake.modules.nixos.zsh =
     { pkgs, config, ... }:

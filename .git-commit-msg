@@ -1,1 +1,1 @@
-fix: silence nixpkgs deprecation warnings
+feat(xdg): set qutebrowser as default http/https handler

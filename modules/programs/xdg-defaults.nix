@@ -13,9 +13,9 @@
         enable = true;
         defaultApplications = {
           # Browser
-          "text/html" = "zen-beta.desktop";
-          "x-scheme-handler/http" = "zen-beta.desktop";
-          "x-scheme-handler/https" = "zen-beta.desktop";
+          "text/html" = "org.qutebrowser.qutebrowser.desktop";
+          "x-scheme-handler/http" = "org.qutebrowser.qutebrowser.desktop";
+          "x-scheme-handler/https" = "org.qutebrowser.qutebrowser.desktop";
 
           # Mail
           "x-scheme-handler/mailto" = "thunderbird.desktop";

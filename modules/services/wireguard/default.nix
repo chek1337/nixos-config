@@ -23,11 +23,11 @@ in
         format = "binary";
       };
 
-      networking.firewall.checkReversePath = "loose";
-
-      boot.kernel.sysctl = {
-        "net.ipv4.ip_forward" = 1;
-      };
+      # networking.firewall.checkReversePath = "loose";
+      #
+      # boot.kernel.sysctl = {
+      #   "net.ipv4.ip_forward" = 1;
+      # };
 
       environment.systemPackages = with pkgs; [
         wireguard-tools

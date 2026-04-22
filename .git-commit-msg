@@ -1,1 +1,1 @@
-feat(desktop-env): extract x11-compat module for XWayland/distrobox
+fix: silence nixpkgs deprecation warnings

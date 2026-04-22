@@ -8,8 +8,8 @@
       services.xserver.enable = true;
 
       environment.systemPackages = with pkgs; [
-        xorg.xhost
-        xorg.xauth
+        xhost
+        xauth
       ];
 
       # Grant any local Unix-socket client access to XWayland on session
@@ -25,8 +25,8 @@
         serviceConfig = {
           Type = "oneshot";
           RemainAfterExit = true;
-          ExecStart = "${pkgs.xorg.xhost}/bin/xhost +local:";
-          ExecStop = "${pkgs.xorg.xhost}/bin/xhost -local:";
+          ExecStart = "${pkgs.xhost}/bin/xhost +local:";
+          ExecStop = "${pkgs.xhost}/bin/xhost -local:";
         };
       };
     };

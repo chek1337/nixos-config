@@ -1,1 +1,1 @@
-feat: refactor wireguard
+refactor(tmux): split default.nix into per-concern submodules

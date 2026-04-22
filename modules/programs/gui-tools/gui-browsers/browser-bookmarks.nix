@@ -32,6 +32,16 @@
           url = "https://www.youtube.com/feed/subscriptions";
         }
         {
+          name = "gmail";
+          title = "Gmail";
+          url = "https://mail.google.com";
+        }
+        {
+          name = "yamail";
+          title = "Yandex Mail";
+          url = "https://mail.yandex.ru";
+        }
+        {
           name = "gmap";
           title = "Google Maps";
           url = "https://www.google.com/maps";

@@ -5,6 +5,7 @@ let
     "xdg-defaults"
     "themes"
     "zsh"
+    "nu"
     "cli-tools"
     "dev-tools"
     "docker"

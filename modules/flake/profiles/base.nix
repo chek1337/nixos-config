@@ -8,6 +8,7 @@ let
     "cli-tools"
     "dev-tools"
     "docker"
+    "podman"
     "terminals"
   ];
 in

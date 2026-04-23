@@ -10,28 +10,13 @@ default:
     @just --list
 
 alias sw := switch
-alias swi := switch-interactive
-alias nsw := nixos-switch
-alias nswi := nixos-switch-interactive
-alias hm := home-manager-switch
-alias hmi := home-manager-switch-interactive
-alias hmo := home-manager-switch-offline
-alias hmoi := home-manager-switch-offline-interactive
-alias t := test
-alias ti := test-interactive
-alias b := build
-alias bi := build-interactive
 alias bo := boot
-alias boi := boot-interactive
-alias nbo := nixos-boot
-alias nboi := nixos-boot-interactive
+alias t := test
+alias b := build
 alias up := update
-alias upi := update-interactive
 alias qs := quickshell-reload
 alias hw := gen-hardware
-alias hwi := gen-hardware-interactive
 alias iso := build-iso
-alias isoi := build-iso-interactive
 
 # Stage all changes
 [private]
@@ -43,123 +28,141 @@ stage:
 tmux-reload:
     tmux source-file ~/.config/tmux/tmux.conf 2>/dev/null || true
 
-# Apply NixOS + Home Manager configuration
+# Parse args: keywords `interactive`, `offline`, `nixos`, `hm`; other = hostname.
+# Emits shell assignments for caller's `eval`.
+[private]
+_parse prompt *args:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    hostname="" offline="" force=0 target=""
+    for a in {{ args }}; do
+        case "$a" in
+            interactive) force=1 ;;
+            offline) offline='{{ offline_flags }}' ;;
+            nixos|hm)
+                if [ -n "$target" ]; then
+                    echo "error: conflicting targets ('$target' and '$a')" >&2
+                    exit 1
+                fi
+                target="$a"
+                ;;
+            *)
+                if [ -n "$hostname" ]; then
+                    echo "error: multiple hostnames ('$hostname' and '$a')" >&2
+                    exit 1
+                fi
+                hostname="$a"
+                ;;
+        esac
+    done
+    [ -z "$target" ] && target="both"
+    if [ -z "$hostname" ] || [ "$force" = "1" ]; then
+        hostname=$(ls modules/hosts | fzf --prompt="{{ prompt }} > ")
+    fi
+    printf 'HOSTNAME=%q OFFLINE=%q TARGET=%q\n' "$hostname" "$offline" "$target"
+
+# Apply configuration. Args: [hostname] [interactive] [offline] [nixos|hm]
 [group("deploy")]
-switch hostname: stage
-    sudo nixos-rebuild switch --flake "{{flake}}#{{hostname}}" {{features_flags}}
-    nix run home-manager -- switch --flake "{{flake}}#{{username}}@{{hostname}}" {{features_flags}}
+switch *args: stage
+    #!/usr/bin/env bash
+    set -euo pipefail
+    eval "$(just _parse switch {{ args }})"
+    total=1; [ "$TARGET" = "both" ] && total=2
+    step=1
+    if [ "$TARGET" = "nixos" ] || [ "$TARGET" = "both" ]; then
+        printf '\n\033[1;34m==> [%d/%d] nixos-rebuild switch (%s)\033[0m\n' "$step" "$total" "$HOSTNAME"
+        sudo nixos-rebuild switch --flake "{{ flake }}#$HOSTNAME" {{ features_flags }} $OFFLINE
+        step=$((step+1))
+    fi
+    if [ "$TARGET" = "hm" ] || [ "$TARGET" = "both" ]; then
+        printf '\n\033[1;34m==> [%d/%d] home-manager switch (%s@%s)\033[0m\n' "$step" "$total" "{{ username }}" "$HOSTNAME"
+        nix run home-manager -- switch --flake "{{ flake }}#{{ username }}@$HOSTNAME" {{ features_flags }} $OFFLINE
+    fi
+    printf '\n\033[1;32m==> done\033[0m\n'
     just tmux-reload
 
-# Apply NixOS + Home Manager interactively
+# Apply NixOS on next boot (+ Home Manager now by default). Args: [hostname] [interactive] [offline] [nixos|hm]
 [group("deploy")]
-switch-interactive: stage
-    just switch $(ls modules/hosts | fzf --prompt="switch > ")
+boot *args: stage
+    #!/usr/bin/env bash
+    set -euo pipefail
+    eval "$(just _parse boot {{ args }})"
+    total=1; [ "$TARGET" = "both" ] && total=2
+    step=1
+    if [ "$TARGET" = "nixos" ] || [ "$TARGET" = "both" ]; then
+        printf '\n\033[1;34m==> [%d/%d] nixos-rebuild boot (%s)\033[0m\n' "$step" "$total" "$HOSTNAME"
+        sudo nixos-rebuild boot --flake "{{ flake }}#$HOSTNAME" {{ features_flags }} $OFFLINE
+        step=$((step+1))
+    fi
+    if [ "$TARGET" = "hm" ] || [ "$TARGET" = "both" ]; then
+        printf '\n\033[1;34m==> [%d/%d] home-manager switch (%s@%s)\033[0m\n' "$step" "$total" "{{ username }}" "$HOSTNAME"
+        nix run home-manager -- switch --flake "{{ flake }}#{{ username }}@$HOSTNAME" {{ features_flags }} $OFFLINE
+    fi
+    printf '\n\033[1;32m==> done\033[0m\n'
+    just tmux-reload
 
-# Apply NixOS configuration only
+# Test configuration without applying (nixos only). Args: [hostname] [interactive] [offline]
 [group("deploy")]
-nixos-switch hostname: stage
-    sudo nixos-rebuild switch --flake "{{flake}}#{{hostname}}" {{features_flags}}
+test *args: stage
+    #!/usr/bin/env bash
+    set -euo pipefail
+    eval "$(just _parse test {{ args }})"
+    sudo nixos-rebuild test --flake "{{ flake }}#$HOSTNAME" {{ features_flags }} $OFFLINE
 
-# Apply NixOS configuration only interactively
+# Build configuration without applying (nixos only). Args: [hostname] [interactive] [offline]
 [group("deploy")]
-nixos-switch-interactive: stage
-    just nixos-switch $(ls modules/hosts | fzf --prompt="nixos-switch > ")
+build *args: stage
+    #!/usr/bin/env bash
+    set -euo pipefail
+    eval "$(just _parse build {{ args }})"
+    nixos-rebuild build --flake "{{ flake }}#$HOSTNAME" {{ features_flags }} $OFFLINE
 
 # Restart quickshell / noctalia-shell
 [group("utils")]
 quickshell-reload:
     systemd-run --user --no-block --setenv=PATH="$PATH" -- bash -c 'pids=$$(pgrep -f quickshell | grep -v $$$$); echo "$pids" | xargs -r kill -9; sleep 0.5; noctalia-shell'
 
-# Apply Home Manager configuration only
-[group("deploy")]
-home-manager-switch hostname: stage
-    nix run home-manager -- switch --flake "{{flake}}#{{username}}@{{hostname}}" {{features_flags}}
-    just tmux-reload
-
-# Apply Home Manager interactively
-[group("deploy")]
-home-manager-switch-interactive: stage
-    just home-manager-switch $(ls modules/hosts | fzf --prompt="hm switch > ")
-
-# Apply Home Manager with fallback when substituters are unreachable
-[group("deploy")]
-home-manager-switch-offline hostname: stage
-    nix run home-manager -- switch --flake "{{flake}}#{{username}}@{{hostname}}" {{features_flags}} {{offline_flags}}
-    just tmux-reload
-
-# Apply Home Manager offline interactively
-[group("deploy")]
-home-manager-switch-offline-interactive: stage
-    just home-manager-switch-offline $(ls modules/hosts | fzf --prompt="hm switch offline > ")
-
-# Apply NixOS on next boot + Home Manager now
-[group("deploy")]
-boot hostname: stage
-    sudo nixos-rebuild boot --flake "{{flake}}#{{hostname}}" {{features_flags}}
-    nix run home-manager -- switch --flake "{{flake}}#{{username}}@{{hostname}}" {{features_flags}}
-    just tmux-reload
-
-# Apply NixOS on next boot + Home Manager now interactively
-[group("deploy")]
-boot-interactive: stage
-    just boot $(ls modules/hosts | fzf --prompt="boot > ")
-
-# Apply NixOS on next boot only
-[group("deploy")]
-nixos-boot hostname: stage
-    sudo nixos-rebuild boot --flake "{{flake}}#{{hostname}}" {{features_flags}}
-
-# Apply NixOS on next boot only interactively
-[group("deploy")]
-nixos-boot-interactive: stage
-    just nixos-boot $(ls modules/hosts | fzf --prompt="nixos-boot > ")
-
-# Test configuration without applying
-[group("deploy")]
-test hostname: stage
-    sudo nixos-rebuild test --flake "{{flake}}#{{hostname}}" {{features_flags}}
-
-# Test interactively
-[group("deploy")]
-test-interactive: stage
-    just test $(ls modules/hosts | fzf --prompt="test > ")
-
-# Build configuration without applying
-[group("deploy")]
-build hostname: stage
-    nixos-rebuild build --flake "{{flake}}#{{hostname}}" {{features_flags}}
-
-# Build interactively
-[group("deploy")]
-build-interactive: stage
-    just build $(ls modules/hosts | fzf --prompt="build > ")
-
-# Generate hardware config for current machine
+# Generate hardware config for current machine. Args: [hostname] [interactive]
 [group("utils")]
-gen-hardware hostname: stage
+gen-hardware *args: stage
+    #!/usr/bin/env bash
+    set -euo pipefail
+    eval "$(just _parse gen-hardware {{ args }})"
     sudo nixos-generate-config --show-hardware-config \
-        > "modules/hosts/{{hostname}}/_hardware-configuration.nix"
-    @echo "Saved to modules/hosts/{{hostname}}/_hardware-configuration.nix"
-
-# Generate hardware config interactively
-[group("utils")]
-gen-hardware-interactive: stage
-    just gen-hardware $(ls modules/hosts | fzf --prompt="gen-hardware > ")
+        > "modules/hosts/$HOSTNAME/_hardware-configuration.nix"
+    echo "Saved to modules/hosts/$HOSTNAME/_hardware-configuration.nix"
 
 # Check flake
 [group("utils")]
 check: stage
-    nix flake check {{features_flags}}
+    nix flake check {{ features_flags }}
 
-# Update all inputs or a specific one: just up / just up <input>
+# Update flake inputs. Args: [input] [interactive]
 [group("utils")]
-update *input: stage
-    @if [ -z "{{input}}" ]; then nix flake update {{features_flags}}; else nix flake update {{input}} {{features_flags}}; fi
-
-# Update specific input interactively via fzf
-[group("utils")]
-update-interactive: stage
-    just update $(jq -r '.nodes | keys[] | select(. != "root")' flake.lock | fzf --prompt="update input > ")
+update *args: stage
+    #!/usr/bin/env bash
+    set -euo pipefail
+    input="" force=0
+    for a in {{ args }}; do
+        case "$a" in
+            interactive) force=1 ;;
+            *)
+                if [ -n "$input" ]; then
+                    echo "error: multiple inputs ('$input' and '$a')" >&2
+                    exit 1
+                fi
+                input="$a"
+                ;;
+        esac
+    done
+    if [ "$force" = "1" ]; then
+        input=$(jq -r '.nodes | keys[] | select(. != "root")' flake.lock | fzf --prompt="update input > ")
+    fi
+    if [ -z "$input" ]; then
+        nix flake update {{ features_flags }}
+    else
+        nix flake update "$input" {{ features_flags }}
+    fi
 
 # Remove old generations
 [group("utils")]
@@ -167,16 +170,14 @@ gc: stage
     sudo nix-collect-garbage -d
     nix-collect-garbage -d
 
-# Build offline installation ISO
+# Build offline installation ISO. Args: [hostname] [interactive] [offline]
 [group("iso")]
-build-iso hostname: stage
-    nix build ".#nixosConfigurations.iso-{{hostname}}.config.system.build.isoImage" -o result-iso --show-trace {{features_flags}}
-    @echo "ISO: $(readlink result-iso)/iso/*.iso"
-
-# Build ISO interactively
-[group("iso")]
-build-iso-interactive: stage
-    just build-iso $(ls modules/hosts | fzf --prompt="build-iso > ")
+build-iso *args: stage
+    #!/usr/bin/env bash
+    set -euo pipefail
+    eval "$(just _parse build-iso {{ args }})"
+    nix build ".#nixosConfigurations.iso-$HOSTNAME.config.system.build.isoImage" -o result-iso --show-trace {{ features_flags }} $OFFLINE
+    echo "ISO: $(readlink result-iso)/iso/*.iso"
 
 # Format all nix files
 [group("utils")]

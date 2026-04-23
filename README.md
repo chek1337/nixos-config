@@ -127,24 +127,26 @@ If `git push` fails with `agent refused operation` / `Permission denied (publick
 ### Commands
 
 ```bash
-just              # Show all available commands
-just sw <host>    # Apply NixOS + Home Manager configuration
-just nsw <host>   # Apply NixOS configuration only
-just hm <host>    # Apply Home Manager configuration only
-just hmo <host>   # Apply Home Manager offline (skip substituters, build locally)
-just t <host>     # Test without applying
-just b <host>     # Build without applying
-just bo <host>    # Apply NixOS on next boot + Home Manager now
-just nbo <host>   # Apply NixOS on next boot only
-just up           # Update all flake inputs
-just up <input>   # Update specific flake input
-just gc           # Garbage collect old generations
-just fmt          # Format all nix files
-just check        # nix flake check
-just iso <host>   # Build offline installation ISO
+just                              # Show all available commands
+just sw <host>                    # Apply NixOS + Home Manager configuration
+just sw <host> nixos              # Apply NixOS only
+just sw <host> hm                 # Apply Home Manager only
+just sw <host> hm offline         # Apply Home Manager offline (skip substituters, build locally)
+just sw interactive               # Pick host via fzf
+just t <host>                     # Test without applying
+just b <host>                     # Build without applying
+just bo <host>                    # Apply NixOS on next boot + Home Manager now
+just bo <host> nixos              # Apply NixOS on next boot only
+just up                           # Update all flake inputs
+just up <input>                   # Update specific flake input
+just up interactive               # Pick flake input via fzf
+just gc                           # Garbage collect old generations
+just fmt                          # Format all nix files
+just check                        # nix flake check
+just iso <host>                   # Build offline installation ISO
 ```
 
-All commands have interactive variants via fzf (`swi`, `nswi`, `hmi`, `hmoi`, `ti`, `bi`, `boi`, `nboi`, `isoi`, `hwi`, `upi`).
+Any deploy recipe accepts the keyword args `interactive` (force fzf host picker), `offline` (skip substituters), and `nixos` / `hm` (limit target). Order is free: `just sw interactive offline nixos` and `just sw nixos offline interactive` are equivalent.
 
 ## Standalone Neovim (nvf)
 
@@ -183,8 +185,8 @@ Build an ISO containing all packages for offline NixOS installation on any x86_6
 
 ```bash
 just iso <hostname>
-# or interactively:
-just isoi
+# or pick host interactively via fzf:
+just iso interactive
 ```
 
 Write to USB:

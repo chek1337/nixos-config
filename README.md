@@ -102,8 +102,7 @@ reboot
 
 # (Optional) Setup sops secrets for encrypted configs
 mkdir -p ~/.config/sops/age
-nix-shell -p ssh-to-age --run \
-  "ssh-to-age -private-key < ~/.ssh/<your-key>" > ~/.config/sops/age/keys.txt
+ssh-to-age -private-key < ~/.ssh/<your-key> > ~/.config/sops/age/keys.txt
 chmod 600 ~/.config/sops/age/keys.txt
 
 # Switch origin to SSH

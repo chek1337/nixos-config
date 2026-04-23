@@ -25,6 +25,7 @@ let
         dua
         pciutils
         toybox
+        ssh-to-age
       ];
     };
 in

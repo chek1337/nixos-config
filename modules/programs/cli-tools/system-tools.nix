@@ -28,6 +28,7 @@ let
         ssh-to-age
         nix-inspect
         nh
+        nvd
       ];
     };
 in

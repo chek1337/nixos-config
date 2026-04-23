@@ -1,5 +1,7 @@
 flake := "."
 username := "chek"
+# Flags to fall back to local build when substituters are unreachable
+offline_flags := "--option substitute false --option fallback true"
 
 # Show all available commands
 default:
@@ -11,6 +13,8 @@ alias nsw := nixos-switch
 alias nswi := nixos-switch-interactive
 alias hm := home-manager-switch
 alias hmi := home-manager-switch-interactive
+alias hmo := home-manager-switch-offline
+alias hmoi := home-manager-switch-offline-interactive
 alias t := test
 alias ti := test-interactive
 alias b := build
@@ -74,6 +78,17 @@ home-manager-switch hostname: stage
 [group("deploy")]
 home-manager-switch-interactive: stage
     just home-manager-switch $(ls modules/hosts | fzf --prompt="hm switch > ")
+
+# Apply Home Manager with fallback when substituters are unreachable
+[group("deploy")]
+home-manager-switch-offline hostname: stage
+    nix run home-manager -- switch --flake "{{flake}}#{{username}}@{{hostname}}" {{offline_flags}}
+    just tmux-reload
+
+# Apply Home Manager offline interactively
+[group("deploy")]
+home-manager-switch-offline-interactive: stage
+    just home-manager-switch-offline $(ls modules/hosts | fzf --prompt="hm switch offline > ")
 
 # Apply NixOS on next boot + Home Manager now
 [group("deploy")]

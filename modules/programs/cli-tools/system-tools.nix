@@ -27,6 +27,7 @@ let
         toybox
         ssh-to-age
         nix-inspect
+        nh
       ];
     };
 in

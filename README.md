@@ -85,7 +85,7 @@ Profiles aggregate related modules to simplify host configs:
 # https://nixos.org/download/
 
 # Enter a temporary shell with required tools
-nix-shell -p git just fzf
+nix-shell -p git just nh
 
 # Clone the repository
 git clone https://github.com/chek1337/nixos-config.git ~/nixos-config
@@ -126,27 +126,25 @@ If `git push` fails with `agent refused operation` / `Permission denied (publick
 
 ### Commands
 
+Deploy recipes wrap [nh](https://github.com/nix-community/nh) (nvd diff + nix-output-monitor).
+
 ```bash
 just                              # Show all available commands
 just sw <host>                    # Apply NixOS + Home Manager configuration
-just sw <host> nixos              # Apply NixOS only
-just sw <host> hm                 # Apply Home Manager only
-just sw <host> hm offline         # Apply Home Manager offline (skip substituters, build locally)
-just sw interactive               # Pick host via fzf
+just nsw <host>                   # Apply NixOS only
+just hm <host>                    # Apply Home Manager only
 just t <host>                     # Test without applying
 just b <host>                     # Build without applying
 just bo <host>                    # Apply NixOS on next boot + Home Manager now
-just bo <host> nixos              # Apply NixOS on next boot only
+just nbo <host>                   # Apply NixOS on next boot only
+just hw <host>                    # Generate hardware config for given host
 just up                           # Update all flake inputs
 just up <input>                   # Update specific flake input
-just up interactive               # Pick flake input via fzf
-just gc                           # Garbage collect old generations
+just gc                           # Garbage collect old generations via nh
 just fmt                          # Format all nix files
 just check                        # nix flake check
 just iso <host>                   # Build offline installation ISO
 ```
-
-Any deploy recipe accepts the keyword args `interactive` (force fzf host picker), `offline` (skip substituters), and `nixos` / `hm` (limit target). Order is free: `just sw interactive offline nixos` and `just sw nixos offline interactive` are equivalent.
 
 ## Standalone Neovim (nvf)
 
@@ -185,8 +183,6 @@ Build an ISO containing all packages for offline NixOS installation on any x86_6
 
 ```bash
 just iso <hostname>
-# or pick host interactively via fzf:
-just iso interactive
 ```
 
 Write to USB:

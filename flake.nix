@@ -97,6 +97,10 @@
       url = "github:my4ng/niri/bfea5ee499684fd1eb651b00d08915827a359261";
       flake = false;
     };
+    nirimod = {
+      url = "github:srinivasr/nirimod";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     push2talk = {
       url = "github:cyrinux/push2talk";
       inputs.nixpkgs.follows = "nixpkgs";

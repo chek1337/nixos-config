@@ -637,6 +637,26 @@
         "type": "github"
       }
     },
+    "nirimod": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1776919722,
+        "narHash": "sha256-jfxa1qE77Mt0uBV/oTlwLF2VoyIjg6rXDO2YGwnaek4=",
+        "owner": "srinivasr",
+        "repo": "nirimod",
+        "rev": "67fb37631f82ecfa772883b4f49996e2029979b2",
+        "type": "github"
+      },
+      "original": {
+        "owner": "srinivasr",
+        "repo": "nirimod",
+        "type": "github"
+      }
+    },
     "nix-colorizer": {
       "locked": {
         "lastModified": 1750078528,
@@ -1004,6 +1024,7 @@
         "kitty-zoxide-sessions": "kitty-zoxide-sessions",
         "lazyvim-nix": "lazyvim-nix",
         "niri-pinned": "niri-pinned",
+        "nirimod": "nirimod",
         "nix-colorizer": "nix-colorizer",
         "nix-firefox-addons": "nix-firefox-addons",
         "nix-flatpak": "nix-flatpak",

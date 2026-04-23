@@ -25,7 +25,10 @@ in
     {
       programs.niri.enable = true;
       programs.niri.package = niri-pinned;
-      environment.systemPackages = [ pkgs.xwayland-satellite ];
+      environment.systemPackages = [
+        pkgs.xwayland-satellite
+        inputs.nirimod.packages.${pkgs.system}.default
+      ];
     };
 
   flake.modules.homeManager.niri =

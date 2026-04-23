@@ -1,1 +1,1 @@
-feat(justfile): add offline home-manager switch target
+feat(justfile): pass experimental-features flags to all nix commands

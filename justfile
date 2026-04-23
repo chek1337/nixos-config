@@ -1,5 +1,7 @@
 flake := "."
 username := "chek"
+# Enable flakes + nix-command even if they aren't set in nix.conf
+features_flags := '--extra-experimental-features "nix-command flakes"'
 # Flags to fall back to local build when substituters are unreachable
 offline_flags := "--option substitute false --option fallback true"
 
@@ -44,8 +46,8 @@ tmux-reload:
 # Apply NixOS + Home Manager configuration
 [group("deploy")]
 switch hostname: stage
-    sudo nixos-rebuild switch --flake "{{flake}}#{{hostname}}"
-    nix run home-manager -- switch --flake "{{flake}}#{{username}}@{{hostname}}"
+    sudo nixos-rebuild switch --flake "{{flake}}#{{hostname}}" {{features_flags}}
+    nix run home-manager -- switch --flake "{{flake}}#{{username}}@{{hostname}}" {{features_flags}}
     just tmux-reload
 
 # Apply NixOS + Home Manager interactively
@@ -56,7 +58,7 @@ switch-interactive: stage
 # Apply NixOS configuration only
 [group("deploy")]
 nixos-switch hostname: stage
-    sudo nixos-rebuild switch --flake "{{flake}}#{{hostname}}"
+    sudo nixos-rebuild switch --flake "{{flake}}#{{hostname}}" {{features_flags}}
 
 # Apply NixOS configuration only interactively
 [group("deploy")]
@@ -71,7 +73,7 @@ quickshell-reload:
 # Apply Home Manager configuration only
 [group("deploy")]
 home-manager-switch hostname: stage
-    nix run home-manager -- switch --flake "{{flake}}#{{username}}@{{hostname}}"
+    nix run home-manager -- switch --flake "{{flake}}#{{username}}@{{hostname}}" {{features_flags}}
     just tmux-reload
 
 # Apply Home Manager interactively
@@ -82,7 +84,7 @@ home-manager-switch-interactive: stage
 # Apply Home Manager with fallback when substituters are unreachable
 [group("deploy")]
 home-manager-switch-offline hostname: stage
-    nix run home-manager -- switch --flake "{{flake}}#{{username}}@{{hostname}}" {{offline_flags}}
+    nix run home-manager -- switch --flake "{{flake}}#{{username}}@{{hostname}}" {{features_flags}} {{offline_flags}}
     just tmux-reload
 
 # Apply Home Manager offline interactively
@@ -93,8 +95,8 @@ home-manager-switch-offline-interactive: stage
 # Apply NixOS on next boot + Home Manager now
 [group("deploy")]
 boot hostname: stage
-    sudo nixos-rebuild boot --flake "{{flake}}#{{hostname}}"
-    nix run home-manager -- switch --flake "{{flake}}#{{username}}@{{hostname}}"
+    sudo nixos-rebuild boot --flake "{{flake}}#{{hostname}}" {{features_flags}}
+    nix run home-manager -- switch --flake "{{flake}}#{{username}}@{{hostname}}" {{features_flags}}
     just tmux-reload
 
 # Apply NixOS on next boot + Home Manager now interactively
@@ -105,7 +107,7 @@ boot-interactive: stage
 # Apply NixOS on next boot only
 [group("deploy")]
 nixos-boot hostname: stage
-    sudo nixos-rebuild boot --flake "{{flake}}#{{hostname}}"
+    sudo nixos-rebuild boot --flake "{{flake}}#{{hostname}}" {{features_flags}}
 
 # Apply NixOS on next boot only interactively
 [group("deploy")]
@@ -115,7 +117,7 @@ nixos-boot-interactive: stage
 # Test configuration without applying
 [group("deploy")]
 test hostname: stage
-    sudo nixos-rebuild test --flake "{{flake}}#{{hostname}}"
+    sudo nixos-rebuild test --flake "{{flake}}#{{hostname}}" {{features_flags}}
 
 # Test interactively
 [group("deploy")]
@@ -125,7 +127,7 @@ test-interactive: stage
 # Build configuration without applying
 [group("deploy")]
 build hostname: stage
-    nixos-rebuild build --flake "{{flake}}#{{hostname}}"
+    nixos-rebuild build --flake "{{flake}}#{{hostname}}" {{features_flags}}
 
 # Build interactively
 [group("deploy")]
@@ -147,12 +149,12 @@ gen-hardware-interactive: stage
 # Check flake
 [group("utils")]
 check: stage
-    nix flake check
+    nix flake check {{features_flags}}
 
 # Update all inputs or a specific one: just up / just up <input>
 [group("utils")]
 update *input: stage
-    @if [ -z "{{input}}" ]; then nix flake update; else nix flake update {{input}}; fi
+    @if [ -z "{{input}}" ]; then nix flake update {{features_flags}}; else nix flake update {{input}} {{features_flags}}; fi
 
 # Update specific input interactively via fzf
 [group("utils")]
@@ -168,7 +170,7 @@ gc: stage
 # Build offline installation ISO
 [group("iso")]
 build-iso hostname: stage
-    nix build ".#nixosConfigurations.iso-{{hostname}}.config.system.build.isoImage" -o result-iso --show-trace
+    nix build ".#nixosConfigurations.iso-{{hostname}}.config.system.build.isoImage" -o result-iso --show-trace {{features_flags}}
     @echo "ISO: $(readlink result-iso)/iso/*.iso"
 
 # Build ISO interactively

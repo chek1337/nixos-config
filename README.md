@@ -80,9 +80,9 @@ Profiles aggregate related modules to simplify host configs:
 ## Installation
 
 ```bash
-# Prerequisites: NixOS installed with flakes enabled - nix.settings.experimental-features = [ "nix-command" "flakes" ];
+# Prerequisites: NixOS installed. Flakes + nix-command don't need to be
+# enabled globally - the `just` targets pass --extra-experimental-features.
 # https://nixos.org/download/
-# https://wiki.nixos.org/wiki/Flakes
 
 # Enter a temporary shell with required tools
 nix-shell -p git just fzf
@@ -132,6 +132,7 @@ just              # Show all available commands
 just sw <host>    # Apply NixOS + Home Manager configuration
 just nsw <host>   # Apply NixOS configuration only
 just hm <host>    # Apply Home Manager configuration only
+just hmo <host>   # Apply Home Manager offline (skip substituters, build locally)
 just t <host>     # Test without applying
 just b <host>     # Build without applying
 just bo <host>    # Apply NixOS on next boot + Home Manager now
@@ -144,7 +145,7 @@ just check        # nix flake check
 just iso <host>   # Build offline installation ISO
 ```
 
-All commands have interactive variants via fzf (`swi`, `nswi`, `hmi`, `ti`, `bi`, `boi`, `nboi`, `isoi`, `hwi`, `upi`).
+All commands have interactive variants via fzf (`swi`, `nswi`, `hmi`, `hmoi`, `ti`, `bi`, `boi`, `nboi`, `isoi`, `hwi`, `upi`).
 
 ## Standalone Neovim (nvf)
 

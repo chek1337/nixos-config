@@ -20,7 +20,7 @@
           elegant-grub2-theme = {
             enable = true;
             theme = "forest";
-            type = "float";
+            type = "sharp";
             side = "right";
             color = "dark";
             screen = "1080p";

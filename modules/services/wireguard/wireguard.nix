@@ -4,8 +4,8 @@ let
   hmMods = config.flake.modules.homeManager;
   submoduleNames = [
     "wireguard-wg-quick"
-    "wireguard-netns-vpn"
-    "wireguard-netns-bypass"
+    # "wireguard-netns-vpn"
+    # "wireguard-netns-bypass"
   ];
   pick = mods: map (n: mods.${n}) submoduleNames;
 in

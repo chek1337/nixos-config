@@ -1,1 +1,1 @@
-fix(justfile): use --option form for extra-experimental-features
+feat: remove unused wireguard scenario

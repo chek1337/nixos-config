@@ -49,7 +49,7 @@
       # });
 
       vimiumCssScript = pkgs.writeShellScriptBin "vimium-css" ''
-        echo "Вставь этот CSS в настройки Vimium (CSS for link hints):"
+        echo "# Paste this CSS into Vimium settings (CSS for link hints):"
         echo ""
         cat ${cssFile}
       '';
@@ -91,20 +91,27 @@
           div > .vimiumHintMarker {
             background: #${config.lib.stylix.colors.base01} !important;
             border: none !important;
-            outline: none !important;
             box-shadow: none !important;
-            padding: 2px 5px !important;
             border-radius: 3px !important;
+            padding: 1px 4px !important;
+            color: #${config.lib.stylix.colors.base05} !important;
           }
 
           div > .vimiumHintMarker span {
             color: #${config.lib.stylix.colors.base05} !important;
-            font-weight: bold !important;
             font-size: 13px !important;
           }
 
-          div > .vimiumHintMarker > .matchingCharacter {
+          div > .vimiumHintMarker span.matchingCharacter {
             color: #${config.lib.stylix.colors.base0B} !important;
+            opacity: 1 !important;
+            font-size: 13px !important;
+          }
+
+          div > .vimiumHintMarker span.normalCharacter {
+            color: #${config.lib.stylix.colors.base05} !important;
+            opacity: 1 !important;
+            font-size: 13px !important;
           }
         '';
 

@@ -4,6 +4,7 @@ let
   modules = [
     "browser-bookmarks"
     "browser-extensions"
+    "browser-search"
     "firefox-common"
     "firefox"
     "qutebrowser"

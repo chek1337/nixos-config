@@ -13,14 +13,14 @@
             value = b.url;
           }) config.browserBookmarks
         );
-        searchEngines = {
-          DEFAULT = "https://duckduckgo.com/?q={}";
-          g = "https://www.google.com/search?q={}";
-          ya = "https://yandex.ru/search/?text={}";
-          yt = "https://www.youtube.com/results?search_query={}";
-          gh = "https://github.com/search?q={}";
-          snix = "https://search.nixos.org/packages?query={}";
-        };
+        searchEngines =
+          let
+            defaultEngine = lib.findFirst (e: e.default) null (
+              lib.attrValues config.browserSearchEngines
+            );
+            named = lib.mapAttrs (_: e: e.url) config.browserSearchEngines;
+          in
+          named // lib.optionalAttrs (defaultEngine != null) { DEFAULT = defaultEngine.url; };
         extraConfig = ''
           config.unbind("q")
           config.bind("<Alt-q>", "record-macro")

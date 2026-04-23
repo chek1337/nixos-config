@@ -126,5 +126,9 @@
       url = "github:chek1337/tmux-floax/feat/per-session-popup";
       flake = false;
     };
+    tmux-copy-last-command = {
+      url = "github:v-bonilla/tmux-copy-last-command";
+      flake = false;
+    };
   };
 }

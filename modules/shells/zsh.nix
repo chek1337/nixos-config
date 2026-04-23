@@ -12,7 +12,7 @@
     };
 
   flake.modules.homeManager.zsh =
-    { pkgs, ... }:
+    { pkgs, lib, ... }:
     {
       programs.zsh = {
         enable = true;
@@ -22,7 +22,8 @@
           enable = true;
           plugins = [ "git" ];
         };
-        initContent = ''
+        initContent = lib.mkMerge [
+          ''
           WORDCHARS='*?_[]~=&;!#$%^(){}'
           bindkey " " magic-space
 
@@ -94,7 +95,31 @@
 
           source ${pkgs.fzf}/share/fzf/key-bindings.zsh
           source ${pkgs.fzf}/share/fzf/completion.zsh
-        '';
+          ''
+          (lib.mkAfter ''
+            # OSC 133 semantic prompt markers — для tmux-copy-last-command (prefix+y / prefix+Y).
+            # C эмитится из preexec; A встроен в PROMPT через %{...%}, потому что ZLE \r\e[K
+            # перед каждой перерисовкой после первой сбрасывает GRID_LINE_START_PROMPT.
+            # Re-apply на precmd нужен для тем, пересобирающих PROMPT (starship — как раз такой).
+            #
+            # Leading newlines (starship.add_newline=true) сдвигают A на пустую row ВЫШЕ
+            # реального prompt'а → previous-prompt прыгает не туда, prefix+y ломается.
+            # Фикс: перемещаем маркер ЗА все leading \n, чтобы он лёг на row с prompt'ом.
+            autoload -Uz add-zsh-hook
+            _osc133_preexec() { printf '\e]133;C\a' }
+            _osc133_decorate_prompt() {
+              [[ "$PS1" == *$'\e]133;A'* ]] && return
+              local nl=""
+              while [[ "$PS1" == $'\n'* ]]; do
+                nl+=$'\n'
+                PS1="''${PS1#$'\n'}"
+              done
+              PS1="$nl%{"$'\e]133;A\a'"%}$PS1"
+            }
+            add-zsh-hook preexec _osc133_preexec
+            add-zsh-hook precmd  _osc133_decorate_prompt
+          '')
+        ];
       };
 
       programs.starship = {

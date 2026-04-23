@@ -1022,6 +1022,7 @@
         "spicetify-nix": "spicetify-nix",
         "stylix": "stylix",
         "systems": "systems_10",
+        "tmux-copy-last-command": "tmux-copy-last-command",
         "tmux-floax-fork": "tmux-floax-fork",
         "treefmt-nix": "treefmt-nix_2",
         "yandex-browser": "yandex-browser",
@@ -1364,6 +1365,22 @@
       "original": {
         "owner": "tinted-theming",
         "repo": "base16-zed",
+        "type": "github"
+      }
+    },
+    "tmux-copy-last-command": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1776948708,
+        "narHash": "sha256-9ZUn9YNpwtC356wyrp8HODKB3Xv5Y50UCLAyhFzo80Q=",
+        "owner": "v-bonilla",
+        "repo": "tmux-copy-last-command",
+        "rev": "257a9cd13b88de36d7c1002fd0895eb543b88248",
+        "type": "github"
+      },
+      "original": {
+        "owner": "v-bonilla",
+        "repo": "tmux-copy-last-command",
         "type": "github"
       }
     },

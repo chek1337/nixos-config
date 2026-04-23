@@ -1,1 +1,1 @@
-refactor(justfile): collapse variant recipes into keyword args
+feat: add nix-inspect

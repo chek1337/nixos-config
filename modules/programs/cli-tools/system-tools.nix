@@ -26,6 +26,7 @@ let
         pciutils
         toybox
         ssh-to-age
+        nix-inspect
       ];
     };
 in

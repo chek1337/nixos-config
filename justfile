@@ -117,6 +117,20 @@ update-interactive: stage
 gc: stage
     nh clean all
 
+# Show diff between current system and previous generation
+[group("utils")]
+diff-prev:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    current=$(realpath /run/current-system)
+    prev=""
+    for link in $(printf '%s\n' /nix/var/nix/profiles/system-*-link | sort -V); do
+        [ "$(realpath "$link")" = "$current" ] && break
+        prev=$link
+    done
+    [ -n "$prev" ] || { echo "No previous generation found"; exit 1; }
+    nvd diff "$prev" /run/current-system
+
 # Build offline installation ISO
 [group("iso")]
 build-iso hostname: stage

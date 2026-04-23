@@ -1,1 +1,1 @@
-feat(cli-tools): add ssh-to-age for sops key conversion
+fix(justfile): use --option form for extra-experimental-features

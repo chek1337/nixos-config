@@ -1,7 +1,7 @@
 flake := "."
 username := "chek"
 # Enable flakes + nix-command even if they aren't set in nix.conf
-features_flags := '--extra-experimental-features "nix-command flakes"'
+features_flags := '--option extra-experimental-features "nix-command flakes"'
 # Flags to fall back to local build when substituters are unreachable
 offline_flags := "--option substitute false --option fallback true"
 

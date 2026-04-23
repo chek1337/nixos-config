@@ -8,6 +8,7 @@ let
     "gh"
     "tmux"
     "television"
+    "nix-search-tv"
     "zellij"
     "nvim"
     "nvf"

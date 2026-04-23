@@ -26,6 +26,11 @@ alias h := hosts
 stage:
     git add .
 
+# Prompt for sudo password upfront and refresh cached credentials
+[private]
+sudo-refresh:
+    sudo -v
+
 # Reload tmux config if server is running
 [private]
 tmux-reload:
@@ -33,14 +38,14 @@ tmux-reload:
 
 # Apply NixOS + Home Manager configuration
 [group("deploy")]
-switch hostname: stage
+switch hostname: stage sudo-refresh
     nh os switch {{ flake }} -H {{ hostname }}
     nh home switch {{ flake }} -c {{ username }}@{{ hostname }}
     just tmux-reload
 
 # Apply NixOS configuration only
 [group("deploy")]
-nixos-switch hostname: stage
+nixos-switch hostname: stage sudo-refresh
     nh os switch {{ flake }} -H {{ hostname }}
 
 # Apply Home Manager configuration only
@@ -51,24 +56,24 @@ home-manager-switch hostname: stage
 
 # Apply NixOS on next boot + Home Manager now
 [group("deploy")]
-boot hostname: stage
+boot hostname: stage sudo-refresh
     nh os boot {{ flake }} -H {{ hostname }}
     nh home switch {{ flake }} -c {{ username }}@{{ hostname }}
     just tmux-reload
 
 # Apply NixOS on next boot only
 [group("deploy")]
-nixos-boot hostname: stage
+nixos-boot hostname: stage sudo-refresh
     nh os boot {{ flake }} -H {{ hostname }}
 
 # Test configuration without applying
 [group("deploy")]
-test hostname: stage
+test hostname: stage sudo-refresh
     nh os test {{ flake }} -H {{ hostname }}
 
 # Build configuration without applying
 [group("deploy")]
-build hostname: stage
+build hostname: stage sudo-refresh
     nh os build {{ flake }} -H {{ hostname }}
 
 # Restart quickshell / noctalia-shell
@@ -78,7 +83,7 @@ quickshell-reload:
 
 # Generate hardware config for given host
 [group("utils")]
-gen-hardware hostname: stage
+gen-hardware hostname: stage sudo-refresh
     sudo nixos-generate-config --show-hardware-config \
         > "modules/hosts/{{ hostname }}/_hardware-configuration.nix"
     echo "Saved to modules/hosts/{{ hostname }}/_hardware-configuration.nix"

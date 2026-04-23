@@ -1,1 +1,1 @@
-refactor(justfile): migrate deploy recipes to nh
+feat: return interactive update channel

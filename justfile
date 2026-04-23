@@ -15,6 +15,7 @@ alias nbo := nixos-boot
 alias t := test
 alias b := build
 alias up := update
+alias upi := update-interactive
 alias qs := quickshell-reload
 alias hw := gen-hardware
 alias iso := build-iso
@@ -96,6 +97,15 @@ check: stage
 [group("utils")]
 update *args: stage
     nix flake update {{ args }} {{ features_flags }}
+
+# Update specific input interactively via fzf
+[group("utils")]
+update-interactive: stage
+    #!/usr/bin/env bash
+    set -euo pipefail
+    input=$(jq -r '.nodes | keys[] | select(. != "root")' flake.lock | fzf --prompt="update input > ") || exit 0
+    [ -z "$input" ] && exit 0
+    just update "$input"
 
 # Remove old generations
 [group("utils")]

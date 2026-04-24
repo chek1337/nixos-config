@@ -9,7 +9,6 @@
           "ripgrep"
           "astgrep"
         ];
-        extraRgArgs = "";
         startInInsertMode = false;
       };
     };

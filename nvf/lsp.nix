@@ -18,11 +18,33 @@
       enable = true;
       formatOnSave = false;
       lspkind.enable = true;
+
+      # use to many resources, so i comment it
+      # servers.nixd.settings.nixd = {
+      #   nixpkgs.expr = "import <nixpkgs> { }";
+      #   options = {
+      #     nixos.expr = ''
+      #       let
+      #         hostname = builtins.replaceStrings [ "\n" ] [ "" ] (builtins.readFile /etc/hostname);
+      #       in
+      #       (builtins.getFlake "/home/chek/nixos-config").nixosConfigurations.''${hostname}.options
+      #     '';
+      #     home-manager.expr = ''
+      #       let
+      #         hostname = builtins.replaceStrings [ "\n" ] [ "" ] (builtins.readFile /etc/hostname);
+      #         flake = builtins.getFlake "/home/chek/nixos-config";
+      #         username = flake.nixosConfigurations.''${hostname}.config.settings.username;
+      #       in
+      #       flake.homeConfigurations."''${username}@''${hostname}".options
+      #     '';
+      #   };
+      # };
     };
 
     languages = {
       enableTreesitter = true;
       enableFormat = true;
+      enableExtraDiagnostics = true;
 
       nix = {
         enable = true;
@@ -30,7 +52,10 @@
         format.type = [ "nixfmt" ];
       };
 
-      lua.enable = true;
+      lua = {
+        enable = true;
+        lsp.lazydev.enable = true;
+      };
 
       python = {
         enable = true;
@@ -43,7 +68,8 @@
 
       clang = {
         enable = true;
-        lsp.servers = [ "clangd" ];
+        cHeader = true;
+        dap.enable = true;
       };
 
       json = {
@@ -55,18 +81,5 @@
       markdown.enable = true;
       bash.enable = true;
     };
-
-    extraPackages = with pkgs; [
-      nixd
-      nixfmt
-      lua-language-server
-      stylua
-      ruff
-      basedpyright
-      ty
-      clang-tools
-      vscode-langservers-extracted
-      jsonfmt
-    ];
   };
 }

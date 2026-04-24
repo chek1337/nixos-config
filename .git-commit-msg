@@ -1,1 +1,1 @@
-fix warning for grug-far
+refactor(nvf): tune LSP stack and wire nixd to flake options

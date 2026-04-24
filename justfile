@@ -142,3 +142,21 @@ build-iso hostname: stage
 fmt:
     find . -name "*.nix" -not -path "./.git/*" | xargs nixfmt
     just stage
+
+# Install git hooks (post-commit writes .git-commit-msg for boot entry labels)
+[group("utils")]
+init-hooks:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    [ -d .git ] || { echo "not a git repo"; exit 1; }
+    cat > .git/hooks/post-commit <<'HOOK'
+    #!/usr/bin/env bash
+    [ -n "$_UPDATING_BOOT_LABEL" ] && exit 0
+    git log -1 --format=%s > .git-commit-msg
+    if ! git diff --quiet -- .git-commit-msg 2>/dev/null; then
+      git add .git-commit-msg
+      _UPDATING_BOOT_LABEL=1 git commit --amend --no-edit --no-verify
+    fi
+    HOOK
+    chmod +x .git/hooks/post-commit
+    echo "installed .git/hooks/post-commit"

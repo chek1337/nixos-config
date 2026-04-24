@@ -1,7 +1,6 @@
 .direnv/
 result-iso
 result
-CLAUDE.md
 
 # Проприетарные пакеты (бинарники не коммитим, только .gitkeep)
 packages/cryptopro/*.tgz

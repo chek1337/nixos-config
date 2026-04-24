@@ -10,9 +10,7 @@
     let
       toVimiumUrl = url: lib.replaceStrings [ "{}" ] [ "%s" ] url;
 
-      vimiumEntries = lib.concatMapStrings (
-        s: s + "\n"
-      ) (
+      vimiumEntries = lib.concatMapStrings (s: s + "\n") (
         lib.mapAttrsToList (
           shortcut: engine: "${shortcut}: ${toVimiumUrl engine.url} ${engine.description}"
         ) config.browserSearchEngines

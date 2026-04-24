@@ -15,9 +15,7 @@
         );
         searchEngines =
           let
-            defaultEngine = lib.findFirst (e: e.default) null (
-              lib.attrValues config.browserSearchEngines
-            );
+            defaultEngine = lib.findFirst (e: e.default) null (lib.attrValues config.browserSearchEngines);
             named = lib.mapAttrs (_: e: e.url) config.browserSearchEngines;
           in
           named // lib.optionalAttrs (defaultEngine != null) { DEFAULT = defaultEngine.url; };

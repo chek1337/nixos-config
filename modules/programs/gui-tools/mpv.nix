@@ -3,15 +3,6 @@
     { pkgs, config, ... }:
     let
       mpv = config.programs.mpv.finalPackage;
-      modernz = pkgs.mpvScripts.modernz.overrideAttrs {
-        version = "0.3.1";
-        src = pkgs.fetchFromGitHub {
-          owner = "Samillion";
-          repo = "ModernZ";
-          tag = "v0.3.1";
-          hash = "sha256-xHiKE84qBYa8wnLMhrTnOZPLwdY7ddW7ayIfFz1dIRw=";
-        };
-      };
     in
     {
       home.packages = [
@@ -31,7 +22,7 @@
       programs.mpv = {
         enable = true;
         scripts = [
-          modernz
+          pkgs.mpvScripts.modernz
           pkgs.mpvScripts.quality-menu
         ];
         config = {

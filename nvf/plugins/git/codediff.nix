@@ -9,24 +9,25 @@
       codediff-nvim = {
         package = codediff-nvim;
         after = [ "nui-nvim" ];
-        setup = ''
-          require("codediff").setup({
-            explorer = {
-              position = "bottom",
-              height = 10,
-              file_filter = {
-                ignore = {},
+        setup = # lua
+          ''
+            require("codediff").setup({
+              explorer = {
+                position = "bottom",
+                height = 10,
+                file_filter = {
+                  ignore = {},
+                },
               },
-            },
-            history = {
-              position = "bottom",
-              height = 10,
-              file_filter = {
-                ignore = {},
+              history = {
+                position = "bottom",
+                height = 10,
+                file_filter = {
+                  ignore = {},
+                },
               },
-            },
-          })
-        '';
+            })
+          '';
       };
     };
 

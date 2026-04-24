@@ -4,17 +4,18 @@
     extraPlugins = with pkgs.vimPlugins; {
       dial-nvim = {
         package = dial-nvim;
-        setup = ''
-          local augend = require("dial.augend")
-          require("dial.config").augends:register_group({
-            default = {
-              augend.integer.alias.decimal,
-              augend.constant.alias.bool,
-              augend.constant.alias.Bool,
-              augend.integer.alias.hex,
-            },
-          })
-        '';
+        setup = # lua
+          ''
+            local augend = require("dial.augend")
+            require("dial.config").augends:register_group({
+              default = {
+                augend.integer.alias.decimal,
+                augend.constant.alias.bool,
+                augend.constant.alias.Bool,
+                augend.integer.alias.hex,
+              },
+            })
+          '';
       };
     };
 

@@ -4,7 +4,8 @@
     nvim-treesitter-textobjects = {
       package = nvim-treesitter-textobjects;
       after = [ "nvim-treesitter" ];
-      setup = ''
+      setup = # lua
+        ''
         require("nvim-treesitter-textobjects.config").update({
           select = { lookahead = true },
           move   = { set_jumps = true },

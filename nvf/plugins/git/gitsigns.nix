@@ -22,7 +22,8 @@
           topdelete.text = "";
           changedelete.text = "▎";
         };
-        on_attach = lib.mkLuaInline ''
+        on_attach = lib.mkLuaInline # lua
+          ''
           function(buffer)
             vim.keymap.set("n", "<leader>ghp",
               package.loaded.gitsigns.preview_hunk_inline,

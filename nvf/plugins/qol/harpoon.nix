@@ -8,7 +8,8 @@
     harpoon2 = {
       package = harpoon2;
       after = [ "plenary-nvim" ];
-      setup = ''
+      setup = # lua
+        ''
         local harpoon = require("harpoon")
         harpoon:setup({
           settings = {

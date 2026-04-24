@@ -1,1 +1,1 @@
-fix(nvf): unbind Neovim 0.11+ default gr* LSP keymaps
+feat(nvf): add #lua to lua lines

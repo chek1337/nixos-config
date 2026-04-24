@@ -5,16 +5,17 @@
       persistent-breakpoints = {
         package = persistent-breakpoints-nvim;
         after = [ "nvim-dap" ];
-        setup = ''
-          require("persistent-breakpoints").setup({
-            save_dir = vim.fn.stdpath("data") .. "/nvim_checkpoints",
-            load_breakpoints_event = { "BufReadPost" },
-            always_reload = true,
-          })
-          -- BufReadPost уже отработал к моменту загрузки плагина,
-          -- вручную инициализируем bps для текущего буфера
-          require("persistent-breakpoints.api").load_breakpoints()
-        '';
+        setup = # lua
+          ''
+            require("persistent-breakpoints").setup({
+              save_dir = vim.fn.stdpath("data") .. "/nvim_checkpoints",
+              load_breakpoints_event = { "BufReadPost" },
+              always_reload = true,
+            })
+            -- BufReadPost уже отработал к моменту загрузки плагина,
+            -- вручную инициализируем bps для текущего буфера
+            require("persistent-breakpoints.api").load_breakpoints()
+          '';
       };
     };
 

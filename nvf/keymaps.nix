@@ -129,14 +129,15 @@
       key = "<leader>xq";
       mode = "n";
       lua = true;
-      action = ''
-        function()
-          local success, err = pcall(vim.fn.getqflist({ winid = 0 }).winid ~= 0 and vim.cmd.cclose or vim.cmd.copen)
-          if not success and err then
-            vim.notify(err, vim.log.levels.ERROR)
+      action = # lua
+        ''
+          function()
+            local success, err = pcall(vim.fn.getqflist({ winid = 0 }).winid ~= 0 and vim.cmd.cclose or vim.cmd.copen)
+            if not success and err then
+              vim.notify(err, vim.log.levels.ERROR)
+            end
           end
-        end
-      '';
+        '';
       desc = "Quickfix List";
     }
     {
@@ -401,19 +402,20 @@
       key = "<leader>cR";
       mode = "n";
       lua = true;
-      action = ''
-        function()
-          local clients = vim.lsp.get_clients({ bufnr = 0 })
-          for _, client in ipairs(clients) do
-            if client:supports_method("workspace/willRenameFiles")
-              or client:supports_method("workspace/didRenameFiles") then
-              require('snacks').rename.rename_file()
-              return
+      action = # lua
+        ''
+          function()
+            local clients = vim.lsp.get_clients({ bufnr = 0 })
+            for _, client in ipairs(clients) do
+              if client:supports_method("workspace/willRenameFiles")
+                or client:supports_method("workspace/didRenameFiles") then
+                require('snacks').rename.rename_file()
+                return
+              end
             end
+            vim.notify("LSP does not support file rename", vim.log.levels.WARN)
           end
-          vim.notify("LSP does not support file rename", vim.log.levels.WARN)
-        end
-      '';
+        '';
       desc = "Rename File";
     }
     {
@@ -439,36 +441,38 @@
       key = "<leader>udd";
       mode = "n";
       lua = true;
-      action = ''
-        function()
-          local cfg = vim.diagnostic.config()
-          local virt = cfg.virtual_lines
+      action = # lua
+        ''
+          function()
+            local cfg = vim.diagnostic.config()
+            local virt = cfg.virtual_lines
 
-          if type(virt) == "table" and virt.current_line then
-            vim.diagnostic.config({ virtual_lines = false })
-          else
-            vim.diagnostic.config({ virtual_lines = { current_line = true } })
+            if type(virt) == "table" and virt.current_line then
+              vim.diagnostic.config({ virtual_lines = false })
+            else
+              vim.diagnostic.config({ virtual_lines = { current_line = true } })
+            end
           end
-        end
-      '';
+        '';
       desc = "Toggle virtual lines for current line only";
     }
     {
       key = "<leader>udD";
       mode = "n";
       lua = true;
-      action = ''
-        function()
-          local cfg = vim.diagnostic.config()
-          local virt = cfg.virtual_lines
+      action = # lua
+        ''
+          function()
+            local cfg = vim.diagnostic.config()
+            local virt = cfg.virtual_lines
 
-          if virt == true or (type(virt) == "table" and not virt.current_line) then
-            vim.diagnostic.config({ virtual_lines = false })
-          else
-            vim.diagnostic.config({ virtual_lines = true })
+            if virt == true or (type(virt) == "table" and not virt.current_line) then
+              vim.diagnostic.config({ virtual_lines = false })
+            else
+              vim.diagnostic.config({ virtual_lines = true })
+            end
           end
-        end
-      '';
+        '';
       desc = "Toggle full virtual lines";
     }
   ];

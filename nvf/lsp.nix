@@ -12,6 +12,11 @@
           },
         },
       })
+
+      for _, lhs in ipairs({ "gra", "gri", "grn", "grr", "grt", "grx" }) do
+        pcall(vim.keymap.del, "n", lhs)
+        pcall(vim.keymap.del, "x", lhs)
+      end
     '';
 
     lsp = {

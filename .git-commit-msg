@@ -1,1 +1,1 @@
-refactor(nvf): tune LSP stack and wire nixd to flake options
+fix(nvf): unbind Neovim 0.11+ default gr* LSP keymaps

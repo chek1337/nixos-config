@@ -57,6 +57,43 @@
         # Разное (русская раскладка)
         bind к refresh-client
         bind ш display-message
+
+        # https://ianthehenry.com/posts/tmux-copy-last-command/
+        # Copy last command output (via OSC 133 shell integration)
+        bind -n M-y {
+          copy-mode
+          send -X clear-selection
+          send -X previous-prompt -o
+          send -X begin-selection
+          send -X next-prompt
+          send -X cursor-up
+          send -X end-of-line
+          send -X copy-pipe-and-cancel "wl-copy"
+        }
+
+        # Navigate between command outputs in copy-mode.
+        # Каждое нажатие M-k выделяет предыдущий вывод, M-j — следующий.
+        # Из copy-mode штатно: y копирует выделение, Enter тоже по желанию.
+        bind -n M-k {
+          if -F '#{!=:#{pane_in_mode},1}' { copy-mode }
+          send -X clear-selection
+          send -X previous-prompt -o
+          send -X begin-selection
+          send -X next-prompt
+          send -X cursor-up
+          send -X end-of-line
+          send -X other-end
+        }
+        bind -n M-j {
+          if -F '#{!=:#{pane_in_mode},1}' { copy-mode }
+          send -X clear-selection
+          send -X next-prompt -o
+          send -X begin-selection
+          send -X next-prompt
+          send -X cursor-up
+          send -X end-of-line
+          send -X other-end
+        }
       '';
     };
 }

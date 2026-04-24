@@ -19,6 +19,7 @@
           set -g escape-time 0
           set -g set-clipboard on
           set -ga terminal-overrides ",xterm-256color:Tc"
+          set -as terminal-features ',*:osc133'
         '';
       };
 

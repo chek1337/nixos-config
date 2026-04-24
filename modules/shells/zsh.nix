@@ -94,6 +94,19 @@
 
           source ${pkgs.fzf}/share/fzf/key-bindings.zsh
           source ${pkgs.fzf}/share/fzf/completion.zsh
+
+          # OSC 133 semantic prompt markers (FinalTerm / shell integration)
+          # Потребляется tmux (previous-prompt/next-prompt), kitty, ghostty, wezterm
+          # https://gitlab.freedesktop.org/Per_Bothner/specifications/-/blob/master/proposals/semantic-prompts.md
+          _osc133_precmd() {
+            printf '\e]133;D;%s\a' "''${STARSHIP_CMD_STATUS:-0}"
+            printf '\e]133;A\a'
+          }
+          _osc133_preexec() { printf '\e]133;C\a' }
+
+          autoload -Uz add-zsh-hook
+          add-zsh-hook -Uz precmd  _osc133_precmd
+          add-zsh-hook -Uz preexec _osc133_preexec
         '';
       };
 

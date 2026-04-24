@@ -10,7 +10,7 @@ let
     "television"
     "nix-search-tv"
     "zellij"
-    "nvim"
+    # "lazyvim"
     "nvf"
     "zoxide"
     "trash-cli"

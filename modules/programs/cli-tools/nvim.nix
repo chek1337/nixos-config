@@ -80,7 +80,7 @@ let
   '';
 in
 {
-  flake.modules.homeManager.nvim =
+  flake.modules.homeManager.lazyvim =
     {
       pkgs,
       config,

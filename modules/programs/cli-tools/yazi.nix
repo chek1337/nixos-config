@@ -30,11 +30,16 @@
               local state = get_state()
 
               if #state.selected == 0 then
-                ya.emit("plugin", { "television", args = "--text" })
+                ya.notify({
+                  title = "tv-sel",
+                  content = "No files selected",
+                  level = "warn",
+                  timeout = 3,
+                })
                 return
               end
 
-              local tmp_list = os.tmpname()
+              local tmp_list = "/tmp/yazi-sel-grep-files-" .. (os.getenv("USER") or "user")
               local lf = io.open(tmp_list, "w")
               for _, f in ipairs(state.selected) do
                 lf:write(f .. "\n")
@@ -46,15 +51,19 @@
               local cf = io.open(cfg_dir .. "/yazi-sel-grep.toml", "w")
               cf:write(string.format([[
             [metadata]
-            name = "Yazi Selection Grep"
+            name = "yazi-sel-grep"
             description = "Grep in yazi-selected files"
+            requirements = ["rg", "bat"]
 
             [source]
-            command = "rg --with-filename --line-number --no-heading --color=always . --file-list %s"
-            output = "{}"
+            command = "xargs -d '\\n' -a %s rg . --with-filename --no-heading --line-number --colors 'match:fg:white' --colors 'path:fg:blue' --color=always"
+            ansi = true
+            output = "{strip_ansi|split:\\::..2}"
 
             [preview]
-            command = "bat --style=numbers --color=always --highlight-line {2} {1}"
+            command = "bat -n --color=always '{strip_ansi|split:\\::0}'"
+            env = { BAT_THEME = "ansi" }
+            offset = '{strip_ansi|split:\\::1}'
             ]], tmp_list))
               cf:close()
 
@@ -63,8 +72,8 @@
               local child = Command("sh")
                 :arg("-c")
                 :arg(string.format(
-                  "tv --no-remote --keybindings 'enter=\"confirm_selection\"' 'Yazi Selection Grep' > %q",
-                  tmp_out
+                  [[tv --no-remote --keybindings='enter="confirm_selection"' yazi-sel-grep > %s]],
+                  ya.quote(tmp_out)
                 ))
                 :cwd(state.cwd)
                 :stdin(Command.INHERIT)
@@ -75,18 +84,28 @@
               permit:drop()
 
               local of = io.open(tmp_out, "r")
-              if of then
-                local line = of:read("*all"):gsub("[\r\n]+$", "")
-                of:close()
-                os.remove(tmp_out)
-                if line ~= "" then
-                  local file = line:match("^(.+):%d+:")
-                  if file then
-                    ya.emit("reveal", { Url(file), raw = true })
-                  end
-                end
-              end
-              os.remove(tmp_list)
+              if not of then return end
+              local line = of:read("*all"):gsub("[\r\n]+$", "")
+              of:close()
+              os.remove(tmp_out)
+              if line == "" then return end
+
+              local file, row = line:match("^(.+):(%d+)$")
+              if not file then return end
+
+              permit = ui.hide()
+              local nv = Command("sh")
+                :arg("-c")
+                :arg(string.format("nvim %s +%s", ya.quote(file), row))
+                :cwd(state.cwd)
+                :stdin(Command.INHERIT)
+                :stdout(Command.INHERIT)
+                :stderr(Command.INHERIT)
+                :spawn()
+              if nv then nv:wait() end
+              permit:drop()
+
+              ya.emit("reveal", { Url(file), raw = true })
             end
 
             return M
@@ -149,7 +168,7 @@
               "f"
               "f"
             ];
-            run = "plugin television";
+            run = "plugin television -- files";
             desc = "Find files (television)";
           }
           {
@@ -158,7 +177,7 @@
               "s"
               "g"
             ];
-            run = "plugin television --text";
+            run = "plugin television -- text --text";
             desc = "Grep text (television)";
           }
           {

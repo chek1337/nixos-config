@@ -140,12 +140,16 @@
             [source]
             command = "xargs -d '\\n' -a %s rg . --with-filename --no-heading --line-number --colors 'match:fg:white' --colors 'path:fg:blue' --color=always"
             ansi = true
+            display = "{strip_ansi|split:\\::2..}"
             output = "{strip_ansi|split:\\::..2}"
 
             [preview]
-            command = "bat -n --color=always '{strip_ansi|split:\\::0}'"
+            command = "bat -n --color=always --highlight-line '{strip_ansi|split:\\::1}' '{strip_ansi|split:\\::0}'"
             env = { BAT_THEME = "ansi" }
             offset = '{strip_ansi|split:\\::1}'
+
+            [ui.preview_panel]
+            header = "{strip_ansi|split:\\::..2}"
             ]], tmp_list))
               cf:close()
 
@@ -330,11 +334,12 @@
             run = "plugin eza-preview toggle-git-status";
             desc = "Toggle showing git status";
           }
-          {
-            on = "l";
-            run = "plugin fast-enter";
-            desc = "Enter subfolder / open file (fast-enter)";
-          }
+          # I dont wanna to enter to files randomly
+          # {
+          #   on = "l";
+          #   run = "plugin fast-enter";
+          #   desc = "Enter subfolder / open file (fast-enter)";
+          # }
           {
             on = "y";
             run = "plugin ucp copy notify";

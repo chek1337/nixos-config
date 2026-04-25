@@ -1,1 +1,1 @@
-feat(yazi): tv-sel grep matches only content, not filenames
+refactor(yazi): split yazi.nix into modular submodules

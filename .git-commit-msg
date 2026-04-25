@@ -1,1 +1,1 @@
-feat(yazi): rebind cut/delete and visual selection keys
+feat(yazi): add nav/mount bindings and desktop entry, default to list preview

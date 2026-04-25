@@ -1,51 +1,51 @@
 {
   flake.modules.homeManager.yazi-keybindings =
-    { ... }:
+    { config, ... }:
     {
       programs.yazi.keymap.mgr.prepend_keymap = [
         {
           on = "1";
-          run = "plugin relative-motions --args=1";
+          run = "plugin relative-motions 1";
           desc = "Relative motion 1";
         }
         {
           on = "2";
-          run = "plugin relative-motions --args=2";
+          run = "plugin relative-motions 2";
           desc = "Relative motion 2";
         }
         {
           on = "3";
-          run = "plugin relative-motions --args=3";
+          run = "plugin relative-motions 3";
           desc = "Relative motion 3";
         }
         {
           on = "4";
-          run = "plugin relative-motions --args=4";
+          run = "plugin relative-motions 4";
           desc = "Relative motion 4";
         }
         {
           on = "5";
-          run = "plugin relative-motions --args=5";
+          run = "plugin relative-motions 5";
           desc = "Relative motion 5";
         }
         {
           on = "6";
-          run = "plugin relative-motions --args=6";
+          run = "plugin relative-motions 6";
           desc = "Relative motion 6";
         }
         {
           on = "7";
-          run = "plugin relative-motions --args=7";
+          run = "plugin relative-motions 7";
           desc = "Relative motion 7";
         }
         {
           on = "8";
-          run = "plugin relative-motions --args=8";
+          run = "plugin relative-motions 8";
           desc = "Relative motion 8";
         }
         {
           on = "9";
-          run = "plugin relative-motions --args=9";
+          run = "plugin relative-motions 9";
           desc = "Relative motion 9";
         }
         {
@@ -183,6 +183,24 @@
           on = "p";
           run = "plugin ucp paste notify";
           desc = "Paste from system clipboard (ucp)";
+        }
+        {
+          on = [
+            "g"
+            "m"
+          ];
+          run = "cd /run/media/${config.settings.username}";
+          desc = "Go to mounted drives";
+        }
+        {
+          on = "<C-o>";
+          run = "back";
+          desc = "Back to previous directory";
+        }
+        {
+          on = "<C-i>";
+          run = "forward";
+          desc = "Forward to next directory";
         }
         {
           on = "<A-y>";

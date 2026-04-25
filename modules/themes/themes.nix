@@ -50,6 +50,7 @@ in
       imports = [ inputs.stylix.nixosModules.stylix ];
       stylix = stylixCommon { inherit pkgs config; };
       fonts.packages = [ pkgs.noto-fonts-cjk-sans ];
+      programs.dconf.enable = true;
     };
 
   flake.modules.homeManager.themes =

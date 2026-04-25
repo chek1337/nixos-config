@@ -94,11 +94,19 @@ cd ~/nixos-config
 # Generate hardware config for your machine
 just hw <hostname>
 
-# Apply NixOS configuration on next boot + Home Manager now
-just bo <hostname>
+# Apply NixOS only on next boot — do NOT run Home Manager yet.
+# Stylix writes GTK theme keys via dconf, and dconf needs a live
+# user D-Bus session that doesn't exist before the first graphical
+# login. Running HM here will fail at activation.
+just nbo <hostname>
 
-# Reboot to apply NixOS changes
+# Reboot, log in to a graphical session (so user dbus + dconf are up)
 reboot
+
+# Now apply Home Manager
+just hm <hostname>
+
+# From this point on, regular `just sw <host>` works as expected.
 
 # (Optional) Setup sops secrets for encrypted configs
 mkdir -p ~/.config/sops/age

@@ -1,1 +1,1 @@
-feat: drop direnv and devShell, add just init-hooks
+fix: enable system dconf for stylix HM activation

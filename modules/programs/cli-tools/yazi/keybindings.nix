@@ -140,6 +140,41 @@
         #   desc = "Enter subfolder / open file (fast-enter)";
         # }
         {
+          on = "r";
+          run = "rename --cursor=before_ext";
+          desc = "Rename (cursor before ext)";
+        }
+        {
+          on = "R";
+          run = "rename --cursor=after_ext";
+          desc = "Rename (cursor after ext)";
+        }
+        {
+          on = "v";
+          run = "toggle";
+          desc = "Toggle selection of current file";
+        }
+        {
+          on = "V";
+          run = "visual_mode";
+          desc = "Start visual selection (group)";
+        }
+        {
+          on = "d";
+          run = "yank --cut";
+          desc = "Cut selected files";
+        }
+        {
+          on = "x";
+          run = "remove";
+          desc = "Move selected files to trash";
+        }
+        {
+          on = "X";
+          run = "remove --permanently";
+          desc = "Permanently delete selected files";
+        }
+        {
           on = "y";
           run = "plugin ucp copy notify";
           desc = "Copy to system clipboard (ucp)";

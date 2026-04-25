@@ -1,1 +1,1 @@
-fix(yazi): disable HM zsh integration to keep custom y() wrapper
+feat(yazi): rebind cut/delete and visual selection keys

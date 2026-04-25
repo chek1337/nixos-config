@@ -1,1 +1,1 @@
-feat(yazi): add nav/mount bindings and desktop entry, default to list preview
+fix(yazi): initialize duckdb, prioritize preview-git, silence lambda warning

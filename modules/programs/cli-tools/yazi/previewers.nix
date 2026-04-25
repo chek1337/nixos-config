@@ -6,6 +6,10 @@
         prepend_previewers = [
           # Plugin-based previewers
           {
+            url = "**/.git/";
+            run = "preview-git";
+          }
+          {
             url = "*/";
             run = "eza-preview";
           }
@@ -68,10 +72,6 @@
           {
             url = "*.pickle";
             run = "pickle";
-          }
-          {
-            url = "**/.git/";
-            run = "preview-git";
           }
           # Piper-based previewers
           {

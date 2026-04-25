@@ -58,6 +58,10 @@
         udisks2
       ];
 
+      home.file.".duckdbrc".text = ''
+        SET lambda_syntax='ENABLE_SINGLE_ARROW';
+      '';
+
       programs.zsh.initContent = ''
         function y() {
           local tmp="$(mktemp /tmp/yazi-cwd-XXXXXX)" cwd

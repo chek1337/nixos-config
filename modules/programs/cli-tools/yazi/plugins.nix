@@ -98,6 +98,7 @@
         initLua = ''
           require("relative-motions"):setup({ show_numbers = "relative", show_motion = true })
           require("eza-preview"):setup({ default_tree = false })
+          require("duckdb"):setup({ mode = "standard" })
         '';
       };
     };

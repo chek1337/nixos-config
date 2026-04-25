@@ -1,1 +1,1 @@
-refactor(yazi): split yazi.nix into modular submodules
+fix(yazi): disable HM zsh integration to keep custom y() wrapper

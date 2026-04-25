@@ -2,6 +2,25 @@
 {
   flake.modules.homeManager.yazi =
     { pkgs, ... }:
+    let
+      aminurSrc = pkgs.fetchFromGitHub {
+        owner = "AminurAlam";
+        repo = "yazi-plugins";
+        rev = "8ed61d7c0cc1902963f59020d3c87f505adc8273";
+        hash = "sha256-KEz/o1Sk5hydzMSje/2u80hnuBnUyDxnMhyT00T4zQI=";
+      };
+      anirudhSrc = pkgs.fetchFromGitHub {
+        owner = "AnirudhG07";
+        repo = "plugins-yazi";
+        rev = "71545f4ee1a0896c555b3118dc3d2b0a1b92fad9";
+        hash = "sha256-JsQJg/SfXLQ/JIpl2YsfzdGpS1ZeWIACJwWTpHaVH3w=";
+      };
+      subPlugin =
+        src: name:
+        pkgs.runCommand "${name}.yazi" { } ''
+          cp -r ${src}/${name}.yazi $out
+        '';
+    in
     {
       programs.yazi = {
         enable = true;
@@ -10,6 +29,68 @@
         plugins = {
           piper = pkgs.yaziPlugins.piper;
           relative-motions = pkgs.yaziPlugins.relative-motions;
+          duckdb = pkgs.yaziPlugins.duckdb;
+          ouch = pkgs.yaziPlugins.ouch;
+
+          eza-preview = pkgs.fetchFromGitHub {
+            owner = "ahkohd";
+            repo = "eza-preview.yazi";
+            rev = "7a2d60f4a88a1a7735efde93e03bdb8c7166d00c";
+            hash = "sha256-0CKwpNeTt221RXM4SpdUxu/TnghbX2hlIscMGxGaO34=";
+          };
+
+          mediainfo = pkgs.fetchFromGitHub {
+            owner = "boydaihungst";
+            repo = "mediainfo.yazi";
+            rev = "49f5ab722d617a64b3bea87944e3e4e17ba3a46b";
+            hash = "sha256-PcGrFG06XiJYgBWq+c7fYsx1kjkCvIYRaBiWaJT+xkw=";
+          };
+
+          pickle = pkgs.fetchFromGitHub {
+            owner = "dimi1357";
+            repo = "pickle.yazi";
+            rev = "7f5b75c971c7f7db07320c8aa37b59f25936d496";
+            hash = "sha256-g1BoqtI97641Fh1pTqlyasKG6+gdAWeeHrC/ouyFw/A=";
+          };
+
+          font-sample = subPlugin aminurSrc "font-sample";
+          preview-git = subPlugin aminurSrc "preview-git";
+          copy-file-contents = subPlugin anirudhSrc "copy-file-contents";
+
+          chmod = pkgs.yaziPlugins.chmod;
+          compress = pkgs.yaziPlugins.compress;
+          mount = pkgs.yaziPlugins.mount;
+          recycle-bin = pkgs.yaziPlugins.recycle-bin;
+          restore = pkgs.yaziPlugins.restore;
+
+          fast-enter = pkgs.fetchFromGitHub {
+            owner = "ourongxing";
+            repo = "fast-enter.yazi";
+            rev = "9fe77d8292c6bc63538acdc97cb91b81542e85a4";
+            hash = "sha256-E0r0XsyECKMJ8w+9OVJKDggSXhAqlwD3u9ZSEXHc6J0=";
+          };
+
+          ucp = pkgs.fetchFromGitHub {
+            owner = "simla33";
+            repo = "ucp.yazi";
+            rev = "b74651dae2fdb02e5706ec8227b2dd33e00f48a9";
+            hash = "sha256-XdDUlu43cZUnYDoKhnXlx15jYqnh6ubrbbrzJ0B45vc=";
+          };
+
+          pandoc = pkgs.fetchFromGitHub {
+            owner = "lmnek";
+            repo = "pandoc.yazi";
+            rev = "fd2798b79c12d0ee1fc0b8695c2633705529f07b";
+            hash = "sha256-3ID/CvogyYA92qpc+lCN1fNovFn4X+pt4iEdKzN2Ncw=";
+          };
+
+          convert = pkgs.fetchFromGitHub {
+            owner = "atareao";
+            repo = "convert.yazi";
+            rev = "ce060d9d17e4466d7956213d68a7a74d24ecfdc5";
+            hash = "sha256-kCXjwtcOQZbE+S9PgJrBmlzBcdprSGtfiS2Flxe2olw=";
+          };
+
           television = pkgs.fetchFromGitHub {
             owner = "moxuze";
             repo = "television.yazi";
@@ -115,6 +196,7 @@
 
         initLua = ''
           require("relative-motions"):setup({ show_numbers = "relative", show_motion = true })
+          require("eza-preview"):setup({})
         '';
 
         keymap.mgr.prepend_keymap = [
@@ -190,6 +272,151 @@
             run = "plugin tv-sel";
             desc = "Grep in selected files (television)";
           }
+          {
+            on = [
+              "e"
+              "t"
+            ];
+            run = "plugin eza-preview";
+            desc = "Toggle tree/list dir preview";
+          }
+          {
+            on = [
+              "e"
+              "+"
+            ];
+            run = "plugin eza-preview inc-level";
+            desc = "Increment tree level";
+          }
+          {
+            on = [
+              "e"
+              "-"
+            ];
+            run = "plugin eza-preview dec-level";
+            desc = "Decrement tree level";
+          }
+          {
+            on = [
+              "e"
+              "$"
+            ];
+            run = "plugin eza-preview toggle-follow-symlinks";
+            desc = "Toggle tree follow symlinks";
+          }
+          {
+            on = [
+              "e"
+              "*"
+            ];
+            run = "plugin eza-preview toggle-hidden";
+            desc = "Toggle hidden files";
+          }
+          {
+            on = [
+              "e"
+              "g"
+              "i"
+            ];
+            run = "plugin eza-preview toggle-git-ignore";
+            desc = "Toggle .gitignore files";
+          }
+          {
+            on = [
+              "e"
+              "g"
+              "s"
+            ];
+            run = "plugin eza-preview toggle-git-status";
+            desc = "Toggle showing git status";
+          }
+          {
+            on = "l";
+            run = "plugin fast-enter";
+            desc = "Enter subfolder / open file (fast-enter)";
+          }
+          {
+            on = "y";
+            run = "plugin ucp copy notify";
+            desc = "Copy to system clipboard (ucp)";
+          }
+          {
+            on = "p";
+            run = "plugin ucp paste notify";
+            desc = "Paste from system clipboard (ucp)";
+          }
+          {
+            on = "<A-y>";
+            run = "plugin copy-file-contents";
+            desc = "Copy file contents to clipboard";
+          }
+          {
+            on = "u";
+            run = "plugin restore";
+            desc = "Restore last deleted (restore)";
+          }
+          {
+            on = [
+              "<Space>"
+              "r"
+              "b"
+            ];
+            run = "plugin recycle-bin";
+            desc = "Open recycle bin";
+          }
+          {
+            on = "M";
+            run = "plugin mount";
+            desc = "Mount manager";
+          }
+          {
+            on = [
+              "c"
+              "m"
+            ];
+            run = "plugin chmod";
+            desc = "Chmod selected files";
+          }
+          {
+            on = [
+              "c"
+              "a"
+            ];
+            run = "plugin compress";
+            desc = "Compress selected files (archive)";
+          }
+          {
+            on = [
+              "c"
+              "p"
+            ];
+            run = "plugin pandoc";
+            desc = "Pandoc: convert document";
+          }
+          {
+            on = [
+              "i"
+              "p"
+            ];
+            run = "plugin convert -- --extension=png";
+            desc = "Convert image to PNG";
+          }
+          {
+            on = [
+              "i"
+              "j"
+            ];
+            run = "plugin convert -- --extension=jpg";
+            desc = "Convert image to JPG";
+          }
+          {
+            on = [
+              "i"
+              "w"
+            ];
+            run = "plugin convert -- --extension=webp";
+            desc = "Convert image to WebP";
+          }
         ];
 
         settings = {
@@ -211,29 +438,113 @@
 
           plugin = {
             prepend_previewers = [
+              # Plugin-based previewers
+              {
+                url = "*/";
+                run = "eza-preview";
+              }
               {
                 url = "*.csv";
-                run = ''piper -- bat -p --color=always "$1"'';
+                run = "duckdb";
               }
+              {
+                url = "*.tsv";
+                run = "duckdb";
+              }
+              {
+                url = "*.json";
+                run = "duckdb";
+              }
+              {
+                url = "*.parquet";
+                run = "duckdb";
+              }
+              {
+                url = "*.xlsx";
+                run = "duckdb";
+              }
+              {
+                url = "*.duckdb";
+                run = "duckdb";
+              }
+              {
+                mime = "application/{*zip,tar,bzip2,7z*,rar,xz,zstd,java-archive}";
+                run = "ouch";
+              }
+              {
+                mime = "video/*";
+                run = "mediainfo";
+              }
+              {
+                mime = "audio/*";
+                run = "mediainfo";
+              }
+              {
+                mime = "image/*";
+                run = "mediainfo";
+              }
+              {
+                mime = "font/*";
+                run = "font-sample";
+              }
+              {
+                mime = "application/ms-opentype";
+                run = "font-sample";
+              }
+              {
+                url = "*.{otf,ttf,woff,woff2}";
+                run = "font-sample";
+              }
+              {
+                url = "*.pkl";
+                run = "pickle";
+              }
+              {
+                url = "*.pickle";
+                run = "pickle";
+              }
+              {
+                url = "**/.git/";
+                run = "preview-git";
+              }
+              # Piper-based previewers
               {
                 url = "*.md";
                 run = ''piper -- env CLICOLOR_FORCE=1 glow -w=$w -s=dark "$1"'';
               }
               {
-                url = "*/";
-                run = ''piper -- eza -TL=3 --color=always --icons=always --group-directories-first --no-quotes "$1"'';
-              }
-              {
-                url = "*.tar*";
-                run = ''piper --format=url -- tar tf "$1"'';
-              }
-              {
-                url = "*.zip";
-                run = ''piper --format=url -- unzip -Z1 "$1"'';
-              }
-              {
                 mime = "application/sqlite3";
                 run = ''piper -- sqlite3 "$1" ".schema --indent"'';
+              }
+              {
+                mime = "application/bittorrent";
+                run = ''piper -- transmission-show "$1"'';
+              }
+            ];
+            prepend_preloaders = [
+              {
+                mime = "video/*";
+                run = "mediainfo";
+              }
+              {
+                mime = "audio/*";
+                run = "mediainfo";
+              }
+              {
+                mime = "image/*";
+                run = "mediainfo";
+              }
+              {
+                mime = "font/*";
+                run = "font-sample";
+              }
+              {
+                mime = "application/ms-opentype";
+                run = "font-sample";
+              }
+              {
+                url = "*.{otf,ttf,woff,woff2}";
+                run = "font-sample";
               }
             ];
             append_previewers = [
@@ -259,6 +570,18 @@
         glow
         hexyl
         sqlite
+        duckdb
+        ouch
+        mediainfo
+        ffmpeg-headless
+        imagemagick
+        transmission_4
+        wl-clipboard
+        xclip
+        pandoc
+        p7zip
+        zip
+        udisks2
       ];
 
       programs.zsh.initContent = ''

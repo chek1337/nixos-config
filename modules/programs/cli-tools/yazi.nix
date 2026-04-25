@@ -8,6 +8,7 @@
         shellWrapperName = "y";
 
         plugins = {
+          piper = pkgs.yaziPlugins.piper;
           relative-motions = pkgs.yaziPlugins.relative-motions;
           television = pkgs.fetchFromGitHub {
             owner = "moxuze";
@@ -207,6 +208,41 @@
             max_width = 1920;
             max_height = 1080;
           };
+
+          plugin = {
+            prepend_previewers = [
+              {
+                url = "*.csv";
+                run = ''piper -- bat -p --color=always "$1"'';
+              }
+              {
+                url = "*.md";
+                run = ''piper -- env CLICOLOR_FORCE=1 glow -w=$w -s=dark "$1"'';
+              }
+              {
+                url = "*/";
+                run = ''piper -- eza -TL=3 --color=always --icons=always --group-directories-first --no-quotes "$1"'';
+              }
+              {
+                url = "*.tar*";
+                run = ''piper --format=url -- tar tf "$1"'';
+              }
+              {
+                url = "*.zip";
+                run = ''piper --format=url -- unzip -Z1 "$1"'';
+              }
+              {
+                mime = "application/sqlite3";
+                run = ''piper -- sqlite3 "$1" ".schema --indent"'';
+              }
+            ];
+            append_previewers = [
+              {
+                url = "*";
+                run = ''piper -- hexyl --border=none --terminal-width=$w "$1"'';
+              }
+            ];
+          };
         };
 
         theme = {
@@ -217,8 +253,13 @@
             };
           };
         };
-
       };
+
+      home.packages = with pkgs; [
+        glow
+        hexyl
+        sqlite
+      ];
 
       programs.zsh.initContent = ''
         function y() {

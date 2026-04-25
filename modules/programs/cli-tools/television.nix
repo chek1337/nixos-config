@@ -64,6 +64,26 @@
               };
             };
           };
+          text = {
+            metadata = {
+              name = "text";
+              description = "Search file contents (no filename matching)";
+            };
+            source = {
+              command = "rg . --no-heading --line-number --color=never";
+              display = "{split:\\::2..}";
+              output = "{}";
+            };
+            preview = {
+              command = "bat -n --color=always --highlight-line '{split:\\::1}' '{split:\\::0}'";
+              offset = "{split:\\::1}";
+            };
+            ui = {
+              preview_panel = {
+                header = "{split:\\::..2}"; # filename:line в шапке превью
+              };
+            };
+          };
         };
       };
 

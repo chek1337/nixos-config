@@ -74,7 +74,7 @@
         # Navigate between command outputs in copy-mode.
         # Каждое нажатие M-k выделяет предыдущий вывод, M-j — следующий.
         # Из copy-mode штатно: y копирует выделение, Enter тоже по желанию.
-        bind -n M-k {
+        bind -n M-K {
           if -F '#{!=:#{pane_in_mode},1}' { copy-mode }
           send -X clear-selection
           send -X previous-prompt -o
@@ -84,7 +84,7 @@
           send -X end-of-line
           send -X other-end
         }
-        bind -n M-j {
+        bind -n M-J {
           if -F '#{!=:#{pane_in_mode},1}' { copy-mode }
           send -X clear-selection
           send -X next-prompt -o

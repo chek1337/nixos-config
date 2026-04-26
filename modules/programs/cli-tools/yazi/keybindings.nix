@@ -283,6 +283,78 @@
           run = "plugin convert -- --extension=webp";
           desc = "Convert image to WebP";
         }
+        {
+          on = [
+            "<Space>"
+            "b"
+            "b"
+          ];
+          run = "plugin whoosh jump_by_fzf";
+          desc = "Bookmarks: jump (fzf)";
+        }
+        {
+          on = [
+            "<Space>"
+            "b"
+            "j"
+          ];
+          run = "plugin whoosh jump_by_key";
+          desc = "Bookmarks: jump (menu by key)";
+        }
+        {
+          on = [
+            "<Space>"
+            "b"
+            "a"
+          ];
+          run = "plugin whoosh save";
+          desc = "Bookmarks: add hovered";
+        }
+        {
+          on = [
+            "<Space>"
+            "b"
+            "A"
+          ];
+          run = "plugin whoosh save_cwd";
+          desc = "Bookmarks: add current directory";
+        }
+        {
+          on = [
+            "<Space>"
+            "b"
+            "t"
+          ];
+          run = "plugin whoosh save_temp";
+          desc = "Bookmarks: add hovered (temporary)";
+        }
+        {
+          on = [
+            "<Space>"
+            "b"
+            "T"
+          ];
+          run = "plugin whoosh save_cwd_temp";
+          desc = "Bookmarks: add cwd (temporary)";
+        }
+        {
+          on = [
+            "<Space>"
+            "b"
+            "d"
+          ];
+          run = "plugin whoosh delete_by_fzf";
+          desc = "Bookmarks: delete (fzf, TAB multi-select)";
+        }
+        {
+          on = [
+            "<Space>"
+            "b"
+            "r"
+          ];
+          run = "plugin whoosh rename_by_fzf";
+          desc = "Bookmarks: rename (fzf)";
+        }
       ];
     };
 }

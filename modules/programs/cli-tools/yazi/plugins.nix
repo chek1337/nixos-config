@@ -93,12 +93,20 @@
             rev = "8d9ce62c447cc8c9cf7f68f857a6b744820bca4b";
             hash = "sha256-TRz1tpOhVOG55AvkLNxSmwWaElX84+DxvoVdfOwzsTI=";
           };
+
+          whoosh = pkgs.fetchFromGitLab {
+            owner = "WhoSowSee";
+            repo = "whoosh.yazi";
+            rev = "a8807d24e8dd2d2eaab5226b9c35563d417d39f8";
+            hash = "sha256-pSMyX8IqjtgglftDxQC9K2m4Z+7pYVm68o3qYpP5fqo=";
+          };
         };
 
         initLua = ''
           require("relative-motions"):setup({ show_numbers = "relative", show_motion = true })
           require("eza-preview"):setup({ default_tree = false })
           require("duckdb"):setup({ mode = "standard" })
+          require("whoosh"):setup({ jump_notify = true, home_alias_enabled = true })
         '';
       };
     };

@@ -184,9 +184,52 @@
           desc = "Permanently delete selected files";
         }
         {
-          on = "y";
+          on = [
+            "y"
+            "y"
+          ];
           run = "plugin ucp copy notify";
-          desc = "Copy to system clipboard (ucp)";
+          desc = "Copy files to system clipboard (ucp)";
+        }
+        {
+          on = [
+            "y"
+            "p"
+          ];
+          run = "copy path";
+          desc = "Copy: full path";
+        }
+        {
+          on = [
+            "y"
+            "d"
+          ];
+          run = "copy dirname";
+          desc = "Copy: directory path";
+        }
+        {
+          on = [
+            "y"
+            "n"
+          ];
+          run = "copy filename";
+          desc = "Copy: filename (with ext)";
+        }
+        {
+          on = [
+            "y"
+            "N"
+          ];
+          run = "copy name_without_ext";
+          desc = "Copy: name (without ext)";
+        }
+        {
+          on = [
+            "y"
+            "c"
+          ];
+          run = "plugin copy-file-contents";
+          desc = "Copy: file contents";
         }
         {
           on = "p";
@@ -210,11 +253,6 @@
           on = "<C-i>";
           run = "forward";
           desc = "Forward to next directory";
-        }
-        {
-          on = "<A-y>";
-          run = "plugin copy-file-contents";
-          desc = "Copy file contents to clipboard";
         }
         {
           on = "u";
@@ -253,6 +291,38 @@
           ];
           run = "plugin compress";
           desc = "Compress selected files (archive)";
+        }
+        {
+          on = [
+            "c"
+            "c"
+          ];
+          run = "noop";
+          desc = "(disabled — copy moved to y prefix)";
+        }
+        {
+          on = [
+            "c"
+            "d"
+          ];
+          run = "noop";
+          desc = "(disabled — copy moved to y prefix)";
+        }
+        {
+          on = [
+            "c"
+            "f"
+          ];
+          run = "noop";
+          desc = "(disabled — copy moved to y prefix)";
+        }
+        {
+          on = [
+            "c"
+            "n"
+          ];
+          run = "noop";
+          desc = "(disabled — copy moved to y prefix)";
         }
         {
           on = [
@@ -445,6 +515,115 @@
           ];
           run = "plugin toggle-pane max-preview";
           desc = "Maximize/restore preview pane";
+        }
+        # Tabs
+        {
+          on = [
+            "<Tab>"
+            "<Tab>"
+          ];
+          run = "tab_create --current";
+          desc = "New tab (CWD)";
+        }
+        {
+          on = [
+            "<Tab>"
+            "d"
+          ];
+          run = "close";
+          desc = "Close tab";
+        }
+        {
+          on = [
+            "<Tab>"
+            "]"
+          ];
+          run = "tab_switch 1 --relative";
+          desc = "Next tab";
+        }
+        {
+          on = [
+            "<Tab>"
+            "["
+          ];
+          run = "tab_switch -1 --relative";
+          desc = "Previous tab";
+        }
+        {
+          on = [
+            "<Tab>"
+            "f"
+          ];
+          run = "tab_switch 0";
+          desc = "First tab";
+        }
+        {
+          on = [
+            "<Tab>"
+            "<"
+          ];
+          run = "tab_swap -1";
+          desc = "Move tab left";
+        }
+        {
+          on = [
+            "<Tab>"
+            ">"
+          ];
+          run = "tab_swap 1";
+          desc = "Move tab right";
+        }
+        {
+          on = "K";
+          run = "tab_switch 1 --relative";
+          desc = "Next tab";
+        }
+        {
+          on = "J";
+          run = "tab_switch -1 --relative";
+          desc = "Previous tab";
+        }
+        {
+          on = "i";
+          run = "spot";
+          desc = "Spot file info";
+        }
+        # Disabled default tab bindings (moved to <Tab> prefix / J / K)
+        {
+          on = [
+            "t"
+            "t"
+          ];
+          run = "noop";
+          desc = "(disabled — moved to <Tab><Tab>)";
+        }
+        {
+          on = [
+            "t"
+            "r"
+          ];
+          run = "noop";
+          desc = "(disabled — tab_rename unused)";
+        }
+        {
+          on = "[";
+          run = "noop";
+          desc = "(disabled — moved to <Tab>[ / J)";
+        }
+        {
+          on = "]";
+          run = "noop";
+          desc = "(disabled — moved to <Tab>] / K)";
+        }
+        {
+          on = "{";
+          run = "noop";
+          desc = "(disabled — moved to <Tab><)";
+        }
+        {
+          on = "}";
+          run = "noop";
+          desc = "(disabled — moved to <Tab>>)";
         }
       ];
     };

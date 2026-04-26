@@ -229,7 +229,7 @@
       desc = "Next Tab";
     }
     {
-      key = "<leader><tab>d";
+      key = "<leader><tab>x";
       mode = "n";
       action = "<cmd>tabclose<cr>";
       desc = "Close Tab";

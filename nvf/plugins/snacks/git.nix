@@ -7,7 +7,7 @@
 
   vim.keymaps = [
     {
-      key = "<leader>bd";
+      key = "<leader>bx";
       mode = [ "n" ];
       action = "function() require('snacks').bufdelete() end";
       lua = true;

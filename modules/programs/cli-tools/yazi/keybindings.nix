@@ -231,7 +231,10 @@
           desc = "Open recycle bin";
         }
         {
-          on = "M";
+          on = [
+            "g"
+            "M"
+          ];
           run = "plugin mount";
           desc = "Mount manager";
         }
@@ -253,15 +256,15 @@
         }
         {
           on = [
-            "c"
-            "p"
+            "C"
+            "P"
           ];
           run = "plugin pandoc";
           desc = "Pandoc: convert document";
         }
         {
           on = [
-            "i"
+            "C"
             "p"
           ];
           run = "plugin convert -- --extension=png";
@@ -269,7 +272,7 @@
         }
         {
           on = [
-            "i"
+            "C"
             "j"
           ];
           run = "plugin convert -- --extension=jpg";
@@ -277,7 +280,7 @@
         }
         {
           on = [
-            "i"
+            "C"
             "w"
           ];
           run = "plugin convert -- --extension=webp";
@@ -285,8 +288,7 @@
         }
         {
           on = [
-            "<Space>"
-            "b"
+            "m"
             "b"
           ];
           run = "plugin whoosh jump_by_fzf";
@@ -294,8 +296,7 @@
         }
         {
           on = [
-            "<Space>"
-            "b"
+            "m"
             "j"
           ];
           run = "plugin whoosh jump_by_key";
@@ -303,8 +304,7 @@
         }
         {
           on = [
-            "<Space>"
-            "b"
+            "m"
             "a"
           ];
           run = "plugin whoosh save";
@@ -312,8 +312,7 @@
         }
         {
           on = [
-            "<Space>"
-            "b"
+            "m"
             "A"
           ];
           run = "plugin whoosh save_cwd";
@@ -321,8 +320,7 @@
         }
         {
           on = [
-            "<Space>"
-            "b"
+            "m"
             "t"
           ];
           run = "plugin whoosh save_temp";
@@ -330,8 +328,7 @@
         }
         {
           on = [
-            "<Space>"
-            "b"
+            "m"
             "T"
           ];
           run = "plugin whoosh save_cwd_temp";
@@ -339,8 +336,7 @@
         }
         {
           on = [
-            "<Space>"
-            "b"
+            "m"
             "d"
           ];
           run = "plugin whoosh delete_by_fzf";
@@ -348,12 +344,107 @@
         }
         {
           on = [
-            "<Space>"
-            "b"
+            "m"
             "r"
           ];
           run = "plugin whoosh rename_by_fzf";
           desc = "Bookmarks: rename (fzf)";
+        }
+        {
+          on = [
+            "m"
+            "s"
+          ];
+          run = "noop";
+          desc = "(disabled — linemode moved to M)";
+        }
+        {
+          on = [
+            "m"
+            "m"
+          ];
+          run = "noop";
+          desc = "(disabled — linemode moved to M)";
+        }
+        {
+          on = [
+            "m"
+            "p"
+          ];
+          run = "noop";
+          desc = "(disabled — linemode moved to M)";
+        }
+        {
+          on = [
+            "m"
+            "o"
+          ];
+          run = "noop";
+          desc = "(disabled — linemode moved to M)";
+        }
+        {
+          on = [
+            "m"
+            "n"
+          ];
+          run = "noop";
+          desc = "(disabled — linemode moved to M)";
+        }
+        {
+          on = [
+            "M"
+            "s"
+          ];
+          run = "linemode size";
+          desc = "Linemode: size";
+        }
+        {
+          on = [
+            "M"
+            "m"
+          ];
+          run = "linemode mtime";
+          desc = "Linemode: mtime";
+        }
+        {
+          on = [
+            "M"
+            "p"
+          ];
+          run = "linemode permissions";
+          desc = "Linemode: permissions";
+        }
+        {
+          on = [
+            "M"
+            "o"
+          ];
+          run = "linemode owner";
+          desc = "Linemode: owner";
+        }
+        {
+          on = [
+            "M"
+            "b"
+          ];
+          run = "linemode btime";
+          desc = "Linemode: btime";
+        }
+        {
+          on = [
+            "M"
+            "n"
+          ];
+          run = "linemode none";
+          desc = "Linemode: none";
+        }
+        {
+          on = [
+            "<Space>"
+            "m"
+          ];
+          run = "plugin toggle-pane max-preview";
+          desc = "Maximize/restore preview pane";
         }
       ];
     };

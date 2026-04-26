@@ -27,6 +27,7 @@
           relative-motions = pkgs.yaziPlugins.relative-motions;
           duckdb = pkgs.yaziPlugins.duckdb;
           ouch = pkgs.yaziPlugins.ouch;
+          toggle-pane = pkgs.yaziPlugins.toggle-pane;
 
           eza-preview = pkgs.fetchFromGitHub {
             owner = "ahkohd";

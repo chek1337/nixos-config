@@ -1,1 +1,1 @@
-feat(yazi): drop duckdb preview for json, use built-in
+chore(cli-tools): rename nvim.nix -> lazyvim.nix and disable it

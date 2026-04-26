@@ -63,7 +63,7 @@
             "s"
             "g"
           ];
-          run = "plugin television -- text --text";
+          run = ''plugin television -- text --tv-no-remote --tv-keybindings='enter="confirm_selection"' --pattern='^([^:]+):(%d+):' --pattern-keys=file,line --reveal='{{%file}}' --shell='nvim {{$%file}} +{{line}}' '';
           desc = "Grep text (television)";
         }
         {

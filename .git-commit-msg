@@ -1,1 +1,1 @@
-fix(yazi): initialize duckdb, prioritize preview-git, silence lambda warning
+fix(yazi): make Space-s-g grep open file at matched line

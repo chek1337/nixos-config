@@ -26,6 +26,22 @@
             return
           end
 
+          if os.getenv("NVIM_CWD") then
+            local parts = {}
+            for _, f in ipairs(state.selected) do
+              local esc = f:gsub("\\", "\\\\"):gsub('"', '\\"')
+              parts[#parts + 1] = '"' .. esc .. '"'
+            end
+            local json = '{"files":[' .. table.concat(parts, ",") .. ']}'
+            Command("ya")
+              :arg("pub-to"):arg("0")
+              :arg("yazi-nvim-grep-selected")
+              :arg("--json"):arg(json)
+              :spawn():wait()
+            ya.emit("quit", {})
+            return
+          end
+
           local tmp_list = "/tmp/yazi-sel-grep-files-" .. (os.getenv("USER") or "user")
           local lf = io.open(tmp_list, "w")
           for _, f in ipairs(state.selected) do

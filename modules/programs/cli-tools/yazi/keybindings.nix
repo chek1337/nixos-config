@@ -60,11 +60,20 @@
         {
           on = [
             "<Space>"
+            "f"
+            "P"
+          ];
+          run = "plugin television -- files";
+          desc = "Find files (television) - PLACEHOLDER";
+        }
+        {
+          on = [
+            "<Space>"
             "s"
             "g"
           ];
-          run = ''plugin television -- text --tv-no-remote --tv-keybindings='enter="confirm_selection"' --pattern='^([^:]+):(%d+):' --pattern-keys=file,line --reveal='{{%file}}' --shell='nvim {{$%file}} +{{line}}' '';
-          desc = "Grep text (television)";
+          run = "plugin tv-grep-router";
+          desc = "Grep text (tv standalone / snacks.picker in nvim)";
         }
         {
           on = [

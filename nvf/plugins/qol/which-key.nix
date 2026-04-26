@@ -16,6 +16,7 @@
       "<leader>b" = "Buffers";
       "<leader>x" = "Diagnostics";
       "<leader>m" = "Multicursor";
+      "<leader>c" = "Code";
       "<leader><tab>" = "Tabs";
 
       "<leader>gh" = "Hunks";
@@ -25,6 +26,11 @@
       "<leader>S" = "Session";
       "<leader>sn" = "Notifications";
       "<leader>sr" = "Replace";
+
+      "g" = "Goto";
+      "g?" = "Debugprint";
+      "gj" = "Splitjoin";
+      "<C-w>" = "Window";
 
       "]" = "Next";
       "[" = "Prev";

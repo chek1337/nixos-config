@@ -1,1 +1,1 @@
-feat(yazi): add c s/c x keybindings for compress and extract
+feat(yazi): drop duckdb preview for json, use built-in

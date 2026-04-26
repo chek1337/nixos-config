@@ -22,10 +22,6 @@
             run = "duckdb";
           }
           {
-            url = "*.json";
-            run = "duckdb";
-          }
-          {
             url = "*.parquet";
             run = "duckdb";
           }

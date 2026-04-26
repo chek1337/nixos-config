@@ -32,12 +32,12 @@ in
 
       settings = sharedSettings;
 
-      swapDevices = [
-        {
-          device = "/var/lib/swapfile";
-          size = 16 * 1024; # 16 GiB
-        }
-      ];
+      # swapDevices = [
+      #   {
+      #     device = "/var/lib/swapfile";
+      #     size = 16 * 1024; # 16 GiB
+      #   }
+      # ];
     };
     modules.homeManager."hosts/${hostname}" = {
       imports = flakeConfig.flake.lib.loadHmModules modules;

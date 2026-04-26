@@ -1,1 +1,1 @@
-feat(nvf): enable spellcheck for en and ru
+feat(nvf): add multicursor.nvim with toggleable arrow cursors

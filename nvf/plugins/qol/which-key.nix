@@ -15,6 +15,7 @@
       "<leader>C" = "Color";
       "<leader>b" = "Buffers";
       "<leader>x" = "Diagnostics";
+      "<leader>m" = "Multicursor";
       "<leader><tab>" = "Tabs";
 
       "<leader>gh" = "Hunks";

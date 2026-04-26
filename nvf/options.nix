@@ -34,7 +34,10 @@
 
     spellcheck = {
       enable = true;
-      languages = [ "en" "ru" ];
+      languages = [
+        "en"
+        "ru"
+      ];
     };
 
     globals = {

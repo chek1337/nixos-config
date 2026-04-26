@@ -33,12 +33,14 @@
               parts[#parts + 1] = '"' .. esc .. '"'
             end
             local json = '{"files":[' .. table.concat(parts, ",") .. ']}'
+            -- Publish only; nvim side closes the yazi buffer.
+            -- Quitting from here would race with our own plugin task
+            -- and pop yazi's "unfinished tasks" prompt.
             Command("ya")
               :arg("pub-to"):arg("0")
               :arg("yazi-nvim-grep-selected")
               :arg("--json"):arg(json)
               :spawn():wait()
-            ya.emit("quit", {})
             return
           end
 

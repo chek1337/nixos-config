@@ -1,1 +1,1 @@
-Revert "feat(yazi): override yazi-unwrapped with nightly prebuilt to fix chafa ghost keys"
+fix(yazi): close yazi terminal buffer from nvim instead of yazi-side quit

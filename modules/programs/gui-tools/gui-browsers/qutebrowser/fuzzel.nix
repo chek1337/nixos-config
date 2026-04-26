@@ -63,7 +63,8 @@
           fi
           chars=''${#short_url}
           spaces=$((URL_WIDTH - chars))
-          printf '%s%*s    %s\n' "$short_url" "$spaces" "" "$short_title"
+          # Field 1 (hidden): full URL for selection. Field 2: visible display.
+          printf '%s\t%s%*s    %s\n' "$url" "$short_url" "$spaces" "" "$short_title"
         }
 
         show_quickmarks() {
@@ -102,7 +103,7 @@
 
         run_fuzzel() {
           local prompt="$1" search="$2"
-          local args=(--dmenu --no-sort --match-mode=exact -p "$prompt: " -l 12 "''${FUZZEL_STYLE[@]}")
+          local args=(--dmenu --no-sort --match-mode=exact --with-nth=2 -p "$prompt: " -l 12 "''${FUZZEL_STYLE[@]}")
           [ -n "$search" ] && args+=(--search="$search")
           "$FUZZEL" "''${args[@]}"
         }
@@ -115,9 +116,8 @@
 
         [ -z "$selection" ] && exit 0
 
-        url=$(printf '%s' "$selection" | grep -oE 'https?://\S+' | head -1)
-        url="''${url%…}"
-        [ -z "$url" ] && url="$selection"
+        # First tab-separated field holds the full (untruncated) URL.
+        IFS=$'\t' read -r url _ <<< "$selection"
         [ -z "$url" ] && exit 0
 
         case "$action" in

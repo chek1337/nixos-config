@@ -1,1 +1,1 @@
-fix(yazi): close yazi terminal buffer from nvim instead of yazi-side quit
+feat: comment cashes

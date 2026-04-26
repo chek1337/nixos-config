@@ -1,1 +1,1 @@
-fix(yazi): make Space-s-g grep open file at matched line
+feat(yazi): override yazi-unwrapped with nightly prebuilt to fix chafa ghost keys

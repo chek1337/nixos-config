@@ -54,7 +54,10 @@ let
       pkgs = import inputs.nixpkgs {
         inherit system;
         config.allowUnfree = true;
-        overlays = [ inputs.nix-firefox-addons.overlays.default ];
+        overlays = [
+          inputs.nix-firefox-addons.overlays.default
+          flakeConfig.flake.overlays.yazi-nightly
+        ];
       };
       modules = [
         flakeConfig.flake.modules.homeManager.hmSettings

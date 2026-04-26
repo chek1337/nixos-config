@@ -32,6 +32,11 @@
 
     vendoredKeymaps.enable = false;
 
+    spellcheck = {
+      enable = true;
+      languages = [ "en" "ru" ];
+    };
+
     globals = {
       mapleader = " ";
       maplocalleader = "\\";

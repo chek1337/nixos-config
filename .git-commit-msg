@@ -1,1 +1,1 @@
-feat(yazi): route Space-s-g/s-s to snacks.picker when hosted by nvim
+Revert "feat(yazi): override yazi-unwrapped with nightly prebuilt to fix chafa ghost keys"

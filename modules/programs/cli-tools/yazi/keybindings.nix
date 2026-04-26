@@ -149,6 +149,16 @@
         #   desc = "Enter subfolder / open file (fast-enter)";
         # }
         {
+          on = "o";
+          run = "open --interactive";
+          desc = "Open selected files interactively";
+        }
+        {
+          on = "O";
+          run = "noop";
+          desc = "(disabled — open interactively moved to o)";
+        }
+        {
           on = "r";
           run = "rename --cursor=before_ext";
           desc = "Rename (cursor before ext)";
@@ -260,6 +270,11 @@
           desc = "Restore last deleted (restore)";
         }
         {
+          on = "U";
+          run = "plugin restore -- --interactive";
+          desc = "Restore deleted (restore interactive)";
+        }
+        {
           on = [
             "<Space>"
             "r"
@@ -287,10 +302,18 @@
         {
           on = [
             "c"
-            "a"
+            "s"
           ];
           run = "plugin compress";
           desc = "Compress selected files (archive)";
+        }
+        {
+          on = [
+            "c"
+            "x"
+          ];
+          run = ''shell 'ouch d -y "$@"' --block'';
+          desc = "Extract selected archives (ouch)";
         }
         {
           on = [
@@ -326,7 +349,7 @@
         }
         {
           on = [
-            "C"
+            "c"
             "P"
           ];
           run = "plugin pandoc";
@@ -334,7 +357,7 @@
         }
         {
           on = [
-            "C"
+            "c"
             "p"
           ];
           run = "plugin convert -- --extension=png";
@@ -342,7 +365,7 @@
         }
         {
           on = [
-            "C"
+            "c"
             "j"
           ];
           run = "plugin convert -- --extension=jpg";
@@ -350,7 +373,7 @@
         }
         {
           on = [
-            "C"
+            "c"
             "w"
           ];
           run = "plugin convert -- --extension=webp";

@@ -6,47 +6,47 @@
         {
           on = "1";
           run = "plugin relative-motions 1";
-          desc = "Relative motion 1";
+          desc = "Motion: relative 1";
         }
         {
           on = "2";
           run = "plugin relative-motions 2";
-          desc = "Relative motion 2";
+          desc = "Motion: relative 2";
         }
         {
           on = "3";
           run = "plugin relative-motions 3";
-          desc = "Relative motion 3";
+          desc = "Motion: relative 3";
         }
         {
           on = "4";
           run = "plugin relative-motions 4";
-          desc = "Relative motion 4";
+          desc = "Motion: relative 4";
         }
         {
           on = "5";
           run = "plugin relative-motions 5";
-          desc = "Relative motion 5";
+          desc = "Motion: relative 5";
         }
         {
           on = "6";
           run = "plugin relative-motions 6";
-          desc = "Relative motion 6";
+          desc = "Motion: relative 6";
         }
         {
           on = "7";
           run = "plugin relative-motions 7";
-          desc = "Relative motion 7";
+          desc = "Motion: relative 7";
         }
         {
           on = "8";
           run = "plugin relative-motions 8";
-          desc = "Relative motion 8";
+          desc = "Motion: relative 8";
         }
         {
           on = "9";
           run = "plugin relative-motions 9";
-          desc = "Relative motion 9";
+          desc = "Motion: relative 9";
         }
         {
           on = [
@@ -55,7 +55,7 @@
             "f"
           ];
           run = "plugin television -- files";
-          desc = "Find files (television)";
+          desc = "Find: files";
         }
         {
           on = [
@@ -64,7 +64,7 @@
             "P"
           ];
           run = "plugin television -- files";
-          desc = "Find files (television) - PLACEHOLDER";
+          desc = "Find: files (PLACEHOLDER)";
         }
         {
           on = [
@@ -73,7 +73,7 @@
             "g"
           ];
           run = "plugin tv-grep-router";
-          desc = "Grep text (tv standalone / snacks.picker in nvim)";
+          desc = "Search: grep text";
         }
         {
           on = [
@@ -82,7 +82,7 @@
             "s"
           ];
           run = "plugin tv-sel";
-          desc = "Grep in selected files (television)";
+          desc = "Search: grep in selected";
         }
         {
           on = [
@@ -90,7 +90,7 @@
             "t"
           ];
           run = "plugin eza-preview";
-          desc = "Toggle tree/list dir preview";
+          desc = "Eza-preview: toggle tree/list";
         }
         {
           on = [
@@ -98,7 +98,7 @@
             "+"
           ];
           run = "plugin eza-preview inc-level";
-          desc = "Increment tree level";
+          desc = "Eza-preview: tree level +";
         }
         {
           on = [
@@ -106,7 +106,7 @@
             "-"
           ];
           run = "plugin eza-preview dec-level";
-          desc = "Decrement tree level";
+          desc = "Eza-preview: tree level -";
         }
         {
           on = [
@@ -114,7 +114,7 @@
             "$"
           ];
           run = "plugin eza-preview toggle-follow-symlinks";
-          desc = "Toggle tree follow symlinks";
+          desc = "Eza-preview: toggle follow symlinks";
         }
         {
           on = [
@@ -122,7 +122,7 @@
             "*"
           ];
           run = "plugin eza-preview toggle-hidden";
-          desc = "Toggle hidden files";
+          desc = "Eza-preview: toggle hidden";
         }
         {
           on = [
@@ -131,7 +131,7 @@
             "i"
           ];
           run = "plugin eza-preview toggle-git-ignore";
-          desc = "Toggle .gitignore files";
+          desc = "Eza-preview: toggle .gitignore";
         }
         {
           on = [
@@ -140,7 +140,7 @@
             "s"
           ];
           run = "plugin eza-preview toggle-git-status";
-          desc = "Toggle showing git status";
+          desc = "Eza-preview: toggle git status";
         }
         # I dont wanna to enter to files randomly
         # {
@@ -151,7 +151,7 @@
         {
           on = "o";
           run = "open --interactive";
-          desc = "Open selected files interactively";
+          desc = "Open: selected (interactive)";
         }
         {
           on = "O";
@@ -161,37 +161,37 @@
         {
           on = "r";
           run = "rename --cursor=before_ext";
-          desc = "Rename (cursor before ext)";
+          desc = "Rename: cursor before ext";
         }
         {
           on = "R";
           run = "rename --cursor=after_ext";
-          desc = "Rename (cursor after ext)";
+          desc = "Rename: cursor after ext";
         }
         {
           on = "v";
           run = "toggle";
-          desc = "Toggle selection of current file";
+          desc = "Select: toggle current";
         }
         {
           on = "V";
           run = "visual_mode";
-          desc = "Start visual selection (group)";
+          desc = "Select: visual mode";
         }
         {
           on = "d";
           run = "yank --cut";
-          desc = "Cut selected files";
+          desc = "Cut: selected";
         }
         {
           on = "x";
           run = "remove";
-          desc = "Move selected files to trash";
+          desc = "Delete: to trash";
         }
         {
           on = "X";
           run = "remove --permanently";
-          desc = "Permanently delete selected files";
+          desc = "Delete: permanent";
         }
         {
           on = [
@@ -199,7 +199,7 @@
             "y"
           ];
           run = "plugin ucp copy notify";
-          desc = "Copy files to system clipboard (ucp)";
+          desc = "Yank: files (system clipboard)";
         }
         {
           on = [
@@ -207,7 +207,7 @@
             "p"
           ];
           run = "copy path";
-          desc = "Copy: full path";
+          desc = "Yank: full path";
         }
         {
           on = [
@@ -215,7 +215,7 @@
             "d"
           ];
           run = "copy dirname";
-          desc = "Copy: directory path";
+          desc = "Yank: directory path";
         }
         {
           on = [
@@ -223,7 +223,7 @@
             "n"
           ];
           run = "copy filename";
-          desc = "Copy: filename (with ext)";
+          desc = "Yank: filename";
         }
         {
           on = [
@@ -231,7 +231,7 @@
             "N"
           ];
           run = "copy name_without_ext";
-          desc = "Copy: name (without ext)";
+          desc = "Yank: name without ext";
         }
         {
           on = [
@@ -239,12 +239,12 @@
             "c"
           ];
           run = "plugin copy-file-contents";
-          desc = "Copy: file contents";
+          desc = "Yank: file contents";
         }
         {
           on = "p";
           run = "plugin ucp paste notify";
-          desc = "Paste from system clipboard (ucp)";
+          desc = "Yank: paste";
         }
         {
           on = [
@@ -252,36 +252,83 @@
             "m"
           ];
           run = "cd /run/media/${config.settings.username}";
-          desc = "Go to mounted drives";
+          desc = "Goto: mounted drives";
+        }
+        {
+          on = [
+            "g"
+            "t"
+          ];
+          run = "cd ~/.local/share/Trash/files";
+          desc = "Goto: trash";
+        }
+        {
+          on = [
+            "g"
+            "D"
+          ];
+          run = "cd ~/Desktop";
+          desc = "Goto: Desktop";
         }
         {
           on = "<C-o>";
           run = "back";
-          desc = "Back to previous directory";
+          desc = "Goto: back";
         }
         {
           on = "<C-i>";
           run = "forward";
-          desc = "Forward to next directory";
+          desc = "Goto: forward";
         }
         {
           on = "u";
           run = "plugin restore";
-          desc = "Restore last deleted (restore)";
+          desc = "Undo: last delete";
         }
         {
           on = "U";
           run = "plugin restore -- --interactive";
-          desc = "Restore deleted (restore interactive)";
+          desc = "Undo: interactive";
         }
         {
           on = [
-            "<Space>"
-            "r"
-            "b"
+            "t"
+            "o"
           ];
-          run = "plugin recycle-bin";
-          desc = "Open recycle bin";
+          run = "plugin recycle-bin -- open";
+          desc = "Trash: browse directory";
+        }
+        {
+          on = [
+            "t"
+            "r"
+          ];
+          run = "plugin recycle-bin -- restore";
+          desc = "Trash: restore selected";
+        }
+        {
+          on = [
+            "t"
+            "X"
+          ];
+          run = "plugin recycle-bin -- delete";
+          desc = "Trash: delete permanently";
+        }
+        {
+          on = [
+            "t"
+            "e"
+          ];
+          run = "plugin recycle-bin -- empty";
+          desc = "Trash: empty all";
+        }
+        {
+          on = [
+            "t"
+            "d"
+          ];
+          run = "plugin recycle-bin -- emptyDays";
+          desc = "Trash: empty by days";
         }
         {
           on = [
@@ -289,7 +336,7 @@
             "M"
           ];
           run = "plugin mount";
-          desc = "Mount manager";
+          desc = "Mount: manager";
         }
         {
           on = [
@@ -297,7 +344,7 @@
             "m"
           ];
           run = "plugin chmod";
-          desc = "Chmod selected files";
+          desc = "Chmod: selected";
         }
         {
           on = [
@@ -305,7 +352,7 @@
             "s"
           ];
           run = "plugin compress";
-          desc = "Compress selected files (archive)";
+          desc = "Archive: compress";
         }
         {
           on = [
@@ -313,7 +360,7 @@
             "x"
           ];
           run = ''shell 'ouch d -y "$@"' --block'';
-          desc = "Extract selected archives (ouch)";
+          desc = "Archive: extract";
         }
         {
           on = [
@@ -361,7 +408,7 @@
             "p"
           ];
           run = "plugin convert -- --extension=png";
-          desc = "Convert image to PNG";
+          desc = "Convert: image to PNG";
         }
         {
           on = [
@@ -369,7 +416,7 @@
             "j"
           ];
           run = "plugin convert -- --extension=jpg";
-          desc = "Convert image to JPG";
+          desc = "Convert: image to JPG";
         }
         {
           on = [
@@ -377,7 +424,7 @@
             "w"
           ];
           run = "plugin convert -- --extension=webp";
-          desc = "Convert image to WebP";
+          desc = "Convert: image to WebP";
         }
         {
           on = [
@@ -385,7 +432,7 @@
             "b"
           ];
           run = "plugin whoosh jump_by_fzf";
-          desc = "Bookmarks: jump (fzf)";
+          desc = "Makrs: jump (fzf)";
         }
         {
           on = [
@@ -393,7 +440,7 @@
             "j"
           ];
           run = "plugin whoosh jump_by_key";
-          desc = "Bookmarks: jump (menu by key)";
+          desc = "Makrs: jump (menu by key)";
         }
         {
           on = [
@@ -401,7 +448,7 @@
             "a"
           ];
           run = "plugin whoosh save";
-          desc = "Bookmarks: add hovered";
+          desc = "Makrs: add hovered";
         }
         {
           on = [
@@ -409,7 +456,7 @@
             "A"
           ];
           run = "plugin whoosh save_cwd";
-          desc = "Bookmarks: add current directory";
+          desc = "Makrs: add cwd";
         }
         {
           on = [
@@ -417,7 +464,7 @@
             "t"
           ];
           run = "plugin whoosh save_temp";
-          desc = "Bookmarks: add hovered (temporary)";
+          desc = "Makrs: add hovered (temp)";
         }
         {
           on = [
@@ -425,7 +472,7 @@
             "T"
           ];
           run = "plugin whoosh save_cwd_temp";
-          desc = "Bookmarks: add cwd (temporary)";
+          desc = "Makrs: add cwd (temp)";
         }
         {
           on = [
@@ -433,7 +480,7 @@
             "d"
           ];
           run = "plugin whoosh delete_by_fzf";
-          desc = "Bookmarks: delete (fzf, TAB multi-select)";
+          desc = "Makrs: delete (fzf)";
         }
         {
           on = [
@@ -441,7 +488,7 @@
             "r"
           ];
           run = "plugin whoosh rename_by_fzf";
-          desc = "Bookmarks: rename (fzf)";
+          desc = "Makrs: rename (fzf)";
         }
         {
           on = [
@@ -537,7 +584,7 @@
             "m"
           ];
           run = "plugin toggle-pane max-preview";
-          desc = "Maximize/restore preview pane";
+          desc = "Pane: toggle max preview";
         }
         # Tabs
         {
@@ -546,15 +593,15 @@
             "<Tab>"
           ];
           run = "tab_create --current";
-          desc = "New tab (CWD)";
+          desc = "Tab: new (cwd)";
         }
         {
           on = [
             "<Tab>"
-            "d"
+            "x"
           ];
           run = "close";
-          desc = "Close tab";
+          desc = "Tab: close";
         }
         {
           on = [
@@ -562,7 +609,7 @@
             "]"
           ];
           run = "tab_switch 1 --relative";
-          desc = "Next tab";
+          desc = "Tab: next";
         }
         {
           on = [
@@ -570,7 +617,7 @@
             "["
           ];
           run = "tab_switch -1 --relative";
-          desc = "Previous tab";
+          desc = "Tab: previous";
         }
         {
           on = [
@@ -578,7 +625,7 @@
             "f"
           ];
           run = "tab_switch 0";
-          desc = "First tab";
+          desc = "Tab: first";
         }
         {
           on = [
@@ -586,7 +633,7 @@
             "<"
           ];
           run = "tab_swap -1";
-          desc = "Move tab left";
+          desc = "Tab: move left";
         }
         {
           on = [
@@ -594,59 +641,22 @@
             ">"
           ];
           run = "tab_swap 1";
-          desc = "Move tab right";
+          desc = "Tab: move right";
         }
         {
           on = "K";
           run = "tab_switch 1 --relative";
-          desc = "Next tab";
+          desc = "Tab: next";
         }
         {
           on = "J";
           run = "tab_switch -1 --relative";
-          desc = "Previous tab";
+          desc = "Tab: previous";
         }
         {
           on = "i";
           run = "spot";
-          desc = "Spot file info";
-        }
-        # Disabled default tab bindings (moved to <Tab> prefix / J / K)
-        {
-          on = [
-            "t"
-            "t"
-          ];
-          run = "noop";
-          desc = "(disabled — moved to <Tab><Tab>)";
-        }
-        {
-          on = [
-            "t"
-            "r"
-          ];
-          run = "noop";
-          desc = "(disabled — tab_rename unused)";
-        }
-        {
-          on = "[";
-          run = "noop";
-          desc = "(disabled — moved to <Tab>[ / J)";
-        }
-        {
-          on = "]";
-          run = "noop";
-          desc = "(disabled — moved to <Tab>] / K)";
-        }
-        {
-          on = "{";
-          run = "noop";
-          desc = "(disabled — moved to <Tab><)";
-        }
-        {
-          on = "}";
-          run = "noop";
-          desc = "(disabled — moved to <Tab>>)";
+          desc = "Info: spot file";
         }
       ];
     };

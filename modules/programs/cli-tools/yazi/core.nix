@@ -56,6 +56,7 @@
         p7zip
         zip
         udisks2
+        trash-cli
       ];
 
       home.file.".duckdbrc".text = ''

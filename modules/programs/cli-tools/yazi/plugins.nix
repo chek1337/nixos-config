@@ -108,6 +108,7 @@
           require("eza-preview"):setup({ default_tree = false })
           require("duckdb"):setup({ mode = "standard" })
           require("whoosh"):setup({ jump_notify = true, home_alias_enabled = true })
+          require("recycle-bin"):setup()
         '';
       };
     };

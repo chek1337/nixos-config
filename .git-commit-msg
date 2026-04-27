@@ -1,1 +1,1 @@
-refactor(nvf/workspace): drop LSP integration, picker scope only
+feat(nvf/snacks): extend projects/zoxide pickers under <leader>p

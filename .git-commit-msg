@@ -1,1 +1,1 @@
-feat(nvf): expand language support and group by category
+feat(nvf): add per-filetype LSP picker, enable both ty and basedpyright

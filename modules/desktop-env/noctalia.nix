@@ -87,7 +87,7 @@
             }
             {
               name = "Zen Browser (VPN)";
-              command = "${voponoExec} ${inputs.zen-browser.packages.${pkgs.system}.beta}/bin/zen-beta";
+              command = "${voponoExec} ${inputs.zen-browser.packages.${pkgs.stdenv.hostPlatform.system}.beta}/bin/zen-beta";
               icon = "circle-dot";
             }
           ];

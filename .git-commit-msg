@@ -1,1 +1,1 @@
-fix(laptop-asus): update pttkey mouse devicePath to event1
+refactor: use stdenv.hostPlatform.system over deprecated pkgs.system

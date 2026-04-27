@@ -1,1 +1,1 @@
-feat(nvf/workspace): edit JSON directly, augment LSP root
+Revert "feat(nvf): add per-filetype LSP picker, enable both ty and basedpyright"

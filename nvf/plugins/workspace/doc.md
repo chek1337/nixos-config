@@ -77,7 +77,7 @@ manually via `:WorkspaceLoad`.
 | `:WorkspaceLoad [name]` | With a name argument: load `<name>.code-workspace` from the registry. Without: open a Snacks picker over the registry. Tab-completes registry entries. |
 | `:WorkspaceEdit [name]` | Open a workspace JSON for direct editing. With a name: opens that file (creating it if missing). Without: picker over the registry, or prompt for a new name if registry is empty. |
 | `:WorkspaceList` | Echo the active workspace name and folders. |
-| `:WorkspaceClear` | Drop the active workspace. State becomes empty, all folders are sent as `removed` to LSP clients, picker overrides fall back to cwd/root. |
+| `:WorkspaceClear` | Drop the active workspace. State becomes empty, all folders are sent as `removed` to LSP clients, picker overrides fall back to the active buffer's project root (or cwd if no root marker is found). |
 | `:WorkspaceLspInfo` | Print `root_dir` and current `workspaceFolders` for every active LSP client. Diagnostic only. |
 
 ## Keymaps (`<leader>w` namespace)
@@ -130,11 +130,13 @@ still escape the workspace scope on demand.
 
 | Key | Behavior with workspace | Without workspace |
 |---|---|---|
-| `<leader>ff` | files across workspace folders | files in cwd / root |
-| `<leader>fr` | recent files filtered by workspace | recent (default) |
-| `<leader>sg` | grep across workspace folders | grep in cwd / root |
-| `<leader>sw` | grep word across workspace folders | grep word (default) |
+| `<leader>ff` | files across workspace folders | files in buffer's project root, else cwd |
+| `<leader>fr` | recent files filtered by workspace | recent in buffer's project root, else cwd |
+| `<leader>sg` | grep across workspace folders | grep in buffer's project root, else cwd |
+| `<leader>sw` | grep word across workspace folders | grep word in buffer's project root, else cwd |
 | `<leader>fF`, `<leader>sG`, `<leader>sW` | unchanged (cwd) | unchanged (cwd) |
+
+The "buffer's project root" is resolved by walking up from the active buffer's file, looking for any of a curated set of markers (`.git`, `flake.nix`, `Cargo.toml`, `go.mod`, `pyproject.toml`, `package.json`, `composer.json`, `pom.xml`, `CMakeLists.txt`, `Makefile`, `.luarc.json`, etc. — full list in `picker.nix`). `vim.fs.root` returns the closest matching ancestor, so a sub-project inside a monorepo resolves to its own dir. If no marker is found (or the buffer has no file), the picker falls back to its default cwd (`vim.fn.getcwd()`).
 
 Implementation lives in `picker.nix` as a `luaConfigRC` override that
 re-binds the keys after nvf has applied the original snacks bindings.

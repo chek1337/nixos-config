@@ -1,1 +1,1 @@
-Revert "feat(nvf): add per-filetype LSP picker, enable both ty and basedpyright"
+feat(nvf/workspace): fall back to buffer's project root in picker overrides

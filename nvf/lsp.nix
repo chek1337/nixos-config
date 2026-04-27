@@ -51,17 +51,29 @@
       enableFormat = true;
       enableExtraDiagnostics = true;
 
+      # Systems / compiled
       nix = {
         enable = true;
         lsp.servers = [ "nixd" ];
         format.type = [ "nixfmt" ];
       };
+      clang = {
+        enable = true;
+        cHeader = true;
+        dap.enable = true;
+      };
+      rust = {
+        enable = true;
+        dap.enable = true;
+        extensions.crates-nvim.enable = true;
+      };
+      go.enable = true;
 
+      # Scripting / dynamic
       lua = {
         enable = true;
         lsp.lazydev.enable = true;
       };
-
       python = {
         enable = true;
         lsp.servers = [
@@ -70,21 +82,35 @@
         ];
         format.type = [ "ruff" ];
       };
+      bash.enable = true;
 
-      clang = {
-        enable = true;
-        cHeader = true;
-        dap.enable = true;
-      };
+      # JVM / .NET
+      java.enable = true;
+      csharp.enable = true;
 
+      # Web
+      typescript.enable = true;
+      html.enable = true;
+      css.enable = true;
+      php.enable = true;
+
+      # Data / config formats
       json = {
         enable = true;
         lsp.servers = [ "vscode-json-language-server" ];
         format.type = [ "jsonfmt" ];
       };
-
+      yaml.enable = true;
+      sql.enable = true;
       markdown.enable = true;
-      bash.enable = true;
+
+      # Build systems
+      cmake.enable = true;
+      make.enable = true;
+      just.enable = true;
+
+      # GUI
+      qml.enable = true;
     };
   };
 }

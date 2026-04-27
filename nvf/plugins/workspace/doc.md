@@ -22,9 +22,14 @@ autocmd to react to changes.
 LSP integration happens in two places:
 
 1. **Server start (`before_init`).** A wildcard `vim.lsp.config("*", …)`
-   hook injects the current set into `params.workspaceFolders` of every
-   new LSP client. Servers spawned after a workspace switch see the new
-   roots from initialization.
+   hook augments `params.workspaceFolders` of every new LSP client with
+   the user's workspace folders. The server's auto-detected root
+   (`params.rootUri` / `params.rootPath`, computed by Neovim from the
+   server's `root_markers`) is **prepended** as the first folder, deduped
+   by URI. Workspace folders augment, never replace, the auto-detected
+   root — so project configs (`pyrightconfig.json`, `.luarc.json`,
+   `Cargo.toml`, …) are still discovered when the user's workspace
+   contains only a sub-folder of the project.
 
 2. **Runtime change (`workspace/didChangeWorkspaceFolders`).** When a
    folder is added or removed at runtime, the module diffs old vs. new
@@ -41,7 +46,7 @@ Workspace files live in a global registry at:
 ~/.config/nvim-workspaces/<name>.code-workspace
 ```
 
-The directory is created lazily on first save. Contents are plain
+The directory is created lazily on first edit. Contents are plain
 JSON — VS Code workspace format:
 
 ```json
@@ -58,6 +63,10 @@ Both absolute paths and paths relative to the workspace file's directory
 are accepted (relative paths are resolved on load). Missing folders are
 filtered out with a warning, the rest still load.
 
+Workspace files are authored by editing them directly via `:WorkspaceEdit`
+(picker over the registry, opens the chosen JSON in a buffer). On an
+empty registry it prompts for a name and opens a fresh file.
+
 Bootstrap policy: Neovim **starts with an empty workspace**. Activate
 manually via `:WorkspaceLoad`.
 
@@ -66,20 +75,19 @@ manually via `:WorkspaceLoad`.
 | Command | Behavior |
 |---|---|
 | `:WorkspaceLoad [name]` | With a name argument: load `<name>.code-workspace` from the registry. Without: open a Snacks picker over the registry. Tab-completes registry entries. |
-| `:WorkspaceAdd [path]` | Add a folder to the current set. Without argument: prompts via `vim.ui.input` with directory completion. |
-| `:WorkspaceRemove [path]` | Remove a folder. Without argument: shows a `vim.ui.select` over the active set. |
-| `:WorkspaceSave [name]` | Persist the current set as `<name>.code-workspace`. Atomic write via tmp + rename. Without argument: prompts for a name. |
+| `:WorkspaceEdit [name]` | Open a workspace JSON for direct editing. With a name: opens that file (creating it if missing). Without: picker over the registry, or prompt for a new name if registry is empty. |
 | `:WorkspaceList` | Echo the active workspace name and folders. |
+| `:WorkspaceClear` | Drop the active workspace. State becomes empty, all folders are sent as `removed` to LSP clients, picker overrides fall back to cwd/root. |
+| `:WorkspaceLspInfo` | Print `root_dir` and current `workspaceFolders` for every active LSP client. Diagnostic only. |
 
 ## Keymaps (`<leader>w` namespace)
 
 | Key | Action |
 |---|---|
 | `<leader>wl` | `:WorkspaceLoad` (picker) |
-| `<leader>wa` | `:WorkspaceAdd` |
-| `<leader>wr` | `:WorkspaceRemove` |
-| `<leader>ws` | `:WorkspaceSave` |
+| `<leader>we` | `:WorkspaceEdit` (picker → edit JSON) |
 | `<leader>wL` | `:WorkspaceList` |
+| `<leader>wc` | `:WorkspaceClear` |
 
 The `<leader>w` group is registered with which-key as `"Workspace"`.
 
@@ -94,11 +102,11 @@ local ws = require("chek.workspace")
 ws.current()                    -- list<string> of absolute paths
 ws.name()                       -- string|nil
 ws.load("name")
-ws.add("/abs/path")
-ws.remove("/abs/path")
-ws.save("name")
 ws.list()
-ws.pick()                       -- opens the picker
+ws.clear()                      -- drop active workspace
+ws.pick()                       -- opens the load picker
+ws.edit()                       -- opens the edit picker
+ws.edit("name")                 -- opens (or creates) <name>.code-workspace
 ws.parse_workspace_file(path)   -- returns list<abs path> from a file
 ```
 
@@ -155,7 +163,7 @@ client.server_capabilities.workspace.workspaceFolders.supported
 client.server_capabilities.workspace.workspaceFolders.changeNotifications
 ```
 
-| `supported` | `changeNotifications` | Behavior on add/remove |
+| `supported` | `changeNotifications` | Behavior on load/clear |
 |---|---|---|
 | `true` | truthy | Send `workspace/didChangeWorkspaceFolders` |
 | `true` | falsy | Warn: `<server>: no changeNotifications, run :LspRestart` |
@@ -174,6 +182,9 @@ is rooted to the initial root_dir).
   for all servers. If another module sets `before_init` for a specific
   server, that per-server hook overrides this one and the workspace
   folders will not be injected for that server.
+- Augmentation only applies when a workspace is active (`#folders > 0`).
+  With no workspace loaded, server initialization is left untouched —
+  Neovim's default `root_markers`-based resolution is used as-is.
 - Buffers from a folder added at runtime may not auto-attach to an
   existing client depending on Neovim's root-detection logic. If LSP
   features are missing, `:LspRestart` for the buffer.

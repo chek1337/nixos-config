@@ -58,17 +58,6 @@
         return content
       end
 
-      local function write_atomic(path, content)
-        local tmp = path .. ".tmp"
-        local f, ferr = io.open(tmp, "w")
-        if not f then return false, ferr end
-        f:write(content)
-        f:close()
-        local ok, err = uv.fs_rename(tmp, path)
-        if not ok then return false, err end
-        return true
-      end
-
       local function registry_files()
         ensure_registry()
         local out = {}
@@ -151,6 +140,15 @@
         vim.api.nvim_exec_autocmds("User", { pattern = "WorkspaceChanged", modeline = false })
       end
 
+      function M.clear()
+        if #state.folders == 0 and state.name == nil then
+          notify("workspace already empty")
+          return
+        end
+        M.set({}, nil)
+        notify("workspace cleared")
+      end
+
       function M.load(name)
         local path = REGISTRY .. "/" .. name .. ".code-workspace"
         if vim.fn.filereadable(path) == 0 then
@@ -160,61 +158,6 @@
         local folders = M.parse_workspace_file(path)
         M.set(folders, name)
         notify(("loaded %s (%d folders)"):format(name, #folders))
-      end
-
-      function M.add(path)
-        if not path or path == "" then return end
-        local p = abs(path)
-        local stat = uv.fs_stat(p)
-        if not stat or stat.type ~= "directory" then
-          notify("not a directory: " .. p, vim.log.levels.ERROR)
-          return
-        end
-        for _, x in ipairs(state.folders) do
-          if x == p then
-            notify("already present: " .. p, vim.log.levels.WARN)
-            return
-          end
-        end
-        local nxt = clone(state.folders)
-        nxt[#nxt + 1] = p
-        M.set(nxt, state.name)
-        notify("added: " .. p)
-      end
-
-      function M.remove(path)
-        if not path or path == "" then return end
-        local p = abs(path)
-        local nxt, removed = {}, false
-        for _, x in ipairs(state.folders) do
-          if x == p then removed = true else nxt[#nxt + 1] = x end
-        end
-        if not removed then
-          notify("not in workspace: " .. p, vim.log.levels.WARN)
-          return
-        end
-        M.set(nxt, state.name)
-        notify("removed: " .. p)
-      end
-
-      function M.save(name)
-        if not name or name == "" then
-          notify("save: name required", vim.log.levels.ERROR)
-          return
-        end
-        ensure_registry()
-        local folders = {}
-        for _, p in ipairs(state.folders) do folders[#folders + 1] = { path = p } end
-        local content = vim.json.encode({ folders = folders })
-        local path = REGISTRY .. "/" .. name .. ".code-workspace"
-        local ok, err = write_atomic(path, content)
-        if ok then
-          state.name = name
-          publish()
-          notify("saved: " .. path)
-        else
-          notify("save failed: " .. (err or "?"), vim.log.levels.ERROR)
-        end
       end
 
       function M.list()
@@ -228,8 +171,75 @@
       end
 
       function M.before_init(params, _config)
-        if state.folders and #state.folders > 0 then
-          params.workspaceFolders = lsp_folders(state.folders)
+        if not (state.folders and #state.folders > 0) then return end
+
+        local root_uri
+        if type(params.rootUri) == "string" and params.rootUri ~= "" then
+          root_uri = params.rootUri
+        elseif type(params.rootPath) == "string" and params.rootPath ~= "" then
+          root_uri = vim.uri_from_fname(abs(params.rootPath))
+        end
+
+        local folders = lsp_folders(state.folders)
+        local seen = {}
+        for _, f in ipairs(folders) do seen[f.uri] = true end
+
+        if root_uri and not seen[root_uri] then
+          local root_path = vim.uri_to_fname(root_uri)
+          table.insert(folders, 1, {
+            uri  = root_uri,
+            name = vim.fn.fnamemodify(root_path, ":t"),
+          })
+        end
+
+        params.workspaceFolders = folders
+      end
+
+      function M.edit(name)
+        ensure_registry()
+        if name and name ~= "" then
+          vim.cmd.edit(REGISTRY .. "/" .. name .. ".code-workspace")
+          return
+        end
+
+        local items = {}
+        for _, fname in ipairs(registry_files()) do
+          items[#items + 1] = {
+            text = fname:gsub("%.code%-workspace$", ""),
+            file = REGISTRY .. "/" .. fname,
+          }
+        end
+
+        if #items == 0 then
+          vim.ui.input({ prompt = "New workspace name: " }, function(n)
+            if n and n ~= "" then
+              vim.cmd.edit(REGISTRY .. "/" .. n .. ".code-workspace")
+            end
+          end)
+          return
+        end
+
+        local snacks_ok, snacks = pcall(require, "snacks")
+        if snacks_ok and snacks.picker then
+          snacks.picker.pick({
+            source  = "static",
+            title   = "Edit Workspace",
+            items   = items,
+            format  = "text",
+            preview = "file",
+            confirm = function(picker, item)
+              picker:close()
+              vim.cmd.edit(item.file)
+            end,
+          })
+        else
+          local labels = {}
+          for _, it in ipairs(items) do labels[#labels + 1] = it.text end
+          vim.ui.select(labels, { prompt = "Edit workspace:" }, function(choice)
+            if choice then
+              vim.cmd.edit(REGISTRY .. "/" .. choice .. ".code-workspace")
+            end
+          end)
         end
       end
 
@@ -288,44 +298,38 @@
         end
       end, { nargs = "?", complete = name_complete, desc = "Load multi-root workspace" })
 
-      vim.api.nvim_create_user_command("WorkspaceAdd", function(args)
-        if args.args and args.args ~= "" then
-          M.add(args.args)
-        else
-          vim.ui.input({ prompt = "Add folder: ", completion = "dir" }, function(p)
-            if p and p ~= "" then M.add(p) end
-          end)
-        end
-      end, { nargs = "?", complete = "dir", desc = "Add folder to workspace" })
-
-      vim.api.nvim_create_user_command("WorkspaceRemove", function(args)
-        if args.args and args.args ~= "" then
-          M.remove(args.args)
-        elseif #state.folders == 0 then
-          notify("workspace is empty")
-        else
-          vim.ui.select(M.current(), { prompt = "Remove folder:" }, function(c)
-            if c then M.remove(c) end
-          end)
-        end
-      end, {
-        nargs = "?",
-        complete = function() return M.current() end,
-        desc = "Remove folder from workspace",
-      })
-
-      vim.api.nvim_create_user_command("WorkspaceSave", function(args)
-        if args.args and args.args ~= "" then
-          M.save(args.args)
-        else
-          vim.ui.input({ prompt = "Save as: " }, function(n)
-            if n and n ~= "" then M.save(n) end
-          end)
-        end
-      end, { nargs = "?", desc = "Save workspace to registry" })
+      vim.api.nvim_create_user_command("WorkspaceEdit", function(args)
+        M.edit(args.args)
+      end, { nargs = "?", complete = name_complete, desc = "Edit workspace JSON" })
 
       vim.api.nvim_create_user_command("WorkspaceList", function() M.list() end,
         { desc = "List workspace folders" })
+
+      vim.api.nvim_create_user_command("WorkspaceClear", function() M.clear() end,
+        { desc = "Clear workspace (fall back to cwd/root)" })
+
+      vim.api.nvim_create_user_command("WorkspaceLspInfo", function()
+        local clients = vim.lsp.get_clients()
+        if #clients == 0 then
+          notify("no active LSP clients")
+          return
+        end
+        local lines = {}
+        for _, c in ipairs(clients) do
+          lines[#lines + 1] = ("=== %s (id=%d) ==="):format(c.name, c.id)
+          lines[#lines + 1] = "  root_dir: " .. tostring(c.config.root_dir or "<nil>")
+          local wf = c.workspace_folders or {}
+          if #wf == 0 then
+            lines[#lines + 1] = "  workspaceFolders: <none>"
+          else
+            lines[#lines + 1] = "  workspaceFolders:"
+            for _, f in ipairs(wf) do
+              lines[#lines + 1] = "    - " .. (f.name or "?") .. "  " .. (f.uri or "?")
+            end
+          end
+        end
+        notify(table.concat(lines, "\n"))
+      end, { desc = "Show LSP root_dir and workspaceFolders per client" })
     '';
 
   vim.keymaps = [
@@ -336,28 +340,22 @@
       desc = "Load workspace";
     }
     {
-      key = "<leader>wa";
+      key = "<leader>we";
       mode = "n";
-      action = "<cmd>WorkspaceAdd<cr>";
-      desc = "Add folder";
-    }
-    {
-      key = "<leader>wr";
-      mode = "n";
-      action = "<cmd>WorkspaceRemove<cr>";
-      desc = "Remove folder";
-    }
-    {
-      key = "<leader>ws";
-      mode = "n";
-      action = "<cmd>WorkspaceSave<cr>";
-      desc = "Save workspace";
+      action = "<cmd>WorkspaceEdit<cr>";
+      desc = "Edit workspace JSON";
     }
     {
       key = "<leader>wL";
       mode = "n";
       action = "<cmd>WorkspaceList<cr>";
       desc = "List folders";
+    }
+    {
+      key = "<leader>wc";
+      mode = "n";
+      action = "<cmd>WorkspaceClear<cr>";
+      desc = "Clear workspace";
     }
   ];
 }

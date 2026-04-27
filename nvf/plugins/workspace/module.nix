@@ -37,19 +37,6 @@
         end
       end
 
-      local function as_lsp_folder(path)
-        return {
-          uri  = vim.uri_from_fname(path),
-          name = vim.fn.fnamemodify(path, ":t"),
-        }
-      end
-
-      local function lsp_folders(list)
-        local out = {}
-        for _, p in ipairs(list) do out[#out + 1] = as_lsp_folder(p) end
-        return out
-      end
-
       local function read_file(path)
         local f = io.open(path, "r")
         if not f then return nil end
@@ -101,42 +88,10 @@
       function M.current() return clone(state.folders) end
       function M.name()    return state.name end
 
-      function M.diff_and_notify(old, new)
-        local old_set, new_set = {}, {}
-        for _, p in ipairs(old) do old_set[p] = true end
-        for _, p in ipairs(new) do new_set[p] = true end
-        local added, removed = {}, {}
-        for _, p in ipairs(new) do if not old_set[p] then added[#added + 1] = p end end
-        for _, p in ipairs(old) do if not new_set[p] then removed[#removed + 1] = p end end
-        if #added == 0 and #removed == 0 then return end
-
-        for _, client in ipairs(vim.lsp.get_clients()) do
-          local ws = client.server_capabilities and client.server_capabilities.workspace
-          local cap = ws and ws.workspaceFolders or nil
-          if cap and cap.supported then
-            if cap.changeNotifications then
-              client:notify("workspace/didChangeWorkspaceFolders", {
-                event = {
-                  added   = lsp_folders(added),
-                  removed = lsp_folders(removed),
-                },
-              })
-            else
-              notify(
-                client.name .. ": no changeNotifications, run :LspRestart",
-                vim.log.levels.WARN
-              )
-            end
-          end
-        end
-      end
-
       function M.set(folders, name)
-        local old = clone(state.folders)
         state.folders = folders
         state.name    = name
         publish()
-        M.diff_and_notify(old, folders)
         vim.api.nvim_exec_autocmds("User", { pattern = "WorkspaceChanged", modeline = false })
       end
 
@@ -168,31 +123,6 @@
         local lines = { "Workspace: " .. (state.name or "<unnamed>") }
         for _, p in ipairs(state.folders) do lines[#lines + 1] = "  " .. p end
         notify(table.concat(lines, "\n"))
-      end
-
-      function M.before_init(params, _config)
-        if not (state.folders and #state.folders > 0) then return end
-
-        local root_uri
-        if type(params.rootUri) == "string" and params.rootUri ~= "" then
-          root_uri = params.rootUri
-        elseif type(params.rootPath) == "string" and params.rootPath ~= "" then
-          root_uri = vim.uri_from_fname(abs(params.rootPath))
-        end
-
-        local folders = lsp_folders(state.folders)
-        local seen = {}
-        for _, f in ipairs(folders) do seen[f.uri] = true end
-
-        if root_uri and not seen[root_uri] then
-          local root_path = vim.uri_to_fname(root_uri)
-          table.insert(folders, 1, {
-            uri  = root_uri,
-            name = vim.fn.fnamemodify(root_path, ":t"),
-          })
-        end
-
-        params.workspaceFolders = folders
       end
 
       function M.edit(name)
@@ -307,29 +237,6 @@
 
       vim.api.nvim_create_user_command("WorkspaceClear", function() M.clear() end,
         { desc = "Clear workspace (fall back to cwd/root)" })
-
-      vim.api.nvim_create_user_command("WorkspaceLspInfo", function()
-        local clients = vim.lsp.get_clients()
-        if #clients == 0 then
-          notify("no active LSP clients")
-          return
-        end
-        local lines = {}
-        for _, c in ipairs(clients) do
-          lines[#lines + 1] = ("=== %s (id=%d) ==="):format(c.name, c.id)
-          lines[#lines + 1] = "  root_dir: " .. tostring(c.config.root_dir or "<nil>")
-          local wf = c.workspace_folders or {}
-          if #wf == 0 then
-            lines[#lines + 1] = "  workspaceFolders: <none>"
-          else
-            lines[#lines + 1] = "  workspaceFolders:"
-            for _, f in ipairs(wf) do
-              lines[#lines + 1] = "    - " .. (f.name or "?") .. "  " .. (f.uri or "?")
-            end
-          end
-        end
-        notify(table.concat(lines, "\n"))
-      end, { desc = "Show LSP root_dir and workspaceFolders per client" })
     '';
 
   vim.keymaps = [

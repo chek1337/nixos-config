@@ -1,12 +1,16 @@
-# Multi-root workspace
+# Multi-root workspace (picker scope)
 
-VS Code-like multi-root workspace management for Neovim, implemented as a
-small in-tree Lua module wired through nvf.
+VS Code-like multi-root workspace for Neovim, implemented as a small
+in-tree Lua module wired through nvf.
 
-The feature solves one problem: opening several folders that live in
-unrelated places on the filesystem (for example `~/code/repo-a`,
-`/srv/projects/lib-x`, `~/scratch/notes`) inside one Neovim session, and
-keeping LSP servers aware of all of them as a multi-root workspace.
+The feature solves one problem: keeping a named set of folders that live
+in unrelated places on the filesystem (for example `~/code/repo-a`,
+`/srv/projects/lib-x`, `~/scratch/notes`) and using that set to scope
+file/grep pickers across all of them at once.
+
+LSP integration is intentionally out of scope — Neovim's per-buffer
+`root_markers` resolution handles that on its own. This module only
+publishes workspace state and wires it into Snacks pickers.
 
 ## How it works
 
@@ -16,27 +20,8 @@ State of the active workspace is held in two globals:
 - `vim.g.workspace_name` — name of the loaded `.code-workspace`, or `nil`.
 
 These are the source of truth. Any external integration (statusline,
-tabline, etc.) can read them and subscribe to the `User WorkspaceChanged`
-autocmd to react to changes.
-
-LSP integration happens in two places:
-
-1. **Server start (`before_init`).** A wildcard `vim.lsp.config("*", …)`
-   hook augments `params.workspaceFolders` of every new LSP client with
-   the user's workspace folders. The server's auto-detected root
-   (`params.rootUri` / `params.rootPath`, computed by Neovim from the
-   server's `root_markers`) is **prepended** as the first folder, deduped
-   by URI. Workspace folders augment, never replace, the auto-detected
-   root — so project configs (`pyrightconfig.json`, `.luarc.json`,
-   `Cargo.toml`, …) are still discovered when the user's workspace
-   contains only a sub-folder of the project.
-
-2. **Runtime change (`workspace/didChangeWorkspaceFolders`).** When a
-   folder is added or removed at runtime, the module diffs old vs. new
-   and notifies every active LSP client that advertises both
-   `workspace.workspaceFolders.supported` and `.changeNotifications`.
-   Clients without `changeNotifications` (notably **clangd**) get a
-   warning that asks for `:LspRestart`. No silent restarts.
+tabline, picker, etc.) can read them and subscribe to the
+`User WorkspaceChanged` autocmd to react to changes.
 
 ## Registry
 
@@ -77,8 +62,7 @@ manually via `:WorkspaceLoad`.
 | `:WorkspaceLoad [name]` | With a name argument: load `<name>.code-workspace` from the registry. Without: open a Snacks picker over the registry. Tab-completes registry entries. |
 | `:WorkspaceEdit [name]` | Open a workspace JSON for direct editing. With a name: opens that file (creating it if missing). Without: picker over the registry, or prompt for a new name if registry is empty. |
 | `:WorkspaceList` | Echo the active workspace name and folders. |
-| `:WorkspaceClear` | Drop the active workspace. State becomes empty, all folders are sent as `removed` to LSP clients, picker overrides fall back to the active buffer's project root (or cwd if no root marker is found). |
-| `:WorkspaceLspInfo` | Print `root_dir` and current `workspaceFolders` for every active LSP client. Diagnostic only. |
+| `:WorkspaceClear` | Drop the active workspace. State becomes empty; picker overrides fall back to the active buffer's project root (or cwd if no root marker is found). |
 
 ## Keymaps (`<leader>w` namespace)
 
@@ -147,7 +131,6 @@ re-binds the keys after nvf has applied the original snacks bindings.
 nvf/plugins/workspace/
 ├── default.nix      -- import-tree
 ├── module.nix       -- Lua module + commands + keymaps
-├── lsp.nix          -- vim.lsp.config("*", { before_init = … })
 ├── picker.nix       -- snacks.picker overrides for <leader>{ff,fr,sg,sw}
 ├── which-key.nix    -- registers "<leader>w" = "Workspace"
 └── doc.md           -- this file
@@ -156,40 +139,13 @@ nvf/plugins/workspace/
 All workspace-related configuration is contained in this folder. No
 edits required to `nvf/lsp.nix` or the global `which-key.nix`.
 
-## LSP capability handling
-
-For each active client the module inspects:
-
-```
-client.server_capabilities.workspace.workspaceFolders.supported
-client.server_capabilities.workspace.workspaceFolders.changeNotifications
-```
-
-| `supported` | `changeNotifications` | Behavior on load/clear |
-|---|---|---|
-| `true` | truthy | Send `workspace/didChangeWorkspaceFolders` |
-| `true` | falsy | Warn: `<server>: no changeNotifications, run :LspRestart` |
-| falsy | — | Skip silently (server is single-root only) |
-
-Servers known to fully support runtime changes: `lua_ls`, `gopls`,
-`rust-analyzer`, `pyright`, `basedpyright`, `ty`, `vtsls`, `nixd`.
-
-Servers that need a manual restart on change: `clangd` (it accepts
-`workspaceFolders` at init but ignores runtime updates because its index
-is rooted to the initial root_dir).
-
 ## Caveats
 
-- The wildcard `vim.lsp.config("*", { before_init = … })` is a default
-  for all servers. If another module sets `before_init` for a specific
-  server, that per-server hook overrides this one and the workspace
-  folders will not be injected for that server.
-- Augmentation only applies when a workspace is active (`#folders > 0`).
-  With no workspace loaded, server initialization is left untouched —
-  Neovim's default `root_markers`-based resolution is used as-is.
-- Buffers from a folder added at runtime may not auto-attach to an
-  existing client depending on Neovim's root-detection logic. If LSP
-  features are missing, `:LspRestart` for the buffer.
 - Path normalization uses `vim.fs.normalize` plus `:p`, so symlinks are
   not resolved. Two different paths pointing to the same target via a
   symlink are treated as distinct entries.
+- LSP is unaware of workspace folders. Each buffer attaches to whatever
+  client Neovim resolves from its own `root_markers`. Cross-folder
+  features (workspace symbols, go-to-def into a sibling repo's source)
+  rely on the LSP server's own indexing of files reachable from that
+  per-buffer root, not on the workspace set.

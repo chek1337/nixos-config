@@ -1,1 +1,1 @@
-feat(nvf): add yazi for standalone nvf
+refactor(nvf/workspace): drop LSP integration, picker scope only

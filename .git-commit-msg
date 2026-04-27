@@ -1,1 +1,1 @@
-feat(nvf/workspace): fall back to buffer's project root in picker overrides
+feat(nvf): add yazi for standalone nvf

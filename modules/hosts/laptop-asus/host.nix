@@ -51,7 +51,7 @@ in
       services.pttkey.bindings = {
         mouse = {
           keys = [ "BTN_EXTRA" ];
-          devicePath = "/dev/input/event6";
+          devicePath = "/dev/input/event1";
         };
         kbd = {
           keys = [ "KEY_F13" ];

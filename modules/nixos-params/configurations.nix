@@ -103,7 +103,7 @@ let
         {
           networking.hostName = "installer-${name}";
           nixpkgs.hostPlatform = "x86_64-linux";
-          system.stateVersion = "25.05";
+          system.stateVersion = "25.11";
 
           isoImage.storeContents = [ targetSystem.config.system.build.toplevel ];
           image.fileName = "nixos-${name}-offline.iso";

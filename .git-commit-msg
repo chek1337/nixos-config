@@ -1,1 +1,1 @@
-feat: upgrade nixpkgs-stable to 25.11, waydroid-nftables from stable
+fix: set stateVersion to 25.11 to match install ISO

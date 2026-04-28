@@ -306,5 +306,12 @@ in
       lua = true;
       desc = "Quickfix List";
     }
+    {
+      key = "<leader>.";
+      mode = [ "n" ];
+      action = "function() Snacks.scratch() end";
+      lua = true;
+      desc = "Toggle Scratch Buffer";
+    }
   ];
 }

@@ -1,1 +1,1 @@
-refactor: use stdenv.hostPlatform.system over deprecated pkgs.system
+feat(nvf/snacks): bind <leader>. to Snacks scratch buffer

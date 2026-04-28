@@ -6,19 +6,6 @@
 
       local function path(item) return item.file or item.text end
 
-      function M.confirm_smart(picker, item)
-        local items = picker:selected({ fallback = true })
-        if #items <= 1 then
-          return Snacks.picker.actions.load_session(picker, item)
-        end
-        picker:close()
-        for _, it in ipairs(items) do
-          vim.cmd.tabnew()
-          vim.cmd.tcd(path(it))
-        end
-        vim.notify(("[projects] opened %d projects in new tabs"):format(#items))
-      end
-
       function M.confirm_tab(picker, item)
         local items = picker:selected({ fallback = true })
         picker:close()
@@ -80,28 +67,28 @@
       M.DEV = { "~/dev", "~/projects", "~/code", "~/nixos-config" }
 
       local IN_PICKER_KEYS = {
-        ["<c-y>"] = { M.yank, mode = { "n", "i" } },
+        ["<c-y>"] = { M.yank,                       mode = { "n", "i" } },
+        ["<c-f>"] = { { "tcd", "picker_files" },    mode = { "n", "i" } },
+        ["<c-g>"] = { { "tcd", "picker_grep" },     mode = { "n", "i" } },
+        ["<c-e>"] = { { "tcd", "picker_explorer" }, mode = { "n", "i" } },
+        ["<c-r>"] = { { "tcd", "picker_recent" },   mode = { "n", "i" }, nowait = true },
+        -- terminal sends <c-w> on Backspace; snacks projects picker maps <c-w> to tcd by default
+        -- ["<c-w>"] = false,
       }
 
       function M.opts(extra)
         return vim.tbl_deep_extend("force", {
           dev      = M.DEV,
           patterns = M.PATTERNS,
-          confirm  = M.confirm_smart,
+          confirm  = { "tcd" },
           win = { input = { keys = IN_PICKER_KEYS } },
         }, extra or {})
       end
 
       function M.zoxide_opts(extra)
         return vim.tbl_deep_extend("force", {
-          confirm = M.confirm_smart,
-          win = { input = { keys = vim.tbl_deep_extend("force", IN_PICKER_KEYS, {
-            ["<c-f>"] = { { "tcd", "picker_files" },    mode = { "n", "i" } },
-            ["<c-g>"] = { { "tcd", "picker_grep" },     mode = { "n", "i" } },
-            ["<c-e>"] = { { "tcd", "picker_explorer" }, mode = { "n", "i" } },
-            ["<c-r>"] = { { "tcd", "picker_recent" },   mode = { "n", "i" }, nowait = true },
-            ["<c-w>"] = { { "tcd" },                    mode = { "n", "i" } },
-          }) } },
+          confirm = { "tcd" },
+          win = { input = { keys = IN_PICKER_KEYS } },
         }, extra or {})
       end
 
@@ -140,60 +127,25 @@
       desc = "Zoxide";
     }
     {
-      key = "<leader>pr";
-      mode = [ "n" ];
-      action = "function() require('snacks').picker.projects(require('chek.snacks_projects').opts({ dev = {} })) end";
-      lua = true;
-      desc = "Recent projects (no fd walk)";
-    }
-    {
-      key = "<leader>pf";
-      mode = [ "n" ];
-      action = "function() require('snacks').picker.projects(require('chek.snacks_projects').opts({ confirm = { 'tcd', 'picker_files' } })) end";
-      lua = true;
-      desc = "Find files in project";
-    }
-    {
-      key = "<leader>pg";
-      mode = [ "n" ];
-      action = "function() require('snacks').picker.projects(require('chek.snacks_projects').opts({ confirm = { 'tcd', 'picker_grep' } })) end";
-      lua = true;
-      desc = "Grep in project";
-    }
-    {
-      key = "<leader>pe";
-      mode = [ "n" ];
-      action = "function() require('snacks').picker.projects(require('chek.snacks_projects').opts({ confirm = { 'tcd', 'picker_explorer' } })) end";
-      lua = true;
-      desc = "Explorer in project";
-    }
-    {
-      key = "<leader>pt";
+      key = "<leader>pP";
       mode = [ "n" ];
       action = "function() local m = require('chek.snacks_projects'); require('snacks').picker.projects(m.opts({ confirm = m.confirm_tab })) end";
       lua = true;
-      desc = "Open project(s) in new tab(s)";
+      desc = "Projects (new tab)";
     }
     {
-      key = "<leader>pT";
+      key = "<leader>pZ";
       mode = [ "n" ];
       action = "function() local m = require('chek.snacks_projects'); require('snacks').picker.zoxide(m.zoxide_opts({ confirm = m.confirm_tab })) end";
       lua = true;
-      desc = "Open zoxide dir in new tab";
-    }
-    {
-      key = "<leader>pc";
-      mode = [ "n" ];
-      action = "function() require('snacks').picker.projects(require('chek.snacks_projects').opts({ confirm = { 'tcd' } })) end";
-      lua = true;
-      desc = "cd (tab) to project";
+      desc = "Zoxide (new tab)";
     }
     {
       key = "<leader>pd";
       mode = [ "n" ];
       action = "function() require('chek.snacks_projects').show() end";
       lua = true;
-      desc = "Show project info";
+      desc = "Project info";
     }
   ];
 }

@@ -306,6 +306,30 @@ reboot
 
 > systemd-boot will automatically detect Windows Boot Manager on the EFI partition.
 
+## Package channels
+
+Every module declares its package set explicitly — no bare `pkgs` anywhere.
+
+| Argument | Channel | When to use |
+|----------|---------|-------------|
+| `pkgs-stable` | `nixpkgs/nixos-25.11` | Default for all user-space packages |
+| `pkgs-unstable` | `nixpkgs/nixos-unstable` | Modules that build from external flake inputs, and yazi |
+
+### Why not override `nixpkgs.pkgs` for NixOS?
+
+Switching the NixOS system's default `pkgs` to stable by setting `nixpkgs.pkgs = pkgs-stable` breaks evaluation. NixOS modules from unstable nixpkgs reference attributes that only exist in the matching unstable package tree (e.g. `config.systemd.package.withLogind`). Mixing unstable NixOS modules with stable packages causes attribute-not-found errors at eval time.
+
+The practical split is therefore:
+- **NixOS internals** (kernel, systemd, module evaluation) — implicitly use the unstable `pkgs` from `inputs.nixpkgs`, as required by the NixOS module system. Our modules never reference bare `pkgs`.
+- **User-space packages** — every explicit package reference in our modules uses `pkgs-stable` or `pkgs-unstable`.
+- **Home Manager** — `pkgs` passed to `homeManagerConfiguration` is stable (HM modules do not have the same eval-time coupling to nixpkgs internals).
+
+### Modules that stay on pkgs-unstable
+
+- **yazi** — plugins update frequently alongside nixpkgs unstable
+- Modules that **build packages from `flake = false` inputs**: `soundscope`, `floax`, `pttkey`, `kitty-zoxide-sessions`, `niri` (patched build from pinned commit)
+- Modules that **consume external flake packages via pkgs**: `noctalia`, `yandex-browser`, `hibiki`, `spicetify`, `claude-code`, `themes` (stylix), `lazyvim`, `kitty` (imports `nixpkgs-less-685`)
+
 ## Inspiration
 
 - [Doc-Steve/dendritic-design-with-flake-parts](https://github.com/Doc-Steve/dendritic-design-with-flake-parts)

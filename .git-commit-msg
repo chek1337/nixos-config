@@ -1,1 +1,1 @@
-refactor: migrate all modules to explicit pkgs-stable/pkgs-unstable
+docs: document pkgs-stable/pkgs-unstable split and NixOS eval constraint

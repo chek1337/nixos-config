@@ -16,8 +16,8 @@ let
     "obs"
     "kdenlive"
     "image-editors"
-    "zoom"
-    "hibiki"
+    # "zoom"
+    # "hibiki"
   ];
 in
 {

@@ -3,7 +3,11 @@
     { pkgs, ... }:
     let
       yaziLauncher = pkgs.writeShellScript "yazi-launcher" ''
-        exec kitty -e zsh -ic "y; exec zsh"
+        target="''${1:-$HOME}"
+        [ -f "$target" ] && target="$(dirname "$target")"
+        [ -d "$target" ] || target="$HOME"
+        exec ${pkgs.kitty}/bin/kitty --directory "$target" \
+          ${pkgs.zsh}/bin/zsh -i -c 'y; exec ${pkgs.zsh}/bin/zsh -i'
       '';
     in
     {
@@ -77,10 +81,13 @@
         name = "Yazi";
         icon = "yazi";
         comment = "Terminal file manager";
-        exec = "${yaziLauncher}";
+        exec = "${yaziLauncher} %f";
         terminal = false;
         type = "Application";
-        mimeType = [ "inode/directory" ];
+        mimeType = [
+          "inode/directory"
+          "x-scheme-handler/file"
+        ];
         categories = [
           "Utility"
           "FileManager"

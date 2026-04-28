@@ -22,7 +22,8 @@
           "message/rfc822" = "thunderbird.desktop";
 
           # Files
-          "inode/directory" = "org.gnome.Nautilus.desktop";
+          "inode/directory" = "yazi.desktop";
+          "x-scheme-handler/file" = "yazi.desktop";
 
           # Images
           "image/png" = "imv-dir.desktop";

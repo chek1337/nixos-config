@@ -6,6 +6,7 @@
 
       programs.firefox = {
         enable = true;
+        configPath = ".mozilla/firefox";
         package = pkgs-stable.firefox;
         policies = config.firefoxCommon.policies;
         profiles.default = {

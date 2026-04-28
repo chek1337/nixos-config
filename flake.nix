@@ -48,8 +48,8 @@
       url = "github:Gerg-L/spicetify-nix";
     };
     stylix = {
-      url = "github:danth/stylix/release-25.11";
-      inputs.nixpkgs.follows = "nixpkgs";
+      url = "github:danth/stylix";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
     nix-colorizer.url = "github:nutsalhan87/nix-colorizer";
     zen-browser = {

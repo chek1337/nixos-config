@@ -5,26 +5,25 @@ in
 {
   flake.modules.nixos.niri =
     { pkgs, ... }:
-    let
-      niri-pinned = pkgs.niri.overrideAttrs (_old: {
-        src = inputs.niri-pinned;
-        cargoDeps = pkgs.rustPlatform.importCargoLock {
-          lockFile = "${inputs.niri-pinned}/Cargo.lock";
-          outputHashes = {
-            "smithay-0.7.0" = "sha256-D1thFIY9xzmAO903OUpvTMVSXw/o7MZVDfYUG4QJJzs=";
-            "smithay-drm-extras-0.1.0" = "sha256-D1thFIY9xzmAO903OUpvTMVSXw/o7MZVDfYUG4QJJzs=";
-          };
-        };
-        postPatch = ''
-          patchShebangs resources/niri-session
-          substituteInPlace resources/niri.service \
-            --replace-fail 'ExecStart=niri' "ExecStart=$out/bin/niri"
-        '';
-      });
-    in
+    # let
+    #   niri-pinned = pkgs.niri.overrideAttrs (_old: {
+    #     src = inputs.niri-pinned;
+    #     cargoDeps = pkgs.rustPlatform.importCargoLock {
+    #       lockFile = "${inputs.niri-pinned}/Cargo.lock";
+    #       outputHashes = {
+    #         "smithay-0.7.0" = "sha256-D1thFIY9xzmAO903OUpvTMVSXw/o7MZVDfYUG4QJJzs=";
+    #         "smithay-drm-extras-0.1.0" = "sha256-D1thFIY9xzmAO903OUpvTMVSXw/o7MZVDfYUG4QJJzs=";
+    #       };
+    #     };
+    #     postPatch = ''
+    #       patchShebangs resources/niri-session
+    #       substituteInPlace resources/niri.service \
+    #         --replace-fail 'ExecStart=niri' "ExecStart=$out/bin/niri"
+    #     '';
+    #   });
+    # in
     {
       programs.niri.enable = true;
-      programs.niri.package = niri-pinned;
       environment.systemPackages = [ pkgs.xwayland-satellite ];
     };
 

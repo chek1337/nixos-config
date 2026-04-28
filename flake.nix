@@ -93,10 +93,10 @@
       flake = false;
     };
     # niri fork implementing window pinning (https://github.com/niri-wm/niri/pull/3205)
-    niri-pinned = {
-      url = "github:my4ng/niri/bfea5ee499684fd1eb651b00d08915827a359261";
-      flake = false;
-    };
+    # niri-pinned = {
+    #   url = "github:my4ng/niri/bfea5ee499684fd1eb651b00d08915827a359261";
+    #   flake = false;
+    # };
     push2talk = {
       url = "github:cyrinux/push2talk";
       inputs.nixpkgs.follows = "nixpkgs";

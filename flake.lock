@@ -620,23 +620,6 @@
         "type": "github"
       }
     },
-    "niri-pinned": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1773538252,
-        "narHash": "sha256-MU6uK9vtfsjqcG6qJff1qv8FGFJ4paF4CsesDbE+/Mg=",
-        "owner": "my4ng",
-        "repo": "niri",
-        "rev": "bfea5ee499684fd1eb651b00d08915827a359261",
-        "type": "github"
-      },
-      "original": {
-        "owner": "my4ng",
-        "repo": "niri",
-        "rev": "bfea5ee499684fd1eb651b00d08915827a359261",
-        "type": "github"
-      }
-    },
     "nix-colorizer": {
       "locked": {
         "lastModified": 1750078528,
@@ -1003,7 +986,6 @@
         "kitty-session": "kitty-session",
         "kitty-zoxide-sessions": "kitty-zoxide-sessions",
         "lazyvim-nix": "lazyvim-nix",
-        "niri-pinned": "niri-pinned",
         "nix-colorizer": "nix-colorizer",
         "nix-firefox-addons": "nix-firefox-addons",
         "nix-flatpak": "nix-flatpak",

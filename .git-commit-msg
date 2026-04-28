@@ -1,1 +1,1 @@
-fix: set stateVersion to 25.11 to match install ISO
+chore: update flake.lock

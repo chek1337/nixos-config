@@ -1,1 +1,1 @@
-feat: use nixpkgs-stable for GUI apps, browsers, and services
+fix: mpv/scripts to unstable, noctalia package from nixpkgs

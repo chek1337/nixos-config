@@ -24,6 +24,8 @@
     {
       imports = [ inputs.noctalia.homeModules.default ];
 
+      programs.noctalia-shell.package = pkgs.noctalia-shell;
+
       programs.zsh.shellAliases.show-keys = "noctalia-shell ipc call plugin:show-keys toggle";
 
       systemd.user.sessionVariables = {

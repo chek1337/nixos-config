@@ -1,6 +1,10 @@
-{ ... }:
+{ lib, ... }:
+let
+  inherit (lib.generators) mkLuaInline;
+in
 {
   vim.utility.snacks-nvim.setupOpts = {
+    scratch.win.height = mkLuaInline "vim.o.lines - 4";
     toggle.enable = true;
     zen.enable = true;
     dim.enable = true;

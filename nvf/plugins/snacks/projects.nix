@@ -109,7 +109,7 @@
       package.loaded["chek.snacks_projects"] = M
     '';
 
-  vim.binds.whichKey.register."<leader>p" = "Projects (snacks)";
+  vim.binds.whichKey.register."<leader>p" = "Projects (snacks) alpha ver";
 
   vim.keymaps = [
     {

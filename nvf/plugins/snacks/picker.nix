@@ -313,5 +313,12 @@ in
       lua = true;
       desc = "Toggle Scratch Buffer";
     }
+    {
+      key = "<leader>S";
+      mode = [ "n" ];
+      action = "function() Snacks.scratch.select() end";
+      lua = true;
+      desc = "Select Scratch Buffer";
+    }
   ];
 }

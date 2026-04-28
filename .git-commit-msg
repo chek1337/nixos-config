@@ -1,1 +1,1 @@
-feat(nvf/snacks): bind <leader>. to Snacks scratch buffer
+feat(nvf/snacks): add scratch select keymap and full-height win

@@ -16,7 +16,7 @@ let
 in
 {
   flake.modules.nixos.gaming =
-    { pkgs, ... }:
+    { pkgs-stable, ... }:
     {
       imports = map nixosMod modules;
 
@@ -39,7 +39,7 @@ in
       hardware.graphics.enable = true;
       hardware.graphics.enable32Bit = true;
 
-      environment.systemPackages = with pkgs; [
+      environment.systemPackages = with pkgs-stable; [
         gamescope
         umu-launcher
         innoextract

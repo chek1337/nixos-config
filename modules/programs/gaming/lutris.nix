@@ -1,11 +1,11 @@
 { ... }:
 {
   flake.modules.homeManager.lutris =
-    { pkgs, ... }:
+    { pkgs-stable, ... }:
     {
       programs.lutris = {
         enable = true;
-        extraPackages = with pkgs; [
+        extraPackages = with pkgs-stable; [
           mangohud
           winetricks
           gamescope

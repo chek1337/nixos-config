@@ -1,8 +1,8 @@
 { ... }:
 {
   flake.modules.homeManager.protonup =
-    { pkgs, ... }:
+    { pkgs-stable, ... }:
     {
-      home.packages = [ pkgs.protonup-qt ];
+      home.packages = [ pkgs-stable.protonup-qt ];
     };
 }

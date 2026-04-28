@@ -1,9 +1,9 @@
 { ... }:
 {
   flake.modules.nixos.wine =
-    { pkgs, ... }:
+    { pkgs-stable, ... }:
     {
-      environment.systemPackages = with pkgs; [
+      environment.systemPackages = with pkgs-stable; [
         wineWow64Packages.stable
         winetricks
       ];

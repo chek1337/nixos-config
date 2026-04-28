@@ -1,1 +1,1 @@
-docs: document pkgs-stable/pkgs-unstable split and NixOS eval constraint
+feat: switch home-manager to nixpkgs-unstable

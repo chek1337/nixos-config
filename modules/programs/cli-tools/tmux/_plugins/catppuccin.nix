@@ -1,9 +1,9 @@
-{ pkgs-stable, config }:
+{ pkgs-unstable, config }:
 let
   c = config.lib.stylix.colors.withHashtag;
 in
 {
-  plugin = pkgs-stable.tmuxPlugins.catppuccin;
+  plugin = pkgs-unstable.tmuxPlugins.catppuccin;
   extraConfig = ''
     set -g @catppuccin_flavor "mocha"
     set -g @catppuccin_window_status_style "basic"

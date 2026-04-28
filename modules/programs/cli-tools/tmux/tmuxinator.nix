@@ -1,8 +1,8 @@
 {
   flake.modules.homeManager.tmux-tmuxinator =
-    { pkgs-stable, ... }:
+    { pkgs-unstable, ... }:
     {
-      home.packages = [ pkgs-stable.tmuxinator ];
+      home.packages = [ pkgs-unstable.tmuxinator ];
 
       programs.zsh.shellAliases.tmor = "tmuxinator";
 

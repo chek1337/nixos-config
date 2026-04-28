@@ -11,16 +11,16 @@
     };
 
   inputs = {
-    nixpkgs.url = "nixpkgs/nixos-unstable";
-    nixpkgs-stable.url = "nixpkgs/nixos-25.11";
+    nixpkgs.url = "nixpkgs/nixos-25.11";
+    nixpkgs-unstable.url = "nixpkgs/nixos-unstable";
 
     flake-parts = {
       url = "github:hercules-ci/flake-parts";
       inputs.nixpkgs-lib.follows = "nixpkgs";
     };
     home-manager = {
-      url = "github:nix-community/home-manager";
-      inputs.nixpkgs.follows = "nixpkgs";
+      url = "github:nix-community/home-manager/master";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
     nixos-wsl = {
       url = "github:nix-community/NixOS-WSL";
@@ -37,18 +37,18 @@
     };
     noctalia = {
       url = "github:noctalia-dev/noctalia-shell";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
       inputs.noctalia-qs.follows = "noctalia-qs";
     };
     noctalia-qs = {
       url = "github:noctalia-dev/noctalia-qs";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
     spicetify-nix = {
       url = "github:Gerg-L/spicetify-nix";
     };
     stylix = {
-      url = "github:danth/stylix";
+      url = "github:danth/stylix/release-25.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nix-colorizer.url = "github:nutsalhan87/nix-colorizer";
@@ -68,7 +68,7 @@
     };
     nvf = {
       url = "github:notashelf/nvf";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
     # nixpkgs-nvim-0_11_6 = {
     #   url = "github:NixOS/nixpkgs/73a57bd3fe25d96c42311ae567e86ca542e62329";

@@ -1,8 +1,12 @@
 { inputs, ... }:
 {
   perSystem =
-    { pkgs, ... }:
+    { system, ... }:
     let
+      pkgs = import inputs.nixpkgs-unstable {
+        inherit system;
+        config.allowUnfree = true;
+      };
       nvimPkg =
         (inputs.nvf.lib.neovimConfiguration {
           inherit pkgs;

@@ -1,10 +1,10 @@
 {
   flake.modules.homeManager.tmux-core =
-    { pkgs-stable, ... }:
+    { pkgs-unstable, ... }:
     {
       programs.tmux = {
         enable = true;
-        shell = "${pkgs-stable.zsh}/bin/zsh";
+        shell = "${pkgs-unstable.zsh}/bin/zsh";
         terminal = "tmux-256color";
         historyLimit = 10000;
         prefix = "C-Space";

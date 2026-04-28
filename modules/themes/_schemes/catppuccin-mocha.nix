@@ -1,6 +1,6 @@
-{ self, pkgs-stable }:
+{ self, pkgs-unstable }:
 let
-  xpi = pkgs-stable.fetchurl {
+  xpi = pkgs-unstable.fetchurl {
     url = "https://raw.githubusercontent.com/catppuccin/thunderbird/main/themes/mocha/mocha-lavender.xpi";
     hash = "sha256-ryekzqL/alt/08Yb2zVS4qOhJfBPV2gA4qA7tQh8+FY=";
   };
@@ -8,14 +8,14 @@ in
 {
   image = self + "/assets/catppuccin-mocha.png";
   icons = {
-    package = pkgs-stable.catppuccin-papirus-folders;
+    package = pkgs-unstable.catppuccin-papirus-folders;
     dark = "Papirus-Dark";
     light = "Papirus";
   };
   thunderbird =
-    pkgs-stable.runCommandLocal "catppuccin-mocha-lavender-thunderbird"
+    pkgs-unstable.runCommandLocal "catppuccin-mocha-lavender-thunderbird"
       {
-        nativeBuildInputs = with pkgs-stable; [
+        nativeBuildInputs = with pkgs-unstable; [
           jq
           unzip
         ];

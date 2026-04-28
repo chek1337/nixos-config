@@ -28,12 +28,12 @@ let
   mkNixos =
     system: cls: name: username:
     let
-      stable = import inputs.nixpkgs-stable {
+      stable = import inputs.nixpkgs {
         inherit system;
         config.allowUnfree = true;
         config.permittedInsecurePackages = [ "openssl-1.1.1w" ];
       };
-      unstable = import inputs.nixpkgs {
+      unstable = import inputs.nixpkgs-unstable {
         inherit system;
         config.allowUnfree = true;
       };
@@ -67,19 +67,19 @@ let
   mkHome =
     system: cls: name: username:
     let
-      stable = import inputs.nixpkgs-stable {
+      stable = import inputs.nixpkgs {
         inherit system;
         config.allowUnfree = true;
         config.permittedInsecurePackages = [ "openssl-1.1.1w" ];
         overlays = [ inputs.nix-firefox-addons.overlays.default ];
       };
-      unstable = import inputs.nixpkgs {
+      unstable = import inputs.nixpkgs-unstable {
         inherit system;
         config.allowUnfree = true;
       };
     in
     inputs.home-manager.lib.homeManagerConfiguration {
-      pkgs = stable;
+      pkgs = unstable;
       extraSpecialArgs = {
         pkgs-stable = stable;
         pkgs-unstable = unstable;
@@ -108,9 +108,22 @@ let
     username: name:
     let
       targetSystem = linux username name;
+      stable = import inputs.nixpkgs {
+        system = "x86_64-linux";
+        config.allowUnfree = true;
+      };
+      unstable = import inputs.nixpkgs-unstable {
+        system = "x86_64-linux";
+        config.allowUnfree = true;
+      };
     in
     lib.nixosSystem {
       system = "x86_64-linux";
+      specialArgs = {
+        inherit inputs;
+        pkgs-stable = stable;
+        pkgs-unstable = unstable;
+      };
       modules = [
         flakeConfig.flake.modules.nixos.installer
         {

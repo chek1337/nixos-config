@@ -1,6 +1,6 @@
 {
   flake.modules.homeManager.tmux-sesh =
-    { pkgs-stable, ... }:
+    { pkgs-unstable, ... }:
     {
       programs.tmux.extraConfig = ''
         # Sesh session manager (via television)
@@ -15,8 +15,8 @@
       '';
 
       home.packages = [
-        pkgs-stable.sesh
-        (pkgs-stable.writeShellScriptBin "tmux-last" ''
+        pkgs-unstable.sesh
+        (pkgs-unstable.writeShellScriptBin "tmux-last" ''
           current=$(tmux display-message -p '#S')
           tmux list-sessions -F '#{session_last_attached} #{session_name}' \
             | sort -rn \

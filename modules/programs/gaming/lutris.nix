@@ -1,15 +1,34 @@
 { ... }:
 {
   flake.modules.homeManager.lutris =
-    { pkgs-stable, ... }:
+    { pkgs, ... }:
     {
       programs.lutris = {
         enable = true;
-        # Lutris и его FHS-зависимости держим на stable: совпадает с
-        # extraPackages ниже и обходит i686 openldap test failure из
-        # nixpkgs-unstable (test017-syncreplication-refresh).
-        package = pkgs-stable.lutris;
-        extraPackages = with pkgs-stable; [
+        # Workaround i686 openldap test failure (test017-syncreplication-refresh):
+        # перехватываем buildFHSEnv в multiPkgs и подменяем openldap на
+        # вариант с doCheck = false. Хэш самого pkgs.openldap не меняется,
+        # поэтому остальная система берётся из кэша.
+        # Убрать, когда upstream nixpkgs починят openldap для i686.
+        package = pkgs.lutris.override {
+          buildFHSEnv =
+            args:
+            pkgs.buildFHSEnv (
+              args
+              // {
+                multiPkgs =
+                  envPkgs:
+                  let
+                    originalPkgs = args.multiPkgs envPkgs;
+                    customLdap = envPkgs.openldap.overrideAttrs (_: {
+                      doCheck = false;
+                    });
+                  in
+                  builtins.filter (p: (p.pname or "") != "openldap") originalPkgs ++ [ customLdap ];
+              }
+            );
+        };
+        extraPackages = with pkgs; [
           mangohud
           winetricks
           gamescope

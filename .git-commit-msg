@@ -1,1 +1,1 @@
-fix(home): pin lutris to stable; migrate firefox configPath to XDG
+revert(gaming): switch back to nixpkgs-unstable; fix lutris openldap i686

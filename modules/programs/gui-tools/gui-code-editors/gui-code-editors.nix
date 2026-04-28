@@ -3,7 +3,7 @@ let
   inherit (config.flake.lib) hmMod;
   modules = [
     "vscode"
-    "sublime"
+    # "sublime"
   ];
 in
 {

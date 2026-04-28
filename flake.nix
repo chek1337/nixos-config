@@ -12,7 +12,7 @@
 
   inputs = {
     nixpkgs.url = "nixpkgs/nixos-unstable";
-    nixpkgs-stable.url = "nixpkgs/nixos-25.05";
+    nixpkgs-stable.url = "nixpkgs/nixos-25.11";
 
     flake-parts = {
       url = "github:hercules-ci/flake-parts";

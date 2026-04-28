@@ -1,1 +1,1 @@
-fix: mpv/scripts to unstable, noctalia package from nixpkgs
+feat: upgrade nixpkgs-stable to 25.11, waydroid-nftables from stable

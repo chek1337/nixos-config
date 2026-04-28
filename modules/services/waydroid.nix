@@ -1,10 +1,10 @@
 { ... }:
 {
   flake.modules.nixos.waydroid =
-    { pkgs, pkgs-stable, ... }:
+    { pkgs-stable, ... }:
     {
       virtualisation.waydroid.enable = true;
-      virtualisation.waydroid.package = pkgs.waydroid-nftables;
+      virtualisation.waydroid.package = pkgs-stable.waydroid-nftables;
 
       environment.systemPackages = with pkgs-stable; [
         waydroid-helper

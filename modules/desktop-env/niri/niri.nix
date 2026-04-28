@@ -35,6 +35,7 @@ in
         niri-base
         niri-bindings
         niri-window-rules
+        niri-float-sticky
       ];
 
       options.services.niri = {

@@ -1,10 +1,11 @@
 { ... }:
 {
   flake.modules.homeManager.obs =
-    { pkgs, ... }:
+    { pkgs-stable, ... }:
     {
       programs.obs-studio = {
         enable = true;
+        package = pkgs-stable.obs-studio;
       };
     };
 }

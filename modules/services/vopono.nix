@@ -1,7 +1,7 @@
 { inputs, ... }:
 {
   flake.modules.nixos.vopono =
-    { config, pkgs, ... }:
+    { config, pkgs-stable, ... }:
     let
       wgName = config.settings.wireguardConfigName;
     in
@@ -16,7 +16,7 @@
           users = [ config.settings.username ];
           commands = [
             {
-              command = "${pkgs.vopono}/bin/vopono";
+              command = "${pkgs-stable.vopono}/bin/vopono";
               options = [
                 "NOPASSWD"
                 "SETENV"
@@ -26,7 +26,7 @@
         }
       ];
 
-      environment.systemPackages = with pkgs; [
+      environment.systemPackages = with pkgs-stable; [
         vopono
         wireguard-tools
       ];
@@ -38,7 +38,7 @@
         wantedBy = [ "multi-user.target" ];
         serviceConfig = {
           Type = "simple";
-          ExecStart = "${pkgs.vopono}/bin/vopono daemon";
+          ExecStart = "${pkgs-stable.vopono}/bin/vopono daemon";
           Restart = "on-failure";
           RestartSec = "2s";
           Environment = "RUST_LOG=info";
@@ -50,20 +50,21 @@
     {
       config,
       pkgs,
+      pkgs-stable,
       ...
     }:
     let
       wgName = config.settings.wireguardConfigName;
       wgSecret = "/run/secrets/${wgName}";
-      vopono = "${pkgs.vopono}/bin/vopono";
+      vopono = "${pkgs-stable.vopono}/bin/vopono";
       voponoVpnApps = pkgs.writeShellScript "vopono-vpn-apps" ''
         for i in $(seq 1 30); do
-          [ -f ${wgSecret} ] && ${pkgs.systemd}/bin/systemctl is-active --quiet vopono.service && break
+          [ -f ${wgSecret} ] && ${pkgs-stable.systemd}/bin/systemctl is-active --quiet vopono.service && break
           sleep 1
         done
-        ${vopono} exec --protocol wireguard --custom ${wgSecret} ${pkgs.qutebrowser}/bin/qutebrowser &
+        ${vopono} exec --protocol wireguard --custom ${wgSecret} ${pkgs-stable.qutebrowser}/bin/qutebrowser &
         sleep 3
-        ${vopono} exec --protocol wireguard --custom ${wgSecret} ${pkgs.ayugram-desktop}/bin/AyuGram &
+        ${vopono} exec --protocol wireguard --custom ${wgSecret} ${pkgs-stable.ayugram-desktop}/bin/AyuGram &
         wait
       '';
     in

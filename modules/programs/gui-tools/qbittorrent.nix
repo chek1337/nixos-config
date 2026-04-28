@@ -1,8 +1,8 @@
 { ... }:
 {
   flake.modules.homeManager.qbittorrent =
-    { pkgs, ... }:
+    { pkgs-stable, ... }:
     {
-      home.packages = with pkgs; [ qbittorrent ];
+      home.packages = [ pkgs-stable.qbittorrent ];
     };
 }

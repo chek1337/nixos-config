@@ -3,10 +3,12 @@
     {
       lib,
       config,
+      pkgs-stable,
       ...
     }:
     {
       programs.qutebrowser = {
+        package = pkgs-stable.qutebrowser;
         quickmarks = lib.listToAttrs (
           map (b: {
             name = b.name;

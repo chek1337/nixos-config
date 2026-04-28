@@ -5,6 +5,7 @@
       config,
       lib,
       pkgs,
+      pkgs-stable,
       ...
     }:
     let
@@ -13,6 +14,7 @@
     {
       programs.chromium = {
         enable = true;
+        package = pkgs-stable.chromium;
         extensions = map (id: { inherit id; }) config.browserExtensions.chromiumIds;
       };
 

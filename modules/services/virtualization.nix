@@ -1,7 +1,7 @@
 { ... }:
 {
   flake.modules.nixos.virtualization =
-    { pkgs, config, ... }:
+    { pkgs-stable, config, ... }:
     let
       username = config.settings.username;
     in
@@ -9,7 +9,7 @@
       virtualisation.libvirtd = {
         enable = true;
         qemu = {
-          package = pkgs.qemu_kvm;
+          package = pkgs-stable.qemu_kvm;
           swtpm.enable = true;
         };
       };
@@ -32,7 +32,7 @@
           Type = "oneshot";
           RemainAfterExit = true;
         };
-        path = [ pkgs.libvirt ];
+        path = [ pkgs-stable.libvirt ];
         script = ''
           virsh net-autostart default
           virsh net-start default || true

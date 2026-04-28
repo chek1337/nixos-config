@@ -1,19 +1,19 @@
 { ... }:
 {
   flake.modules.nixos.waydroid =
-    { pkgs, ... }:
+    { pkgs, pkgs-stable, ... }:
     {
       virtualisation.waydroid.enable = true;
       virtualisation.waydroid.package = pkgs.waydroid-nftables;
 
-      environment.systemPackages = with pkgs; [
+      environment.systemPackages = with pkgs-stable; [
         waydroid-helper
         wl-clipboard
         android-tools
       ];
 
       systemd = {
-        packages = [ pkgs.waydroid-helper ];
+        packages = [ pkgs-stable.waydroid-helper ];
         services.waydroid-mount.wantedBy = [ "multi-user.target" ];
       };
 
@@ -21,7 +21,7 @@
     };
 
   flake.modules.homeManager.waydroid =
-    { pkgs, lib, ... }:
+    { pkgs, pkgs-stable, lib, ... }:
     let
       allowedPackages = [
         "com.android.vending" # Google Play Store
@@ -43,10 +43,10 @@
           done
 
           if $show; then
-            ${pkgs.desktop-file-utils}/bin/desktop-file-edit \
+            ${pkgs-stable.desktop-file-utils}/bin/desktop-file-edit \
               --set-key=NoDisplay --set-value=false "$f"
           else
-            ${pkgs.desktop-file-utils}/bin/desktop-file-edit \
+            ${pkgs-stable.desktop-file-utils}/bin/desktop-file-edit \
               --set-key=NoDisplay --set-value=true "$f"
           fi
         done

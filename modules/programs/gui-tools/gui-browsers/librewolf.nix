@@ -1,6 +1,6 @@
 {
   flake.modules.homeManager.librewolf =
-    { config, ... }:
+    { config, pkgs-stable, ... }:
     {
       stylix.targets.librewolf = {
         # not working
@@ -10,6 +10,7 @@
 
       programs.librewolf = {
         enable = true;
+        package = pkgs-stable.librewolf;
         policies = config.firefoxCommon.policies;
         profiles.default = {
           name = "default";

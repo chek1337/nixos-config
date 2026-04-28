@@ -1,7 +1,7 @@
 { inputs, ... }:
 {
   flake.modules.nixos.wireproxy =
-    { config, pkgs, ... }:
+    { config, pkgs, pkgs-stable, ... }:
     let
       wgName = config.settings.wireguardConfigName;
     in
@@ -11,7 +11,7 @@
         format = "binary";
       };
 
-      environment.systemPackages = with pkgs; [
+      environment.systemPackages = with pkgs-stable; [
         wireproxy
         proxychains-ng
       ];
@@ -35,7 +35,7 @@
           RuntimeDirectory = "wireproxy";
           RuntimeDirectoryMode = "0700";
 
-          ExecStartPre = pkgs.writeShellScript "wireproxy-prepare" ''
+          ExecStartPre = pkgs-stable.writeShellScript "wireproxy-prepare" ''
                         cat > /run/wireproxy/wireproxy.conf << EOF
             WGConfig = ${config.sops.secrets.${wgName}.path}
 
@@ -45,9 +45,9 @@
                         chmod 600 /run/wireproxy/wireproxy.conf
           '';
 
-          ExecStart = "${pkgs.wireproxy}/bin/wireproxy -c /run/wireproxy/wireproxy.conf";
+          ExecStart = "${pkgs-stable.wireproxy}/bin/wireproxy -c /run/wireproxy/wireproxy.conf";
 
-          ExecStopPost = pkgs.writeShellScript "wireproxy-cleanup" ''
+          ExecStopPost = pkgs-stable.writeShellScript "wireproxy-cleanup" ''
             rm -f /run/wireproxy/wireproxy.conf
           '';
         };

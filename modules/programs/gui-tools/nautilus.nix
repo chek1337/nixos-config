@@ -4,12 +4,12 @@
   };
 
   flake.modules.homeManager.nautilus =
-    { pkgs, config, ... }:
+    { pkgs-stable, config, ... }:
     let
       terminal = config.home.sessionVariables.TERMINAL or "kitty";
     in
     {
-      home.packages = with pkgs; [ nautilus ];
+      home.packages = [ pkgs-stable.nautilus ];
 
       xdg.desktopEntries.nvim = {
         name = "Neovim wrapper";

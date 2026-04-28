@@ -12,6 +12,7 @@
   flake.modules.homeManager.pttkey =
     {
       pkgs,
+      pkgs-stable,
       lib,
       config,
       ...
@@ -104,8 +105,8 @@
       config = lib.mkIf (cfg.bindings != { }) {
         home.packages = [
           pttkey
-          pkgs.evtest
-          pkgs.pavucontrol
+          pkgs-stable.evtest
+          pkgs-stable.pavucontrol
         ];
 
         xdg.configFile = lib.mapAttrs' (

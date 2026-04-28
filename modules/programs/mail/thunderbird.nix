@@ -22,10 +22,11 @@
 #    the theme immediately, or it will be applied automatically after a full system restart
 {
   flake.modules.homeManager.thunderbird =
-    { ... }:
+    { pkgs-stable, ... }:
     {
       programs.thunderbird = {
         enable = true;
+        package = pkgs-stable.thunderbird;
         profiles."default" = {
           isDefault = true;
         };

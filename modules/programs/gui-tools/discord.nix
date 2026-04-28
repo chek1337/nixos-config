@@ -1,10 +1,8 @@
 { ... }:
 {
   flake.modules.homeManager.discord =
-    { pkgs, ... }:
+    { pkgs-stable, ... }:
     {
-      home.packages = with pkgs; [
-        equibop
-      ];
+      home.packages = [ pkgs-stable.equibop ];
     };
 }

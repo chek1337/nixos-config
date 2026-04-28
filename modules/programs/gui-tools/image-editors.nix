@@ -1,11 +1,11 @@
 {
   flake.modules.homeManager.image-editors =
-    { pkgs, ... }:
+    { pkgs-stable, ... }:
     {
       home.packages = [
-        # pkgs.pinta
-        # pkgs.krita
-        pkgs.gimp
+        # pkgs-stable.pinta
+        # pkgs-stable.krita
+        pkgs-stable.gimp
       ];
     };
 }

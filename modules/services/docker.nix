@@ -15,9 +15,9 @@
     };
 
   flake.modules.homeManager.docker =
-    { pkgs, ... }:
+    { pkgs-stable, ... }:
     {
-      home.packages = with pkgs; [
+      home.packages = with pkgs-stable; [
         docker
         docker-compose
       ];

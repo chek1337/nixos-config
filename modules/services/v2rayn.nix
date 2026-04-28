@@ -1,7 +1,7 @@
 { inputs, ... }:
 {
   flake.modules.nixos.v2rayn =
-    { config, pkgs, ... }:
+    { config, pkgs-stable, ... }:
     {
       sops.secrets."vless-chumakov" = {
         sopsFile = inputs.self + "/secrets/secrets.yaml";
@@ -9,16 +9,16 @@
         owner = config.settings.username;
       };
 
-      environment.systemPackages = [ pkgs.v2rayn ];
+      environment.systemPackages = [ pkgs-stable.v2rayn ];
     };
 
   flake.modules.homeManager.v2rayn =
-    { pkgs, ... }:
+    { pkgs-stable, ... }:
     {
       xdg.dataFile = {
-        "v2rayN/bin/xray/xray".source = "${pkgs.xray}/bin/xray";
-        "v2rayN/bin/geoip.dat".source = "${pkgs.v2ray-geoip}/share/v2ray/geoip.dat";
-        "v2rayN/bin/geosite.dat".source = "${pkgs.v2ray-domain-list-community}/share/v2ray/geosite.dat";
+        "v2rayN/bin/xray/xray".source = "${pkgs-stable.xray}/bin/xray";
+        "v2rayN/bin/geoip.dat".source = "${pkgs-stable.v2ray-geoip}/share/v2ray/geoip.dat";
+        "v2rayN/bin/geosite.dat".source = "${pkgs-stable.v2ray-domain-list-community}/share/v2ray/geosite.dat";
       };
 
       programs.zsh.shellAliases = {

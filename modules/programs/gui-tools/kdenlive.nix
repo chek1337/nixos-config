@@ -1,7 +1,7 @@
 {
   flake.modules.homeManager.kdenlive =
-    { pkgs, ... }:
+    { pkgs-stable, ... }:
     {
-      home.packages = with pkgs; [ kdePackages.kdenlive ];
+      home.packages = [ pkgs-stable.kdePackages.kdenlive ];
     };
 }

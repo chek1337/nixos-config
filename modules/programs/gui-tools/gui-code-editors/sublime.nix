@@ -1,7 +1,7 @@
 {
   flake.modules.homeManager.sublime =
-    { pkgs, ... }:
+    { pkgs-stable, ... }:
     {
-      home.packages = with pkgs; [ sublime4 ];
+      home.packages = [ pkgs-stable.sublime4 ];
     };
 }

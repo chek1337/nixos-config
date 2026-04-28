@@ -1,12 +1,12 @@
 {
   flake.modules.homeManager.vscode =
-    { pkgs, ... }:
+    { pkgs-stable, ... }:
     {
       programs.vscode = {
         enable = true;
-        package = pkgs.vscode;
+        package = pkgs-stable.vscode;
         profiles.default.extensions =
-          with pkgs.vscode-extensions;
+          with pkgs-stable.vscode-extensions;
           [
             llvm-vs-code-extensions.vscode-clangd
             ms-vscode.cmake-tools
@@ -14,7 +14,7 @@
             ms-azuretools.vscode-docker
             twxs.cmake
           ]
-          ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
+          ++ pkgs-stable.vscode-utils.extensionsFromVscodeMarketplace [
             {
               name = "yocto-bitbake";
               publisher = "yocto-project";

@@ -1,8 +1,7 @@
 {
   flake.modules.homeManager.libreoffice =
-    { pkgs, ... }:
+    { pkgs-stable, ... }:
     {
-      home.packages = with pkgs; [ libreoffice-fresh ];
-
+      home.packages = [ pkgs-stable.libreoffice-fresh ];
     };
 }

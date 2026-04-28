@@ -29,6 +29,14 @@ let
     system: cls: name: username:
     lib.nixosSystem {
       inherit system;
+      specialArgs = {
+        inherit inputs;
+        pkgs-stable = import inputs.nixpkgs-stable {
+          inherit system;
+          config.allowUnfree = true;
+          config.permittedInsecurePackages = [ "openssl-1.1.1w" ];
+        };
+      };
       modules = [
         flakeConfig.flake.modules.nixos.settings
         flakeConfig.flake.modules.nixos.${cls}
@@ -55,6 +63,13 @@ let
         inherit system;
         config.allowUnfree = true;
         overlays = [ inputs.nix-firefox-addons.overlays.default ];
+      };
+      extraSpecialArgs = {
+        pkgs-stable = import inputs.nixpkgs-stable {
+          inherit system;
+          config.allowUnfree = true;
+          config.permittedInsecurePackages = [ "openssl-1.1.1w" ];
+        };
       };
       modules = [
         flakeConfig.flake.modules.homeManager.hmSettings

@@ -1,11 +1,11 @@
 { ... }:
 {
   flake.modules.nixos.ollama =
-    { pkgs, ... }:
+    { pkgs-stable, ... }:
     {
       services.ollama = {
         enable = true;
-        package = pkgs.ollama-cuda;
+        package = pkgs-stable.ollama-cuda;
         loadModels = [ "gemma4:e2b" ];
       };
     };

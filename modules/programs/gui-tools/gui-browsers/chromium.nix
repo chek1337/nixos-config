@@ -4,7 +4,6 @@
     {
       config,
       lib,
-      pkgs,
       pkgs-stable,
       ...
     }:
@@ -45,7 +44,7 @@
       #       VIMIUM_VERSION=$(ls "$VIMIUM_BASE" | sort -V | tail -1)
       #       SETTINGS_JS="$VIMIUM_BASE/$VIMIUM_VERSION/lib/settings.js"
       #       if [ -f "$SETTINGS_JS" ]; then
-      #         $DRY_RUN_CMD ${pkgs.python3}/bin/python3 \
+      #         $DRY_RUN_CMD ${pkgs-stable.python3}/bin/python3 \
       #           ${config.patchVimiumScript} "$SETTINGS_JS" ${config.vimiumCssFile}
       #         $DRY_RUN_CMD rm -rf "$STORAGE"
       #         $DRY_RUN_CMD mkdir -p "$HOME/.local/state"

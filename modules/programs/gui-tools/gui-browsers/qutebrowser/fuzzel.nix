@@ -2,13 +2,13 @@
   flake.modules.homeManager.qutebrowser-fuzzel =
     {
       lib,
-      pkgs,
+      pkgs-stable,
       ...
     }:
     let
-      fuzzel = pkgs.fuzzel.overrideAttrs (old: {
+      fuzzel = pkgs-stable.fuzzel.overrideAttrs (old: {
         version = "1.14.1";
-        src = pkgs.fetchurl {
+        src = pkgs-stable.fetchurl {
           url = "https://codeberg.org/dnkl/fuzzel/archive/1.14.1.tar.gz";
           hash = "sha256-xkFnhsOgYAuK2R7ZUcQ8ACpjmHDDgjtKYMkQRC9K4Jc=";
         };
@@ -39,12 +39,12 @@
       # Used in Python via .split() — newline-separated string
       fuzzelStyle = lib.concatStringsSep "\n" fuzzelStyleArgs;
 
-      fuzzelOpen = pkgs.writeShellScriptBin "qute-fuzzel-open" ''
+      fuzzelOpen = pkgs-stable.writeShellScriptBin "qute-fuzzel-open" ''
         menu="''${1:-open}"
         action="''${2:-current}"
 
         readonly FUZZEL="${fuzzel}/bin/fuzzel"
-        readonly SQLITE="${pkgs.sqlite}/bin/sqlite3"
+        readonly SQLITE="${pkgs-stable.sqlite}/bin/sqlite3"
         readonly URL_WIDTH=60
         readonly TITLE_WIDTH=50
         readonly FUZZEL_STYLE=(${lib.escapeShellArgs fuzzelStyleArgs})
@@ -129,9 +129,9 @@
       '';
 
       fuzzelTabs =
-        pkgs.writers.writePython3Bin "qute-fuzzel-tabs"
+        pkgs-stable.writers.writePython3Bin "qute-fuzzel-tabs"
           {
-            libraries = [ pkgs.python3Packages.pyyaml ];
+            libraries = [ pkgs-stable.python3Packages.pyyaml ];
           }
           ''
             import os

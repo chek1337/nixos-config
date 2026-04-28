@@ -4,11 +4,11 @@ let
 in
 {
   flake.modules.nixos.niri =
-    { pkgs, ... }:
+    { pkgs-unstable, ... }:
     let
-      niri-pinned = pkgs.niri.overrideAttrs (_old: {
+      niri-pinned = pkgs-unstable.niri.overrideAttrs (_old: {
         src = inputs.niri-pinned;
-        cargoDeps = pkgs.rustPlatform.importCargoLock {
+        cargoDeps = pkgs-unstable.rustPlatform.importCargoLock {
           lockFile = "${inputs.niri-pinned}/Cargo.lock";
           outputHashes = {
             "smithay-0.7.0" = "sha256-D1thFIY9xzmAO903OUpvTMVSXw/o7MZVDfYUG4QJJzs=";
@@ -25,7 +25,7 @@ in
     {
       programs.niri.enable = true;
       programs.niri.package = niri-pinned;
-      environment.systemPackages = [ pkgs.xwayland-satellite ];
+      environment.systemPackages = [ pkgs-unstable.xwayland-satellite ];
     };
 
   flake.modules.homeManager.niri =

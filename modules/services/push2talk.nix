@@ -10,9 +10,9 @@
     };
 
   flake.modules.homeManager.push2talk =
-    { pkgs, lib, ... }:
+    { pkgs-stable, lib, ... }:
     let
-      push2talk = inputs.push2talk.packages.${pkgs.stdenv.hostPlatform.system}.default;
+      push2talk = inputs.push2talk.packages.${pkgs-stable.stdenv.hostPlatform.system}.default;
     in
     {
       home.packages = [ push2talk ];

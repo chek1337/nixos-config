@@ -3,7 +3,6 @@
   flake.modules.homeManager.telegram =
     {
       config,
-      pkgs,
       pkgs-stable,
       lib,
       ...
@@ -303,7 +302,7 @@
         sideBarBadgeBgMuted: color3;
         sideBarBadgeFg: color0;
       '';
-      walogram = pkgs.writeShellApplication {
+      walogram = pkgs-stable.writeShellApplication {
         name = "walogram";
         runtimeInputs = with pkgs-stable; [
           file

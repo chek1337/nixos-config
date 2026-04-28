@@ -1,11 +1,11 @@
 { ... }:
 {
   flake.modules.homeManager.bat =
-    { pkgs, ... }:
+    { pkgs-stable, ... }:
     {
       programs.bat = {
         enable = true;
-        extraPackages = with pkgs.bat-extras; [
+        extraPackages = with pkgs-stable.bat-extras; [
           batdiff
           batman
           batgrep

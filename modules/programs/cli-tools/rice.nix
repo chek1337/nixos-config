@@ -1,7 +1,7 @@
 { ... }:
 {
   flake.modules.homeManager.rice =
-    { pkgs, config, ... }:
+    { pkgs-stable, config, ... }:
     let
       c = config.lib.stylix.colors;
     in
@@ -10,7 +10,7 @@
         lavat = "lavat -g -G -c ${c.base0D-hex} -k ${c.base0E-hex} -R 2";
       };
 
-      home.packages = with pkgs; [
+      home.packages = with pkgs-stable; [
         cava
         cmatrix
         cbonsai

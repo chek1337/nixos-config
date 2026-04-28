@@ -1,8 +1,8 @@
 let
   genericPackages =
-    { pkgs, ... }:
+    { pkgs-stable, ... }:
     {
-      environment.systemPackages = with pkgs; [
+      environment.systemPackages = with pkgs-stable; [
         git
         vim
         ripgrep

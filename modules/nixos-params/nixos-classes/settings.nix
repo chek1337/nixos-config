@@ -72,7 +72,7 @@
         colorScheme = lib.mkOption {
           type = lib.types.str;
           default = "nord";
-          description = "Base16 scheme name matching a file in pkgs.base16-schemes (e.g. nord, catppuccin-mocha)";
+          description = "Base16 scheme name matching a file in pkgs-stable.base16-schemes (e.g. nord, catppuccin-mocha)";
         };
       };
     };

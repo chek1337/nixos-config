@@ -3,7 +3,7 @@
   flake.modules.homeManager.browser-search =
     {
       lib,
-      pkgs,
+      pkgs-stable,
       config,
       ...
     }:
@@ -16,9 +16,9 @@
         ) config.browserSearchEngines
       );
 
-      vimiumSearchFile = pkgs.writeText "vimium-search-engines.txt" vimiumEntries;
+      vimiumSearchFile = pkgs-stable.writeText "vimium-search-engines.txt" vimiumEntries;
 
-      vimiumSearchScript = pkgs.writeShellScriptBin "vimium-search" ''
+      vimiumSearchScript = pkgs-stable.writeShellScriptBin "vimium-search" ''
         echo "# Paste these entries into Vimium settings (Custom search engines):"
         echo ""
         cat ${vimiumSearchFile}

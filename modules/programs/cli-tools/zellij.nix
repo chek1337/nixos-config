@@ -1,13 +1,13 @@
 {
   flake.modules.homeManager.zellij =
-    { pkgs, ... }:
+    { pkgs-stable, ... }:
     {
       programs.zellij = {
         enable = true;
       };
 
       xdg.configFile."zellij/config.kdl".text = ''
-        default_shell "${pkgs.zsh}/bin/zsh"
+        default_shell "${pkgs-stable.zsh}/bin/zsh"
         scroll_buffer_size 10000
         mouse_mode true
       '';

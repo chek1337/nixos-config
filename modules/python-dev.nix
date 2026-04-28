@@ -1,8 +1,8 @@
 {
   flake.modules.homeManager.python-dev =
-    { pkgs, ... }:
+    { pkgs-stable, ... }:
     {
-      home.packages = with pkgs; [
+      home.packages = with pkgs-stable; [
         uv
         ruff
         pyright

@@ -1,9 +1,9 @@
 { ... }:
 {
   flake.modules.homeManager.zmkbatx =
-    { pkgs, lib, ... }:
+    { pkgs-stable, lib, ... }:
     {
-      home.packages = [ pkgs.zmkbatx ];
+      home.packages = [ pkgs-stable.zmkbatx ];
 
       systemd.user.services.zmkbatx = {
         Unit = {
@@ -13,7 +13,7 @@
         };
         Service = {
           ExecStart = ''
-            ${pkgs.runtimeShell} -l -c "${lib.meta.getExe' pkgs.busybox "sleep"} 5 && ${lib.meta.getExe' pkgs.zmkbatx "zmkBATx"}"
+            ${pkgs-stable.runtimeShell} -l -c "${lib.meta.getExe' pkgs-stable.busybox "sleep"} 5 && ${lib.meta.getExe' pkgs-stable.zmkbatx "zmkBATx"}"
           '';
           Restart = "on-failure";
           RestartSec = 3;

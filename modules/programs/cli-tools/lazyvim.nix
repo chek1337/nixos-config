@@ -82,7 +82,7 @@ in
 {
   flake.modules.homeManager.lazyvim =
     {
-      pkgs,
+      pkgs-unstable,
       config,
       lib,
       ...
@@ -102,15 +102,15 @@ in
       imports = [ inputs.lazyvim-nix.homeManagerModules.default ];
 
       # programs.neovim.package =
-      #   pkgs.lib.mkForce
-      #     inputs.nixpkgs-nvim-0_11_6.legacyPackages.${pkgs.system}.neovim-unwrapped;
+      #   pkgs-unstable.lib.mkForce
+      #     inputs.nixpkgs-nvim-0_11_6.legacyPackages.${pkgs-unstable.system}.neovim-unwrapped;
 
       programs.neovim.extraLuaPackages = ps: with ps; [ luautf8 ];
 
       programs.lazyvim = {
         enable = true;
         configFiles = ./nvim;
-        extraPackages = with pkgs; [
+        extraPackages = with pkgs-unstable; [
           ty
           ruff
           nixd
@@ -119,7 +119,7 @@ in
           stylua
           clang-tools
         ];
-        treesitterParsers = with pkgs.vimPlugins.nvim-treesitter.grammarPlugins; [
+        treesitterParsers = with pkgs-unstable.vimPlugins.nvim-treesitter.grammarPlugins; [
           nix
         ];
       };
@@ -127,7 +127,7 @@ in
       home.file.".config/nvim/lua/plugins/colorscheme.lua".text = colorschemeContent;
 
       home.packages = [
-        (pkgs.writeShellScriptBin "lvim" ''
+        (pkgs-unstable.writeShellScriptBin "lvim" ''
           exec ${config.programs.neovim.finalPackage}/bin/nvim "$@"
         '')
       ];

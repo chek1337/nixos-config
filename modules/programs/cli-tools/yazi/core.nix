@@ -1,8 +1,8 @@
 {
   flake.modules.homeManager.yazi-core =
-    { pkgs, ... }:
+    { pkgs-unstable, ... }:
     let
-      yaziLauncher = pkgs.writeShellScript "yazi-launcher" ''
+      yaziLauncher = pkgs-unstable.writeShellScript "yazi-launcher" ''
         exec kitty -e zsh -ic "y; exec zsh"
       '';
     in
@@ -40,7 +40,7 @@
         };
       };
 
-      home.packages = with pkgs; [
+      home.packages = with pkgs-unstable; [
         glow
         hexyl
         sqlite

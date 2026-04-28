@@ -1,7 +1,7 @@
 { ... }:
 {
   flake.modules.nixos.podman =
-    { config, pkgs, ... }:
+    { config, pkgs-stable, ... }:
     let
       username = config.settings.username;
     in
@@ -11,7 +11,7 @@
         dockerCompat = false;
       };
 
-      environment.systemPackages = with pkgs; [
+      environment.systemPackages = with pkgs-stable; [
         # distrobox enter --root mybox -- env TERM=xterm-256color zsh
         distrobox
       ];

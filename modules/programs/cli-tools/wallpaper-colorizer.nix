@@ -1,8 +1,8 @@
 {
   flake.modules.homeManager.wallpaper-colorizer =
-    { pkgs, ... }:
+    { pkgs-stable, ... }:
     {
-      home.packages = with pkgs; [
+      home.packages = with pkgs-stable; [
         (rustPlatform.buildRustPackage {
           pname = "dipc";
           version = "1.2.0";

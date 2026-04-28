@@ -2,7 +2,7 @@
 {
   flake.modules.homeManager.noctalia =
     {
-      pkgs,
+      pkgs-unstable,
       pkgs-stable,
       lib,
       config,
@@ -24,7 +24,7 @@
     {
       imports = [ inputs.noctalia.homeModules.default ];
 
-      programs.noctalia-shell.package = pkgs.noctalia-shell;
+      programs.noctalia-shell.package = pkgs-unstable.noctalia-shell;
 
       programs.zsh.shellAliases.show-keys = "noctalia-shell ipc call plugin:show-keys toggle";
 
@@ -36,7 +36,7 @@
       home.packages = [
         pkgs-stable.qt6Packages.qt6ct
         pkgs-stable.nwg-look
-        pkgs.awww
+        pkgs-unstable.awww
         pkgs-stable.evtest
       ];
 
@@ -91,7 +91,7 @@
             {
               name = "Zen Browser (VPN)";
               command = "${voponoExec} ${
-                inputs.zen-browser.packages.${pkgs.stdenv.hostPlatform.system}.beta
+                inputs.zen-browser.packages.${pkgs-unstable.stdenv.hostPlatform.system}.beta
               }/bin/zen-beta";
               icon = "circle-dot";
             }

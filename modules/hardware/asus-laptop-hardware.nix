@@ -3,7 +3,7 @@
     {
       config,
       lib,
-      pkgs,
+      pkgs-stable,
       ...
     }:
     let
@@ -43,7 +43,7 @@
         wantedBy = [ "multi-user.target" ];
         serviceConfig = {
           Type = "oneshot";
-          ExecStart = "${pkgs.asusctl}/bin/asusctl aura effect static -c ${kbdColor}";
+          ExecStart = "${pkgs-stable.asusctl}/bin/asusctl aura effect static -c ${kbdColor}";
           RemainAfterExit = true;
         };
       };
@@ -51,8 +51,8 @@
       services.supergfxd.enable = true;
 
       environment.systemPackages = [
-        pkgs.asusctl
-        pkgs.supergfxctl
+        pkgs-stable.asusctl
+        pkgs-stable.supergfxctl
       ];
     };
 }

@@ -1,8 +1,8 @@
 {
   flake.modules.homeManager.yazi-tv-grep-router =
-    { pkgs, ... }:
+    { pkgs-unstable, ... }:
     {
-      programs.yazi.plugins.tv-grep-router = pkgs.writeTextDir "main.lua" ''
+      programs.yazi.plugins.tv-grep-router = pkgs-unstable.writeTextDir "main.lua" ''
         local M = {}
 
         local get_cwd = ya.sync(function()

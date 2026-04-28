@@ -3,7 +3,7 @@
     {
       config,
       lib,
-      pkgs,
+      pkgs-stable,
       ...
     }:
     {
@@ -13,7 +13,7 @@
         description = "Pre-generated Bookmarks JSON file derived from browserBookmarks";
       };
 
-      config.chromiumCommon.bookmarksFile = pkgs.writeText "chromium-bookmarks" (
+      config.chromiumCommon.bookmarksFile = pkgs-stable.writeText "chromium-bookmarks" (
         builtins.toJSON {
           checksum = "";
           roots = {

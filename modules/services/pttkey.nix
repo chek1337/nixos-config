@@ -11,7 +11,7 @@
 
   flake.modules.homeManager.pttkey =
     {
-      pkgs,
+      pkgs-unstable,
       pkgs-stable,
       lib,
       config,
@@ -20,21 +20,21 @@
     let
       cfg = config.services.pttkey;
 
-      pttkey = pkgs.rustPlatform.buildRustPackage {
+      pttkey = pkgs-unstable.rustPlatform.buildRustPackage {
         pname = "pttkey";
         version = "0.2.6";
         src = inputs.pttkey;
         cargoHash = "sha256-aB2BX3apofRBFGHxB8LpUYKCHxyQwHEKmmgeIKC8A+w=";
 
-        nativeBuildInputs = with pkgs; [
+        nativeBuildInputs = with pkgs-unstable; [
           pkg-config
           makeWrapper
         ];
-        buildInputs = [ pkgs.alsa-lib ];
+        buildInputs = [ pkgs-unstable.alsa-lib ];
 
         postInstall = ''
           wrapProgram $out/bin/pttkey \
-            --suffix PATH : ${lib.makeBinPath [ pkgs.wireplumber ]}
+            --suffix PATH : ${lib.makeBinPath [ pkgs-unstable.wireplumber ]}
         '';
 
         meta = {

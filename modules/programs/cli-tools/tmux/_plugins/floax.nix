@@ -1,10 +1,10 @@
 {
-  pkgs,
+  pkgs-unstable,
   config,
   inputs,
 }:
 let
-  floaxPlugin = pkgs.tmuxPlugins.mkTmuxPlugin {
+  floaxPlugin = pkgs-unstable.tmuxPlugins.mkTmuxPlugin {
     pluginName = "tmux-floax";
     rtpFilePath = "floax.tmux";
     version = "unstable";

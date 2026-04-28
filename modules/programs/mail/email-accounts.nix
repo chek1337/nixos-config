@@ -15,7 +15,7 @@
     };
 
   flake.modules.homeManager.email-accounts =
-    { pkgs, ... }:
+    { pkgs-stable, ... }:
     {
       accounts.email = {
         maildirBasePath = ".maildir";
@@ -25,14 +25,14 @@
           flavor = "yandex.com";
           userName = "DaniPlay1337@yandex.ru";
           realName = "DaniPlay1337";
-          passwordCommand = "${pkgs.coreutils}/bin/cat /run/secrets/daniplay1337-yandex-password";
+          passwordCommand = "${pkgs-stable.coreutils}/bin/cat /run/secrets/daniplay1337-yandex-password";
         };
         accounts."YA-loychenko" = {
           address = "loychenko.d@yandex.ru";
           flavor = "yandex.com";
           userName = "loychenko.d@yandex.ru";
           realName = "Loychenko D.";
-          passwordCommand = "${pkgs.coreutils}/bin/cat /run/secrets/loychenko-d-yandex-password";
+          passwordCommand = "${pkgs-stable.coreutils}/bin/cat /run/secrets/loychenko-d-yandex-password";
         };
       };
     };

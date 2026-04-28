@@ -1,1 +1,1 @@
-remove sublime
+refactor: migrate all modules to explicit pkgs-stable/pkgs-unstable

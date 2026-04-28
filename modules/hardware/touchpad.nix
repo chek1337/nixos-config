@@ -2,8 +2,8 @@ let
   # Same name + same content in both modules produces an identical store path,
   # so the sudo whitelist match the command niri spawns.
   toggleScript =
-    pkgs:
-    pkgs.writeShellScript "toggle-touchpad" ''
+    pkgs-stable:
+    pkgs-stable.writeShellScript "toggle-touchpad" ''
       INHIBITED=""
       for input in /sys/class/input/input*; do
         name=$(cat "$input/name" 2>/dev/null || true)
@@ -17,14 +17,14 @@ let
 in
 {
   flake.modules.nixos.touchpad =
-    { config, pkgs, ... }:
+    { config, pkgs-stable, ... }:
     {
       security.sudo.extraRules = [
         {
           users = [ config.settings.username ];
           commands = [
             {
-              command = "${toggleScript pkgs}";
+              command = "${toggleScript pkgs-stable}";
               options = [ "NOPASSWD" ];
             }
           ];
@@ -33,8 +33,9 @@ in
     };
 
   flake.modules.homeManager.touchpad =
-    { pkgs, ... }:
+    { pkgs-stable, ... }:
     {
-      services.niri.extraBinds."Ctrl+Mod+F24 repeat=false" = ''spawn "sudo" "${toggleScript pkgs}"'';
+      services.niri.extraBinds."Ctrl+Mod+F24 repeat=false" =
+        ''spawn "sudo" "${toggleScript pkgs-stable}"'';
     };
 }

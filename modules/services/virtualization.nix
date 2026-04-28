@@ -41,7 +41,7 @@
     };
 
   flake.modules.homeManager.virtualization =
-    { pkgs, ... }:
+    { pkgs-stable, ... }:
     {
       # uncoment this later
       # dconf.settings."org/virt-manager/virt-manager/connections" = {

@@ -1,9 +1,9 @@
 { ... }:
 {
   flake.modules.homeManager.ghostty =
-    { pkgs, ... }:
+    { pkgs-stable, ... }:
     let
-      cursorShaders = pkgs.fetchFromGitHub {
+      cursorShaders = pkgs-stable.fetchFromGitHub {
         owner = "sahaj-b";
         repo = "ghostty-cursor-shaders";
         rev = "4faa83e4b9306750fc8de64b38c6f53c57862db8";

@@ -1,6 +1,6 @@
-{ self, pkgs }:
+{ self, pkgs-stable }:
 let
-  xpi = pkgs.fetchurl {
+  xpi = pkgs-stable.fetchurl {
     url = "https://addons.thunderbird.net/thunderbird/downloads/file/1019076/nord_dark-1.0-tb.xpi";
     hash = "sha256-z782Ywv0D8Lipj2mLzXtgXyRD3aEONDNcyLSP4dXH4M=";
   };
@@ -8,14 +8,14 @@ in
 {
   image = self + "/assets/nord2.png";
   icons = {
-    package = pkgs.nordzy-icon-theme;
+    package = pkgs-stable.nordzy-icon-theme;
     dark = "Nordzy-dark";
     light = "Nordzy";
   };
   thunderbird =
-    pkgs.runCommandLocal "nord-dark-thunderbird"
+    pkgs-stable.runCommandLocal "nord-dark-thunderbird"
       {
-        nativeBuildInputs = with pkgs; [
+        nativeBuildInputs = with pkgs-stable; [
           jq
           unzip
         ];

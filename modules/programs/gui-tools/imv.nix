@@ -1,8 +1,8 @@
 {
   flake.modules.homeManager.imv =
-    { pkgs, ... }:
+    { pkgs-stable, ... }:
     {
-      home.packages = [ pkgs.imv ];
+      home.packages = [ pkgs-stable.imv ];
 
       xdg.desktopEntries.imv-dir = {
         name = "imv-dir";

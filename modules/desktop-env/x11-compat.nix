@@ -1,13 +1,13 @@
 {
   flake.modules.nixos.x11-compat =
-    { pkgs, ... }:
+    { pkgs-stable, ... }:
     {
       # X server is kept enabled so that X11 clients (including apps from
       # rootful distrobox containers, e.g. cryptopro-distrobox) can connect
       # to XWayland while the primary session runs on Wayland (niri).
       services.xserver.enable = true;
 
-      environment.systemPackages = with pkgs; [
+      environment.systemPackages = with pkgs-stable; [
         xhost
         xauth
       ];
@@ -25,8 +25,8 @@
         serviceConfig = {
           Type = "oneshot";
           RemainAfterExit = true;
-          ExecStart = "${pkgs.xhost}/bin/xhost +local:";
-          ExecStop = "${pkgs.xhost}/bin/xhost -local:";
+          ExecStart = "${pkgs-stable.xhost}/bin/xhost +local:";
+          ExecStop = "${pkgs-stable.xhost}/bin/xhost -local:";
         };
       };
     };

@@ -21,14 +21,14 @@
     };
 
   flake.modules.homeManager.waydroid =
-    { pkgs, pkgs-stable, lib, ... }:
+    { pkgs-stable, lib, ... }:
     let
       allowedPackages = [
         "com.android.vending" # Google Play Store
         "com.swiftsoft.anixartd"
       ];
 
-      filterScript = pkgs.writeShellScript "waydroid-app-filter" ''
+      filterScript = pkgs-stable.writeShellScript "waydroid-app-filter" ''
         APPS_DIR="$HOME/.local/share/applications"
         allowed=(${lib.concatStringsSep " " allowedPackages})
 

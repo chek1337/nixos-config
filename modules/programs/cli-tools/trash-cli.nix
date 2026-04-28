@@ -1,8 +1,8 @@
 {
   flake.modules.homeManager.trash-cli =
-    { pkgs, ... }:
+    { pkgs-stable, ... }:
     {
-      home.packages = with pkgs; [
+      home.packages = with pkgs-stable; [
         trash-cli
       ];
 

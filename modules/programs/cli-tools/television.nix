@@ -1,11 +1,11 @@
 { ... }:
 {
   flake.modules.homeManager.television =
-    { pkgs, ... }:
+    { pkgs-stable, ... }:
     {
       programs.television = {
         enable = true;
-        package = pkgs.television.overrideAttrs (_old: {
+        package = pkgs-stable.television.overrideAttrs (_old: {
           postPatch = (_old.postPatch or "") + ''
             sed -i '/\.italic(),/d' television/screen/input.rs
           '';
@@ -91,6 +91,6 @@
       #   bindkey -s '^S' 'tv --ui-scale 80 sesh\n'
       # '';
 
-      home.packages = [ pkgs.fd ];
+      home.packages = [ pkgs-stable.fd ];
     };
 }

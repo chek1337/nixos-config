@@ -1,6 +1,6 @@
-{ self, pkgs }:
+{ self, pkgs-stable }:
 let
-  xpi = pkgs.fetchurl {
+  xpi = pkgs-stable.fetchurl {
     url = "https://addons.thunderbird.net/thunderbird/downloads/file/1044695/gruvbox_dark_thunderbird-1.12-tb.xpi";
     hash = "sha256-/3f1tttzVtntAkmNhHxSAXoBwrhYwu2sqGfjoM0i7JE=";
   };
@@ -8,14 +8,14 @@ in
 {
   image = self + "/assets/gruvbox-dark-hard.png";
   icons = {
-    package = pkgs.gruvbox-plus-icons;
+    package = pkgs-stable.gruvbox-plus-icons;
     dark = "Gruvbox-Plus-Dark";
     light = "Gruvbox-Plus-Light";
   };
   thunderbird =
-    pkgs.runCommandLocal "gruvbox-dark-thunderbird"
+    pkgs-stable.runCommandLocal "gruvbox-dark-thunderbird"
       {
-        nativeBuildInputs = with pkgs; [
+        nativeBuildInputs = with pkgs-stable; [
           jq
           unzip
         ];

@@ -1,13 +1,13 @@
 { inputs, ... }:
 {
   flake.modules.nixos.nixos =
-    { pkgs, ... }:
+    { pkgs-stable, ... }:
     {
       imports = [ inputs.elegant-grub2-themes.nixosModules.default ];
 
       stylix.targets.grub.enable = false;
       boot = {
-        kernelPackages = pkgs.linuxPackages_latest;
+        kernelPackages = pkgs-stable.linuxPackages_latest;
         loader = {
           grub = {
             enable = true;

@@ -10,15 +10,15 @@
     };
 
   flake.modules.homeManager.throne =
-    { pkgs, ... }:
+    { pkgs-stable, ... }:
     {
       # programs.zsh.shellAliases = {
-      #   throne = "${pkgs.throne}/bin/Throne";
+      #   throne = "${pkgs-stable.throne}/bin/Throne";
       # };
       # xdg.desktopEntries = {
       #   throne = {
       #     name = "Throne";
-      #     exec = "${pkgs.throne}/bin/Throne";
+      #     exec = "${pkgs-stable.throne}/bin/Throne";
       #     icon = "throne";
       #     comment = "Throne proxy manager (sing-box)";
       #     categories = [

@@ -1,7 +1,7 @@
 {
   # Режим 2: только конкретные приложения через VPN (netns)
   flake.modules.nixos.wireguard-netns-vpn =
-    { config, pkgs, ... }:
+    { config, pkgs-stable, ... }:
     let
       wgName = config.settings.wireguardConfigName;
     in
@@ -14,7 +14,7 @@
         serviceConfig = {
           Type = "oneshot";
           RemainAfterExit = true;
-          ExecStart = pkgs.writeShellScript "netns-vpn-start" ''
+          ExecStart = pkgs-stable.writeShellScript "netns-vpn-start" ''
             CONFFILE="${config.sops.secrets.${wgName}.path}"
 
             # Парсим Address и DNS из конфига (tr -d '\r' на случай Windows line endings)
@@ -25,35 +25,35 @@
             echo "Using DNS: '$WG_DNS'"
 
             # Создать namespace
-            ${pkgs.iproute2}/bin/ip netns add vpn
-            ${pkgs.iproute2}/bin/ip -n vpn link set lo up
+            ${pkgs-stable.iproute2}/bin/ip netns add vpn
+            ${pkgs-stable.iproute2}/bin/ip -n vpn link set lo up
 
             # Создать wg интерфейс и перенести в namespace
-            ${pkgs.iproute2}/bin/ip link add wg0 type wireguard
-            ${pkgs.iproute2}/bin/ip link set wg0 netns vpn
+            ${pkgs-stable.iproute2}/bin/ip link add wg0 type wireguard
+            ${pkgs-stable.iproute2}/bin/ip link set wg0 netns vpn
 
             # Создать временный конфиг без Address/DNS (wg не понимает эти поля)
             TMPCONF=$(mktemp)
             grep -v "^Address\|^DNS" "$CONFFILE" | tr -d '\r' > $TMPCONF
 
             # Настроить wireguard
-            ${pkgs.iproute2}/bin/ip netns exec vpn \
-              ${pkgs.wireguard-tools}/bin/wg setconf wg0 $TMPCONF 2>/dev/null
+            ${pkgs-stable.iproute2}/bin/ip netns exec vpn \
+              ${pkgs-stable.wireguard-tools}/bin/wg setconf wg0 $TMPCONF 2>/dev/null
             rm $TMPCONF
 
             # Задать IP из конфига
-            ${pkgs.iproute2}/bin/ip -n vpn addr add "$WG_ADDRESS" dev wg0 && echo "addr add OK" || echo "addr add FAILED"
-            ${pkgs.iproute2}/bin/ip -n vpn link set wg0 up
-            ${pkgs.iproute2}/bin/ip -n vpn route add default dev wg0
+            ${pkgs-stable.iproute2}/bin/ip -n vpn addr add "$WG_ADDRESS" dev wg0 && echo "addr add OK" || echo "addr add FAILED"
+            ${pkgs-stable.iproute2}/bin/ip -n vpn link set wg0 up
+            ${pkgs-stable.iproute2}/bin/ip -n vpn route add default dev wg0
 
             # DNS из конфига
             mkdir -p /etc/netns/vpn
             echo "nameserver $WG_DNS" > /etc/netns/vpn/resolv.conf
             chmod -R o+rX /etc/netns
           '';
-          ExecStop = pkgs.writeShellScript "netns-vpn-stop" ''
-            ${pkgs.iproute2}/bin/ip netns pids vpn | xargs -r kill
-            ${pkgs.iproute2}/bin/ip netns del vpn 2>/dev/null || true
+          ExecStop = pkgs-stable.writeShellScript "netns-vpn-stop" ''
+            ${pkgs-stable.iproute2}/bin/ip netns pids vpn | xargs -r kill
+            ${pkgs-stable.iproute2}/bin/ip netns del vpn 2>/dev/null || true
             rm -rf /etc/netns/vpn
           '';
         };

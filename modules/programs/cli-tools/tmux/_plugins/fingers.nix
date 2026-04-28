@@ -1,6 +1,6 @@
-{ pkgs }:
+{ pkgs-stable }:
 {
-  plugin = pkgs.tmuxPlugins.fingers;
+  plugin = pkgs-stable.tmuxPlugins.fingers;
   extraConfig = ''
     set -g @fingers-key none
     set -g @fingers-main-action 'echo -n {} | wl-copy'

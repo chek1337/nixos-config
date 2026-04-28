@@ -7,28 +7,28 @@ let
   };
 
   getScheme =
-    pkgs: colorScheme:
+    pkgs-unstable: colorScheme:
     (schemes.${colorScheme} or schemes.nord) {
       self = inputs.self;
-      inherit pkgs;
+      inherit pkgs-unstable;
     };
 
   stylixCommon =
-    { pkgs, config, ... }:
+    { pkgs-unstable, config, ... }:
     let
-      scheme = getScheme pkgs config.settings.colorScheme;
+      scheme = getScheme pkgs-unstable config.settings.colorScheme;
     in
     {
       enable = true;
-      base16Scheme = "${pkgs.base16-schemes}/share/themes/${config.settings.colorScheme}.yaml";
+      base16Scheme = "${pkgs-unstable.base16-schemes}/share/themes/${config.settings.colorScheme}.yaml";
       image = scheme.image;
       fonts = {
         monospace = {
-          package = pkgs.nerd-fonts.jetbrains-mono;
+          package = pkgs-unstable.nerd-fonts.jetbrains-mono;
           name = "JetBrainsMono Nerd Font";
         };
         sansSerif = {
-          package = pkgs.inter;
+          package = pkgs-unstable.inter;
           name = "Inter";
         };
         sizes = {
@@ -37,7 +37,7 @@ let
         };
       };
       cursor = {
-        package = pkgs.adwaita-icon-theme;
+        package = pkgs-unstable.adwaita-icon-theme;
         name = "Adwaita";
         size = 16;
       };
@@ -45,30 +45,30 @@ let
 in
 {
   flake.modules.nixos.themes =
-    { pkgs, config, ... }:
+    { pkgs-unstable, config, ... }:
     {
       imports = [ inputs.stylix.nixosModules.stylix ];
-      stylix = stylixCommon { inherit pkgs config; };
-      fonts.packages = [ pkgs.noto-fonts-cjk-sans ];
+      stylix = stylixCommon { inherit pkgs-unstable config; };
+      fonts.packages = [ pkgs-unstable.noto-fonts-cjk-sans ];
       programs.dconf.enable = true;
     };
 
   flake.modules.homeManager.themes =
     {
       config,
-      pkgs,
+      pkgs-unstable,
       lib,
       ...
     }:
     let
-      scheme = getScheme pkgs config.settings.colorScheme;
+      scheme = getScheme pkgs-unstable config.settings.colorScheme;
     in
     {
       imports = [ inputs.stylix.homeModules.default ];
       programs.thunderbird = lib.mkIf config.programs.thunderbird.enable {
         profiles."default".extensions = [ scheme.thunderbird ];
       };
-      stylix = (stylixCommon { inherit pkgs config; }) // {
+      stylix = (stylixCommon { inherit pkgs-unstable config; }) // {
         icons = {
           enable = true;
           inherit (scheme.icons) package dark light;

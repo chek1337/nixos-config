@@ -1,8 +1,8 @@
 {
   flake.modules.nixos.wayland-common =
-    { pkgs, ... }:
+    { pkgs-stable, ... }:
     {
-      environment.systemPackages = with pkgs; [
+      environment.systemPackages = with pkgs-stable; [
         wl-clipboard
         satty
         grim
@@ -27,7 +27,7 @@
       # xdg-desktop-portal-gtk handles file pickers and other generic portals.
       xdg.portal = {
         enable = true;
-        extraPortals = with pkgs; [
+        extraPortals = with pkgs-stable; [
           xdg-desktop-portal-gnome
           xdg-desktop-portal-gtk
         ];

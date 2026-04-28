@@ -1,8 +1,8 @@
 {
   flake.modules.homeManager.yazi-tv-sel =
-    { pkgs, ... }:
+    { pkgs-unstable, ... }:
     {
-      programs.yazi.plugins.tv-sel = pkgs.writeTextDir "main.lua" ''
+      programs.yazi.plugins.tv-sel = pkgs-unstable.writeTextDir "main.lua" ''
         local M = {}
 
         local get_state = ya.sync(function()

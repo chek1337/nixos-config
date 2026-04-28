@@ -1,8 +1,8 @@
 {
   flake.modules.homeManager.zoxide =
-    { pkgs, ... }:
+    { pkgs-stable, ... }:
     {
-      home.packages = with pkgs; [ zoxide ];
+      home.packages = with pkgs-stable; [ zoxide ];
 
       programs.zoxide = {
         enable = true;

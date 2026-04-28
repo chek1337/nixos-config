@@ -1,8 +1,8 @@
 { inputs, ... }:
 {
   flake.modules.homeManager.hibiki =
-    { pkgs, ... }:
+    { pkgs-unstable, ... }:
     {
-      home.packages = [ inputs.hibiki.packages.${pkgs.stdenv.hostPlatform.system}.default ];
+      home.packages = [ inputs.hibiki.packages.${pkgs-unstable.stdenv.hostPlatform.system}.default ];
     };
 }

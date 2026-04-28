@@ -3,14 +3,14 @@
   flake.modules.homeManager.browser-extensions =
     {
       lib,
-      pkgs,
+      pkgs-stable,
       config,
       ...
     }:
     let
-      cssFile = pkgs.writeText "vimium-hint.css" config.vimiumHintCss;
+      cssFile = pkgs-stable.writeText "vimium-hint.css" config.vimiumHintCss;
 
-      patchScript = pkgs.writeText "patch-vimium-settings.py" ''
+      patchScript = pkgs-stable.writeText "patch-vimium-settings.py" ''
         import re, sys
 
         settings_file, css_file = sys.argv[1], sys.argv[2]
@@ -32,23 +32,23 @@
 
       # NOTE: патчинг XPI не работает надёжно в некоторых браузерах — отключено.
       # Используй `vimium-css` для получения CSS и ручной вставки в настройки Vimium.
-      # patchedVimiumFf = pkgs.firefoxAddons.vimium-ff.overrideAttrs (old: {
+      # patchedVimiumFf = pkgs-stable.firefoxAddons.vimium-ff.overrideAttrs (old: {
       #   nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ [
-      #     pkgs.unzip
-      #     pkgs.zip
+      #     pkgs-stable.unzip
+      #     pkgs-stable.zip
       #   ];
       #   buildCommand = (old.buildCommand or "") + ''
       #     XPI=$(find $out -name "*.xpi" | head -1)
       #     TMPDIR=$(mktemp -d)
       #     unzip -q "$XPI" -d "$TMPDIR"
-      #     ${pkgs.python3}/bin/python3 ${patchScript} "$TMPDIR/lib/settings.js" ${cssFile}
+      #     ${pkgs-stable.python3}/bin/python3 ${patchScript} "$TMPDIR/lib/settings.js" ${cssFile}
       #     rm "$XPI"
       #     (cd "$TMPDIR" && zip -qr "$XPI" .)
       #     rm -rf "$TMPDIR"
       #   '';
       # });
 
-      vimiumCssScript = pkgs.writeShellScriptBin "vimium-css" ''
+      vimiumCssScript = pkgs-stable.writeShellScriptBin "vimium-css" ''
         echo "# Paste this CSS into Vimium settings (CSS for link hints):"
         echo ""
         cat ${cssFile}
@@ -128,7 +128,7 @@
             "ldpochfccmkkmhdbclfhpagapcfdljkj" # Decentraleyes
             "edibdbjcniadpccecjdfdjjppcpchdlm" # I Still Don't Care About Cookies
           ];
-          firefoxPackages = with pkgs.firefoxAddons; [
+          firefoxPackages = with pkgs-stable.firefoxAddons; [
             ublock-origin
             sponsorblock
             darkreader

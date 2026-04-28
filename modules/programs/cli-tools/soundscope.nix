@@ -1,16 +1,16 @@
 { inputs, ... }:
 {
   flake.modules.homeManager.soundscope =
-    { pkgs, lib, ... }:
+    { pkgs-unstable, lib, ... }:
     let
-      soundscope = pkgs.rustPlatform.buildRustPackage {
+      soundscope = pkgs-unstable.rustPlatform.buildRustPackage {
         pname = "soundscope";
         version = "unstable";
         src = inputs.soundscope;
         cargoHash = "sha256-zoiRTjNBHc3/076L7JSFb1ebAOx9KgcE/PyDlIpmpZk=";
 
-        nativeBuildInputs = [ pkgs.pkg-config ];
-        buildInputs = [ pkgs.alsa-lib ];
+        nativeBuildInputs = [ pkgs-unstable.pkg-config ];
+        buildInputs = [ pkgs-unstable.alsa-lib ];
 
         meta = {
           description = "CLI audio file analyzer";

@@ -3,7 +3,7 @@
     {
       config,
       lib,
-      pkgs,
+      pkgs-stable,
       ...
     }:
     let
@@ -27,7 +27,7 @@
       services.power-profiles-daemon.enable = lib.mkIf (!isLaptop) (lib.mkForce false);
 
       # Laptop: idle management with swayidle
-      environment.systemPackages = lib.mkIf isLaptop [ pkgs.swayidle ];
+      environment.systemPackages = lib.mkIf isLaptop [ pkgs-stable.swayidle ];
 
       systemd.user.services.swayidle = lib.mkIf isLaptop {
         description = "Idle manager for Wayland";
@@ -35,7 +35,7 @@
         wantedBy = [ "graphical-session.target" ];
         serviceConfig = {
           ExecStart = lib.concatStringsSep " " [
-            "${pkgs.swayidle}/bin/swayidle -w"
+            "${pkgs-stable.swayidle}/bin/swayidle -w"
             "timeout 300 'noctalia-shell ipc call lockScreen lock'"
             "timeout 600 'niri msg action power-off-monitors'"
             "resume 'niri msg action power-on-monitors'"

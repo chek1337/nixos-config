@@ -1,6 +1,6 @@
 {
   flake.modules.homeManager.zathura =
-    { pkgs, ... }:
+    { pkgs-stable, ... }:
     {
       programs.zathura.enable = true;
     };

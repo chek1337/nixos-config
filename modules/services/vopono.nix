@@ -49,7 +49,6 @@
   flake.modules.homeManager.vopono =
     {
       config,
-      pkgs,
       pkgs-stable,
       ...
     }:
@@ -57,7 +56,7 @@
       wgName = config.settings.wireguardConfigName;
       wgSecret = "/run/secrets/${wgName}";
       vopono = "${pkgs-stable.vopono}/bin/vopono";
-      voponoVpnApps = pkgs.writeShellScript "vopono-vpn-apps" ''
+      voponoVpnApps = pkgs-stable.writeShellScript "vopono-vpn-apps" ''
         for i in $(seq 1 30); do
           [ -f ${wgSecret} ] && ${pkgs-stable.systemd}/bin/systemctl is-active --quiet vopono.service && break
           sleep 1
@@ -82,7 +81,7 @@
       # xdg.desktopEntries = {
       #   qutebrowser-vpn = {
       #     name = "qutebrowser (VPN)";
-      #     exec = "${pkgs.vopono}/bin/vopono exec --protocol wireguard --custom /run/secrets/${wgName} ${pkgs.qutebrowser}/bin/qutebrowser %U";
+      #     exec = "${pkgs-stable.vopono}/bin/vopono exec --protocol wireguard --custom /run/secrets/${wgName} ${pkgs-stable.qutebrowser}/bin/qutebrowser %U";
       #     icon = "qutebrowser";
       #     comment = "qutebrowser via Vopono WireGuard";
       #     categories = [
@@ -93,7 +92,7 @@
       #   };
       #   telegram-desktop-vpn = {
       #     name = "Telegram (VPN)";
-      #     exec = "${pkgs.vopono}/bin/vopono exec --protocol wireguard --custom /run/secrets/${wgName} ${pkgs.telegram-desktop}/bin/Telegram -- %u";
+      #     exec = "${pkgs-stable.vopono}/bin/vopono exec --protocol wireguard --custom /run/secrets/${wgName} ${pkgs-stable.telegram-desktop}/bin/Telegram -- %u";
       #     icon = "telegram";
       #     comment = "Telegram Desktop via Vopono WireGuard";
       #     categories = [

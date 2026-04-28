@@ -1,8 +1,8 @@
 {
   flake.modules.homeManager.network-managing =
-    { pkgs, ... }:
+    { pkgs-stable, ... }:
     {
-      home.packages = with pkgs; [
+      home.packages = with pkgs-stable; [
         # Traffic analysis
         termshark # TUI frontend for tshark, full packet analysis
         bandwhich # Real-time bandwidth usage by process and connection

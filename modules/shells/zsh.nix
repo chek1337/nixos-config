@@ -2,17 +2,17 @@
 # Select in hosts/*/host.nix via: shell = "zsh"
 {
   flake.modules.nixos.zsh =
-    { pkgs, config, ... }:
+    { pkgs-stable, config, ... }:
     let
       username = config.settings.username;
     in
     {
       programs.zsh.enable = true;
-      users.users.${username}.shell = pkgs.zsh;
+      users.users.${username}.shell = pkgs-stable.zsh;
     };
 
   flake.modules.homeManager.zsh =
-    { pkgs, ... }:
+    { pkgs-stable, ... }:
     {
       programs.zsh = {
         enable = true;
@@ -92,8 +92,8 @@
           # Alt+Backspace → удалить целый аргумент
           bindkey '^[^?' z4h-backward-kill-zword
 
-          source ${pkgs.fzf}/share/fzf/key-bindings.zsh
-          source ${pkgs.fzf}/share/fzf/completion.zsh
+          source ${pkgs-stable.fzf}/share/fzf/key-bindings.zsh
+          source ${pkgs-stable.fzf}/share/fzf/completion.zsh
 
           # OSC 133 semantic prompt markers (FinalTerm / shell integration)
           # Потребляется tmux (previous-prompt/next-prompt), kitty, ghostty, wezterm

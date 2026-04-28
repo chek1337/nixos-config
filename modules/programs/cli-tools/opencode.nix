@@ -1,8 +1,8 @@
 { ... }:
 {
   flake.modules.homeManager.opencode =
-    { pkgs, ... }:
+    { pkgs-stable, ... }:
     {
-      home.packages = [ pkgs.opencode ];
+      home.packages = [ pkgs-stable.opencode ];
     };
 }

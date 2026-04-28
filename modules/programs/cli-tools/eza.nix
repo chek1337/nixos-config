@@ -1,6 +1,6 @@
 {
   flake.modules.homeManager.eza =
-    { pkgs, ... }:
+    { pkgs-stable, ... }:
     let
       aliases = {
         l = "eza --grid --color=always --no-filesize --no-time --no-user --no-permissions --icons always";
@@ -11,7 +11,7 @@
       };
     in
     {
-      home.packages = with pkgs; [ eza ];
+      home.packages = with pkgs-stable; [ eza ];
 
       programs.zsh.shellAliases = aliases;
       programs.nushell.shellAliases = aliases;

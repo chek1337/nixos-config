@@ -11,7 +11,7 @@ let
 in
 {
   flake.modules.nixos.wireguard =
-    { config, pkgs, ... }:
+    { config, pkgs-stable, ... }:
     let
       wgName = config.settings.wireguardConfigName;
     in
@@ -29,7 +29,7 @@ in
       #   "net.ipv4.ip_forward" = 1;
       # };
 
-      environment.systemPackages = with pkgs; [
+      environment.systemPackages = with pkgs-stable; [
         wireguard-tools
         iproute2
         iptables

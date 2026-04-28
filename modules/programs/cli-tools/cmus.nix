@@ -1,8 +1,8 @@
 { ... }:
 {
   flake.modules.homeManager.cmus =
-    { pkgs, ... }:
+    { pkgs-stable, ... }:
     {
-      home.packages = [ pkgs.cmus ];
+      home.packages = [ pkgs-stable.cmus ];
     };
 }

@@ -1,22 +1,22 @@
 { inputs, ... }:
 {
   flake.modules.homeManager.kitty-zoxide-sessions =
-    { pkgs, lib, ... }:
+    { pkgs-unstable, lib, ... }:
     let
       # kitty-zoxide-sessions: jump to kitty sessions from zoxide history with fzf
       # https://github.com/seankay/kitty-zoxide-sessions
-      kitty-zoxide-sessions = pkgs.stdenv.mkDerivation {
+      kitty-zoxide-sessions = pkgs-unstable.stdenv.mkDerivation {
         pname = "kitty-zoxide-sessions";
         version = "0-unstable";
 
-        src = pkgs.fetchFromGitHub {
+        src = pkgs-unstable.fetchFromGitHub {
           owner = "seankay";
           repo = "kitty-zoxide-sessions";
           rev = "main";
           hash = "sha256-fEBagA3j7xQr8MoTU1jxlfCeJqkjd309Q4OzBpkTAC0=";
         };
 
-        nativeBuildInputs = [ pkgs.makeWrapper ];
+        nativeBuildInputs = [ pkgs-unstable.makeWrapper ];
 
         installPhase = ''
           runHook preInstall
@@ -28,7 +28,7 @@
 
           # Fix shebang for Nix (no /usr/bin/env python3 in sandbox)
           substituteInPlace $out/bin/kitty-zoxide-sessions \
-            --replace "#!/usr/bin/env python3" "#!${pkgs.python3}/bin/python3"
+            --replace "#!/usr/bin/env python3" "#!${pkgs-unstable.python3}/bin/python3"
 
           # Keep default template in a known store path
           cp default.kitty-session $out/share/kitty-zoxide-sessions/default.kitty-session
@@ -37,8 +37,8 @@
           wrapProgram $out/bin/kitty-zoxide-sessions \
             --suffix PATH : ${
               lib.makeBinPath [
-                pkgs.fzf
-                pkgs.zoxide
+                pkgs-unstable.fzf
+                pkgs-unstable.zoxide
               ]
             }
 

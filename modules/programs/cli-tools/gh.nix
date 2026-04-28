@@ -1,6 +1,6 @@
 {
   flake.modules.homeManager.gh =
-    { pkgs, lib, ... }:
+    { pkgs-stable, lib, ... }:
     {
       programs.gh = {
         enable = true;
@@ -13,10 +13,10 @@
       # home.activation.installGhExtensions = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
       #   export PATH="${
       #     lib.makeBinPath [
-      #       pkgs.gh
-      #       pkgs.git
-      #       pkgs.openssh
-      #       pkgs.coreutils
+      #       pkgs-stable.gh
+      #       pkgs-stable.git
+      #       pkgs-stable.openssh
+      #       pkgs-stable.coreutils
       #     ]
       #   }:$PATH"
       #   export GH_PROTOCOL=https

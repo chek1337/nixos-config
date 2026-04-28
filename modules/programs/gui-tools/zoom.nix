@@ -6,7 +6,7 @@
     };
 
   flake.modules.homeManager.zoom =
-    { pkgs, config, ... }:
+    { pkgs-stable, config, ... }:
     {
       xdg.desktopEntries.zoom = {
         name = "Zoom";

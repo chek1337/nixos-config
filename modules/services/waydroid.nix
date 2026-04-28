@@ -21,7 +21,12 @@
     };
 
   flake.modules.homeManager.waydroid =
-    { pkgs, pkgs-stable, lib, ... }:
+    {
+      pkgs,
+      pkgs-stable,
+      lib,
+      ...
+    }:
     let
       allowedPackages = [
         "com.android.vending" # Google Play Store

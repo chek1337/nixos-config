@@ -7,6 +7,7 @@
       programs.firefox = {
         enable = true;
         package = pkgs-stable.firefox;
+        configPath = "${config.xdg.configHome}/mozilla/firefox";
         policies = config.firefoxCommon.policies;
         profiles.default = {
           name = "default";

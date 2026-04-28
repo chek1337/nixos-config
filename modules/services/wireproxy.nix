@@ -1,7 +1,12 @@
 { inputs, ... }:
 {
   flake.modules.nixos.wireproxy =
-    { config, pkgs, pkgs-stable, ... }:
+    {
+      config,
+      pkgs,
+      pkgs-stable,
+      ...
+    }:
     let
       wgName = config.settings.wireguardConfigName;
     in

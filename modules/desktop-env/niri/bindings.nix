@@ -115,7 +115,7 @@
             Mod+V       { toggle-window-floating; }
             Mod+Alt+V { switch-focus-between-floating-and-tiling; }
             Mod+W       { toggle-column-tabbed-display; }
-            Mod+N { spawn "noctalia-shell" "ipc" "call" "notifications" "invokeDefaultAndDismiss"; }
+            Mod+N { spawn "noctalia-shell" "ipc" "call" "notifications" "invokeDefaultAndDismiss" "0"; }
 
             Print      { spawn-sh "grim -t ppm - | satty --filename - --copy-command=wl-copy --initial-tool=crop --output-filename=\"~/Pictures/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png\" --actions-on-escape=\"save-to-clipboard,exit\""; }
             Ctrl+Print { spawn-sh "set -e; wayfreeze & PID=$!; sleep 0.1; grim -t ppm -g \"$(slurp -o -d)\" - | wl-copy; kill $PID"; }

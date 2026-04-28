@@ -1,1 +1,1 @@
-revert(gaming): switch back to nixpkgs-unstable; fix lutris openldap i686
+feat: change some packages to not stable

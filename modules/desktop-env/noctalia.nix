@@ -3,7 +3,6 @@
   flake.modules.homeManager.noctalia =
     {
       pkgs,
-      pkgs-stable,
       lib,
       config,
       ...
@@ -19,7 +18,7 @@
       isLaptop = config.settings.isLaptop;
       hasBluetooth = config.settings.hasBluetooth;
       wgName = config.settings.wireguardConfigName;
-      voponoExec = "${pkgs-stable.vopono}/bin/vopono exec --protocol wireguard --custom /run/secrets/${wgName}";
+      voponoExec = "${pkgs.vopono}/bin/vopono exec --protocol wireguard --custom /run/secrets/${wgName}";
     in
     {
       imports = [ inputs.noctalia.homeModules.default ];
@@ -34,10 +33,10 @@
       };
 
       home.packages = [
-        pkgs-stable.qt6Packages.qt6ct
-        pkgs-stable.nwg-look
+        pkgs.qt6Packages.qt6ct
+        pkgs.nwg-look
         pkgs.awww
-        pkgs-stable.evtest
+        pkgs.evtest
       ];
 
       programs.noctalia-shell = {
@@ -75,12 +74,12 @@
           commands = [
             {
               name = "qutebrowser (VPN)";
-              command = "${voponoExec} ${pkgs-stable.qutebrowser}/bin/qutebrowser";
+              command = "${voponoExec} ${pkgs.qutebrowser}/bin/qutebrowser";
               icon = "world-www";
             }
             {
               name = "Telegram (VPN)";
-              command = "${voponoExec} ${pkgs-stable.ayugram-desktop}/bin/AyuGram";
+              command = "${voponoExec} ${pkgs.ayugram-desktop}/bin/AyuGram";
               icon = "brand-telegram";
             }
             {

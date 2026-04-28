@@ -48,10 +48,10 @@
           done
 
           if $show; then
-            ${pkgs-stable.desktop-file-utils}/bin/desktop-file-edit \
+            ${pkgs.desktop-file-utils}/bin/desktop-file-edit \
               --set-key=NoDisplay --set-value=false "$f"
           else
-            ${pkgs-stable.desktop-file-utils}/bin/desktop-file-edit \
+            ${pkgs.desktop-file-utils}/bin/desktop-file-edit \
               --set-key=NoDisplay --set-value=true "$f"
           fi
         done

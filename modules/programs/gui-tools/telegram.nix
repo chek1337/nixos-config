@@ -4,7 +4,6 @@
     {
       config,
       pkgs,
-      pkgs-stable,
       lib,
       ...
     }:
@@ -305,7 +304,7 @@
       '';
       walogram = pkgs.writeShellApplication {
         name = "walogram";
-        runtimeInputs = with pkgs-stable; [
+        runtimeInputs = with pkgs; [
           file
           zip
           imagemagick
@@ -395,7 +394,7 @@
       };
     in
     {
-      home.packages = [ pkgs-stable.ayugram-desktop ];
+      home.packages = [ pkgs.ayugram-desktop ];
 
       home.activation.tg-theme = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
         run ${lib.getExe walogram}

@@ -1,8 +1,8 @@
 {
   flake.modules.nixos.zoom =
-    { pkgs-stable, ... }:
+    { pkgs, ... }:
     {
-      environment.systemPackages = [ pkgs-stable.zoom-us ];
+      environment.systemPackages = [ pkgs.zoom-us ];
     };
 
   flake.modules.homeManager.zoom =

@@ -130,5 +130,9 @@
       url = "github:chek1337/tmux-floax/feat/per-session-popup";
       flake = false;
     };
+    ghgrab = {
+      url = "github:abhixdd/ghgrab";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 }

@@ -1,7 +1,34 @@
+{ inputs, ... }:
 {
   flake.modules.homeManager.gh =
-    { pkgs, lib, ... }:
     {
+      pkgs,
+      lib,
+      config,
+      ...
+    }:
+    {
+      home.packages = [
+        inputs.ghgrab.packages.${pkgs.stdenv.hostPlatform.system}.default
+      ];
+
+      xdg.configFile."ghgrab/theme.toml".text =
+        let
+          c = config.lib.stylix.colors.withHashtag;
+        in
+        ''
+          bg_color       = "${c.base00}"
+          fg_color       = "${c.base05}"
+          accent_color   = "${c.base0D}"
+          warning_color  = "${c.base0A}"
+          error_color    = "${c.base08}"
+          success_color  = "${c.base0B}"
+          folder_color   = "${c.base0C}"
+          selected_color = "${c.base09}"
+          border_color   = "${c.base03}"
+          highlight_bg   = "${c.base01}"
+        '';
+
       programs.gh = {
         enable = true;
         settings = {

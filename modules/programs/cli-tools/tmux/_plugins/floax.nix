@@ -30,5 +30,8 @@ in
     # floax (русская раскладка)
     bind з run-shell "${floaxDir}/floax.sh"
     bind З run-shell "${floaxDir}/menu.sh"
+    # floax (русская раскладка поменял положение p на split клавиатуре)
+    bind ж run-shell "${floaxDir}/floax.sh"
+    bind Ж run-shell "${floaxDir}/menu.sh"
   '';
 }

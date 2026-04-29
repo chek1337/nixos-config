@@ -48,7 +48,6 @@
         bind Ч confirm-before -p "kill-window #W? (y/n)" kill-window
         bind Х swap-pane -U
         bind Ъ swap-pane -D
-        bind ж last-pane
 
         # Буфер / copy mode (русская раскладка)
         bind б copy-mode

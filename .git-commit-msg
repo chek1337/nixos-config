@@ -1,1 +1,1 @@
-fix(nvf): make z4h word deletion work under noice cmdline and snacks picker
+feat(tmux): bind floax to ж/Ж and free up last-pane slot

@@ -1,1 +1,1 @@
-feat(nvf): swap s and S textobjects for subword vs sentence
+feat(nvf): add z4h-style word deletion in insert and cmdline mode

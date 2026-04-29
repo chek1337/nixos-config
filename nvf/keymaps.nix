@@ -117,13 +117,6 @@
       silent = true;
     }
 
-    {
-      key = "<C-Del>";
-      mode = "i";
-      action = "<C-o>dw";
-      desc = "Delete word forward";
-    }
-
     # Quickfix list
     {
       key = "<leader>xq";

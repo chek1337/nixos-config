@@ -64,7 +64,8 @@ All default keymaps enabled. Only `n` (nearEoL) is disabled — conflicts with v
 | `ii/ai/aI` | indentation            | Surrounding lines with same or higher indentation|
 | `R`        | restOfIndentation      | Lines downwards with same or higher indentation  |
 | `ig/ag`    | greedyOuterIndentation | Outer indentation expanded to blank lines        |
-| `iS/aS`    | subword                | camelCase / snake_case / kebab-case segment      |
+| `is/as`    | subword                | camelCase / snake_case / kebab-case segment      |
+| `iS/aS`    | sentence               | vim sentence (свопнут с subword)                 |
 | `C`        | toNextClosingBracket   | From cursor to next `]`, `)`, or `}`            |
 | `io/ao`    | anyBracket             | Any `()`, `[]`, or `{}` on one line              |
 | `iq/aq`    | anyQuote               | Any `"`, `'`, or `` ` `` on one line            |

@@ -18,6 +18,7 @@
       forwarded_dds_events = [
         "yazi-nvim-grep-cwd"
         "yazi-nvim-grep-selected"
+        "yazi-nvim-files-cwd"
       ];
       integrations = {
         grep_in_directory = "snacks.picker";
@@ -64,6 +65,17 @@
               require("snacks.picker").grep({
                 title = string.format("Grep in %d paths", #files),
                 dirs = files,
+                on_show = start_insert,
+              })
+            end, 50)
+          elseif event.data.type == "yazi-nvim-files-cwd" then
+            local data = vim.json.decode(event.data.raw_data or "{}")
+            local cwd = data.cwd or vim.uv.cwd()
+            close_yazi_buffers()
+            vim.defer_fn(function()
+              require("snacks.picker").files({
+                title = "Find files in " .. vim.fn.fnamemodify(cwd, ":~:."),
+                cwd = cwd,
                 on_show = start_insert,
               })
             end, 50)

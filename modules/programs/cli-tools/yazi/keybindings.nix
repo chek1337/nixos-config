@@ -54,7 +54,7 @@
             "f"
             "f"
           ];
-          run = "plugin television -- files";
+          run = "plugin tv-files-router";
           desc = "Find: files";
         }
         {

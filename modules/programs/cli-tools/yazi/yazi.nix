@@ -6,6 +6,7 @@ let
     "yazi-plugins"
     "yazi-tv-sel"
     "yazi-tv-grep-router"
+    "yazi-tv-files-router"
     "yazi-previewers"
     "yazi-keybindings"
   ];

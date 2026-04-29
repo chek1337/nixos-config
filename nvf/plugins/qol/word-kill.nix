@@ -75,17 +75,39 @@
         function M.kill_word() buf_apply(compute_forward) end
         function M.backward_kill_zword() buf_apply(compute_back_zword) end
 
-        -- Cmdline-mode обёртки
-        local function cmd_apply(fn)
+        -- Cmdline-mode обёртки.
+        --
+        -- setcmdline() из lua-callback'а не пробрасывает свежий
+        -- `cmdline_show` UI-event, пока коллбэк не отработает, поэтому
+        -- ext_cmdline UI вроде noice показывает изменения только после
+        -- следующей клавиши. Вместо setcmdline считаем, сколько символов
+        -- удалить, и шлём ровно столько нативных <BS>/<Del> через
+        -- feedkeys — они идут штатным cmdline-путём и UI обновляется
+        -- сразу.
+        local BS = vim.api.nvim_replace_termcodes('<BS>', true, false, true)
+        local DEL = vim.api.nvim_replace_termcodes('<Del>', true, false, true)
+
+        local function cmd_kill_back(fn)
           local line = vim.fn.getcmdline()
           local left = vim.fn.getcmdpos() - 1
-          local new_line, new_left = fn(line, left)
-          vim.fn.setcmdline(new_line, new_left + 1)
+          local _, new_left = fn(line, left)
+          if new_left >= left then return end
+          local nchars = vim.fn.strchars(line:sub(new_left + 1, left))
+          vim.api.nvim_feedkeys(string.rep(BS, nchars), 'n', false)
         end
 
-        function M.cmd_backward_kill_word() cmd_apply(compute_back) end
-        function M.cmd_kill_word() cmd_apply(compute_forward) end
-        function M.cmd_backward_kill_zword() cmd_apply(compute_back_zword) end
+        local function cmd_kill_forward(fn)
+          local line = vim.fn.getcmdline()
+          local left = vim.fn.getcmdpos() - 1
+          local new_line, _ = fn(line, left)
+          if #new_line >= #line then return end
+          local nchars = vim.fn.strchars(line:sub(left + 1, left + (#line - #new_line)))
+          vim.api.nvim_feedkeys(string.rep(DEL, nchars), 'n', false)
+        end
+
+        function M.cmd_backward_kill_word() cmd_kill_back(compute_back) end
+        function M.cmd_kill_word() cmd_kill_forward(compute_forward) end
+        function M.cmd_backward_kill_zword() cmd_kill_back(compute_back_zword) end
 
         _G.zsh_word_kill = M
       '';

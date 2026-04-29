@@ -1,1 +1,1 @@
-feat(nvf): add z4h-style word deletion in insert and cmdline mode
+fix(nvf): make z4h word deletion work under noice cmdline and snacks picker

@@ -44,6 +44,21 @@ in
           { win = "preview", title = "{preview}", height = 0.7, border = true },
         }
       '';
+      # Перекрываем дефолтные snacks-биндинги в input-окне picker'а
+      # на наши z4h-стиль функции (см. nvf/plugins/qol/word-kill.nix).
+      # Picker input — обычный insert-buffer, поэтому используем
+      # buffer-варианты (а не cmd_*).
+      win.input.keys = {
+        "<C-w>" = mkLuaInline ''
+          { function() _G.zsh_word_kill.backward_kill_word() end, mode = { "i" }, desc = "z4h backward-kill-word" }
+        '';
+        "<C-Del>" = mkLuaInline ''
+          { function() _G.zsh_word_kill.kill_word() end, mode = { "i" }, desc = "z4h kill-word forward" }
+        '';
+        "<M-BS>" = mkLuaInline ''
+          { function() _G.zsh_word_kill.backward_kill_zword() end, mode = { "i" }, desc = "z4h backward-kill-zword" }
+        '';
+      };
     };
   };
 

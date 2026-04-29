@@ -1,1 +1,1 @@
-feat(tmux): bind floax to ж/Ж and free up last-pane slot
+feat(tmux): keep terminal alive after sesh launcher exits

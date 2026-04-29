@@ -6,13 +6,17 @@
         url = "https://raw.githubusercontent.com/joshmedeski/sesh/main/sesh-icon.png";
         hash = "sha256-8o8p91OUzYTBx75qAfAS6UDiqKXsQwJ2Fm59eLaRECE=";
       };
+      seshLauncher = pkgs.writeShellScript "sesh-launcher" ''
+        exec ${pkgs.kitty}/bin/kitty \
+          ${pkgs.zsh}/bin/zsh -i -c '${pkgs.television}/bin/tv sesh; exec ${pkgs.zsh}/bin/zsh -i'
+      '';
     in
     {
       xdg.desktopEntries.sesh = {
         name = "Sesh";
         genericName = "Tmux session picker";
         comment = "Pick a tmux session via television";
-        exec = "${pkgs.kitty}/bin/kitty ${pkgs.television}/bin/tv sesh";
+        exec = "${seshLauncher}";
         icon = "${seshIcon}";
         terminal = false;
         categories = [

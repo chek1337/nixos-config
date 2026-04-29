@@ -70,7 +70,10 @@
               description = "Search file contents (no filename matching)";
             };
             source = {
-              command = "rg . --no-heading --line-number --color=never";
+              command = [
+                "rg . --no-heading --line-number --color=never"
+                "rg . --no-heading --line-number --hidden --color=never"
+              ];
               display = "{split:\\::2..}";
               output = "{}";
             };

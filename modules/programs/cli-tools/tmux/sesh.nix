@@ -1,7 +1,26 @@
 {
   flake.modules.homeManager.tmux-sesh =
     { pkgs, ... }:
+    let
+      seshIcon = pkgs.fetchurl {
+        url = "https://raw.githubusercontent.com/joshmedeski/sesh/main/sesh-icon.png";
+        hash = "sha256-8o8p91OUzYTBx75qAfAS6UDiqKXsQwJ2Fm59eLaRECE=";
+      };
+    in
     {
+      xdg.desktopEntries.sesh = {
+        name = "Sesh";
+        genericName = "Tmux session picker";
+        comment = "Pick a tmux session via television";
+        exec = "${pkgs.kitty}/bin/kitty ${pkgs.television}/bin/tv sesh";
+        icon = "${seshIcon}";
+        terminal = false;
+        categories = [
+          "System"
+          "TerminalEmulator"
+        ];
+      };
+
       programs.tmux.extraConfig = ''
         # Sesh session manager (via television)
         bind s display-popup -E -w 80% -h 80% -d '#{pane_current_path}' -T 'Sesh' -b rounded 'tv sesh'

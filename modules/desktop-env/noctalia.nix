@@ -75,7 +75,7 @@
             {
               name = "qutebrowser (VPN)";
               command = "${voponoExec} ${pkgs.qutebrowser}/bin/qutebrowser";
-              icon = "world-www";
+              icon = "circle-letter-q";
             }
             {
               name = "Telegram (VPN)";
@@ -206,6 +206,11 @@
             enableClipboardHistory = true;
             autoPasteClipboard = true;
             screenshotAnnotationTool = "satty";
+            pinnedApps = [
+              "org.gnome.Nautilus"
+              "yazi"
+              "sesh"
+            ];
           };
         };
       };

@@ -65,5 +65,16 @@
         })
       '';
 
+    luaConfigRC.qf-unlisted = # lua
+      ''
+        vim.api.nvim_create_autocmd("FileType", {
+          group = vim.api.nvim_create_augroup("qf_unlisted", { clear = true }),
+          pattern = "qf",
+          callback = function(args)
+            vim.bo[args.buf].buflisted = false
+          end,
+        })
+      '';
+
   };
 }

@@ -16,7 +16,16 @@
     {
       key = "<leader>bo";
       mode = [ "n" ];
-      action = "function() require('snacks').bufdelete.other() end";
+      action = ''
+        function()
+          require('snacks').bufdelete({
+            filter = function(b)
+              return b ~= vim.api.nvim_get_current_buf()
+                and vim.bo[b].filetype ~= "qf"
+            end,
+          })
+        end
+      '';
       lua = true;
       desc = "Delete Other Buffers";
     }

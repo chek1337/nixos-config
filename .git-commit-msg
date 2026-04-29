@@ -1,1 +1,1 @@
-feat(tv): cycle text channel between visible-only and hidden rg sources
+fix(nvf): keep quickfix window from closing on leader-bo

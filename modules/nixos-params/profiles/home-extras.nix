@@ -2,18 +2,19 @@
 let
   inherit (config.flake.lib) nixosMod hmMod;
   modules = [
-    "workstation"
-    "gaming"
-    "waydroid"
-    "home-extras"
+    "kdenlive"
+    "obs"
+    "image-editors"
+    "discord"
+    "qbittorrent"
   ];
 in
 {
-  flake.modules.nixos.homestation = {
+  flake.modules.nixos.home-extras = {
     imports = map nixosMod modules;
   };
 
-  flake.modules.homeManager.homestation = {
+  flake.modules.homeManager.home-extras = {
     imports = map hmMod modules;
   };
 }

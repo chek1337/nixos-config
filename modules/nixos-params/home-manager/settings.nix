@@ -45,6 +45,16 @@
           description = "Whether this is a laptop (portable) host";
         };
 
+        isWorkstation = lib.mkOption {
+          type = lib.types.bool;
+          default = false;
+          description = ''
+            Whether this host is a development workstation.
+            Aggregators use this to exclude home-only software (kdenlive, obs,
+            image-editors, discord, qbittorrent, gaming, waydroid).
+          '';
+        };
+
         hasBluetooth = lib.mkOption {
           type = lib.types.bool;
           default = false;

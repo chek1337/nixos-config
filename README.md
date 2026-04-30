@@ -11,7 +11,7 @@ My personal NixOS configuration using the **dendritic** modular pattern with [fl
 ## Features
 
 - **Modular architecture** — self-registering modules organized by category with aggregate profiles
-- **Multi-host** — single flake for desktop, laptop (ASUS TUF A15), and WSL
+- **Multi-host** — single flake for desktop (home + workstation), laptop (ASUS TUF A15), and WSL
 - **Wayland-native** — Niri compositor with Noctalia shell
 - **Themes** (Nord, Catppuccin Mocha, Gruvbox Dark Hard) via [Stylix](https://github.com/danth/stylix)
 - **Secrets management** with [sops-nix](https://github.com/Mic92/sops-nix)
@@ -30,11 +30,12 @@ My personal NixOS configuration using the **dendritic** modular pattern with [fl
 │   │   └── profiles/         # Aggregate profiles (base, desktop, workstation, etc.)
 │   ├── hosts/
 │   │   ├── desktop-home/     # Desktop with Niri WM
+│   │   ├── desktop-work/     # Workstation flavor (no gaming/media-production/waydroid)
 │   │   ├── laptop-asus/      # ASUS TUF A15 laptop (Niri WM + nixos-hardware)
 │   │   └── wsl-asuslaptop/   # WSL environment
 │   ├── programs/
 │   │   ├── cli-tools/        # bat, btop, eza, git, nvim, tmux, yazi, zellij, cmus...
-│   │   ├── gui-tools/        # discord, telegram, spicetify, wireshark, mpv, zathura...
+│   │   ├── gui-tools/        # telegram, spicetify, libreoffice, mpv, zathura, imv, nautilus...
 │   │   │   ├── gui-browsers/ # firefox, zen, librewolf, qutebrowser, yandex-browser
 │   │   │   └── gui-code-editors/ # vscode, sublime
 │   │   ├── gaming/           # steam, wine, bottles, lutris, mangohud
@@ -67,13 +68,15 @@ Profiles aggregate related modules to simplify host configs:
 | `desktop` | base, gui-tools, desktop-base, niri, noctalia, wireshark |
 | `dev-tools` | claude-code, direnv, python-dev |
 | `workstation` | virtualization, mail, pttkey, usb-automount, zmkbatx |
-| `homestation` | workstation, gaming |
+| `home-extras` | kdenlive, obs, image-editors, discord, qbittorrent |
+| `homestation` | workstation, gaming, waydroid, home-extras |
 
 ## Hosts
 
 | Host | Type | WM | Shell | Profiles & Modules |
 |------|------|----|-------|--------------------|
 | `desktop-home` | NixOS desktop | Niri | Zsh | desktop, homestation, networking |
+| `desktop-work` | NixOS workstation | Niri | Zsh | desktop, workstation, networking |
 | `laptop-asus` | NixOS laptop (ASUS TUF A15) | Niri | Zsh | desktop, homestation, networking, asus-laptop-hardware |
 | `wsl-asuslaptop` | WSL | — | Zsh | base, wsl-nvidia, sops, vopono |
 

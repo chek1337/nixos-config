@@ -1,4 +1,4 @@
-{ config, ... }:
+{ config, inputs, ... }:
 let
   flakeConfig = config;
   hostname = "desktop-work";
@@ -9,9 +9,9 @@ let
     "networking"
   ];
   sharedSettings = {
-    isWorkstation = true;
+    isLaptop = true;
     hasBluetooth = true;
-    wireguardConfigName = "wireguard-desktop-work";
+    wireguardConfigName = "wireguard-laptop-asus";
     colorScheme = "catppuccin-mocha";
   };
 in
@@ -24,6 +24,7 @@ in
 
     modules.nixos."hosts/${hostname}" = {
       imports = (flakeConfig.flake.lib.loadNixosModules modules) ++ [
+        inputs.nixos-hardware.nixosModules.asus-fa507nv
         ./_hardware-configuration.nix
       ];
 
@@ -34,8 +35,20 @@ in
 
       settings = sharedSettings;
 
-      # services.niri.outputs.* — fill in after install on real hardware.
-      # services.pttkey.bindings — fill in for the target machine's input devices.
+      services.niri.outputs.eDP-1 = {
+        mode = "1920x1080@144.063";
+        variableRefreshRate = "on-demand";
+      };
+      services.pttkey.bindings = {
+        mouse = {
+          keys = [ "BTN_EXTRA" ];
+          devicePath = "/dev/input/event1";
+        };
+        kbd = {
+          keys = [ "KEY_F13" ];
+        };
+      };
     };
   };
 }
+

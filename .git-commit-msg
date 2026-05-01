@@ -1,1 +1,1 @@
-refactor(nvf): wire grayscale-{dark,light} to ilyasyoy-monochrome
+docs(themes): document supported colorScheme themes and their layers

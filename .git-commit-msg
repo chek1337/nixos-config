@@ -1,1 +1,1 @@
-refactor(zapret): move module from programs/cli-tools to services
+chore(networking): disable wireproxy module wiring

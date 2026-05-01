@@ -3,7 +3,7 @@ let
   inherit (config.flake.lib) nixosMod hmMod;
   modules = [
     "wireguard"
-    "wireproxy"
+    # "wireproxy"
     "zapret"
     "vopono"
     "throne"

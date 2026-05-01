@@ -1,1 +1,1 @@
-wip(vlpn): mark non-working, refine DNS routing & sudo wrapper
+refactor(v2rayn): switch from pkgs-stable to pkgs

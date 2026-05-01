@@ -17,6 +17,7 @@
     {
       xdg.dataFile = {
         "v2rayN/bin/xray/xray".source = "${pkgs-stable.xray}/bin/xray";
+        "v2rayN/bin/sing_box/sing-box".source = "${pkgs-stable.sing-box}/bin/sing-box";
         "v2rayN/bin/geoip.dat".source = "${pkgs-stable.v2ray-geoip}/share/v2ray/geoip.dat";
         "v2rayN/bin/geosite.dat".source =
           "${pkgs-stable.v2ray-domain-list-community}/share/v2ray/geosite.dat";

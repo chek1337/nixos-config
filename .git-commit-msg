@@ -1,1 +1,1 @@
-refactor(tmux): consolidate nixos-config tmuxinator session to single 70/30 window
+feat(themes): switch monospace font to FiraCode Nerd Font

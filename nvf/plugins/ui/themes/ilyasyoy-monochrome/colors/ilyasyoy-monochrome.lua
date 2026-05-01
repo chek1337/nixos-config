@@ -216,6 +216,11 @@ hi("TabLineFill", { guifg = palette.muted, guibg = palette.bg })
 hi("TabLineSel", { guibg = palette.elevated, gui = "bold,reverse" })
 
 hi("NormalFloat", { guifg = palette.fg, guibg = palette.elevated })
+hi("FloatBorder", { guifg = palette.muted, guibg = palette.elevated })
+hi("FloatTitle", { guifg = palette.fg, guibg = palette.elevated, gui = "bold" })
+hi("FloatFooter", { guifg = palette.muted, guibg = palette.elevated })
+hi("FloatShadow", { guibg = palette.bg })
+hi("FloatShadowThrough", { guibg = palette.bg })
 
 hi("Pmenu", { guifg = palette.fg, guibg = palette.elevated })
 hi("PmenuSel", { guifg = palette.bg, guibg = palette.fg })
@@ -387,3 +392,210 @@ hi("FzfLuaFzfCursorLine", { guifg = palette.fg, guibg = palette.subtle })
 hi("FzfLuaFzfMatch", { guifg = palette.search, gui = "bold" })
 hi("FzfLuaFzfBorder", { guifg = palette.muted, guibg = palette.bg })
 hi("FzfLuaFzfScrollbar", { guifg = palette.muted, guibg = palette.bg })
+
+-- =============================================================================
+-- SNACKS.NVIM
+-- =============================================================================
+-- Win / floats
+hi("SnacksNormal", { guifg = palette.fg, guibg = palette.elevated })
+hi("SnacksNormalNC", { guifg = palette.muted, guibg = palette.elevated })
+hi("SnacksWinBar", { guifg = palette.fg, guibg = palette.elevated, gui = "bold" })
+hi("SnacksWinBarNC", { guifg = palette.muted, guibg = palette.elevated })
+hi("SnacksBackdrop", { guibg = palette.bg })
+hi("SnacksFooter", { guifg = palette.muted, guibg = palette.elevated })
+hi("SnacksFooterDesc", { guifg = palette.muted })
+hi("SnacksFooterKey", { guifg = palette.fg })
+hi("SnacksWinKey", { guifg = palette.fg, gui = "bold" })
+hi("SnacksWinKeySep", { guifg = palette.muted })
+hi("SnacksWinKeyDesc", { guifg = palette.fg })
+
+-- Picker
+hi("SnacksPicker", { guifg = palette.fg, guibg = palette.elevated })
+hi("SnacksPickerBorder", { guifg = palette.muted, guibg = palette.elevated })
+hi("SnacksPickerInput", { guifg = palette.fg, guibg = palette.elevated })
+hi("SnacksPickerInputBorder", { guifg = palette.muted, guibg = palette.elevated })
+hi("SnacksPickerInputSearch", { guifg = palette.search, guibg = palette.elevated })
+hi("SnacksPickerList", { guifg = palette.fg, guibg = palette.elevated })
+hi("SnacksPickerListCursorLine", { guibg = palette.subtle })
+hi("SnacksPickerPreview", { guifg = palette.fg, guibg = palette.elevated })
+hi("SnacksPickerPrompt", { guifg = palette.search, gui = "bold" })
+hi(
+    "SnacksPickerTitle",
+    { guifg = palette.bg, guibg = palette.fg, gui = "bold" }
+)
+hi(
+    "SnacksPickerPreviewTitle",
+    { guifg = palette.bg, guibg = palette.fg, gui = "bold" }
+)
+hi(
+    "SnacksPickerInputTitle",
+    { guifg = palette.bg, guibg = palette.fg, gui = "bold" }
+)
+hi(
+    "SnacksPickerListTitle",
+    { guifg = palette.bg, guibg = palette.fg, gui = "bold" }
+)
+hi("SnacksPickerBoxTitle", { guifg = palette.fg, gui = "bold" })
+
+hi("SnacksPickerMatch", { guifg = palette.search, gui = "bold" })
+hi(
+    "SnacksPickerSelected",
+    { guifg = palette.fg, guibg = palette.subtle, gui = "bold" }
+)
+hi("SnacksPickerUnselected", { guifg = palette.muted })
+
+hi("SnacksPickerDir", { guifg = palette.muted })
+hi("SnacksPickerDirectory", { guifg = palette.fg })
+hi("SnacksPickerFile", { guifg = palette.fg })
+hi("SnacksPickerPathHidden", { guifg = palette.muted })
+hi("SnacksPickerPathIgnored", { guifg = palette.muted })
+
+hi("SnacksPickerComment", { guifg = palette.muted })
+hi("SnacksPickerDesc", { guifg = palette.muted })
+hi("SnacksPickerDelim", { guifg = palette.muted })
+hi("SnacksPickerDimmed", { guifg = palette.muted })
+hi("SnacksPickerSpecial", { guifg = palette.fg })
+hi("SnacksPickerLabel", { guifg = palette.fg })
+hi("SnacksPickerLink", { guifg = palette.muted })
+hi("SnacksPickerLinkBroken", { guifg = palette.error })
+hi("SnacksPickerRow", { guifg = palette.muted, gui = "italic" })
+hi("SnacksPickerCol", { guifg = palette.muted })
+hi("SnacksPickerIdx", { guifg = palette.muted })
+hi("SnacksPickerSpinner", { guifg = palette.search })
+hi("SnacksPickerTotals", { guifg = palette.muted })
+hi("SnacksPickerTree", { guifg = palette.muted })
+hi("SnacksPickerToggle", { guifg = palette.fg })
+hi("SnacksPickerCmd", { guifg = palette.fg, gui = "bold" })
+hi("SnacksPickerCode", { guifg = palette.fg })
+hi("SnacksPickerRule", { guifg = palette.muted })
+hi("SnacksPickerKeymapLhs", { guifg = palette.fg, gui = "bold" })
+hi("SnacksPickerKeymapRhs", { guifg = palette.muted })
+hi("SnacksPickerKeymapMode", { guifg = palette.muted })
+hi("SnacksPickerKeymapNowait", { guifg = palette.muted })
+hi("SnacksPickerBufNr", { guifg = palette.muted })
+hi("SnacksPickerBufFlags", { guifg = palette.muted })
+hi("SnacksPickerBufType", { guifg = palette.muted })
+hi("SnacksPickerFileType", { guifg = palette.muted })
+hi("SnacksPickerTime", { guifg = palette.muted })
+hi("SnacksPickerRegister", { guifg = palette.fg })
+hi("SnacksPickerSearch", { guifg = palette.search })
+
+-- Picker icons
+hi("SnacksPickerIcon", { guifg = palette.fg })
+hi("SnacksPickerIconSource", { guifg = palette.muted })
+hi("SnacksPickerIconName", { guifg = palette.fg })
+hi("SnacksPickerIconCategory", { guifg = palette.muted })
+hi("SnacksPickerIconFile", { guifg = palette.fg })
+
+-- Picker git
+hi("SnacksPickerGit", { guifg = palette.fg })
+hi("SnacksPickerGitBranch", { guifg = palette.fg, gui = "bold" })
+hi("SnacksPickerGitBranchCurrent", { guifg = palette.fg, gui = "bold" })
+hi("SnacksPickerGitCommit", { guifg = palette.muted })
+hi("SnacksPickerGitDate", { guifg = palette.muted })
+hi("SnacksPickerGitAuthor", { guifg = palette.fg })
+hi("SnacksPickerGitMsg", { guifg = palette.fg })
+hi("SnacksPickerGitDetached", { guifg = palette.muted })
+hi("SnacksPickerGitBreaking", { guifg = palette.error, gui = "bold" })
+hi("SnacksPickerGitIssue", { guifg = palette.muted })
+hi("SnacksPickerGitType", { guifg = palette.fg, gui = "bold" })
+hi("SnacksPickerGitScope", { guifg = palette.muted, gui = "italic" })
+hi("SnacksPickerGitStatus", { guifg = palette.fg })
+hi("SnacksPickerGitStatusAdded", { guifg = palette.add })
+hi("SnacksPickerGitStatusModified", { guifg = palette.muted })
+hi("SnacksPickerGitStatusDeleted", { guifg = palette.remove })
+hi("SnacksPickerGitStatusRenamed", { guifg = palette.muted })
+hi("SnacksPickerGitStatusCopied", { guifg = palette.muted })
+hi("SnacksPickerGitStatusUntracked", { guifg = palette.muted })
+hi("SnacksPickerGitStatusUnmerged", { guifg = palette.error })
+hi("SnacksPickerGitStatusStaged", { guifg = palette.fg })
+
+-- Picker LSP
+hi("SnacksPickerLspDisabled", { guifg = palette.muted })
+hi("SnacksPickerLspEnabled", { guifg = palette.fg })
+hi("SnacksPickerLspAttached", { guifg = palette.fg })
+hi("SnacksPickerLspAttachedBuf", { guifg = palette.search })
+hi("SnacksPickerLspUnavailable", { guifg = palette.error })
+
+-- Dashboard
+hi("SnacksDashboardNormal", { guifg = palette.fg, guibg = palette.bg })
+hi("SnacksDashboardDesc", { guifg = palette.muted })
+hi("SnacksDashboardFile", { guifg = palette.fg })
+hi("SnacksDashboardDir", { guifg = palette.muted })
+hi("SnacksDashboardFooter", { guifg = palette.muted, gui = "italic" })
+hi("SnacksDashboardHeader", { guifg = palette.fg, gui = "bold" })
+hi("SnacksDashboardIcon", { guifg = palette.fg, gui = "bold" })
+hi("SnacksDashboardKey", { guifg = palette.search, gui = "bold" })
+hi("SnacksDashboardSpecial", { guifg = palette.fg })
+hi("SnacksDashboardTitle", { guifg = palette.fg, gui = "bold" })
+hi("SnacksDashboardTerminal", { guifg = palette.fg, guibg = palette.bg })
+
+-- Notifier
+hi("SnacksNotifierMinimal", { guifg = palette.fg, guibg = palette.elevated })
+hi("SnacksNotifierHistory", { guifg = palette.fg, guibg = palette.elevated })
+hi("SnacksNotifierHistoryTitle", { guifg = palette.fg, gui = "bold" })
+hi("SnacksNotifierHistoryDateTime", { guifg = palette.muted })
+
+hi("SnacksNotifierInfo", { guifg = palette.fg, guibg = palette.elevated })
+hi("SnacksNotifierIconInfo", { guifg = palette.search })
+hi(
+    "SnacksNotifierTitleInfo",
+    { guifg = palette.search, gui = "bold,italic" }
+)
+hi("SnacksNotifierBorderInfo", { guifg = palette.search, guibg = palette.elevated })
+hi("SnacksNotifierFooterInfo", { guifg = palette.muted })
+
+hi("SnacksNotifierWarn", { guifg = palette.fg, guibg = palette.elevated })
+hi("SnacksNotifierIconWarn", { guifg = palette.visual })
+hi(
+    "SnacksNotifierTitleWarn",
+    { guifg = palette.visual, gui = "bold,italic" }
+)
+hi("SnacksNotifierBorderWarn", { guifg = palette.visual, guibg = palette.elevated })
+hi("SnacksNotifierFooterWarn", { guifg = palette.muted })
+
+hi("SnacksNotifierDebug", { guifg = palette.fg, guibg = palette.elevated })
+hi("SnacksNotifierIconDebug", { guifg = palette.muted })
+hi(
+    "SnacksNotifierTitleDebug",
+    { guifg = palette.muted, gui = "bold,italic" }
+)
+hi("SnacksNotifierBorderDebug", { guifg = palette.muted, guibg = palette.elevated })
+hi("SnacksNotifierFooterDebug", { guifg = palette.muted })
+
+hi("SnacksNotifierError", { guifg = palette.fg, guibg = palette.elevated })
+hi("SnacksNotifierIconError", { guifg = palette.error })
+hi(
+    "SnacksNotifierTitleError",
+    { guifg = palette.error, gui = "bold,italic" }
+)
+hi("SnacksNotifierBorderError", { guifg = palette.error, guibg = palette.elevated })
+hi("SnacksNotifierFooterError", { guifg = palette.error })
+
+hi("SnacksNotifierTrace", { guifg = palette.fg, guibg = palette.elevated })
+hi("SnacksNotifierIconTrace", { guifg = palette.muted })
+hi(
+    "SnacksNotifierTitleTrace",
+    { guifg = palette.muted, gui = "bold,italic" }
+)
+hi("SnacksNotifierBorderTrace", { guifg = palette.muted, guibg = palette.elevated })
+hi("SnacksNotifierFooterTrace", { guifg = palette.muted })
+
+-- Indent
+hi("SnacksIndent", { guifg = palette.noise })
+hi("SnacksIndentBlank", { guifg = palette.noise })
+hi("SnacksIndentScope", { guifg = palette.muted })
+hi("SnacksIndentChunk", { guifg = palette.muted })
+
+-- Input
+hi("SnacksInput", { guifg = palette.fg, guibg = palette.elevated })
+hi("SnacksInputIcon", { guifg = palette.search })
+hi("SnacksInputTitle", { guifg = palette.bg, guibg = palette.fg, gui = "bold" })
+
+-- Scratch / Zen / StatusColumn
+hi("SnacksScratch", { guifg = palette.fg, guibg = palette.elevated })
+hi("SnacksScratchTitle", { guifg = palette.bg, guibg = palette.fg, gui = "bold" })
+hi("SnacksZen", { guifg = palette.fg, guibg = palette.bg })
+hi("SnacksStatusColumn", { guifg = palette.muted })
+hi("SnacksStatusColumnMark", { guifg = palette.search })
+hi("SnacksDim", { guifg = palette.muted })

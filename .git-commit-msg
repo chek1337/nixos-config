@@ -1,1 +1,1 @@
-feat(themes): add grayscale-dark/light schemes and switch laptop-asus to grayscale-light
+refactor(nvf): split themes into per-folder modules and add ilyasyoy-monochrome

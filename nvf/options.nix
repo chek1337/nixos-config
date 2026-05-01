@@ -1,4 +1,4 @@
-{ ... }:
+{ lib, ... }:
 {
   vim = {
     viAlias = true;
@@ -16,6 +16,7 @@
       signcolumn = "yes";
       confirm = true;
       undolevels = 10000;
+      spell = lib.mkForce false;
     };
 
     searchCase = "smart";

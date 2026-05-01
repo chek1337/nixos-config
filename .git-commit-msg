@@ -1,1 +1,1 @@
-feat(themes): style snacks.nvim in ilyasyoy-monochrome
+fix(nvf): disable spellcheck by default while keeping toggle

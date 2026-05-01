@@ -4,8 +4,8 @@ let
     nord = import ./_schemes/nord.nix;
     catppuccin-mocha = import ./_schemes/catppuccin-mocha.nix;
     gruvbox-dark-hard = import ./_schemes/gruvbox-dark-hard.nix;
-    grayscale-dark = import ./_schemes/grayscale-dark.nix;
-    grayscale-light = import ./_schemes/grayscale-light.nix;
+    ilyasyoy-monochrome-dark = import ./_schemes/ilyasyoy-monochrome-dark.nix;
+    ilyasyoy-monochrome-light = import ./_schemes/ilyasyoy-monochrome-light.nix;
   };
 
   getScheme =
@@ -22,7 +22,11 @@ let
     in
     {
       enable = true;
-      base16Scheme = "${pkgs.base16-schemes}/share/themes/${config.settings.colorScheme}.yaml";
+      base16Scheme =
+        if scheme ? base16 then
+          scheme.base16
+        else
+          "${pkgs.base16-schemes}/share/themes/${config.settings.colorScheme}.yaml";
       image = scheme.image;
       fonts = {
         monospace = {

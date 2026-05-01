@@ -1,6 +1,6 @@
 { self, pkgs }:
 {
-  image = self + "/assets/dark-light.jpg";
+  image = self + "/assets/dark.jpg";
   icons = {
     package = pkgs.papirus-icon-theme;
     dark = "Papirus-Dark";

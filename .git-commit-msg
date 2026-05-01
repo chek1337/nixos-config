@@ -1,1 +1,1 @@
-fix(nvf): disable spellcheck by default while keeping toggle
+feat(services): add tun2proxy + sing-box VLESS bridge for per-app netns isolation

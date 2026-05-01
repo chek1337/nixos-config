@@ -8,6 +8,7 @@ let
     "vopono"
     "throne"
     "v2rayn"
+    "tun2proxy"
   ];
 in
 {

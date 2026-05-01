@@ -9,9 +9,15 @@ let
     nord = import ./nord { inherit pkgs; };
     catppuccin-mocha = import ./catppuccin-mocha { inherit pkgs; };
     gruvbox-dark-hard = import ./gruvbox-dark-hard { inherit pkgs; };
-    grayscale-dark = import ./grayscale-dark { inherit pkgs; };
-    grayscale-light = import ./grayscale-light { inherit pkgs; };
-    ilyasyoy-monochrome = import ./ilyasyoy-monochrome { inherit pkgs; };
+    # grayscale-{dark,light} в nvim = кастомная ilyasyoy-monochrome
+    grayscale-dark = import ./ilyasyoy-monochrome {
+      inherit pkgs;
+      background = "dark";
+    };
+    grayscale-light = import ./ilyasyoy-monochrome {
+      inherit pkgs;
+      background = "light";
+    };
   };
 
   theme = themes.${colorScheme} or null;

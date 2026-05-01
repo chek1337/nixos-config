@@ -1,1 +1,1 @@
-refactor(nvf): split themes into per-folder modules and add ilyasyoy-monochrome
+refactor(nvf): wire grayscale-{dark,light} to ilyasyoy-monochrome

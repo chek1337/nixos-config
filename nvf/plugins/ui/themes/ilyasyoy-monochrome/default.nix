@@ -1,4 +1,7 @@
-{ pkgs }:
+{
+  pkgs,
+  background ? "dark",
+}:
 let
   ilyasyoy-monochrome = pkgs.vimUtils.buildVimPlugin {
     pname = "ilyasyoy-monochrome";
@@ -14,7 +17,7 @@ in
 
   setup = # lua
     ''
-      vim.o.background = "dark"
+      vim.o.background = "${background}"
       vim.cmd.colorscheme("ilyasyoy-monochrome")
     '';
 }

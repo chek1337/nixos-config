@@ -1,1 +1,1 @@
-fix(v2rayn): provide sing-box core binary
+refactor(zapret): move module from programs/cli-tools to services

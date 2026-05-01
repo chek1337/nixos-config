@@ -8,7 +8,7 @@ let
     "vopono"
     "throne"
     "v2rayn"
-    "vlpn"
+    # "vlpn"
   ];
 in
 {

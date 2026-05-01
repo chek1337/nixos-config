@@ -4,6 +4,8 @@ let
     nord = import ./_schemes/nord.nix;
     catppuccin-mocha = import ./_schemes/catppuccin-mocha.nix;
     gruvbox-dark-hard = import ./_schemes/gruvbox-dark-hard.nix;
+    grayscale-dark = import ./_schemes/grayscale-dark.nix;
+    grayscale-light = import ./_schemes/grayscale-light.nix;
   };
 
   getScheme =
@@ -66,7 +68,7 @@ in
     {
       imports = [ inputs.stylix.homeModules.default ];
       programs.thunderbird = lib.mkIf config.programs.thunderbird.enable {
-        profiles."default".extensions = [ scheme.thunderbird ];
+        profiles."default".extensions = lib.optionals (scheme ? thunderbird) [ scheme.thunderbird ];
       };
       stylix = (stylixCommon { inherit pkgs config; }) // {
         icons = {

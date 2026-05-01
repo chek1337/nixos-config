@@ -1,3 +1,6 @@
+# NOT WORKING MODULE
+# NOT WORKING MODULE
+# NOT WORKING MODULE
 { inputs, ... }:
 let
   nsName = "vlpn0";
@@ -70,22 +73,31 @@ in
                 "service_name": q.get("serviceName", ""),
             }
 
+        local_dns_ip = "8.8.8.8"
+        dns_servers = [
+            {"type": "udp", "tag": "remote", "server": "1.1.1.1", "detour": "vless-out"},
+        ]
+        dns_rules = []
+        route_rules = []
+        default_resolver = "remote"
+
         try:
             ipaddress.ip_address(u.hostname)
-            direct_rule = {"ip_cidr": [f"{u.hostname}/32"], "outbound": "direct-out"}
+            route_rules.append({"ip_cidr": [f"{u.hostname}/32"], "outbound": "direct-out"})
         except ValueError:
-            direct_rule = {"domain": [u.hostname], "outbound": "direct-out"}
+            route_rules.append({"domain": [u.hostname], "outbound": "direct-out"})
+            dns_servers.append(
+                {"type": "udp", "tag": "local", "server": local_dns_ip}
+            )
+            dns_rules.append({"domain": [u.hostname], "server": "local"})
+            route_rules.append({"ip_cidr": [f"{local_dns_ip}/32"], "outbound": "direct-out"})
+            default_resolver = "local"
 
         cfg = {
             "log": {"level": "info", "timestamp": True},
             "dns": {
-                "servers": [
-                    {"type": "udp", "tag": "remote", "server": "1.1.1.1", "detour": "vless-out"},
-                    {"type": "udp", "tag": "local", "server": "8.8.8.8", "detour": "direct-out"},
-                ],
-                "rules": [
-                    {"server": "local", "outbound": ["direct-out"]},
-                ],
+                "servers": dns_servers,
+                "rules": dns_rules,
                 "strategy": "ipv4_only",
             },
             "inbounds": [
@@ -104,9 +116,10 @@ in
                 {"type": "direct", "tag": "direct-out"},
             ],
             "route": {
-                "rules": [direct_rule],
+                "rules": route_rules,
                 "auto_detect_interface": True,
                 "final": "vless-out",
+                "default_domain_resolver": {"server": default_resolver},
             },
         }
         json.dump(cfg, sys.stdout, indent=2)
@@ -198,6 +211,7 @@ in
           NetworkNamespacePath = "/var/run/netns/${nsName}";
           RuntimeDirectory = "singbox-vless";
           RuntimeDirectoryMode = "0700";
+          RuntimeDirectoryPreserve = "yes";
           AmbientCapabilities = [
             "CAP_NET_ADMIN"
             "CAP_NET_BIND_SERVICE"
@@ -212,10 +226,6 @@ in
           '';
 
           ExecStart = "${pkgs.sing-box}/bin/sing-box run -c /run/singbox-vless/config.json";
-
-          ExecStopPost = pkgs.writeShellScript "singbox-vless-cleanup" ''
-            rm -f /run/singbox-vless/config.json
-          '';
         };
       };
 
@@ -242,14 +252,13 @@ in
     let
       vlpn = pkgs.writeShellApplication {
         name = "vlpn";
-        runtimeInputs = [ pkgs.sudo ];
         text = ''
           if [ $# -eq 0 ]; then
             echo "usage: vlpn <command> [args...]" >&2
             echo "Runs COMMAND inside the ${nsName} netns whose default route is the VLESS tunnel." >&2
             exit 1
           fi
-          exec sudo \
+          exec /run/wrappers/bin/sudo \
             --preserve-env=DISPLAY,WAYLAND_DISPLAY,XAUTHORITY,XDG_RUNTIME_DIR,DBUS_SESSION_BUS_ADDRESS,PULSE_SERVER,QT_QPA_PLATFORM,GTK_USE_PORTAL \
             /etc/vlpn/exec "$@"
         '';

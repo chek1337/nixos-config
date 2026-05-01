@@ -19,17 +19,18 @@
                 -
       '';
 
-      xdg.configFile."tmuxinator/nixos-config.yml".text = ''
-        name: nixos-config
+      xdg.configFile."tmuxinator/nixos-config-tmor.yml".text = ''
+        name: nixos-config-tmor
         root: ~/nixos-config
 
+        on_project_start: tmux set-option -g main-pane-width 70%
+
         windows:
-          - shell:
-              panes:
-                -
-          - editor:
+          - main:
+              layout: main-vertical
               panes:
                 - nvim
+                -
       '';
     };
 }

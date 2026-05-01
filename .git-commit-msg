@@ -1,1 +1,1 @@
-feat(themes): make ilyasyoy-monochrome a first-class stylix scheme
+refactor(tmux): consolidate nixos-config tmuxinator session to single 70/30 window

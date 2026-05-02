@@ -1,0 +1,144 @@
+diff --git a/config.c b/config.c
+index 1c36992..0b7f9c8 100644
+--- a/config.c
++++ b/config.c
+@@ -1682,6 +1682,7 @@ config_load(struct config *conf, const char *conf_path,
+             .nth_delim = '\t',
+             .with_nth_format = NULL,
+             .accept_nth_format = NULL,
++            .insert_nth_format = NULL,
+         },
+         .anchor = ANCHOR_CENTER,
+         .margin = {
+@@ -1803,6 +1804,7 @@ config_free(struct config *conf)
+     free(conf->dmenu.with_nth_format);
+     free(conf->dmenu.accept_nth_format);
+     free(conf->dmenu.match_nth_format);
++    free(conf->dmenu.insert_nth_format);
+     free_key_binding_list(&conf->key_bindings);
+ }
+ 
+diff --git a/config.h b/config.h
+index 3003152..0f617d1 100644
+--- a/config.h
++++ b/config.h
+@@ -178,6 +178,7 @@ struct config {
+         char *with_nth_format;
+         char *accept_nth_format;
+         char *match_nth_format;
++        char *insert_nth_format;
+     } dmenu;
+ 
+     enum anchors anchor;
+diff --git a/main.c b/main.c
+index 2fe1f40..7e530fb 100644
+--- a/main.c
++++ b/main.c
+@@ -448,6 +448,10 @@ print_usage(const char *prog_name)
+            "     --match-nth=N|FMT           match against the N:th column (tab separated by\n"
+            "                                 default) of each input line, instead of what is\n"
+            "                                 being displayed (dmenu only)\n"
++           "     --insert-nth=N|FMT          on insert-selected (e.g. Ctrl+Tab), insert the\n"
++           "                                 N:th column (tab separated by default) of the\n"
++           "                                 selected input line into the prompt, instead\n"
++           "                                 of the displayed text (dmenu only)\n"
+            "     --nth-delimiter=CHARACTER   field (column) character, for --with-nth and\n"
+            "                                 --accept-nth\n"
+            "     --only-match                do not allow custom entries, only return a\n"
+@@ -868,6 +872,7 @@ main(int argc, char *const *argv)
+     #define OPT_DMENU_MESSAGE                311
+     #define OPT_DMENU_MESSAGE_MODE           312
+     #define OPT_MESSAGE_COLOR                313
++    #define OPT_DMENU_INSERT_NTH             314
+ 
+     static const struct option longopts[] = {
+         {"config",               required_argument, 0, OPT_CONFIG},
+@@ -949,6 +954,7 @@ main(int argc, char *const *argv)
+         {"with-nth",             required_argument, 0, OPT_DMENU_WITH_NTH},
+         {"accept-nth",           required_argument, 0, OPT_DMENU_ACCEPT_NTH},
+         {"match-nth",            required_argument, 0, OPT_DMENU_MATCH_NTH},
++        {"insert-nth",           required_argument, 0, OPT_DMENU_INSERT_NTH},
+         {"only-match",           no_argument,       0, OPT_DMENU_ONLY_MATCH},
+         {"mesg",                 required_argument, 0, OPT_DMENU_MESSAGE},
+         {"mesg-mode",            required_argument, 0, OPT_DMENU_MESSAGE_MODE},
+@@ -1020,6 +1026,7 @@ main(int argc, char *const *argv)
+         bool dmenu_with_nth_set:1;
+         bool dmenu_accept_nth_set:1;
+         bool dmenu_match_nth_set:1;
++        bool dmenu_insert_nth_set:1;
+         bool dmenu_only_match_set:1;
+         bool mesg_mode_set:1;
+         bool layer_set:1;
+@@ -1829,6 +1836,25 @@ main(int argc, char *const *argv)
+             break;
+         }
+ 
++        case OPT_DMENU_INSERT_NTH: {
++            free(cmdline_overrides.conf.dmenu.insert_nth_format);
++            cmdline_overrides.conf.dmenu.insert_nth_format = NULL;
++
++            unsigned int insert_nth_idx;
++            if (sscanf(optarg, "%u", &insert_nth_idx) == 1) {
++                if (insert_nth_idx == 0) {
++                    /* Do nothing more - i.e. leave it unset */
++                } else {
++                    cmdline_overrides.conf.dmenu.insert_nth_format =
++                        xasprintf("{%u}", insert_nth_idx);
++                }
++            } else if (optarg[0] != '\0')
++                cmdline_overrides.conf.dmenu.insert_nth_format = xstrdup(optarg);
++
++            cmdline_overrides.dmenu_insert_nth_set = true;
++            break;
++        }
++
+         case OPT_DMENU_ONLY_MATCH:
+             cmdline_overrides.conf.dmenu.only_match = true;
+             cmdline_overrides.dmenu_only_match_set = true;
+@@ -2185,6 +2211,10 @@ main(int argc, char *const *argv)
+         free(conf.dmenu.match_nth_format);
+         conf.dmenu.match_nth_format = cmdline_overrides.conf.dmenu.match_nth_format;
+     }
++    if (cmdline_overrides.dmenu_insert_nth_set) {
++        free(conf.dmenu.insert_nth_format);
++        conf.dmenu.insert_nth_format = cmdline_overrides.conf.dmenu.insert_nth_format;
++    }
+     if (cmdline_overrides.dmenu_only_match_set)
+         conf.dmenu.only_match = cmdline_overrides.conf.dmenu.only_match;
+     if (cmdline_overrides.conf.message != NULL) {
+diff --git a/wayland.c b/wayland.c
+index e767b01..2ba715c 100644
+--- a/wayland.c
++++ b/wayland.c
+@@ -42,6 +42,7 @@
+ #define LOG_ENABLE_DBG 0
+ #include "log.h"
+ #include "clipboard.h"
++#include "column.h"
+ #include "dmenu.h"
+ #include "icon.h"
+ #include "key-binding.h"
+@@ -766,12 +767,22 @@ execute_binding(struct seat *seat, const struct key_binding *binding, bool *refr
+         prompt_erase_all(wayl->prompt);
+ 
+         if (wayl->conf->dmenu.enabled) {
+-            char *chars = ac32tombs(match->application->title);
++            const char *insert_fmt = wayl->conf->dmenu.insert_nth_format;
++            char32_t *column = NULL;
++            const char32_t *source = match->application->title;
++            if (insert_fmt != NULL && match->application->dmenu_input != NULL) {
++                column = nth_column(match->application->dmenu_input,
++                                    wayl->conf->dmenu.nth_delim, insert_fmt);
++                if (column != NULL)
++                    source = column;
++            }
++            char *chars = ac32tombs(source);
+             if (chars != NULL) {
+                 prompt_insert_chars(wayl->prompt, chars, strlen(chars));
+                 *refresh = true;
+                 free(chars);
+             }
++            free(column);
+         } else if (match->application->exec != NULL) {
+             const char *chars = match->application->exec;
+             prompt_insert_chars(wayl->prompt, chars, strlen(chars));

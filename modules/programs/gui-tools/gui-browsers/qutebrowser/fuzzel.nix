@@ -15,6 +15,7 @@
         patches = (old.patches or [ ]) ++ [
           ./fuzzel-word-boundary.patch
           ./fuzzel-smart-execute.patch
+          ./fuzzel-insert-nth.patch
         ];
       });
 
@@ -103,7 +104,7 @@
 
         run_fuzzel() {
           local prompt="$1" search="$2"
-          local args=(--dmenu --no-sort --match-mode=exact --with-nth=2 -p "$prompt: " -l 12 "''${FUZZEL_STYLE[@]}")
+          local args=(--dmenu --no-sort --match-mode=exact --with-nth=2 --insert-nth=1 -p "$prompt: " -l 12 "''${FUZZEL_STYLE[@]}")
           [ -n "$search" ] && args+=(--search="$search")
           "$FUZZEL" "''${args[@]}"
         }

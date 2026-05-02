@@ -28,6 +28,7 @@
           config.bind("K", "tab-next")
           config.bind("d", "cmd-run-with-count 15 scroll down")
           config.bind("u", "cmd-run-with-count 15 scroll up")
+          config.unbind("D")
           config.bind("x", "tab-close")
           config.bind("X", "undo")
           config.unbind("<Ctrl-w>")

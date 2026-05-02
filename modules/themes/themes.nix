@@ -30,8 +30,8 @@ let
       image = scheme.image;
       fonts = {
         monospace = {
-          package = pkgs.nerd-fonts.hack;
-          name = "Hack Nerd Font";
+          package = pkgs.nerd-fonts.jetbrains-mono;
+          name = "JetBrainsMono Nerd Font";
         };
         sansSerif = {
           package = pkgs.inter;

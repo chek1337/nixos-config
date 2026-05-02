@@ -4,10 +4,10 @@
     let
       aliases = {
         l = "eza --grid --color=always --no-filesize --no-time --no-user --no-permissions --icons always";
-        ls = "eza --color=always --long --git --icons always";
-        lsa = "eza --color=always --long --git --icons always -a -I .git";
-        tree = "eza --color=always --long --git --icons always --tree -I .git";
-        treea = "eza --color=always --long --git --icons always -a --tree -I .git";
+        ls = "eza --color=always --long --icons always";
+        lsa = "eza --color=always --long --icons always -a -I .git";
+        tree = "eza --color=always --long --icons always --tree -I .git";
+        treea = "eza --color=always --long --icons always -a --tree -I .git";
       };
     in
     {

@@ -19,6 +19,10 @@
         type = "Application";
       };
 
+      programs.zsh.initContent = ''
+        open() { nautilus "''${1:-.}" > /dev/null 2>&1 & disown }
+      '';
+
       xdg.desktopEntries.nvim-terminal = {
         name = "Neovim";
         exec = "${terminal} -e nvim %F";

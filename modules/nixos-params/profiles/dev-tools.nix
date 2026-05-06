@@ -3,10 +3,11 @@ let
   inherit (config.flake.lib) nixosMod hmMod;
   modules = [
     "claude-code"
+    "codex"
+    "opencode"
     "direnv"
     "python-dev"
     # "ollama"
-    "opencode"
   ];
 in
 {

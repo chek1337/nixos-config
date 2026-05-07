@@ -5,6 +5,7 @@ let
     "workstation"
     "gaming"
     "waydroid"
+    "winboat"
     "home-extras"
   ];
 in

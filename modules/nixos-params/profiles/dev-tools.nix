@@ -5,6 +5,7 @@ let
     "claude-code"
     "codex"
     "opencode"
+    "gemini-cli"
     "direnv"
     "python-dev"
     # "ollama"

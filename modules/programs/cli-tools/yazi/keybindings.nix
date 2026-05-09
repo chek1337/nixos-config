@@ -198,8 +198,16 @@
             "y"
             "y"
           ];
+          run = "yank";
+          desc = "Yank: selected";
+        }
+        {
+          on = [
+            "y"
+            "u"
+          ];
           run = "plugin ucp copy notify";
-          desc = "Yank: files (system clipboard)";
+          desc = "Yank: files (system clipboard via ucp)";
         }
         {
           on = [
@@ -243,8 +251,13 @@
         }
         {
           on = "p";
+          run = "paste";
+          desc = "Paste: selected";
+        }
+        {
+          on = "P";
           run = "plugin ucp paste notify";
-          desc = "Yank: paste";
+          desc = "Paste: from system clipboard (via ucp)";
         }
         {
           on = [

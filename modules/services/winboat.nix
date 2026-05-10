@@ -22,6 +22,23 @@
         "docker"
         "kvm"
       ];
+
+      # Prevent the WinBoat container from auto-starting on boot.
+      systemd.services.winboat-no-autostart = {
+        description = "Disable WinBoat container auto-start";
+        after = [ "docker.service" ];
+        requires = [ "docker.service" ];
+        wantedBy = [ "multi-user.target" ];
+        script = ''
+          if ${pkgs.docker}/bin/docker inspect WinBoat &>/dev/null; then
+            ${pkgs.docker}/bin/docker update --restart=no WinBoat
+          fi
+        '';
+        serviceConfig = {
+          Type = "oneshot";
+          RemainAfterExit = true;
+        };
+      };
     };
 
   flake.modules.homeManager.winboat = { ... }: { };

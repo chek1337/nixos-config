@@ -1,1 +1,1 @@
-fix: disable WinBoat container auto-start on boot
+feat(nvf): port LazyVim gitsigns mappings and close-with-q autocmd

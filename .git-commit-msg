@@ -1,1 +1,1 @@
-fix(docker): disable autoPrune to keep stopped WinBoat container
+add advice to winboat

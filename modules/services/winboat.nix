@@ -43,3 +43,7 @@
 
   flake.modules.homeManager.winboat = { ... }: { };
 }
+
+# dont forget to docker-compose.yaml 
+# volumes:
+#   - ${HOME}:/shared

@@ -1,1 +1,1 @@
-feat(nvf): port LazyVim gitsigns mappings and close-with-q autocmd
+fix(docker): disable autoPrune to keep stopped WinBoat container

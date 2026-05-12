@@ -6,10 +6,7 @@
       username = config.settings.username;
     in
     {
-      virtualisation.docker = {
-        enable = true;
-        autoPrune.enable = true;
-      };
+      virtualisation.docker.enable = true;
 
       users.users.${username}.extraGroups = [ "docker" ];
     };

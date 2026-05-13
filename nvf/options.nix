@@ -17,6 +17,7 @@
       confirm = true;
       undolevels = 10000;
       spell = lib.mkForce false;
+      exrc = true;
     };
 
     searchCase = "smart";

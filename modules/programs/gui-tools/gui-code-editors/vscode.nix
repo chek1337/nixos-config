@@ -2,6 +2,8 @@
   flake.modules.homeManager.vscode =
     { pkgs-stable, ... }:
     {
+      stylix.targets.vscode.enable = false;
+
       programs.vscode = {
         enable = true;
         package = pkgs-stable.vscode;

@@ -3,6 +3,8 @@
   flake.modules.homeManager.obsidian =
     { pkgs, ... }:
     {
-      home.packages = [ pkgs.obsidian ];
+      programs.obsidian = {
+        enable = true;
+      };
     };
 }

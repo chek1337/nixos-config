@@ -11,6 +11,7 @@ let
     "zathura"
     "imv"
     "mpv"
+    "obsidian"
     # "zoom"
     # "hibiki"
   ];

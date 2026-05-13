@@ -33,6 +33,8 @@ in
 
       settings = sharedSettings;
 
+      services.niri.blur.enable = false;
+
       services.niri.outputs.DP-1 = {
         position = {
           x = 0;

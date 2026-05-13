@@ -36,6 +36,7 @@ in
         niri-bindings
         niri-window-rules
         niri-float-sticky
+        niri-blur
       ];
 
       options.services.niri = {
@@ -89,6 +90,10 @@ in
                 type = lib.types.str;
                 default = "";
               };
+              extra = lib.mkOption {
+                type = lib.types.str;
+                default = "";
+              };
             };
           };
           default = { };
@@ -103,6 +108,7 @@ in
           config.services.niri._kdl.base
           config.services.niri._kdl.bindings
           config.services.niri._kdl.windowRules
+          config.services.niri._kdl.extra
         ]
       );
     };

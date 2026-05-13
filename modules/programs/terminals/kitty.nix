@@ -1,7 +1,12 @@
 { config, inputs, ... }:
 {
   flake.modules.homeManager.kitty =
-    { pkgs, config, ... }:
+    {
+      pkgs,
+      config,
+      lib,
+      ...
+    }:
     let
       username = config.home.username;
       # Fix for: Freeze after entering search mode in less #9416
@@ -29,6 +34,7 @@
           allow_remote_control = "socket-only";
           listen_on = "unix:/tmp/kitty";
           shell_integration = "enabled";
+          background_blur = lib.mkIf config.services.niri.blur.enable 1;
         };
         extraConfig = ''
           # Ctrl+Backspace → delete word backward (works in zsh, nvim, and through tmux)

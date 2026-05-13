@@ -19,6 +19,7 @@
       hasBluetooth = config.settings.hasBluetooth;
       wgName = config.settings.wireguardConfigName;
       voponoExec = "${pkgs.vopono}/bin/vopono exec --protocol wireguard --custom /run/secrets/${wgName}";
+      blurEnabled = config.services.niri.blur.enable;
     in
     {
       imports = [ inputs.noctalia.homeModules.default ];
@@ -115,6 +116,8 @@
             hideOnOverview = true;
             marginVertical = 0;
             marginHorizontal = 0;
+            backgroundOpacity = lib.mkIf blurEnabled (lib.mkForce 0.7);
+            capsuleOpacity = lib.mkIf blurEnabled (lib.mkForce 0.7);
             widgets = {
               left = [
                 {
@@ -177,6 +180,10 @@
             radiusRatio = 0;
             iRadiusRatio = 0;
             boxRadiusRatio = 0;
+          };
+          ui = lib.mkIf blurEnabled {
+            panelBackgroundOpacity = lib.mkForce 0.7;
+            translucentWidgets = lib.mkForce true;
           };
           notifications = {
             enableKeyboardLayoutToast = false;

@@ -127,6 +127,7 @@
             "pkehgijcmpdhfbdbbnkijodmdjhbjlgp" # Privacy Badger
             "ldpochfccmkkmhdbclfhpagapcfdljkj" # Decentraleyes
             "edibdbjcniadpccecjdfdjjppcpchdlm" # I Still Don't Care About Cookies
+            "nfdfiepdkbnoanddpianalelglmfooik" # Ears: Bass Boost, EQ Any Audio
           ];
           firefoxPackages = with pkgs.firefoxAddons; [
             ublock-origin
@@ -136,6 +137,7 @@
             privacy-badger17
             decentraleyes
             istilldontcareaboutcookies
+            speaker-booster-pro
           ];
         };
       };

@@ -7,6 +7,7 @@
     };
     register = {
       "<leader>l" = "LaTeX";
+      "<leader>j" = "Just";
       "<leader>g" = "Git";
       "<leader>h" = "Harpoon";
       "<leader>d" = "Debug";

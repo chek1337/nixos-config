@@ -1,1 +1,1 @@
-feat: comment nvim for latex. Fix later
+feat(nvf): add just.nvim task runner with quickfix integration

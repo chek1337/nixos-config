@@ -32,5 +32,18 @@
           numhl = "DiagnosticOk",
         })
       '';
+
+    # gdb's native DAP server (gdb >= 14). Pairs reliably with gcc-built
+    # binaries, unlike lldb on gcc-flavoured DWARF. `gdb` is resolved from
+    # PATH — run nvim from the project devshell (direnv) so it's present.
+    luaConfigRC.dap-gdb-adapter = # lua
+      ''
+        local dap = require("dap")
+        dap.adapters.gdb = {
+          type = "executable",
+          command = "gdb",
+          args = { "--interpreter=dap", "--eval-command", "set print pretty on" },
+        }
+      '';
   };
 }

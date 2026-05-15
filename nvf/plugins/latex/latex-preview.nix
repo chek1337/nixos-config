@@ -22,41 +22,41 @@ let
   };
 in
 {
-  vim.extraPackages = [
-    pkgs.nodejs
-    pkgs.librsvg
-  ];
-
-  # Enable snacks image support (required by latex-preview.nvim)
-  vim.utility.snacks-nvim.setupOpts.image.enabled = true;
-
-  vim.extraPlugins = {
-    latex-preview-nvim = {
-      package = latex-preview-nvim;
-      setup = # lua
-        ''
-          vim.env.LATEX_PREVIEW_MATHJAX_PATH = "${mathjax-full}"
-
-          require("latex-preview").setup({
-            setup_keymap = false,
-            cache = true,
-            cache_dir = "aux",
-            render = {
-              density = 300,
-              svg_to_png = "auto",
-            },
-          })
-
-          vim.api.nvim_create_autocmd("FileType", {
-            pattern = { "tex", "plaintex", "context", "markdown", "rmd", "quarto" },
-            callback = function(args)
-              local o = { buffer = args.buf }
-              local m = vim.tbl_extend
-              vim.keymap.set("n", "<leader>lh", require("latex-preview").toggle, m("force", o, { desc = "Hover preview" }))
-              vim.keymap.set("n", "<leader>lH", require("latex-preview").hover,  m("force", o, { desc = "Auto-hover mode" }))
-            end,
-          })
-        '';
-    };
-  };
+#   vim.extraPackages = [
+#     pkgs.nodejs
+#     pkgs.librsvg
+#   ];
+#
+#   # Enable snacks image support (required by latex-preview.nvim)
+#   vim.utility.snacks-nvim.setupOpts.image.enabled = true;
+#
+#   vim.extraPlugins = {
+#     latex-preview-nvim = {
+#       package = latex-preview-nvim;
+#       setup = # lua
+#         ''
+#           vim.env.LATEX_PREVIEW_MATHJAX_PATH = "${mathjax-full}"
+#
+#           require("latex-preview").setup({
+#             setup_keymap = false,
+#             cache = true,
+#             cache_dir = "aux",
+#             render = {
+#               density = 300,
+#               svg_to_png = "auto",
+#             },
+#           })
+#
+#           vim.api.nvim_create_autocmd("FileType", {
+#             pattern = { "tex", "plaintex", "context", "markdown", "rmd", "quarto" },
+#             callback = function(args)
+#               local o = { buffer = args.buf }
+#               local m = vim.tbl_extend
+#               vim.keymap.set("n", "<leader>lh", require("latex-preview").toggle, m("force", o, { desc = "Hover preview" }))
+#               vim.keymap.set("n", "<leader>lH", require("latex-preview").hover,  m("force", o, { desc = "Auto-hover mode" }))
+#             end,
+#           })
+#         '';
+#     };
+#   };
 }

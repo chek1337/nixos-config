@@ -1,1 +1,1 @@
-feat(nvf): move all LaTeX keymaps under <leader>l, add which-key group
+feat: comment nvim for latex. Fix later

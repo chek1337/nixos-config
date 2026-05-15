@@ -22,10 +22,19 @@ in
     extraPackages = [ pkgs.just ];
 
     # plenary-nvim is already declared by harpoon.nix; we only depend on it.
-    extraPlugins = {
+    extraPlugins = with pkgs.vimPlugins; {
+      # Task progress spinner — just.nvim picks it up via can_load("fidget").
+      fidget-nvim = {
+        package = fidget-nvim;
+        setup = ''require("fidget").setup({})'';
+      };
+
       just-nvim = {
         package = just-nvim;
-        after = [ "plenary-nvim" ];
+        after = [
+          "plenary-nvim"
+          "fidget-nvim"
+        ];
         setup = # lua
           ''
             require("just").setup({

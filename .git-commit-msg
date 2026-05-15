@@ -1,1 +1,1 @@
-feat(nvf): add LaTeX plugins — nabla, vimtex, latex-preview
+feat(nvf): move all LaTeX keymaps under <leader>l, add which-key group

@@ -6,6 +6,7 @@
       preset = "helix";
     };
     register = {
+      "<leader>l" = "LaTeX";
       "<leader>g" = "Git";
       "<leader>h" = "Harpoon";
       "<leader>d" = "Debug";

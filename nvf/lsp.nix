@@ -116,6 +116,7 @@
       yaml.enable = true;
       sql.enable = true;
       markdown.enable = true;
+      tex.enable = true;
 
       # Build systems
       cmake.enable = true;

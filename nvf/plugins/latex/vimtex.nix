@@ -1,6 +1,6 @@
 { pkgs, ... }:
 {
- # vim.extraPackages = [
+  # vim.extraPackages = [
   #   (pkgs.texliveMedium.withPackages (ps: [ ps.cyrillic ]))
   #   pkgs.zathura
   # ];

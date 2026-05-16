@@ -1,1 +1,1 @@
-feat: add gdb dap adapter for nvim
+fix(sesh): work around tv 0.15.6 /dev/tty attach bug

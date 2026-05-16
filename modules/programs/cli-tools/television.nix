@@ -44,19 +44,19 @@
                 '
               '';
             };
+            # NOTE: no `enter = "actions:connect"` on purpose. television 0.15.6
+            # runs `mode = "execute"` actions without inheriting the TTY fds, so
+            # `sesh connect` -> `tmux attach/switch-client` fails with
+            # "exit status 1" (upstream alexpasmantier/television#1052, sesh #368).
+            # Instead Enter just prints the selection to stdout and the caller
+            # (sesh-tv wrapper) runs `sesh connect`.
             keybindings = {
-              enter = "actions:connect";
               "ctrl-d" = [
                 "actions:kill_session"
                 "reload_source"
               ];
             };
             actions = {
-              connect = {
-                description = "Connect to selected session";
-                command = "sesh connect '{strip_ansi|split: :1..|join: }'";
-                mode = "execute";
-              };
               kill_session = {
                 description = "Kill selected tmux session";
                 command = "tmux kill-session -t '{strip_ansi|split: :1..|join: }'";

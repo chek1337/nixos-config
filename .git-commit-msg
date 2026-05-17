@@ -1,1 +1,1 @@
-fix(sesh): work around tv 0.15.6 /dev/tty attach bug
+fix(reaper): fetch from CDN directly to dodge sandbox redirect stall

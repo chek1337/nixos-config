@@ -7,6 +7,7 @@ let
     "image-editors"
     "discord"
     "qbittorrent"
+    "reaper"
   ];
 in
 {

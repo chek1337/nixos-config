@@ -13,6 +13,9 @@
         { domain = "@audio"; item = "nofile"; type = "soft"; value = "99999"; }
         { domain = "@audio"; item = "nofile"; type = "hard"; value = "524288"; }
       ];
+      services.pipewire.extraConfig.pipewire."10-quantum-512" = {
+        "context.properties"."default.clock.quantum" = 512;
+      };
     };
 
   flake.modules.homeManager.reaper =

@@ -1,1 +1,1 @@
-fix(reaper): fetch from CDN directly to dodge sandbox redirect stall
+feat(reaper): add pw-buf aliases for quick PipeWire buffer switching

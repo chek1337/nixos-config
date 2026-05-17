@@ -67,6 +67,12 @@
           description = "Name of the sops-encrypted wireguard config file (without .conf)";
         };
 
+        wireguardExtraConfigs = lib.mkOption {
+          type = lib.types.listOf lib.types.str;
+          default = [ ];
+          description = "Additional sops-encrypted wireguard config names to expose in /run/secrets/";
+        };
+
         colorScheme = lib.mkOption {
           type = lib.types.str;
           default = "nord";

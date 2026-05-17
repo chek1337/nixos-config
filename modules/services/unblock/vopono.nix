@@ -1,15 +1,19 @@
-{ inputs, ... }:
+{ inputs, lib, ... }:
 {
   flake.modules.nixos.vopono =
     { config, pkgs, ... }:
     let
       wgName = config.settings.wireguardConfigName;
+      allWgConfigs = [ wgName ] ++ config.settings.wireguardExtraConfigs;
     in
     {
-      sops.secrets.${wgName} = {
-        sopsFile = inputs.self + "/secrets/${wgName}.conf";
-        format = "binary";
-      };
+      sops.secrets = lib.listToAttrs (map (name: {
+        inherit name;
+        value = {
+          sopsFile = inputs.self + "/secrets/${name}.conf";
+          format = "binary";
+        };
+      }) allWgConfigs);
 
       security.sudo.extraRules = [
         {
@@ -77,6 +81,13 @@
         vopono-restart = "sudo systemctl restart vopono.service";
         vopono-exec = "vopono exec --custom /run/secrets/${wgName} --protocol wireguard";
       };
+
+      programs.zsh.initContent = ''
+        vopono-run() {
+          local cfg="$1"; shift
+          vopono exec --custom /run/secrets/"$cfg" --protocol wireguard "$@"
+        }
+      '';
       # VPN desktop entries replaced by noctalia custom-commands plugin
       # xdg.desktopEntries = {
       #   qutebrowser-vpn = {

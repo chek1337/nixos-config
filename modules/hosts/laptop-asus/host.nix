@@ -46,7 +46,7 @@ in
 
       services.niri.blur.enable = false;
 
-      services.niri.outputs.eDP-1 = {
+      services.niri.outputs.eDP-2 = {
         mode = "1920x1080@144.063";
         variableRefreshRate = "on-demand";
       };

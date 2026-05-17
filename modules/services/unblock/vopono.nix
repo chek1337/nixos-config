@@ -7,13 +7,15 @@
       allWgConfigs = [ wgName ] ++ config.settings.wireguardExtraConfigs;
     in
     {
-      sops.secrets = lib.listToAttrs (map (name: {
-        inherit name;
-        value = {
-          sopsFile = inputs.self + "/secrets/${name}.conf";
-          format = "binary";
-        };
-      }) allWgConfigs);
+      sops.secrets = lib.listToAttrs (
+        map (name: {
+          inherit name;
+          value = {
+            sopsFile = inputs.self + "/secrets/${name}.conf";
+            format = "binary";
+          };
+        }) allWgConfigs
+      );
 
       security.sudo.extraRules = [
         {

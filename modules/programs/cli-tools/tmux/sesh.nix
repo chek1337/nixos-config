@@ -54,10 +54,38 @@
         seshTv
         (pkgs.writeShellScriptBin "tmux-last" ''
           current=$(tmux display-message -p '#S')
-          tmux list-sessions -F '#{session_last_attached} #{session_name}' \
-            | sort -rn \
-            | awk -v cur="$current" '$2 !~ /^scratch_/ && $2 != cur {print $2; exit}' \
-            | xargs -I{} tmux switch-client -t {}
+
+          last_session() {
+            tmux list-sessions -F '#{session_last_attached} #{session_name}' \
+              | sort -rn \
+              | awk -v cur="$1" '$2 !~ /^scratch_/ && $2 != cur {print $2; exit}'
+          }
+
+          case "$current" in
+            scratch_*)
+              # Inside a floax popup: close it, then switch the origin client
+              # (switching this popup client would corrupt the overlay).
+              origin=$(tmux showenv -g ORIGIN_SESSION 2>/dev/null | cut -d= -f2-)
+              [ -n "$origin" ] || origin=''${current#scratch_}
+              origin_client=$(tmux list-clients -t "$origin" \
+                -F '#{client_name}' 2>/dev/null | head -1)
+
+              tmux detach-client
+
+              target=$(last_session "$origin")
+              [ -n "$target" ] || exit 0
+              if [ -n "$origin_client" ]; then
+                tmux switch-client -c "$origin_client" -t "$target"
+              else
+                tmux switch-client -t "$target"
+              fi
+              ;;
+            *)
+              target=$(last_session "$current")
+              [ -n "$target" ] || exit 0
+              tmux switch-client -t "$target"
+              ;;
+          esac
         '')
       ];
 

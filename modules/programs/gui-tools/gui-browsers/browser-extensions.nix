@@ -128,7 +128,7 @@
             "ldpochfccmkkmhdbclfhpagapcfdljkj" # Decentraleyes
             "edibdbjcniadpccecjdfdjjppcpchdlm" # I Still Don't Care About Cookies
             "nfdfiepdkbnoanddpianalelglmfooik" # Ears: Bass Boost, EQ Any Audio
-            "mmioliijnhnoblpgimnlajmefafdfilb" # Shazam 
+            "mmioliijnhnoblpgimnlajmefafdfilb" # Shazam
           ];
           firefoxPackages = with pkgs.firefoxAddons; [
             ublock-origin

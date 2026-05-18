@@ -1,1 +1,1 @@
-feat(tmux): last-session restores floax popup state per session
+fix(tmux): fingers prefix+J copies instead of entering jump mode

@@ -1,1 +1,1 @@
-feat: tmux last-session now closing popup before change sesson
+feat(tmux): last-session restores floax popup state per session

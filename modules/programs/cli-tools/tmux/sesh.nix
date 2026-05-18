@@ -54,36 +54,92 @@
         seshTv
         (pkgs.writeShellScriptBin "tmux-last" ''
           current=$(tmux display-message -p '#S')
+          self_client=$(tmux display-message -p '#{client_name}')
+
+          # floax scratch base name (per-session => <base>_<origin>).
+          base=$(tmux show-option -gqv @floax-session-name)
+          base=''${base:-scratch}
+
+          # Global set of real sessions whose popup must be restored on return.
+          list_get() {
+            tmux showenv -g FLOAX_OPEN_SESSIONS 2>/dev/null \
+              | sed -n 's/^FLOAX_OPEN_SESSIONS=//p'
+          }
+          list_has() { case " $(list_get) " in *" $1 "*) return 0 ;; *) return 1 ;; esac; }
+          list_add() {
+            list_has "$1" && return 0
+            l=$(list_get)
+            tmux setenv -g FLOAX_OPEN_SESSIONS "''${l:+$l }$1"
+          }
+          list_del() {
+            n=""
+            for x in $(list_get); do
+              [ "$x" = "$1" ] || n="''${n:+$n }$x"
+            done
+            tmux setenv -g FLOAX_OPEN_SESSIONS "$n"
+          }
 
           last_session() {
             tmux list-sessions -F '#{session_last_attached} #{session_name}' \
               | sort -rn \
-              | awk -v cur="$1" '$2 !~ /^scratch_/ && $2 != cur {print $2; exit}'
+              | awk -v cur="$1" -v b="$2" '$2 !~ "^"b"_" && $2 != cur {print $2; exit}'
+          }
+
+          # Reopen the floax popup of session $1 over client $2.
+          open_popup() {
+            sess=$1
+            client=$2
+            scr="''${base}_$sess"
+            if ! tmux has-session -t "$scr" 2>/dev/null; then
+              p=$(tmux display -t "$sess" -p '#{pane_current_path}')
+              tmux new-session -d -c "$p" -s "$scr"
+              tmux set-option -t "$scr" status off
+            fi
+            w=$(tmux show-option -gqv @floax-width);  w=''${w:-80%}
+            h=$(tmux show-option -gqv @floax-height); h=''${h:-80%}
+            bc=$(tmux show-option -gqv @floax-border-color)
+            tc=$(tmux show-option -gqv @floax-text-color)
+            ttl=$(tmux show-option -gqv @floax-title)
+            tmux set-option -t "$scr" detach-on-destroy on
+            tmux setenv -g ORIGIN_SESSION "$sess"
+            set -- -w "$w" -h "$h" -b rounded -E "tmux attach-session -t \"$scr\""
+            [ -n "$ttl" ] && set -- -T "$ttl" "$@"
+            [ -n "$tc" ] && set -- -s "fg=$tc" "$@"
+            [ -n "$bc" ] && set -- -S "fg=$bc" "$@"
+            tmux display-popup -c "$client" "$@"
+          }
+
+          # Switch $client to last session; if that session is flagged,
+          # immediately restore its popup.
+          go_last() {
+            from=$1
+            client=$2
+            target=$(last_session "$from" "$base")
+            [ -n "$target" ] || return 0
+            tmux switch-client -c "$client" -t "$target"
+            if list_has "$target"; then
+              list_del "$target"
+              open_popup "$target" "$client"
+            fi
           }
 
           case "$current" in
-            scratch_*)
-              # Inside a floax popup: close it, then switch the origin client
-              # (switching this popup client would corrupt the overlay).
-              origin=$(tmux showenv -g ORIGIN_SESSION 2>/dev/null | cut -d= -f2-)
-              [ -n "$origin" ] || origin=''${current#scratch_}
+            "''${base}_"*)
+              # Inside a floax popup: remember it, close it, then switch the
+              # origin client (switching this popup client corrupts the overlay).
+              origin=$(tmux showenv -g ORIGIN_SESSION 2>/dev/null \
+                | sed -n 's/^ORIGIN_SESSION=//p')
+              [ -n "$origin" ] || origin=''${current#''${base}_}
               origin_client=$(tmux list-clients -t "$origin" \
                 -F '#{client_name}' 2>/dev/null | head -1)
+              [ -n "$origin_client" ] || origin_client=$self_client
 
+              list_add "$origin"
               tmux detach-client
-
-              target=$(last_session "$origin")
-              [ -n "$target" ] || exit 0
-              if [ -n "$origin_client" ]; then
-                tmux switch-client -c "$origin_client" -t "$target"
-              else
-                tmux switch-client -t "$target"
-              fi
+              go_last "$origin" "$origin_client"
               ;;
             *)
-              target=$(last_session "$current")
-              [ -n "$target" ] || exit 0
-              tmux switch-client -t "$target"
+              go_last "$current" "$self_client"
               ;;
           esac
         '')

@@ -73,6 +73,17 @@
           description = "Additional sops-encrypted wireguard config names to expose in /run/secrets/";
         };
 
+        kanataKeyboardDevices = lib.mkOption {
+          type = lib.types.listOf lib.types.str;
+          default = [ ];
+          description = ''
+            Keyboard device paths kanata should grab on this host
+            (e.g. /dev/input/by-path/platform-i8042-serio-0-event-kbd for a
+            built-in laptop keyboard). Empty list = let kanata auto-detect
+            and intercept all keyboards. Find paths with: ls /dev/input/by-path/
+          '';
+        };
+
         colorScheme = lib.mkOption {
           type = lib.types.str;
           default = "nord";

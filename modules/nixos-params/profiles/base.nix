@@ -11,6 +11,7 @@ let
     "docker"
     "podman"
     "terminals"
+    "kanata"
   ];
 in
 {

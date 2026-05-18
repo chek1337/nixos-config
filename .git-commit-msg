@@ -1,1 +1,1 @@
-fix(tmux): fingers prefix+J copies instead of entering jump mode
+feat(kanata): homerow mods on all hosts, per-host keyboard device

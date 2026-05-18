@@ -15,6 +15,7 @@ let
     hasBluetooth = true;
     wireguardConfigName = "wireguard-laptop-asus";
     wireguardExtraConfigs = [ "wireguard-isakin" ];
+    kanataKeyboardDevices = [ "/dev/input/by-path/platform-i8042-serio-0-event-kbd" ];
     colorScheme = "nord";
   };
 in

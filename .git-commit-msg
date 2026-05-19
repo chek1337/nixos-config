@@ -1,1 +1,1 @@
-feat(just): replace ninit with nboinit for first-time system init
+fix(just): hminit via nix run home-manager — not in PATH on fresh system

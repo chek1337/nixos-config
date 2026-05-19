@@ -151,10 +151,10 @@ fmt:
 nboinit hostname: init-hooks sudo-refresh
     sudo nixos-rebuild boot --flake {{ flake }}#{{ hostname }} {{ features_flags }}
 
-# Initial Home Manager activation (first install, standard home-manager — no nh)
+# Initial Home Manager activation (first install — home-manager not yet in PATH)
 [group("init")]
 hminit hostname:
-    home-manager switch --flake {{ flake }}#{{ username }}@{{ hostname }} {{ features_flags }}
+    nix run home-manager {{ features_flags }} -- switch --flake {{ flake }}#{{ username }}@{{ hostname }}
 
 # Install git hooks (post-commit writes .git-commit-msg for boot entry labels)
 [group("utils")]

@@ -1,1 +1,1 @@
-feat(just): add ninit and hminit for standard-tooling first-time setup
+docs(README): replace just nbo with nixos-rebuild boot in first-time install

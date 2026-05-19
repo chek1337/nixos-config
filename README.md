@@ -101,7 +101,7 @@ just hw <hostname>
 # Stylix writes GTK theme keys via dconf, and dconf needs a live
 # user D-Bus session that doesn't exist before the first graphical
 # login. Running HM here will fail at activation.
-just nbo <hostname>
+sudo nixos-rebuild boot --flake .#<hostname>
 
 # Reboot
 reboot

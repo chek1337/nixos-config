@@ -1,1 +1,1 @@
-fix(reaper): drop redundant dlcf src override
+fix(reaper): vendor src via GitHub release, bypass unreachable CDN

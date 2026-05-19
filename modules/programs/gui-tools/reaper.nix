@@ -52,14 +52,25 @@
       };
 
       home.packages = with pkgs; [
-        # Plain nixpkgs reaper. We used to override `src` to fetch the CDN
-        # (dlcf) URL directly, working around an apparent build-sandbox stall
-        # on reaper.fm's www -> dlcf 302. nixpkgs has since caught up to the
-        # exact same version+hash, so the override became a redundant shadow
-        # derivation that collided on the FOD store path with the upstream
-        # one (same hash+name => same path), letting Nix pick either .drv.
-        # `fetchurl` follows the 302 fine (~8s), so the override is gone.
-        reaper
+        # The Nix build sandbox in this network cannot pull reaper.fm /
+        # dlcf.reaper.fm (CloudFront): TCP connects but data transfer hangs
+        # at 0 bytes. Host curl/nix-prefetch-url work; GitHub works from the
+        # sandbox too. reaper's src FOD is NOT on cache.nixos.org (unfree,
+        # not built by Hydra), so every fresh install must fetch upstream and
+        # then stalls. Mirror the tarball on this repo's GitHub release and
+        # fetch from there. `name` is deliberately distinct from nixpkgs'
+        # `reaper771_linux_x86_64.tar.xz` so the FOD store path can't collide
+        # with the stalling upstream src .drv (Nix would otherwise be free to
+        # realize the shared path via either). On a nixpkgs reaper bump:
+        # upload the new tarball to the `reaper-vendor` release and update
+        # the URL + hash here.
+        (reaper.overrideAttrs (_: {
+          src = fetchurl {
+            name = "reaper771-vendored.tar.xz";
+            url = "https://github.com/chek1337/nixos-config/releases/download/reaper-vendor/reaper771_linux_x86_64.tar.xz";
+            hash = "sha256-OozJHud6PMOkFU2wMmdOYS0PKfyaAV+HHhROJfSr0GM=";
+          };
+        }))
         guitarix
         neural-amp-modeler-lv2
         # Windows VST bridge. To install a .exe plugin:

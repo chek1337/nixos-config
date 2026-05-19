@@ -103,8 +103,12 @@ just hw <hostname>
 # login. Running HM here will fail at activation.
 just nbo <hostname>
 
-# Reboot, log in to a graphical session (so user dbus + dconf are up)
+# Reboot
 reboot
+
+# Log in to your graphical session or switch to a TTY (usually Ctrl+Alt+F2..F6).
+# This starts user D-Bus and dconf, which are required for Home Manager
+# activation (Stylix).
 
 # Now apply Home Manager
 just hm <hostname>

@@ -1,1 +1,1 @@
-docs(README): add TTY login instructions for Home Manager activation
+fix(reaper): drop redundant dlcf src override

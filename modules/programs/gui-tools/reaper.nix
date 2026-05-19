@@ -52,17 +52,14 @@
       };
 
       home.packages = with pkgs; [
-        # reaper.fm 302-redirects www -> dlcf (CloudFront); the Nix build
-        # sandbox stalls on that redirect hop while the host network is fine.
-        # Fetch the CDN URL directly so no redirect is involved. Same hash &
-        # filename as upstream => same FOD store path. On a nixpkgs reaper
-        # bump, update the URL + hash here (or drop this override).
-        (reaper.overrideAttrs (_: {
-          src = fetchurl {
-            url = "https://dlcf.reaper.fm/7.x/reaper771_linux_x86_64.tar.xz";
-            hash = "sha256-OozJHud6PMOkFU2wMmdOYS0PKfyaAV+HHhROJfSr0GM=";
-          };
-        }))
+        # Plain nixpkgs reaper. We used to override `src` to fetch the CDN
+        # (dlcf) URL directly, working around an apparent build-sandbox stall
+        # on reaper.fm's www -> dlcf 302. nixpkgs has since caught up to the
+        # exact same version+hash, so the override became a redundant shadow
+        # derivation that collided on the FOD store path with the upstream
+        # one (same hash+name => same path), letting Nix pick either .drv.
+        # `fetchurl` follows the 302 fine (~8s), so the override is gone.
+        reaper
         guitarix
         neural-amp-modeler-lv2
         # Windows VST bridge. To install a .exe plugin:

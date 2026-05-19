@@ -110,8 +110,9 @@ reboot
 # This starts user D-Bus and dconf, which are required for Home Manager
 # activation (Stylix).
 
-# Now apply Home Manager
-just hm <hostname>
+# Now apply Home Manager (first time: uses standard home-manager switch)
+just hminit <hostname>
+# From then on, the nh-based alias works too: just hm <hostname>
 
 # From this point on, regular `just sw <host>` works as expected.
 
@@ -145,6 +146,12 @@ Deploy recipes wrap [nh](https://github.com/nix-community/nh) (nvd diff + nix-ou
 
 ```bash
 just                              # Show all available commands
+
+# Init (first-time setup, standard NixOS tooling — no nh)
+just ninit <host>                 # nixos-install from live ISO + activate git hooks
+just hminit <host>                # home-manager switch for first-time HM activation
+
+# Deploy (wrap nh)
 just sw <host>                    # Apply NixOS + Home Manager configuration
 just nsw <host>                   # Apply NixOS only
 just hm <host>                    # Apply Home Manager only
@@ -152,6 +159,8 @@ just t <host>                     # Test without applying
 just b <host>                     # Build without applying
 just bo <host>                    # Apply NixOS on next boot + Home Manager now
 just nbo <host>                   # Apply NixOS on next boot only
+
+# Utils
 just hw <host>                    # Generate hardware config for given host
 just up                           # Update all flake inputs
 just up <input>                   # Update specific flake input
@@ -265,11 +274,14 @@ swapon /dev/DISKp2
 # Copy config from read-only ISO
 cp -r /iso/etc/nixos-config /tmp/nixos-config
 
-# Generate hardware config and install
+# Generate hardware config
 nixos-generate-config --root /mnt --show-hardware-config \
   > /tmp/nixos-config/modules/hosts/<hostname>/_hardware-configuration.nix
 
-nixos-install --flake /tmp/nixos-config#<hostname> --no-channel-copy
+# Install via just (activates git hooks + runs nixos-install)
+cd /tmp/nixos-config
+just ninit <hostname>
+# Or directly: nixos-install --flake /tmp/nixos-config#<hostname> --no-channel-copy
 # Add --option substitute false to force fully offline install (no internet)
 
 # Set user password
@@ -300,11 +312,14 @@ swapon /dev/DISKpX
 # Copy config from read-only ISO
 cp -r /iso/etc/nixos-config /tmp/nixos-config
 
-# Generate hardware config and install
+# Generate hardware config
 nixos-generate-config --root /mnt --show-hardware-config \
   > /tmp/nixos-config/modules/hosts/<hostname>/_hardware-configuration.nix
 
-nixos-install --flake /tmp/nixos-config#<hostname> --no-channel-copy
+# Install via just (activates git hooks + runs nixos-install)
+cd /tmp/nixos-config
+just ninit <hostname>
+# Or directly: nixos-install --flake /tmp/nixos-config#<hostname> --no-channel-copy
 # Add --option substitute false to force fully offline install (no internet)
 nixos-enter --root /mnt -c 'passwd chek'
 

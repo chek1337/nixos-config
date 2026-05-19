@@ -101,7 +101,7 @@ just hw <hostname>
 # Stylix writes GTK theme keys via dconf, and dconf needs a live
 # user D-Bus session that doesn't exist before the first graphical
 # login. Running HM here will fail at activation.
-sudo nixos-rebuild boot --flake .#<hostname>
+just nboinit <hostname>
 
 # Reboot
 reboot
@@ -148,7 +148,7 @@ Deploy recipes wrap [nh](https://github.com/nix-community/nh) (nvd diff + nix-ou
 just                              # Show all available commands
 
 # Init (first-time setup, standard NixOS tooling — no nh)
-just ninit <host>                 # nixos-install from live ISO + activate git hooks
+just nboinit <host>               # nixos-rebuild boot + activate git hooks (first install)
 just hminit <host>                # home-manager switch for first-time HM activation
 
 # Deploy (wrap nh)
@@ -278,10 +278,7 @@ cp -r /iso/etc/nixos-config /tmp/nixos-config
 nixos-generate-config --root /mnt --show-hardware-config \
   > /tmp/nixos-config/modules/hosts/<hostname>/_hardware-configuration.nix
 
-# Install via just (activates git hooks + runs nixos-install)
-cd /tmp/nixos-config
-just ninit <hostname>
-# Or directly: nixos-install --flake /tmp/nixos-config#<hostname> --no-channel-copy
+nixos-install --flake /tmp/nixos-config#<hostname> --no-channel-copy
 # Add --option substitute false to force fully offline install (no internet)
 
 # Set user password
@@ -316,10 +313,7 @@ cp -r /iso/etc/nixos-config /tmp/nixos-config
 nixos-generate-config --root /mnt --show-hardware-config \
   > /tmp/nixos-config/modules/hosts/<hostname>/_hardware-configuration.nix
 
-# Install via just (activates git hooks + runs nixos-install)
-cd /tmp/nixos-config
-just ninit <hostname>
-# Or directly: nixos-install --flake /tmp/nixos-config#<hostname> --no-channel-copy
+nixos-install --flake /tmp/nixos-config#<hostname> --no-channel-copy
 # Add --option substitute false to force fully offline install (no internet)
 nixos-enter --root /mnt -c 'passwd chek'
 

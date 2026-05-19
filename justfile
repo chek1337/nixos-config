@@ -146,12 +146,12 @@ fmt:
     find . -name "*.nix" -not -path "./.git/*" | xargs nixfmt
     just stage
 
-# Initial NixOS install from live ISO (standard nixos-install)
+# Initial NixOS boot config (first install, standard nixos-rebuild — no nh)
 [group("init")]
-ninit hostname: init-hooks sudo-refresh
-    sudo nixos-install --flake {{ flake }}#{{ hostname }} --no-root-passwd {{ features_flags }}
+nboinit hostname: init-hooks sudo-refresh
+    sudo nixos-rebuild boot --flake {{ flake }}#{{ hostname }} {{ features_flags }}
 
-# Initial Home Manager activation (standard home-manager switch)
+# Initial Home Manager activation (first install, standard home-manager — no nh)
 [group("init")]
 hminit hostname:
     home-manager switch --flake {{ flake }}#{{ username }}@{{ hostname }} {{ features_flags }}

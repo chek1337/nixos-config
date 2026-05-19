@@ -1,1 +1,1 @@
-docs(README): replace just nbo with nixos-rebuild boot in first-time install
+feat(just): replace ninit with nboinit for first-time system init

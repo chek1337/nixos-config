@@ -2,6 +2,9 @@ flake := "."
 username := "chek"
 # Enable flakes + nix-command even if they aren't set in nix.conf
 features_flags := '--option extra-experimental-features "nix-command flakes"'
+# Same, but for nh-based deploy recipes (nh shells out to nix internally
+# and doesn't take features_flags) — exported into every recipe's env
+export NIX_CONFIG := "experimental-features = nix-command flakes"
 
 # Show all available commands
 default:

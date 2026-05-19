@@ -1,1 +1,1 @@
-feat(kanata): homerow mods on all hosts, per-host keyboard device
+fix(justfile): export NIX_CONFIG so nh recipes work without global nix.conf

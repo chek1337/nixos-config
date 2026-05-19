@@ -12,6 +12,7 @@ let
     "imv"
     "mpv"
     "obsidian"
+    "wine"
     # "zoom"
     # "hibiki"
   ];

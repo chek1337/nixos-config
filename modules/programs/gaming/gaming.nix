@@ -3,7 +3,6 @@ let
   inherit (config.flake.lib) nixosMod hmMod;
   modules = [
     "steam"
-    "wine"
     "flatpak"
     "bottles"
   ];

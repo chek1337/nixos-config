@@ -1,1 +1,1 @@
-fix(justfile): export NIX_CONFIG so nh recipes work without global nix.conf
+refactor(wine): move from gaming to gui-tools

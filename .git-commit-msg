@@ -1,1 +1,1 @@
-fix(just): hminit via nix run home-manager — not in PATH on fresh system
+feat(shells): add dev shells for python, cpp, cpp-python

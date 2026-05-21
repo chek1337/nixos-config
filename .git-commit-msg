@@ -1,1 +1,1 @@
-feat(shells): add dev shells for python, cpp, cpp-python
+feat(tmux): C-v immediately starts block selection in copy-mode

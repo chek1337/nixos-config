@@ -19,7 +19,10 @@
         # Vi-like copy mode
         bind -T copy-mode-vi v   send -X begin-selection
         bind -T copy-mode-vi V   send -X select-line
-        bind -T copy-mode-vi C-v send -X rectangle-toggle
+        bind -T copy-mode-vi C-v {
+          send -X begin-selection
+          send -X rectangle-toggle
+        }
         bind -T copy-mode-vi y   send -X copy-pipe "wl-copy"
         bind -T copy-mode-vi Y   send -X copy-end-of-line \; run "tmux save-buffer - | wl-copy"
         # Vi-like copy mode (русская раскладка)

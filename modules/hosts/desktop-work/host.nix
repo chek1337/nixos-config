@@ -7,12 +7,20 @@ let
     "desktop"
     "workstation"
     "networking"
+    "remote-access"
   ];
   sharedSettings = {
     isLaptop = true;
     hasBluetooth = true;
     wireguardConfigName = "wireguard-laptop-asus";
     colorScheme = "catppuccin-mocha";
+
+    enableRemoteSsh = true;
+    enableRemoteDesktop = false;
+    remoteSshAuthorizedKeys = [
+      # Append SSH public keys here, e.g.:
+      # "ssh-ed25519 AAAA... chek@laptop"
+    ];
   };
 in
 {

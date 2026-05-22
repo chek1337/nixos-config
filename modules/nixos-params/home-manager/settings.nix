@@ -61,6 +61,30 @@
           description = "Whether this host has bluetooth";
         };
 
+        enableRemoteSsh = lib.mkOption {
+          type = lib.types.bool;
+          default = false;
+          description = "Mirror of nixos settings.enableRemoteSsh — see nixos-classes/settings.nix.";
+        };
+
+        remoteSshPort = lib.mkOption {
+          type = lib.types.port;
+          default = 22;
+          description = "Mirror of nixos settings.remoteSshPort.";
+        };
+
+        remoteSshAuthorizedKeys = lib.mkOption {
+          type = lib.types.listOf lib.types.str;
+          default = [ ];
+          description = "Mirror of nixos settings.remoteSshAuthorizedKeys.";
+        };
+
+        enableRemoteDesktop = lib.mkOption {
+          type = lib.types.bool;
+          default = false;
+          description = "Mirror of nixos settings.enableRemoteDesktop — see nixos-classes/settings.nix.";
+        };
+
         wireguardConfigName = lib.mkOption {
           type = lib.types.str;
           default = "wireguard-desktop-home";

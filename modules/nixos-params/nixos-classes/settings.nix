@@ -84,6 +84,42 @@
           description = "Whether this host has bluetooth";
         };
 
+        enableRemoteSsh = lib.mkOption {
+          type = lib.types.bool;
+          default = false;
+          description = ''
+            Enable inbound SSH access (openssh daemon, key-only auth, no
+            root login). SFTP is bundled with SSH, so file transfer works
+            out of the box.
+          '';
+        };
+
+        remoteSshPort = lib.mkOption {
+          type = lib.types.port;
+          default = 22;
+          description = "TCP port openssh listens on when enableRemoteSsh is true.";
+        };
+
+        remoteSshAuthorizedKeys = lib.mkOption {
+          type = lib.types.listOf lib.types.str;
+          default = [ ];
+          description = ''
+            Public SSH keys appended to the primary user's authorized_keys
+            when enableRemoteSsh is true. Without at least one entry,
+            inbound SSH is enabled but no one can log in (key-only auth).
+          '';
+        };
+
+        enableRemoteDesktop = lib.mkOption {
+          type = lib.types.bool;
+          default = false;
+          description = ''
+            Enable Sunshine streaming server for remote GUI access from a
+            Moonlight client. Opens the required firewall ports and grants
+            the user uinput access for virtual input devices.
+          '';
+        };
+
         timeZone = lib.mkOption {
           type = lib.types.str;
           default = "Asia/Novosibirsk";

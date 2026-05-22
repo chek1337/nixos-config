@@ -9,6 +9,7 @@ let
     "spicetify"
     "libreoffice"
     "zathura"
+    "evince"
     "imv"
     "mpv"
     "obsidian"

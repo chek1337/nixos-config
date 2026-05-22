@@ -38,7 +38,7 @@
           "video/*" = "mpv.desktop";
 
           # Documents
-          "application/pdf" = "org.pwmt.zathura.desktop";
+          "application/pdf" = "org.gnome.Evince.desktop";
 
           # Text
           "text/plain" = "nvim-terminal.desktop";

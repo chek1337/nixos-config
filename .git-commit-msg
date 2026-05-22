@@ -1,1 +1,1 @@
-style(shells): reformat cpp and cpp-python flake.nix via nixfmt
+feat(gui-tools): add Evince as default PDF viewer alongside zathura

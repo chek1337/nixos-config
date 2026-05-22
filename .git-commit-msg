@@ -1,1 +1,1 @@
-chore(desktop-work): keep enableRemoteSsh = false until keys are added
+style(shells): reformat cpp and cpp-python flake.nix via nixfmt

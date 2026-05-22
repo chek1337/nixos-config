@@ -6,6 +6,7 @@
 
     opts = {
       cursorline = false;
+      guicursor = "n-v-c-sm:block-blinkwait0-blinkoff0-blinkon0,i-ci-ve:ver25-blinkwait0-blinkoff0-blinkon0,r-cr-o:hor20-blinkwait0-blinkoff0-blinkon0";
       scrolloff = 2;
       autoread = true;
       expandtab = true;

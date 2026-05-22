@@ -17,6 +17,7 @@
           confirm-close-surface = false;
           custom-shader = "${cursorShaders}/cursor_warp.glsl";
           custom-shader-animation = "always";
+          cursor-style-blink = false;
         };
       };
     };

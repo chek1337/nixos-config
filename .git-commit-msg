@@ -1,1 +1,1 @@
-feat(gui-tools): add Evince as default PDF viewer alongside zathura
+fix(cursor): stop cursor blink in nvim, kitty, ghostty

@@ -23,6 +23,7 @@
         settings = {
           confirm_os_window_close = 0;
           cursor_trail = 1;
+          cursor_blink_interval = 0;
           enable_audio_bell = false;
           # window_padding_width = "0 8";
           tab_bar_edge = "top";

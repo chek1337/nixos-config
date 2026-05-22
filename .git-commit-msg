@@ -1,1 +1,1 @@
-feat(remote-access): SSH + Sunshine scaffolding, enabled SSH on desktop-work
+chore(desktop-work): keep enableRemoteSsh = false until keys are added

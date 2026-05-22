@@ -15,7 +15,7 @@ let
     wireguardConfigName = "wireguard-laptop-asus";
     colorScheme = "catppuccin-mocha";
 
-    enableRemoteSsh = true;
+    enableRemoteSsh = false;
     enableRemoteDesktop = false;
     remoteSshAuthorizedKeys = [
       # Append SSH public keys here, e.g.:

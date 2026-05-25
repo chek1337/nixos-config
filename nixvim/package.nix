@@ -3,10 +3,18 @@
   perSystem =
     { system, ... }:
     let
-      nixvimPkg = inputs.nixvim.legacyPackages.${system}.makeNixvim {
-        imports = [
-          ./options.nix
-        ];
+      pkgs = import inputs.nixpkgs {
+        inherit system;
+        config.allowUnfree = true;
+      };
+      nixvimPkg = inputs.nixvim.legacyPackages.${system}.makeNixvimWithModule {
+        inherit pkgs;
+        module = {
+          imports = [
+            ./options.nix
+            ./plugins
+          ];
+        };
       };
     in
     {

@@ -1,1 +1,1 @@
-fix(cursor): stop cursor blink in nvim, kitty, ghostty
+feat(nvf/blink-cmp): add <leader>uB toggle via Snacks.toggle

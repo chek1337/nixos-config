@@ -4,11 +4,33 @@ let
 in
 
 {
+  vim.luaConfigRC.blink-cmp-toggle = # lua
+    ''
+      vim.api.nvim_create_autocmd("User", {
+        pattern = "VeryLazy",
+        callback = function()
+          Snacks.toggle({
+            name = "blink.cmp",
+            get = function()
+              return vim.g.blink_cmp_enabled ~= false
+            end,
+            set = function(state)
+              vim.g.blink_cmp_enabled = state
+            end,
+          }):map("<leader>uB")
+        end,
+      })
+    '';
+
   vim.autocomplete.blink-cmp = {
     enable = true;
     friendly-snippets.enable = true;
 
     setupOpts = {
+      enabled = mkLuaInline ''
+        function() return vim.g.blink_cmp_enabled ~= false end
+      '';
+
       keymap = {
         preset = "enter";
 

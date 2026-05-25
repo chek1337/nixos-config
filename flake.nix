@@ -7,6 +7,7 @@
       imports = [
         (inputs.import-tree ./modules)
         ./nvf
+        ./nixvim
       ];
     };
 
@@ -68,6 +69,10 @@
     };
     nvf = {
       url = "github:notashelf/nvf";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    nixvim = {
+      url = "github:nix-community/nixvim";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     # nixpkgs-nvim-0_11_6 = {

@@ -12,6 +12,7 @@ let
     "zellij"
     # "lazyvim"
     "nvf"
+    "nixvim"
     "zoxide"
     "trash-cli"
     "btop"

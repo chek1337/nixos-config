@@ -1,1 +1,1 @@
-feat: remove tab scroll in nvim
+feat(nixvim): add basic nixvim support alongside nvf

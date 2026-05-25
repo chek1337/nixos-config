@@ -1,1 +1,1 @@
-feat: fix nixvim warning
+feat(nixvim): port lsp/treesitter/conform/lint/dap stack from nvf

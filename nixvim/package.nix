@@ -14,6 +14,7 @@
             ./options.nix
             ./plugins
           ];
+          colorScheme = "nord";
         };
       };
     in

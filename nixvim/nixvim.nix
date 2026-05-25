@@ -3,6 +3,9 @@
   flake.modules.homeManager.nixvim =
     { pkgs, config, ... }:
     {
+      stylix.targets.neovim.enable = false;
+      stylix.targets.nvf.enable = false;
+
       imports = [ inputs.nixvim.homeModules.nixvim ];
 
       programs.nixvim = {
@@ -12,6 +15,7 @@
           ./options.nix
           ./plugins
         ];
+        colorScheme = config.settings.colorScheme;
       };
 
       # Сосуществование с nvf (он держит `nvim` на hiPrio): nixvim

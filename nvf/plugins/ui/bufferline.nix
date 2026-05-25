@@ -8,8 +8,8 @@ in
       enable = true;
 
       mappings = {
-        cycleNext = "<Tab>";
-        cyclePrevious = "<S-Tab>";
+        # cycleNext = "<Tab>";
+        # cyclePrevious = "<S-Tab>";
         closeCurrent = null;
         pick = null;
         sortByExtension = null;

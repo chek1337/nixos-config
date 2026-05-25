@@ -1,1 +1,1 @@
-feat(nvf/blink-cmp): add <leader>uB toggle via Snacks.toggle
+feat: remove tab scroll in nvim

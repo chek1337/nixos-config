@@ -89,6 +89,10 @@
           local cfg="$1"; shift
           vopono exec --custom /run/secrets/"$cfg" --protocol wireguard "$@"
         }
+        vopono-file() {
+          local cfg="$1"; shift
+          vopono exec --custom "$cfg" --protocol wireguard "$@"
+        }
       '';
       # VPN desktop entries replaced by noctalia custom-commands plugin
       # xdg.desktopEntries = {

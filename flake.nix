@@ -71,8 +71,6 @@
       url = "github:notashelf/nvf";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    # NOTE: nixpkgs.follows намеренно не задан — nixvim требует свою
-    # pinned nixpkgs (см. варнинг про `programs.nixvim.nixpkgs.source`).
     nixvim.url = "github:nix-community/nixvim";
     # nixpkgs-nvim-0_11_6 = {
     #   url = "github:NixOS/nixpkgs/73a57bd3fe25d96c42311ae567e86ca542e62329";

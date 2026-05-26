@@ -35,7 +35,6 @@
           flash = true,
           markdown = true,
           render_markdown = true,
-          alpha = true,
           bufferline = true,
           dap = true,
           dap_ui = true,

@@ -63,22 +63,21 @@ in
         theme = "auto";
         globalstatus = true;
         component_separators = {
-          left = "";
-          right = "";
+          left = "";
+          right = "";
         };
         section_separators = {
-          left = "";
-          right = "";
+          left = "";
+          right = "";
         };
         disabled_filetypes.statusline = [
-          "alpha"
           "snacks_dashboard"
         ];
       };
       sections = {
         lualine_a = [ (raw "{ 'mode' }") ];
         lualine_b = [
-          (raw "{ 'branch', icon = '' }")
+          (raw "{ 'branch', icon = '' }")
         ];
         lualine_c = [
           (
@@ -194,10 +193,10 @@ in
               {
                 'diagnostics',
                 symbols = {
-                  error = ' ',
-                  warn = ' ',
-                  info = ' ',
-                  hint = ' ',
+                  error = ' ',
+                  warn = ' ',
+                  info = ' ',
+                  hint = ' ',
                 },
               }
             ''
@@ -218,7 +217,7 @@ in
                 cond = function()
                   return #vim.lsp.get_clients({ bufnr = vim.api.nvim_get_current_buf() }) > 0
                 end,
-                icon = ' ',
+                icon = ' ',
               }
             ''
           )

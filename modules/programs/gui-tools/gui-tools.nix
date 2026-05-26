@@ -14,6 +14,7 @@ let
     "mpv"
     "obsidian"
     "wine"
+    "vial"
     # "zoom"
     # "hibiki"
   ];

@@ -205,6 +205,7 @@ in
             # lua
             raw ''
               {
+                icon = ' ',
                 function()
                   local clients = vim.lsp.get_clients({ bufnr = vim.api.nvim_get_current_buf() })
                   if #clients == 0 then return "" end
@@ -217,7 +218,6 @@ in
                 cond = function()
                   return #vim.lsp.get_clients({ bufnr = vim.api.nvim_get_current_buf() }) > 0
                 end,
-                icon = ' ',
               }
             ''
           )

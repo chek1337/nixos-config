@@ -13,6 +13,7 @@
         nixpkgs.pkgs = pkgs;
         imports = [
           ./options.nix
+          ./keymaps.nix
           ./plugins
         ];
         colorScheme = config.settings.colorScheme;

@@ -1,0 +1,98 @@
+{ pkgs, ... }:
+{
+  extraPackages = [ pkgs.yazi ];
+
+  plugins.yazi = {
+    enable = true;
+    settings = {
+      open_for_directories = true;
+      yazi_floating_window_scaling_factor = 1;
+      yazi_floating_window_border = "none";
+      forwarded_dds_events = [
+        "yazi-nvim-grep-cwd"
+        "yazi-nvim-grep-selected"
+        "yazi-nvim-files-cwd"
+      ];
+      integrations = {
+        grep_in_directory = "snacks.picker";
+        grep_in_selected_files = "snacks.picker";
+      };
+      keymaps = {
+        open_file_in_vertical_split = "<C-v>";
+        open_file_in_horizontal_split = "<C-x>";
+        open_file_in_tab = "<C-t>";
+      };
+    };
+  };
+
+  keymaps = [
+    {
+      key = "<leader>e";
+      mode = "n";
+      action = "<cmd>Yazi<cr>";
+      options.desc = "Yazi";
+    }
+    {
+      key = "<leader>E";
+      mode = "n";
+      action = "<cmd>Yazi cwd<cr>";
+      options.desc = "Yazi (cwd)";
+    }
+  ];
+
+  extraConfigLua = ''
+    vim.api.nvim_create_autocmd("User", {
+      pattern = "YaziDDSCustom",
+      group = vim.api.nvim_create_augroup("YaziGrepRouter", { clear = true }),
+      callback = function(event)
+        local function start_insert()
+          vim.cmd("startinsert")
+        end
+
+        local function close_yazi_buffers()
+          for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+            if vim.api.nvim_buf_is_valid(buf) and vim.bo[buf].filetype == "yazi" then
+              pcall(vim.api.nvim_buf_delete, buf, { force = true })
+            end
+          end
+        end
+
+        if event.data.type == "yazi-nvim-grep-cwd" then
+          local data = vim.json.decode(event.data.raw_data or "{}")
+          local cwd = data.cwd or vim.uv.cwd()
+          close_yazi_buffers()
+          vim.defer_fn(function()
+            require("snacks.picker").grep({
+              title = "Grep in " .. vim.fn.fnamemodify(cwd, ":~:."),
+              dirs = { cwd },
+              on_show = start_insert,
+            })
+          end, 50)
+        elseif event.data.type == "yazi-nvim-grep-selected" then
+          local data = vim.json.decode(event.data.raw_data or "{}")
+          local files = data.files or {}
+          if #files == 0 then return end
+          close_yazi_buffers()
+          vim.defer_fn(function()
+            require("snacks.picker").grep({
+              title = string.format("Grep in %d paths", #files),
+              dirs = files,
+              on_show = start_insert,
+            })
+          end, 50)
+        elseif event.data.type == "yazi-nvim-files-cwd" then
+          local data = vim.json.decode(event.data.raw_data or "{}")
+          local cwd = data.cwd or vim.uv.cwd()
+          close_yazi_buffers()
+          vim.defer_fn(function()
+            require("snacks.picker").files({
+              title = "Find files in " .. vim.fn.fnamemodify(cwd, ":~:."),
+              cwd = cwd,
+              on_show = start_insert,
+            })
+          end, 50)
+        end
+      end,
+    })
+  '';
+}

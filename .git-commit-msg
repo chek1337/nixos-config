@@ -1,1 +1,1 @@
-feat(nixvim): port keymaps and options from nvf
+fix(nvf/statusline): cache lualine root to stop cursor flicker

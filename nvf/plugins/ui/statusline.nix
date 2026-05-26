@@ -4,15 +4,33 @@ let
   getRootFn = # lua
     ''
       local function get_root()
-        local clients = vim.lsp.get_clients({ bufnr = vim.api.nvim_get_current_buf() })
-        for _, client in pairs(clients) do
-          if client.root_dir then return vim.fs.normalize(client.root_dir) end
+        local buf = vim.api.nvim_get_current_buf()
+        local cached = vim.b[buf].lualine_root
+        if cached then return cached end
+
+        local root
+        for _, client in pairs(vim.lsp.get_clients({ bufnr = buf })) do
+          if client.root_dir then
+            root = vim.fs.normalize(client.root_dir)
+            break
+          end
         end
-        local git = vim.fn.systemlist("git rev-parse --show-toplevel 2>/dev/null")[1]
-        if git and git ~= "" and not git:find("^fatal") then
-          return vim.fs.normalize(git)
+
+        if not root then
+          local bufname = vim.api.nvim_buf_get_name(buf)
+          local start = bufname ~= "" and vim.fs.dirname(bufname) or vim.fn.getcwd()
+          local git_marker = vim.fs.find({ ".git" }, { upward = true, path = start })[1]
+          if git_marker then
+            root = vim.fs.normalize(vim.fs.dirname(git_marker))
+          end
         end
-        return vim.fs.normalize(vim.fn.getcwd())
+
+        if not root then
+          root = vim.fs.normalize(vim.fn.getcwd())
+        end
+
+        vim.b[buf].lualine_root = root
+        return root
       end
     '';
   formatFn = # lua
@@ -230,4 +248,23 @@ in
       };
     };
   };
+
+  vim.luaConfigRC.lualine-root-cache = # lua
+    ''
+      local group = vim.api.nvim_create_augroup("lualine_root_cache", { clear = true })
+      vim.api.nvim_create_autocmd("LspAttach", {
+        group = group,
+        callback = function(args)
+          pcall(function() vim.b[args.buf].lualine_root = nil end)
+        end,
+      })
+      vim.api.nvim_create_autocmd("DirChanged", {
+        group = group,
+        callback = function()
+          for _, b in ipairs(vim.api.nvim_list_bufs()) do
+            pcall(function() vim.b[b].lualine_root = nil end)
+          end
+        end,
+      })
+    '';
 }

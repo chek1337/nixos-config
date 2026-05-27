@@ -1,1 +1,1 @@
-feat(nixvim): show full path in statusline and add yp to yank it
+feat(nixvim): port dap and python plugin stack from nvf

@@ -27,6 +27,7 @@
         '')
       ];
 
+      programs.zsh.shellAliases.v = "nxvim";
       programs.zsh.shellAliases.nx = "nxvim";
     };
 }

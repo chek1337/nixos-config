@@ -25,6 +25,6 @@
       # Победить в коллизии с lazyvim-nix (приоритет 5 по умолчанию)
       home.packages = [ (lib.hiPrio config.programs.nvf.finalPackage) ];
 
-      programs.zsh.shellAliases.v = "nvim";
+      programs.zsh.shellAliases.nv = "nvim";
     };
 }

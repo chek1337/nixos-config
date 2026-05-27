@@ -5,53 +5,42 @@ let
   getRootFn = # lua
     ''
       local function get_root()
-        local clients = vim.lsp.get_clients({ bufnr = vim.api.nvim_get_current_buf() })
-        for _, client in pairs(clients) do
-          if client.root_dir then return vim.fs.normalize(client.root_dir) end
+        local buf = vim.api.nvim_get_current_buf()
+        local cached = vim.b[buf].lualine_root
+        if cached then return cached end
+
+        local root
+        for _, client in pairs(vim.lsp.get_clients({ bufnr = buf })) do
+          if client.root_dir then
+            root = vim.fs.normalize(client.root_dir)
+            break
+          end
         end
-        local git = vim.fn.systemlist("git rev-parse --show-toplevel 2>/dev/null")[1]
-        if git and git ~= "" and not git:find("^fatal") then
-          return vim.fs.normalize(git)
+
+        if not root then
+          local bufname = vim.api.nvim_buf_get_name(buf)
+          local start = bufname ~= "" and vim.fs.dirname(bufname) or vim.fn.getcwd()
+          local git_marker = vim.fs.find({ ".git" }, { upward = true, path = start })[1]
+          if git_marker then
+            root = vim.fs.normalize(vim.fs.dirname(git_marker))
+          end
         end
-        return vim.fs.normalize(vim.fn.getcwd())
+
+        if not root then
+          root = vim.fs.normalize(vim.fn.getcwd())
+        end
+
+        vim.b[buf].lualine_root = root
+        return root
       end
     '';
 
   formatFn = # lua
     ''
-      local function format(component, text, hl_group)
+      local function format(_, text, hl_group)
         text = text:gsub("%%", "%%%%")
         if not hl_group or hl_group == "" then return text end
-        component.hl_cache = component.hl_cache or {}
-        local lualine_hl_group = component.hl_cache[hl_group]
-        if not lualine_hl_group then
-          local utils = require("lualine.utils.utils")
-          local gui = vim.tbl_filter(function(x) return x end, {
-            utils.extract_highlight_colors(hl_group, "bold") and "bold",
-            utils.extract_highlight_colors(hl_group, "italic") and "italic",
-          })
-          lualine_hl_group = component:create_hl({
-            fg = utils.extract_highlight_colors(hl_group, "fg"),
-            gui = #gui > 0 and table.concat(gui, ",") or nil,
-          }, "LV_" .. hl_group)
-          component.hl_cache[hl_group] = lualine_hl_group
-        end
-        return component:format_hl(lualine_hl_group) .. text .. component:get_default_hl()
-      end
-    '';
-
-  getHlColor = # lua
-    ''
-      local function get_hl_color(name)
-        local ok, snacks = pcall(require, "snacks")
-        if ok and snacks.util and snacks.util.color then
-          return snacks.util.color(name)
-        end
-        local hl = vim.api.nvim_get_hl(0, { name = name, link = false })
-        if hl.fg then
-          return string.format("#%06x", hl.fg)
-        end
-        return nil
+        return "%#Lualine_" .. hl_group .. "#" .. text .. "%*"
       end
     '';
 in
@@ -85,7 +74,6 @@ in
             raw ''
               (function()
                 ${getRootFn}
-                ${getHlColor}
                 return {
                   function()
                     local root = get_root()
@@ -96,9 +84,7 @@ in
                   cond = function()
                     return get_root() ~= vim.fs.normalize(vim.fn.getcwd())
                   end,
-                  color = function()
-                    return { fg = get_hl_color("Special") }
-                  end,
+                  color = "Special",
                 }
               end)()
             ''
@@ -235,4 +221,38 @@ in
       };
     };
   };
+
+  extraConfigLua = ''
+    do
+      local group = vim.api.nvim_create_augroup("lualine_root_cache", { clear = true })
+      vim.api.nvim_create_autocmd("LspAttach", {
+        group = group,
+        callback = function(args)
+          pcall(function() vim.b[args.buf].lualine_root = nil end)
+        end,
+      })
+      vim.api.nvim_create_autocmd("DirChanged", {
+        group = group,
+        callback = function()
+          for _, b in ipairs(vim.api.nvim_list_bufs()) do
+            pcall(function() vim.b[b].lualine_root = nil end)
+          end
+        end,
+      })
+    end
+
+    do
+      local group = vim.api.nvim_create_augroup("lualine_custom_hl", { clear = true })
+      local function setup_hl()
+        local function fg_of(name)
+          local hl = vim.api.nvim_get_hl(0, { name = name, link = false })
+          return hl.fg and string.format("#%06x", hl.fg) or nil
+        end
+        vim.api.nvim_set_hl(0, "Lualine_Bold", { bold = true })
+        vim.api.nvim_set_hl(0, "Lualine_MatchParen", { fg = fg_of("MatchParen"), bold = true })
+      end
+      vim.api.nvim_create_autocmd("ColorScheme", { group = group, callback = setup_hl })
+      setup_hl()
+    end
+  '';
 }

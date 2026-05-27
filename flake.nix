@@ -6,7 +6,6 @@
     inputs.flake-parts.lib.mkFlake { inherit inputs; } {
       imports = [
         (inputs.import-tree ./modules)
-        ./nvf
         ./nixvim
       ];
     };
@@ -66,10 +65,6 @@
     };
     lazyvim-nix = {
       url = "github:pfassina/lazyvim-nix";
-    };
-    nvf = {
-      url = "github:notashelf/nvf";
-      inputs.nixpkgs.follows = "nixpkgs";
     };
     nixvim.url = "github:nix-community/nixvim";
     # nixpkgs-nvim-0_11_6 = {

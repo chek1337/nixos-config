@@ -11,7 +11,6 @@ let
     "nix-search-tv"
     "zellij"
     # "lazyvim"
-    "nvf"
     "nixvim"
     "zoxide"
     "trash-cli"

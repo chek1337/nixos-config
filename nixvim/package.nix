@@ -19,8 +19,8 @@
       };
     in
     {
-      packages.nixvim = nixvimPkg;
-      apps.nixvim = {
+      packages.nvim = nixvimPkg;
+      apps.nvim = {
         type = "app";
         program = "${nixvimPkg}/bin/nvim";
       };

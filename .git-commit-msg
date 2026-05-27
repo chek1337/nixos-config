@@ -1,1 +1,1 @@
-feat(tmux): add bindings to swap windows and panes
+feat(nixvim): port lsp plugin stack from nvf

@@ -102,7 +102,7 @@ in
                   filename_hl = "Bold",
                   modified_sign = "",
                   readonly_icon = " 󰌾 ",
-                  length = 3,
+                  length = 0,
                 }
                 return {
                   function(self)

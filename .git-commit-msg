@@ -1,1 +1,1 @@
-feat: bind v to nixvim and nv to nvf
+feat(nixvim): show full path in statusline and add yp to yank it

@@ -64,6 +64,24 @@
     }
 
     {
+      key = "yp";
+      mode = "n";
+      action.__raw = # lua
+        ''
+          function()
+            local path = vim.fn.expand("%:p")
+            if path == "" then
+              vim.notify("No file path to copy", vim.log.levels.WARN)
+              return
+            end
+            vim.fn.setreg("+", path)
+            vim.notify("Copied: " .. path)
+          end
+        '';
+      options.desc = "Yank absolute file path";
+    }
+
+    {
       key = "<C-h>";
       mode = "i";
       action = "<Left>";

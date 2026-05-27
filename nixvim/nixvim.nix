@@ -17,5 +17,6 @@
         ];
         colorScheme = config.settings.colorScheme;
       };
+      programs.zsh.shellAliases.v = "nvim";
     };
 }

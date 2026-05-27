@@ -16,6 +16,21 @@
         bind | split-window -h
         bind - split-window -v
 
+        # Перемещение текущего окна влево/вправо (с фокусом — «тащим за собой»)
+        bind -r "<" swap-window -t -1
+        bind -r ">" swap-window -t +1
+
+        # «Move mode» для перетаскивания панели по сетке.
+        # prefix + m входит в режим, дальше h/j/k/l двигают панель и остаются
+        # в режиме (можно долбить). Escape/q — выход.
+        bind m switch-client -T move
+        bind -T move h { swap-pane -s '{left-of}';  switch-client -T move }
+        bind -T move j { swap-pane -s '{down-of}';  switch-client -T move }
+        bind -T move k { swap-pane -s '{up-of}';    switch-client -T move }
+        bind -T move l { swap-pane -s '{right-of}'; switch-client -T move }
+        bind -T move Escape switch-client -T root
+        bind -T move q      switch-client -T root
+
         # Vi-like copy mode
         bind -T copy-mode-vi v   send -X begin-selection
         bind -T copy-mode-vi V   send -X select-line

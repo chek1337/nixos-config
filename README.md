@@ -15,7 +15,7 @@ My personal NixOS configuration using the **dendritic** modular pattern with [fl
 - **Wayland-native** — Niri compositor with Noctalia shell
 - **Themes** (Nord, Catppuccin Mocha, Gruvbox Dark Hard) via [Stylix](https://github.com/danth/stylix)
 - **Secrets management** with [sops-nix](https://github.com/Mic92/sops-nix)
-- **Neovim** configured declaratively through [nvf](https://github.com/NotAShelf/nvf) with 30+ plugins
+- **Neovim** configured declaratively through [nixvim](https://github.com/nix-community/nixvim) with 30+ plugins
 - **just** commands for all common operations
 
 ## Structure
@@ -34,7 +34,7 @@ My personal NixOS configuration using the **dendritic** modular pattern with [fl
 │   │   ├── laptop-asus/      # ASUS TUF A15 laptop (Niri WM + nixos-hardware)
 │   │   └── wsl-asuslaptop/   # WSL environment
 │   ├── programs/
-│   │   ├── cli-tools/        # bat, btop, eza, git, nvim, tmux, yazi, zellij, cmus...
+│   │   ├── cli-tools/        # bat, btop, eza, git, nixvim, tmux, yazi, zellij, cmus...
 │   │   ├── gui-tools/        # telegram, spicetify, libreoffice, mpv, zathura, imv, nautilus...
 │   │   │   ├── gui-browsers/ # firefox, zen, librewolf, qutebrowser, yandex-browser
 │   │   │   └── gui-code-editors/ # vscode, sublime
@@ -46,14 +46,13 @@ My personal NixOS configuration using the **dendritic** modular pattern with [fl
 │   ├── shells/               # zsh, nu, direnv
 │   ├── desktop-env/          # niri, noctalia, wayland-common
 │   └── themes/               # nord, catppuccin-mocha, gruvbox-dark-hard
-├── nvf/                      # Neovim configuration via nvf (declarative, 30+ plugins)
+├── nixvim/                   # Neovim configuration via nixvim (declarative, 30+ plugins)
 │   ├── default.nix           # Entry point
+│   ├── nixvim.nix            # home-manager module
 │   ├── keymaps.nix           # Keybindings
-│   ├── lsp.nix               # LSP + formatters
 │   ├── options.nix           # Vim options
 │   ├── package.nix           # Standalone flake package/app
 │   └── plugins/              # Plugin configs (snacks, harpoon, flash, blink, etc.)
-├── nvim/                     # Legacy Neovim config (lazyvim-nix, kept for reference)
 └── secrets/                  # Encrypted secrets (sops)
 ```
 
@@ -170,7 +169,7 @@ just check                        # nix flake check
 just iso <host>                   # Build offline installation ISO
 ```
 
-## Standalone Neovim (nvf)
+## Standalone Neovim (nixvim)
 
 The Neovim configuration is exposed as a standalone flake package and can be used independently — no NixOS required.
 

@@ -24,6 +24,8 @@
       '';
       # Открыть sesh-tv. Внутри floax popup сначала закрыть popup, затем
       # показать picker на origin-клиенте — иначе popup налезает поверх popup.
+      # Origin помечается в FLOAX_OPEN_SESSIONS, чтобы возврат через tmux-last
+      # автоматически восстановил popup.
       tmuxSesh = pkgs.writeShellScriptBin "tmux-sesh" ''
         current=$(tmux display-message -p '#S')
         self_client=$(tmux display-message -p '#{client_name}')
@@ -39,6 +41,14 @@
             origin_client=$(tmux list-clients -t "$origin" \
               -F '#{client_name}' 2>/dev/null | head -1)
             [ -n "$origin_client" ] || origin_client=$self_client
+
+            # Пометить origin для авто-восстановления popup'а при возврате.
+            l=$(tmux showenv -g FLOAX_OPEN_SESSIONS 2>/dev/null \
+              | sed -n 's/^FLOAX_OPEN_SESSIONS=//p')
+            case " $l " in
+              *" $origin "*) ;;
+              *) tmux setenv -g FLOAX_OPEN_SESSIONS "''${l:+$l }$origin" ;;
+            esac
 
             tmux detach-client
             tmux display-popup -c "$origin_client" -E -w 80% -h 80% \

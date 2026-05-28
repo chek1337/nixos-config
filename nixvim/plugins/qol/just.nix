@@ -23,19 +23,38 @@ in
     lazyLoad.settings.event = "LspAttach";
   };
 
+  # plenary.nvim — общая библиотека (telescope и др.), остаётся в pack/start/.
+  # just-nvim уходит в pack/opt/ и грузится по `:Just*` командам.
   extraPlugins = [
     pkgs.vimPlugins.plenary-nvim
-    just-nvim
+    {
+      plugin = just-nvim;
+      optional = true;
+    }
   ];
 
-  extraConfigLua = ''
-    require("just").setup({
-      open_qf_on_error = true,
-      open_qf_on_run = false,
-      autoscroll_qf = true,
-      register_commands = true,
-    })
-  '';
+  plugins.lz-n.plugins = [
+    {
+      __unkeyed-1 = "just-nvim";
+      cmd = [
+        "Just"
+        "JustSelect"
+        "JustStop"
+        "JustCreateTemplate"
+      ];
+      after = # lua
+        ''
+          function()
+            require("just").setup({
+              open_qf_on_error = true,
+              open_qf_on_run = false,
+              autoscroll_qf = true,
+              register_commands = true,
+            })
+          end
+        '';
+    }
+  ];
 
   keymaps = [
     {

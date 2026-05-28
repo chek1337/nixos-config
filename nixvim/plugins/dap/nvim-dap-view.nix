@@ -2,7 +2,12 @@
 {
   plugins.dap-view = {
     enable = true;
-    lazyLoad.settings.event = "DeferredUIEnter";
+    lazyLoad.settings = {
+      event = "DeferredUIEnter";
+      # dap-view.lua требует require("dap") на верхнем уровне — поднимаем dap
+      # в rtp до packadd, иначе падаем при одновременной загрузке через DeferredUIEnter.
+      before.__raw = "function() require('lz.n').trigger_load('nvim-dap') end";
+    };
 
     settings = {
       winbar = {

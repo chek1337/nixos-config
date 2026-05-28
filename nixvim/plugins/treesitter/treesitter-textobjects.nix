@@ -78,14 +78,28 @@ let
   ];
 in
 {
-  extraPlugins = [ pkgs.vimPlugins.nvim-treesitter-textobjects ];
+  extraPlugins = [
+    {
+      plugin = pkgs.vimPlugins.nvim-treesitter-textobjects;
+      optional = true;
+    }
+  ];
 
-  extraConfigLua = ''
-    require("nvim-treesitter-textobjects.config").update({
-      select = { lookahead = true },
-      move   = { set_jumps = true },
-    })
-  '';
+  plugins.lz-n.plugins = [
+    {
+      __unkeyed-1 = "nvim-treesitter-textobjects";
+      event = "BufReadPost";
+      after = # lua
+        ''
+          function()
+            require("nvim-treesitter-textobjects.config").update({
+              select = { lookahead = true },
+              move   = { set_jumps = true },
+            })
+          end
+        '';
+    }
+  ];
 
   keymaps =
     builtins.concatMap (m: [

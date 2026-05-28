@@ -2,7 +2,13 @@
 {
   plugins.dap = {
     enable = true;
-    lazyLoad.settings.event = "DeferredUIEnter";
+    lazyLoad.settings = {
+      event = "DeferredUIEnter";
+      # nixvim инжектит `require("dap-python").setup(...)` в наш after-хук
+      # (у dap-python `callSetup = false`). Поднимаем dap-python в rtp ДО того,
+      # как dap отработает after, иначе require падает: модуль ещё в pack/opt/.
+      before.__raw = "function() require('lz.n').trigger_load('nvim-dap-python') end";
+    };
 
     signs = {
       dapBreakpoint = {

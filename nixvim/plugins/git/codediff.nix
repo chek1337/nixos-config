@@ -1,29 +1,42 @@
 { pkgs, ... }:
 {
-  extraPlugins = with pkgs.vimPlugins; [
-    nui-nvim
-    codediff-nvim
+  # nui.nvim — общая библиотека (зависят noice и др.), оставляем в pack/start/.
+  # codediff помечаем optional → попадает в pack/opt/ и грузится по `:CodeDiff`.
+  extraPlugins = [
+    pkgs.vimPlugins.nui-nvim
+    {
+      plugin = pkgs.vimPlugins.codediff-nvim;
+      optional = true;
+    }
   ];
 
-  extraConfigLua = # lua
-    ''
-      require("codediff").setup({
-        explorer = {
-          position = "bottom",
-          height = 10,
-          file_filter = {
-            ignore = {},
-          },
-        },
-        history = {
-          position = "bottom",
-          height = 10,
-          file_filter = {
-            ignore = {},
-          },
-        },
-      })
-    '';
+  plugins.lz-n.plugins = [
+    {
+      __unkeyed-1 = "codediff.nvim";
+      cmd = "CodeDiff";
+      after = # lua
+        ''
+          function()
+            require("codediff").setup({
+              explorer = {
+                position = "bottom",
+                height = 10,
+                file_filter = {
+                  ignore = {},
+                },
+              },
+              history = {
+                position = "bottom",
+                height = 10,
+                file_filter = {
+                  ignore = {},
+                },
+              },
+            })
+          end
+        '';
+    }
+  ];
 
   keymaps = [
     {

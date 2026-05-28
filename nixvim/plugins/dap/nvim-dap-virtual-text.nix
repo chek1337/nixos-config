@@ -2,7 +2,12 @@
 {
   plugins.dap-virtual-text = {
     enable = true;
-    lazyLoad.settings.event = "DeferredUIEnter";
+    lazyLoad.settings = {
+      event = "DeferredUIEnter";
+      # nvim-dap-virtual-text.lua на верхнем уровне делает require("dap"),
+      # поэтому dap должен быть на rtp до нашего packadd.
+      before.__raw = "function() require('lz.n').trigger_load('nvim-dap') end";
+    };
 
     settings.display_callback.__raw = ''
       function(variable, buf, stackframe, node, options)

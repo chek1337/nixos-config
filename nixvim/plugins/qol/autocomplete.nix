@@ -2,6 +2,12 @@
 {
   plugins.blink-cmp = {
     enable = true;
+
+    # Eager: nixvim инжектит `require("blink-cmp").get_lsp_capabilities(...)`
+    # в LSP-конфиг (`setupLspCapabilities`, по умолчанию ON), и это вызывается
+    # на startup'е до любых InsertEnter-триггеров. Лень здесь несовместима с
+    # корректными LSP capabilities — оставляем плагин в pack/start/.
+
     settings = {
       enabled.__raw = ''
         function() return vim.g.blink_cmp_enabled ~= false end
@@ -81,12 +87,12 @@
 
       fuzzy.implementation = "prefer_rust_with_warning";
     };
-  };
 
-  extraConfigLua = ''
-    vim.api.nvim_create_autocmd("User", {
-      pattern = "VeryLazy",
-      callback = function()
+    # Snacks toggle для <leader>uB. Раньше висел на autocmd `User VeryLazy`,
+    # который в lz.n никогда не emit'ится → keymap не регистрировался. luaConfig.post
+    # выполняется сразу после blink-cmp setup на startup.
+    luaConfig.post = # lua
+      ''
         Snacks.toggle({
           name = "blink.cmp",
           get = function()
@@ -96,7 +102,6 @@
             vim.g.blink_cmp_enabled = state
           end,
         }):map("<leader>uB")
-      end,
-    })
-  '';
+      '';
+  };
 }

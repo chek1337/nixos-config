@@ -24,7 +24,7 @@
               4
             ];
             sort_by = "natural";
-            linemode = "size";
+            linemode = "mtime";
             show_hidden = false;
           };
 

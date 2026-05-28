@@ -1,4 +1,7 @@
 { ... }:
 {
-  plugins.nvim-autopairs.enable = true;
+  plugins.nvim-autopairs = {
+    enable = true;
+    lazyLoad.settings.event = "InsertEnter";
+  };
 }

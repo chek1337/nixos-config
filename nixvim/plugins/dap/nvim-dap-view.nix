@@ -2,6 +2,7 @@
 {
   plugins.dap-view = {
     enable = true;
+    lazyLoad.settings.event = "DeferredUIEnter";
 
     settings = {
       winbar = {

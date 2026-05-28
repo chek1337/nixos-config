@@ -2,6 +2,7 @@
 {
   plugins.grug-far = {
     enable = true;
+    lazyLoad.settings.event = "DeferredUIEnter";
     settings = {
       headerMaxWidth = 80;
       enabledEngines = [

@@ -2,6 +2,7 @@
 {
   plugins.noice = {
     enable = true;
+    lazyLoad.settings.event = "DeferredUIEnter";
     settings.routes = [
       {
         filter = {

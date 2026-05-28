@@ -4,6 +4,7 @@
 
   plugins.yanky = {
     enable = true;
+    lazyLoad.settings.event = "DeferredUIEnter";
     settings = {
       ring = {
         history_length = 100;

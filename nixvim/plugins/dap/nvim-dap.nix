@@ -2,6 +2,7 @@
 {
   plugins.dap = {
     enable = true;
+    lazyLoad.settings.event = "DeferredUIEnter";
 
     signs = {
       dapBreakpoint = {

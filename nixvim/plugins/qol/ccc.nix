@@ -2,6 +2,13 @@
 {
   plugins.ccc = {
     enable = true;
+    lazyLoad.settings.cmd = [
+      "CccPick"
+      "CccConvert"
+      "CccHighlighterToggle"
+      "CccHighlighterEnable"
+      "CccHighlighterDisable"
+    ];
     settings.highlighter = {
       auto_enable = true;
       lsp = true;

@@ -1,4 +1,7 @@
 { ... }:
 {
-  plugins.scope.enable = true;
+  plugins.scope = {
+    enable = true;
+    lazyLoad.settings.event = "DeferredUIEnter";
+  };
 }

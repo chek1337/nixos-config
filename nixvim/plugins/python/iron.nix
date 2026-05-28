@@ -2,6 +2,7 @@
 {
   plugins.iron = {
     enable = true;
+    lazyLoad.settings.ft = "python";
 
     settings = {
       config = {

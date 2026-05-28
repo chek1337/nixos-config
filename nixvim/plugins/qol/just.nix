@@ -18,7 +18,10 @@ in
 {
   extraPackages = [ pkgs.just ];
 
-  plugins.fidget.enable = true;
+  plugins.fidget = {
+    enable = true;
+    lazyLoad.settings.event = "LspAttach";
+  };
 
   extraPlugins = [
     pkgs.vimPlugins.plenary-nvim

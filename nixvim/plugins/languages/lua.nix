@@ -2,7 +2,10 @@
 {
   plugins.lsp.servers.lua_ls.enable = true;
 
-  plugins.lazydev.enable = true;
+  plugins.lazydev = {
+    enable = true;
+    lazyLoad.settings.ft = "lua";
+  };
 
   plugins.treesitter.grammarPackages = with config.plugins.treesitter.package.builtGrammars; [
     lua

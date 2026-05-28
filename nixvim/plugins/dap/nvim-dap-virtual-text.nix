@@ -2,6 +2,7 @@
 {
   plugins.dap-virtual-text = {
     enable = true;
+    lazyLoad.settings.event = "DeferredUIEnter";
 
     settings.display_callback.__raw = ''
       function(variable, buf, stackframe, node, options)

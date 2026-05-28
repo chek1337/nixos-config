@@ -2,6 +2,7 @@
 {
   plugins.debugprint = {
     enable = true;
+    lazyLoad.settings.event = "DeferredUIEnter";
 
     settings.keymaps = {
       normal = {

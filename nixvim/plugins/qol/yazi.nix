@@ -4,6 +4,7 @@
 
   plugins.yazi = {
     enable = true;
+    lazyLoad.settings.cmd = "Yazi";
     settings = {
       open_for_directories = true;
       yazi_floating_window_scaling_factor = 1;

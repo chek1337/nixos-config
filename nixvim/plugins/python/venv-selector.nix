@@ -2,6 +2,7 @@
 {
   plugins.venv-selector = {
     enable = true;
+    lazyLoad.settings.cmd = "VenvSelect";
 
     settings = {
       search = { };

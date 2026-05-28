@@ -3,7 +3,21 @@
   plugins.lsp.servers.html.enable = true;
   plugins.lsp.servers.cssls.enable = true;
 
-  plugins.ts-autotag.enable = true;
+  plugins.ts-autotag = {
+    enable = true;
+    lazyLoad.settings.ft = [
+      "html"
+      "xml"
+      "javascript"
+      "javascriptreact"
+      "typescript"
+      "typescriptreact"
+      "vue"
+      "svelte"
+      "astro"
+      "markdown"
+    ];
+  };
 
   plugins.treesitter.grammarPackages = with config.plugins.treesitter.package.builtGrammars; [
     html

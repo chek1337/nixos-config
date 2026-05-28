@@ -2,6 +2,7 @@
 {
   plugins.rustaceanvim = {
     enable = true;
+    lazyLoad.settings.ft = "rust";
     settings = {
       server.default_settings."rust-analyzer".cargo.allFeatures = true;
       dap.adapter.__raw = ''
@@ -18,7 +19,10 @@
     };
   };
 
-  plugins.crates.enable = true;
+  plugins.crates = {
+    enable = true;
+    lazyLoad.settings.ft = "toml";
+  };
 
   plugins.treesitter.grammarPackages = with config.plugins.treesitter.package.builtGrammars; [
     rust

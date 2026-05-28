@@ -2,6 +2,15 @@
 {
   plugins.mini-surround = {
     enable = true;
+    lazyLoad.settings.keys = [
+      "gs"
+      "gsd"
+      "gsf"
+      "gsF"
+      "gsh"
+      "gsr"
+      "gsn"
+    ];
     settings = {
       mappings = {
         add = "gs";

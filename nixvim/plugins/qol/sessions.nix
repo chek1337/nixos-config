@@ -2,6 +2,7 @@
 {
   plugins.persistence = {
     enable = true;
+    lazyLoad.settings.event = "DeferredUIEnter";
     settings = {
       dir.__raw = ''vim.fn.stdpath("data") .. "/sessions/"'';
       options = [

@@ -1,4 +1,10 @@
 { ... }:
 {
-  plugins.ts-comments.enable = true;
+  plugins.ts-comments = {
+    enable = true;
+    lazyLoad.settings.event = [
+      "BufReadPost"
+      "BufNewFile"
+    ];
+  };
 }

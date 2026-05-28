@@ -1,1 +1,1 @@
-feat: little fix
+feat(tmux): close floax popup before opening sesh picker

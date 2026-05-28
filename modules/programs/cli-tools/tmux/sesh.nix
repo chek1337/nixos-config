@@ -22,6 +22,34 @@
         exec ${pkgs.kitty}/bin/kitty \
           ${pkgs.zsh}/bin/zsh -i -c '${seshTv}/bin/sesh-tv; exec ${pkgs.zsh}/bin/zsh -i'
       '';
+      # Открыть sesh-tv. Внутри floax popup сначала закрыть popup, затем
+      # показать picker на origin-клиенте — иначе popup налезает поверх popup.
+      tmuxSesh = pkgs.writeShellScriptBin "tmux-sesh" ''
+        current=$(tmux display-message -p '#S')
+        self_client=$(tmux display-message -p '#{client_name}')
+
+        base=$(tmux show-option -gqv @floax-session-name)
+        base=''${base:-scratch}
+
+        case "$current" in
+          "''${base}_"*)
+            origin=$(tmux showenv -g ORIGIN_SESSION 2>/dev/null \
+              | sed -n 's/^ORIGIN_SESSION=//p')
+            [ -n "$origin" ] || origin=''${current#''${base}_}
+            origin_client=$(tmux list-clients -t "$origin" \
+              -F '#{client_name}' 2>/dev/null | head -1)
+            [ -n "$origin_client" ] || origin_client=$self_client
+
+            tmux detach-client
+            tmux display-popup -c "$origin_client" -E -w 80% -h 80% \
+              -T 'Sesh' -b rounded '${seshTv}/bin/sesh-tv'
+            ;;
+          *)
+            tmux display-popup -E -w 80% -h 80% -d '#{pane_current_path}' \
+              -T 'Sesh' -b rounded '${seshTv}/bin/sesh-tv'
+            ;;
+        esac
+      '';
     in
     {
       xdg.desktopEntries.sesh = {
@@ -39,11 +67,11 @@
 
       programs.tmux.extraConfig = ''
         # Sesh session manager (via television)
-        bind s display-popup -E -w 80% -h 80% -d '#{pane_current_path}' -T 'Sesh' -b rounded '${seshTv}/bin/sesh-tv'
+        bind s run-shell "${tmuxSesh}/bin/tmux-sesh"
         bind S choose-tree -Zs
         bind -N "last-session (skip scratch)" L run-shell "tmux-last"
         # Sesh / sessions (русская раскладка)
-        bind ы display-popup -E -w 80% -h 80% -d '#{pane_current_path}' -T 'Sesh' -b rounded '${seshTv}/bin/sesh-tv'
+        bind ы run-shell "${tmuxSesh}/bin/tmux-sesh"
         bind Ы choose-tree -Zs
 
         bind -N "last-session (skip scratch)" Д run-shell "tmux-last"
@@ -52,6 +80,7 @@
       home.packages = [
         pkgs.sesh
         seshTv
+        tmuxSesh
         (pkgs.writeShellScriptBin "tmux-last" ''
           current=$(tmux display-message -p '#S')
           self_client=$(tmux display-message -p '#{client_name}')

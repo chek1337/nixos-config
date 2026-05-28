@@ -97,6 +97,12 @@
           description = "Additional sops-encrypted wireguard config names to expose in /run/secrets/";
         };
 
+        amneziaWgExtraConfigs = lib.mkOption {
+          type = lib.types.listOf lib.types.str;
+          default = [ ];
+          description = "Sops-encrypted AmneziaWG config names to expose in /run/secrets/ for vopono --protocol amneziawg";
+        };
+
         kanataKeyboardDevices = lib.mkOption {
           type = lib.types.listOf lib.types.str;
           default = [ ];

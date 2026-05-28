@@ -4,7 +4,11 @@
     { config, pkgs, ... }:
     let
       wgName = config.settings.wireguardConfigName;
-      allWgConfigs = [ wgName ] ++ config.settings.wireguardExtraConfigs;
+      allWgConfigs = [
+        wgName
+      ]
+      ++ config.settings.wireguardExtraConfigs
+      ++ config.settings.amneziaWgExtraConfigs;
     in
     {
       sops.secrets = lib.listToAttrs (
@@ -16,6 +20,10 @@
           };
         }) allWgConfigs
       );
+
+      boot.extraModulePackages = lib.mkIf (config.settings.amneziaWgExtraConfigs != [ ]) [
+        config.boot.kernelPackages.amneziawg
+      ];
 
       security.sudo.extraRules = [
         {
@@ -32,10 +40,13 @@
         }
       ];
 
-      environment.systemPackages = with pkgs; [
-        vopono
-        wireguard-tools
-      ];
+      environment.systemPackages =
+        with pkgs;
+        [
+          vopono
+          wireguard-tools
+        ]
+        ++ lib.optional (config.settings.amneziaWgExtraConfigs != [ ]) amneziawg-tools;
 
       systemd.services.vopono = {
         description = "Vopono root daemon";
@@ -92,6 +103,14 @@
         vopono-file() {
           local cfg="$1"; shift
           vopono exec --custom "$cfg" --protocol wireguard "$@"
+        }
+        vopono-awg-run() {
+          local cfg="$1"; shift
+          vopono exec --custom /run/secrets/"$cfg" --protocol amneziawg "$@"
+        }
+        vopono-awg-file() {
+          local cfg="$1"; shift
+          vopono exec --custom "$cfg" --protocol amneziawg "$@"
         }
       '';
       # VPN desktop entries replaced by noctalia custom-commands plugin

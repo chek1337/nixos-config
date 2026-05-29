@@ -1,1 +1,1 @@
-feat(nixvim): extend lazy-loading, 265ms → 168ms startup
+feat(tmux): add resize and window-move modes

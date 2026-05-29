@@ -16,9 +16,16 @@
         bind | split-window -h
         bind - split-window -v
 
-        # Перемещение текущего окна влево/вправо (с фокусом — «тащим за собой»)
-        bind -r "<" swap-window -t -1
-        bind -r ">" swap-window -t +1
+        # «Window-move mode» для перемещения текущего окна по списку.
+        # prefix + M входит в режим, h двигает окно влево, l — вправо.
+        # Флаг -d у swap-window нужен, чтобы фокус остался на «нашем» окне
+        # по id (которое после swap уже стоит на новом индексе) — без -d
+        # tmux выбирает старый индекс с чужим содержимым. Escape/q — выход.
+        bind M switch-client -T window-move
+        bind -T window-move h { swap-window -d -t -1; switch-client -T window-move }
+        bind -T window-move l { swap-window -d -t +1; switch-client -T window-move }
+        bind -T window-move Escape switch-client -T root
+        bind -T window-move q      switch-client -T root
 
         # «Move mode» для перетаскивания панели по сетке.
         # prefix + m входит в режим, дальше h/j/k/l двигают панель и остаются
@@ -30,6 +37,21 @@
         bind -T move l { swap-pane -s '{right-of}'; switch-client -T move }
         bind -T move Escape switch-client -T root
         bind -T move q      switch-client -T root
+
+        # «Resize mode» для расширения/сужения панели.
+        # prefix + r входит в режим, h/j/k/l меняют размер по 5 ячеек,
+        # H/J/K/L — по 1. Escape/q — выход.
+        bind r switch-client -T resize
+        bind -T resize h { resize-pane -L 5; switch-client -T resize }
+        bind -T resize j { resize-pane -D 5; switch-client -T resize }
+        bind -T resize k { resize-pane -U 5; switch-client -T resize }
+        bind -T resize l { resize-pane -R 5; switch-client -T resize }
+        bind -T resize H { resize-pane -L 1; switch-client -T resize }
+        bind -T resize J { resize-pane -D 1; switch-client -T resize }
+        bind -T resize K { resize-pane -U 1; switch-client -T resize }
+        bind -T resize L { resize-pane -R 1; switch-client -T resize }
+        bind -T resize Escape switch-client -T root
+        bind -T resize q      switch-client -T root
 
         # Vi-like copy mode
         bind -T copy-mode-vi v   send -X begin-selection

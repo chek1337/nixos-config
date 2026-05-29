@@ -8,9 +8,9 @@ let
         ripgrep
         fd
         just
+        make
         fzf
         nixfmt
-
         stow
         p7zip
         atool

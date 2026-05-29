@@ -65,7 +65,7 @@ Profiles aggregate related modules to simplify host configs:
 | `base` | nord, zsh, cli-tools, dev-tools, docker, terminals |
 | `desktop-base` | sops, bluetooth, power, wayland-common |
 | `desktop` | base, gui-tools, desktop-base, niri, noctalia, wireshark |
-| `dev-tools` | claude-code, direnv, python-dev |
+| `dev-tools` |  direnv, python-dev |
 | `workstation` | virtualization, mail, pttkey, usb-automount, zmkbatx |
 | `home-extras` | kdenlive, obs, image-editors, discord, qbittorrent |
 | `homestation` | workstation, gaming, waydroid, home-extras |

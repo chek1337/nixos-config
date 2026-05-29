@@ -2,11 +2,11 @@
 let
   inherit (config.flake.lib) nixosMod hmMod;
   modules = [
+    "direnv"
     "claude-code"
     "codex"
     "opencode"
     "gemini-cli"
-    "direnv"
     "python-dev"
     # "ollama"
   ];

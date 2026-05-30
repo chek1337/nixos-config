@@ -8,7 +8,7 @@ let
         ripgrep
         fd
         just
-        make
+        gnumake
         fzf
         nixfmt
         stow

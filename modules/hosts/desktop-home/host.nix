@@ -7,11 +7,18 @@ let
     "desktop"
     "homestation"
     "networking"
+    "remote-access"
   ];
   sharedSettings = {
     hasBluetooth = true;
     wireguardConfigName = "wireguard-desktop-home";
     colorScheme = "catppuccin-mocha";
+
+    enableRemoteSsh = true;
+    enableRemoteDesktop = true;
+    remoteSshAuthorizedKeys = [
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIA213f/P1prxD2ImqqW6goD6iBsHH8E5HvEOf+R/dkk8 chek@wsl-asuslaptop"
+    ];
   };
 in
 {

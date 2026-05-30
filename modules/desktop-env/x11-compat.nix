@@ -6,6 +6,7 @@
       # rootful distrobox containers, e.g. cryptopro-distrobox) can connect
       # to XWayland while the primary session runs on Wayland (niri).
       services.xserver.enable = true;
+      services.xserver.desktopManager.xterm.enable = false;
 
       environment.systemPackages = with pkgs; [
         xhost

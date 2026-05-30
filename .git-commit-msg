@@ -1,1 +1,1 @@
-feat(nautilus): add file-roller and archive mime handlers
+feat: route C/C++ sources to nvim+kitty, drop xterm

@@ -40,8 +40,15 @@
           # Documents
           "application/pdf" = "org.gnome.Evince.desktop";
 
-          # Text
+          # Text / source code
           "text/plain" = "nvim-terminal.desktop";
+          "text/x-c" = "nvim-terminal.desktop";
+          "text/x-csrc" = "nvim-terminal.desktop";
+          "text/x-chdr" = "nvim-terminal.desktop";
+          "text/x-c++" = "nvim-terminal.desktop";
+          "text/x-c++src" = "nvim-terminal.desktop";
+          "text/x-c++hdr" = "nvim-terminal.desktop";
+          "text/x-makefile" = "nvim-terminal.desktop";
 
           # Office — Writer
           "application/vnd.oasis.opendocument.text" = "writer.desktop";

@@ -46,6 +46,12 @@
           "text/x-script"
           "application/x-shellscript"
           "text/x-c"
+          "text/x-csrc"
+          "text/x-chdr"
+          "text/x-c++"
+          "text/x-c++src"
+          "text/x-c++hdr"
+          "text/x-makefile"
           "text/x-python"
           "text/x-nix"
         ];

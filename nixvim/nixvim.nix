@@ -13,6 +13,7 @@
         imports = [
           ./options.nix
           ./keymaps.nix
+          ./keymaps-ru.nix
           ./plugins
         ];
         colorScheme = config.settings.colorScheme;

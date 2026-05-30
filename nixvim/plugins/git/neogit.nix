@@ -1,5 +1,13 @@
-{ ... }:
+{ pkgs, ... }:
 {
+  extraPackages = [ pkgs.delta ];
+
+  extraPlugins = [ pkgs.vimPlugins.baleia-nvim ];
+
+  extraConfigLua = ''
+    vim.g.baleia = require("baleia").setup({})
+  '';
+
   keymaps = [
     {
       key = "<leader>gg";
@@ -23,6 +31,12 @@
         codediff = true;
       };
       diff_viewer = "codediff";
+
+      log_pager = [
+        "delta"
+        "--width"
+        "117"
+      ];
     };
   };
 }

@@ -9,7 +9,15 @@
       terminal = config.home.sessionVariables.TERMINAL or "kitty";
     in
     {
-      home.packages = [ pkgs-stable.nautilus ];
+      home.packages = [
+        pkgs-stable.nautilus
+        pkgs-stable.nautilus-open-any-terminal
+      ];
+
+      dconf.settings."com/github/stunkymonkey/nautilus-open-any-terminal" = {
+        terminal = "kitty";
+        new-tab = false;
+      };
 
       xdg.desktopEntries.nvim = {
         name = "Neovim wrapper";

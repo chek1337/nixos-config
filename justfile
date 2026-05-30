@@ -156,6 +156,24 @@ nboinit hostname: init-hooks sudo-refresh
 hminit hostname:
     nix run home-manager {{ features_flags }} -- switch --flake {{ flake }}#{{ username }}@{{ hostname }}
 
+# Register sops age key derived from an existing SSH private key
+[group("init")]
+sops-init key:
+    mkdir -p ~/.config/sops/age
+    ssh-to-age -private-key < ~/.ssh/{{ key }} > ~/.config/sops/age/keys.txt
+    chmod 600 ~/.config/sops/age/keys.txt
+    echo "Saved age key to ~/.config/sops/age/keys.txt"
+
+# Fix SSH key permissions, (re)load into ssh-agent, verify against GitHub
+[group("init")]
+ssh-init key:
+    chmod 700 ~/.ssh
+    chmod 600 ~/.ssh/{{ key }}
+    chmod 644 ~/.ssh/{{ key }}.pub
+    ssh-add -D
+    ssh-add ~/.ssh/{{ key }}
+    ssh -T git@github.com || true
+
 # Install git hooks (post-commit writes .git-commit-msg for boot entry labels)
 [group("utils")]
 init-hooks:

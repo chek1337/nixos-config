@@ -101,8 +101,6 @@ just hw <hostname>
 # user D-Bus session that doesn't exist before the first graphical
 # login. Running HM here will fail at activation.
 just nboinit <hostname>
-
-# Reboot
 reboot
 
 # Log in to your graphical session or switch to a TTY (usually Ctrl+Alt+F2..F6).
@@ -111,33 +109,23 @@ reboot
 
 # Now apply Home Manager (first time: uses standard home-manager switch)
 just hminit <hostname>
-# From then on, the nh-based alias works too: just hm <hostname>
-
-# From this point on, regular `just sw <host>` works as expected.
+reboot
 
 # (Optional) Setup sops secrets for encrypted configs
-mkdir -p ~/.config/sops/age
-ssh-to-age -private-key < ~/.ssh/<your-key> > ~/.config/sops/age/keys.txt
-chmod 600 ~/.config/sops/age/keys.txt
+# Derives an age key from an existing SSH key under ~/.ssh and writes it
+# to ~/.config/sops/age/keys.txt with mode 600.
+just sops-init <key>
+
+# Fix SSH key permissions, (re)load the key into ssh-agent, verify GitHub auth.
+# SSH refuses keys with overly-open modes; `ssh-add -D` clears stale entries.
+just ssh-init <key>
+# Expected: Hi <user>! You've successfully authenticated...
 
 # Switch origin to SSH
 git remote set-url origin git@github.com:<user>/<repo>.git
-
-# Correct permissions (SSH refuses keys with overly-open modes)
-chmod 700 ~/.ssh
-chmod 600 ~/.ssh/<key>
-chmod 644 ~/.ssh/<key>.pub
-
-# (Re)load the key into ssh-agent
-ssh-add -D
-ssh-add ~/.ssh/<key>
-
-# Verify
-ssh -T git@github.com
-# Expected: Hi <user>! You've successfully authenticated...
 ```
 
-If `git push` fails with `agent refused operation` / `Permission denied (publickey)`, the cause is almost always wrong file modes on the private key or a stale entry in ssh-agent — the steps above fix both.
+If `git push` fails with `agent refused operation` / `Permission denied (publickey)`, the cause is almost always wrong file modes on the private key or a stale entry in ssh-agent — `just ssh-init <key>` fixes both.
 
 ### Commands
 
@@ -149,6 +137,8 @@ just                              # Show all available commands
 # Init (first-time setup, standard NixOS tooling — no nh)
 just nboinit <host>               # nixos-rebuild boot + activate git hooks (first install)
 just hminit <host>                # home-manager switch for first-time HM activation
+just sops-init <key>              # Derive sops age key from ~/.ssh/<key>
+just ssh-init <key>               # Fix SSH key perms, reload ssh-agent, verify GitHub auth
 
 # Deploy (wrap nh)
 just sw <host>                    # Apply NixOS + Home Manager configuration

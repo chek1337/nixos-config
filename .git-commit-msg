@@ -1,1 +1,1 @@
-refactor: extract envfs into its own system-level module
+feat(nautilus): add file-roller and archive mime handlers

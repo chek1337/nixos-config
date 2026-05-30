@@ -4,14 +4,19 @@
   };
 
   flake.modules.homeManager.nautilus =
-    { pkgs-stable, config, ... }:
+    { pkgs, config, ... }:
     let
       terminal = config.home.sessionVariables.TERMINAL or "kitty";
     in
     {
       home.packages = [
-        pkgs-stable.nautilus
-        pkgs-stable.nautilus-open-any-terminal
+        pkgs.nautilus
+        pkgs.nautilus-open-any-terminal
+        pkgs.file-roller
+        pkgs.p7zip
+        pkgs.unrar
+        pkgs.unzip
+        pkgs.zstd
       ];
 
       dconf.settings."com/github/stunkymonkey/nautilus-open-any-terminal" = {

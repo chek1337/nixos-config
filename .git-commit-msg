@@ -1,1 +1,1 @@
-feat: add sops-init and ssh-init recipes
+feat(remote-access): split moonlight client into own module

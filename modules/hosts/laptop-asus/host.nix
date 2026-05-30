@@ -9,6 +9,7 @@ let
     "networking"
     "asus-laptop-hardware"
     "touchpad"
+    "remote-access"
   ];
   sharedSettings = {
     isLaptop = true;
@@ -18,6 +19,8 @@ let
     amneziaWgExtraConfigs = [ "amnezia-chumakov" ];
     kanataKeyboardDevices = [ "/dev/input/by-path/platform-i8042-serio-0-event-kbd" ];
     colorScheme = "nord";
+
+    enableMoonlightClient = true;
   };
 in
 {

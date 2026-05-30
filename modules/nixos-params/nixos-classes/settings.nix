@@ -126,6 +126,16 @@
           '';
         };
 
+        enableMoonlightClient = lib.mkOption {
+          type = lib.types.bool;
+          default = false;
+          description = ''
+            Install the Moonlight client (moonlight-qt) to connect to
+            Sunshine streaming servers. Independent of enableRemoteDesktop
+            so a host can be only a client, only a server, or both.
+          '';
+        };
+
         timeZone = lib.mkOption {
           type = lib.types.str;
           default = "Asia/Novosibirsk";

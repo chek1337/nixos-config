@@ -25,7 +25,5 @@
           to = 48010;
         }
       ];
-
-      environment.systemPackages = [ pkgs.moonlight-qt ];
     };
 }

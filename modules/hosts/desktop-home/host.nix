@@ -16,6 +16,7 @@ let
 
     enableRemoteSsh = true;
     enableRemoteDesktop = true;
+    enableMoonlightClient = true;
     remoteSshAuthorizedKeys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIA213f/P1prxD2ImqqW6goD6iBsHH8E5HvEOf+R/dkk8 chek@wsl-asuslaptop"
     ];

@@ -5,6 +5,7 @@ let
   submoduleNames = [
     "remote-access-openssh"
     "remote-access-sunshine"
+    "remote-access-moonlight"
   ];
   pick = mods: map (n: mods.${n}) submoduleNames;
 in

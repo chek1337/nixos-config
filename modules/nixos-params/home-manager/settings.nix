@@ -85,6 +85,12 @@
           description = "Mirror of nixos settings.enableRemoteDesktop — see nixos-classes/settings.nix.";
         };
 
+        enableMoonlightClient = lib.mkOption {
+          type = lib.types.bool;
+          default = false;
+          description = "Mirror of nixos settings.enableMoonlightClient — see nixos-classes/settings.nix.";
+        };
+
         wireguardConfigName = lib.mkOption {
           type = lib.types.str;
           default = "wireguard-desktop-home";

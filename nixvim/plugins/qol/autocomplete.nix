@@ -13,19 +13,15 @@
         function() return vim.g.blink_cmp_enabled ~= false end
       '';
 
+      # Разделение ролей, чтобы Tab не конфликтовал со сниппетами:
+      #   • <CR> / <C-y>  — accept выбранного item'а (из пресета "enter")
+      #   • <Tab> / <S-Tab> — навигация по плейсхолдерам сниппета (из пресета)
+      #   • <C-n> / <C-p>, <Up>/<Down> — навигация по меню (из пресета)
+      # `select_and_accept` на Tab принципиально не вешаем: он всегда выбирает
+      # первый item при открытом меню, даже без явной навигации, и ломает прыжок
+      # по сниппету, когда LSP показывает подсказки внутри активного сниппета.
       keymap = {
         preset = "enter";
-
-        "<Tab>" = [
-          "select_and_accept"
-          "snippet_forward"
-          "fallback"
-        ];
-        "<S-Tab>" = [
-          "select_prev"
-          "snippet_backward"
-          "fallback"
-        ];
 
         "<C-Space>" = [
           "show"
@@ -52,16 +48,17 @@
 
       cmdline = {
         sources = [ "cmdline" ];
+        # В cmdline сниппетов нет — Tab безопасно принимает первое предложение
+        # (vim-стиль), <CR> исполняет команду как обычно (без accept в пресете
+        # cmdline для preset = "enter": Enter всегда executes, не accept).
         keymap = {
           preset = "enter";
           "<Tab>" = [
             "select_and_accept"
-            "snippet_forward"
             "fallback"
           ];
           "<S-Tab>" = [
             "select_prev"
-            "snippet_backward"
             "fallback"
           ];
           "<C-Space>" = [

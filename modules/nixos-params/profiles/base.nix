@@ -12,6 +12,7 @@ let
     "podman"
     "terminals"
     "kanata"
+    "envfs"
   ];
 in
 {

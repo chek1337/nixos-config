@@ -99,11 +99,6 @@
         owner = config.settings.username;
       };
 
-      # v2rayN запекает /bin/bash в embedded-скриптах режима системного proxy
-      # (proxy_set_linux_sh, kill_as_sudo_linux_sh). envfs FUSE-маунтит /bin и
-      # /usr/bin поверх PATH, благодаря чему /bin/bash начинает существовать.
-      services.envfs.enable = true;
-
       environment.systemPackages = [ v2rayN-upstream ];
     };
 

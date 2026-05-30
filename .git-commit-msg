@@ -1,1 +1,1 @@
-feat: nautilus and browsers
+refactor: extract envfs into its own system-level module

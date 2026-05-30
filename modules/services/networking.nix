@@ -6,6 +6,7 @@ let
     # "wireproxy"
     "zapret"
     "vopono"
+    "awg-quick"
     "throne"
     "v2rayn"
     # "vlpn"

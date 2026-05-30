@@ -1,7 +1,14 @@
 {
-  flake.modules.nixos.nautilus = {
-    services.gvfs.enable = true;
-  };
+  flake.modules.nixos.nautilus =
+    { pkgs, ... }:
+    {
+      services.gvfs.enable = true;
+      environment.systemPackages = [ pkgs.nautilus ];
+      programs.nautilus-open-any-terminal = {
+        enable = true;
+        terminal = "kitty";
+      };
+    };
 
   flake.modules.homeManager.nautilus =
     { pkgs, config, ... }:
@@ -10,8 +17,6 @@
     in
     {
       home.packages = [
-        pkgs.nautilus
-        pkgs.nautilus-open-any-terminal
         pkgs.file-roller
         pkgs.p7zip
         pkgs.unrar
@@ -19,9 +24,12 @@
         pkgs.zstd
       ];
 
+      # Keybinding broken on Nautilus 49.x — upstream bug
+      # https://github.com/Stunkymonkey/nautilus-open-any-terminal/issues/277
+      # Right-click → "Open in kitty" works; Ctrl+Alt+T does not fire.
       dconf.settings."com/github/stunkymonkey/nautilus-open-any-terminal" = {
-        terminal = "kitty";
         new-tab = false;
+        keybindings = "<Primary><Alt>t";
       };
 
       xdg.desktopEntries.nvim = {

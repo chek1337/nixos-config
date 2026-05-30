@@ -1,1 +1,1 @@
-feat: route C/C++ sources to nvim+kitty, drop xterm
+refactor(nautilus): wire open-any-terminal through NixOS module

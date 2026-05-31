@@ -28,7 +28,7 @@
       options.desc = "Delete Other Buffers";
     }
     {
-      key = "<leader>gB";
+      key = "<leader>gob";
       mode = [
         "n"
         "x"
@@ -37,7 +37,7 @@
       options.desc = "Git Browse (open)";
     }
     {
-      key = "<leader>gY";
+      key = "<leader>goy";
       mode = [
         "n"
         "x"

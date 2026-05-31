@@ -1,1 +1,1 @@
-feat(nixvim): add <leader>g* direct popup bindings for neogit
+refactor(nixvim): regroup <leader>g* into Blame and Open subtrees

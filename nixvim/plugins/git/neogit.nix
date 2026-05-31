@@ -19,55 +19,55 @@
       key = "<leader>gc";
       mode = "n";
       action = "<cmd>Neogit commit<cr>";
-      options.desc = "Commit popup";
+      options.desc = "Commit";
     }
     {
       key = "<leader>gp";
       mode = "n";
       action = "<cmd>Neogit push<cr>";
-      options.desc = "Push popup";
+      options.desc = "Push";
     }
     {
       key = "<leader>gP";
       mode = "n";
       action = "<cmd>Neogit pull<cr>";
-      options.desc = "Pull popup";
+      options.desc = "Pull";
     }
     {
       key = "<leader>gf";
       mode = "n";
       action = "<cmd>Neogit fetch<cr>";
-      options.desc = "Fetch popup";
+      options.desc = "Fetch";
     }
     {
       key = "<leader>gl";
       mode = "n";
       action = "<cmd>Neogit log<cr>";
-      options.desc = "Log popup";
+      options.desc = "Log";
     }
     {
       key = "<leader>gb";
       mode = "n";
       action = "<cmd>Neogit branch<cr>";
-      options.desc = "Branch popup";
+      options.desc = "Branch";
     }
     {
       key = "<leader>gs";
       mode = "n";
       action = "<cmd>Neogit stash<cr>";
-      options.desc = "Stash popup";
+      options.desc = "Stash";
     }
     {
       key = "<leader>gm";
       mode = "n";
       action = "<cmd>Neogit merge<cr>";
-      options.desc = "Merge popup";
+      options.desc = "Merge";
     }
     {
       key = "<leader>gr";
       mode = "n";
       action = "<cmd>Neogit rebase<cr>";
-      options.desc = "Rebase popup";
+      options.desc = "Rebase";
     }
   ];
 

@@ -31,11 +31,28 @@
         map("n", "<leader>ghu", gs.undo_stage_hunk, "Undo Stage Hunk")
         map("n", "<leader>ghR", gs.reset_buffer, "Reset Buffer")
         map("n", "<leader>ghp", gs.preview_hunk_inline, "Preview Hunk Inline")
-        map("n", "<leader>ghB", function() gs.blame_line({ full = true }) end, "Blame Line")
-        map("n", "<leader>ghb", function() gs.blame() end, "Blame Buffer")
-        map("n", "<leader>ghd", gs.diffthis, "Diff This")
-        map("n", "<leader>ghD", function() gs.diffthis("~") end, "Diff This ~")
         map({ "o", "x" }, "ih", ":<C-U>Gitsigns select_hunk<CR>", "GitSigns Select Hunk")
       end
     '';
+
+  keymaps = [
+    {
+      key = "<leader>gBl";
+      mode = "n";
+      action = "<cmd>Gitsigns blame_line full=true<cr>";
+      options.desc = "Blame Line";
+    }
+    {
+      key = "<leader>gBb";
+      mode = "n";
+      action = "<cmd>Gitsigns blame<cr>";
+      options.desc = "Blame Buffer";
+    }
+    {
+      key = "<leader>gBt";
+      mode = "n";
+      action = "<cmd>Gitsigns toggle_current_line_blame<cr>";
+      options.desc = "Toggle Current Line Blame (virt-text)";
+    }
+  ];
 }

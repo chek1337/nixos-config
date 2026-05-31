@@ -80,6 +80,14 @@
           group = "Conflict";
         }
         {
+          __unkeyed-1 = "<leader>go";
+          group = "Open";
+        }
+        {
+          __unkeyed-1 = "<leader>gB";
+          group = "Blame";
+        }
+        {
           __unkeyed-1 = "<leader>gdh";
           group = "History";
         }

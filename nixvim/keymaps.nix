@@ -226,19 +226,19 @@
       options.desc = "New Tab";
     }
     {
-      key = "<leader><tab>]";
-      mode = "n";
-      action = "<cmd>tabnext<cr>";
-      options.desc = "Next Tab";
-    }
-    {
       key = "<leader><tab>x";
       mode = "n";
       action = "<cmd>tabclose<cr>";
       options.desc = "Close Tab";
     }
     {
-      key = "<leader><tab>[";
+      key = "]<tab>";
+      mode = "n";
+      action = "<cmd>tabnext<cr>";
+      options.desc = "Next Tab";
+    }
+    {
+      key = "[<tab>";
       mode = "n";
       action = "<cmd>tabprevious<cr>";
       options.desc = "Previous Tab";

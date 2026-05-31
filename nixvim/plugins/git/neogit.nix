@@ -86,8 +86,8 @@
       };
 
       commit_editor = {
-        show_staged_diff = false;
-        staged_diff_split_kind = "floating";
+        show_staged_diff = true;
+        staged_diff_split_kind = "split";
         spell_check = false;
       };
 

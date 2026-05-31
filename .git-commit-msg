@@ -1,1 +1,1 @@
-fix(nixvim): unbreak Neogit commit editor (E937 + ru.spl warning)
+feat(nixvim): show staged diff in Neogit commit editor

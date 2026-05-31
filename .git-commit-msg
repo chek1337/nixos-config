@@ -1,1 +1,1 @@
-feat(nixvim): pipe neogit diff hunks through delta
+feat(nixvim): add <leader>gC bindings for git-conflict

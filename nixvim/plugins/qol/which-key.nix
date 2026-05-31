@@ -76,6 +76,10 @@
           group = "Diff";
         }
         {
+          __unkeyed-1 = "<leader>gC";
+          group = "Conflict";
+        }
+        {
           __unkeyed-1 = "<leader>gdh";
           group = "History";
         }

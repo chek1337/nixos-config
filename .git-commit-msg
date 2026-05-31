@@ -1,1 +1,1 @@
-fix(nixvim): silence <A-j>/<A-k> line-move keymaps so cmdline doesn't flash
+fix(nixvim): unbreak Neogit commit editor (E937 + ru.spl warning)

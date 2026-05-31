@@ -82,9 +82,14 @@
         telescope = false;
         snacks = true;
         diffview = false;
-        codediff = true;
+        codediff = false;
       };
-      diff_viewer = "codediff";
+
+      commit_editor = {
+        show_staged_diff = false;
+        staged_diff_split_kind = "floating";
+        spell_check = false;
+      };
 
       log_pager = [
         "delta"

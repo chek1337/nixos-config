@@ -1,29 +1,5 @@
 { pkgs, ... }:
 let
-  ox = [
-    "o"
-    "x"
-  ];
-  nxo = [
-    "n"
-    "x"
-    "o"
-  ];
-
-  mkSelect = key: variant: obj: {
-    inherit key;
-    mode = ox;
-    action.__raw = "function() require('nvim-treesitter-textobjects.select').select_textobject('${obj}.${variant}', 'textobjects') end";
-    options.desc = "${variant} ${obj}";
-  };
-
-  mkMove = key: fn: obj: {
-    inherit key;
-    mode = nxo;
-    action.__raw = "function() require('nvim-treesitter-textobjects.move').${fn}('${obj}', 'textobjects') end";
-    options.desc = "${key} ${obj}";
-  };
-
   selectObjs = [
     {
       i = "if";
@@ -76,6 +52,91 @@ let
       obj = "@assignment";
     }
   ];
+
+  moveSpecs = [
+    {
+      key = "]f";
+      fn = "goto_next_start";
+      obj = "@function.outer";
+    }
+    {
+      key = "[f";
+      fn = "goto_previous_start";
+      obj = "@function.outer";
+    }
+    {
+      key = "]F";
+      fn = "goto_next_end";
+      obj = "@function.outer";
+    }
+    {
+      key = "[F";
+      fn = "goto_previous_end";
+      obj = "@function.outer";
+    }
+    {
+      key = "]c";
+      fn = "goto_next_start";
+      obj = "@class.outer";
+    }
+    {
+      key = "[c";
+      fn = "goto_previous_start";
+      obj = "@class.outer";
+    }
+    {
+      key = "]l";
+      fn = "goto_next_start";
+      obj = "@loop.outer";
+    }
+    {
+      key = "[l";
+      fn = "goto_previous_start";
+      obj = "@loop.outer";
+    }
+    {
+      key = "]?";
+      fn = "goto_next_start";
+      obj = "@conditional.outer";
+    }
+    {
+      key = "[?";
+      fn = "goto_previous_start";
+      obj = "@conditional.outer";
+    }
+  ];
+
+  swapSpecs = [
+    {
+      key = "<A-l>";
+      fn = "swap_next";
+      obj = "@parameter.inner";
+      desc = "swap next parameter";
+    }
+    {
+      key = "<A-h>";
+      fn = "swap_previous";
+      obj = "@parameter.inner";
+      desc = "swap prev parameter";
+    }
+  ];
+
+  renderSelect = builtins.concatStringsSep ",\n              " (
+    builtins.concatMap (s: [
+      ''{ key = "${s.i}", variant = "inner", obj = "${s.obj}", desc = "inner ${s.obj}" }''
+      ''{ key = "${s.a}", variant = "outer", obj = "${s.obj}", desc = "outer ${s.obj}" }''
+    ]) selectObjs
+  );
+
+  renderMove = builtins.concatStringsSep ",\n              " (
+    map (
+      m: ''{ key = "${m.key}", fn = "${m.fn}", obj = "${m.obj}", desc = "${m.key} ${m.obj}" }''
+    ) moveSpecs
+  );
+
+  renderSwap = builtins.concatStringsSep ",\n              " (
+    map (s: ''{ key = "${s.key}", fn = "${s.fn}", obj = "${s.obj}", desc = "${s.desc}" }'') swapSpecs
+  );
 in
 {
   extraPlugins = [
@@ -96,38 +157,66 @@ in
               select = { lookahead = true },
               move   = { set_jumps = true },
             })
+
+            local select_maps = {
+              ${renderSelect}
+            }
+            local move_maps = {
+              ${renderMove}
+            }
+            local swap_maps = {
+              ${renderSwap}
+            }
+
+            local function have(ft)
+              if ft == nil or ft == "" then return false end
+              local lang = vim.treesitter.language.get_lang(ft)
+              if not lang then return false end
+              return vim.treesitter.query.get(lang, "textobjects") ~= nil
+            end
+
+            local select_mode = { "o", "x" }
+            local move_mode   = { "n", "x", "o" }
+
+            local function attach(buf)
+              if not vim.api.nvim_buf_is_valid(buf) then return end
+              if vim.b[buf].ts_textobjects_attached then return end
+              local ft = vim.bo[buf].filetype
+              if not have(ft) then return end
+              vim.b[buf].ts_textobjects_attached = true
+
+              for _, m in ipairs(select_maps) do
+                local query = m.obj .. "." .. m.variant
+                vim.keymap.set(select_mode, m.key, function()
+                  require("nvim-treesitter-textobjects.select").select_textobject(query, "textobjects")
+                end, { buffer = buf, silent = true, desc = m.desc })
+              end
+
+              for _, m in ipairs(move_maps) do
+                local key, fn, obj = m.key, m.fn, m.obj
+                vim.keymap.set(move_mode, key, function()
+                  if vim.wo.diff and key:find("[cC]") then
+                    return vim.cmd("normal! " .. key)
+                  end
+                  require("nvim-treesitter-textobjects.move")[fn](obj, "textobjects")
+                end, { buffer = buf, silent = true, desc = m.desc })
+              end
+
+              for _, m in ipairs(swap_maps) do
+                local fn, obj = m.fn, m.obj
+                vim.keymap.set("n", m.key, function()
+                  require("nvim-treesitter-textobjects.swap")[fn](obj)
+                end, { buffer = buf, silent = true, desc = m.desc })
+              end
+            end
+
+            vim.api.nvim_create_autocmd("FileType", {
+              group = vim.api.nvim_create_augroup("treesitter_textobjects_attach", { clear = true }),
+              callback = function(ev) attach(ev.buf) end,
+            })
+            vim.tbl_map(attach, vim.api.nvim_list_bufs())
           end
         '';
     }
   ];
-
-  keymaps =
-    builtins.concatMap (m: [
-      (mkSelect m.i "inner" m.obj)
-      (mkSelect m.a "outer" m.obj)
-    ]) selectObjs
-    ++ [
-      (mkMove "]f" "goto_next_start" "@function.outer")
-      (mkMove "[f" "goto_previous_start" "@function.outer")
-      (mkMove "]F" "goto_next_end" "@function.outer")
-      (mkMove "[F" "goto_previous_end" "@function.outer")
-      (mkMove "]c" "goto_next_start" "@class.outer")
-      (mkMove "[c" "goto_previous_start" "@class.outer")
-      (mkMove "]l" "goto_next_start" "@loop.outer")
-      (mkMove "[l" "goto_previous_start" "@loop.outer")
-      (mkMove "]?" "goto_next_start" "@conditional.outer")
-      (mkMove "[?" "goto_previous_start" "@conditional.outer")
-      {
-        key = "<A-l>";
-        mode = "n";
-        action.__raw = "function() require('nvim-treesitter-textobjects.swap').swap_next('@parameter.inner') end";
-        options.desc = "swap next parameter";
-      }
-      {
-        key = "<A-h>";
-        mode = "n";
-        action.__raw = "function() require('nvim-treesitter-textobjects.swap').swap_previous('@parameter.inner') end";
-        options.desc = "swap prev parameter";
-      }
-    ];
 }

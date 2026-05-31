@@ -118,12 +118,6 @@
       options.desc = "Projects";
     }
     {
-      key = "<leader>gS";
-      mode = "n";
-      action.__raw = "function() require('snacks').picker.git_stash() end";
-      options.desc = "Git Stash";
-    }
-    {
       key = "<leader>sB";
       mode = "n";
       action.__raw = "function() require('snacks').picker.lines() end";

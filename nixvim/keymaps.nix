@@ -34,6 +34,50 @@
     }
 
     {
+      key = "m";
+      mode = [
+        "n"
+        "v"
+      ];
+      action = "<Nop>";
+      options.desc = "Disable marks";
+    }
+    {
+      key = "<M-m>";
+      mode = [
+        "n"
+        "v"
+      ];
+      action = "m";
+      options.desc = "Set mark";
+    }
+
+    {
+      key = "u";
+      mode = "v";
+      action = "<Nop>";
+      options.desc = "Disable lowercase selection";
+    }
+    {
+      key = "U";
+      mode = "v";
+      action = "<Nop>";
+      options.desc = "Disable uppercase selection";
+    }
+    {
+      key = "<M-u>";
+      mode = "v";
+      action = "u";
+      options.desc = "Lowercase selection";
+    }
+    {
+      key = "<M-U>";
+      mode = "v";
+      action = "U";
+      options.desc = "Uppercase selection";
+    }
+
+    {
       key = "<Esc>";
       mode = "n";
       action = "<cmd>nohlsearch<cr><esc>";
@@ -62,6 +106,46 @@
       action = ''"_x'';
       options.desc = "Delete char without overwriting clipboard";
     }
+    {
+      key = "X";
+      mode = [
+        "n"
+        "v"
+      ];
+      action = ''"_X'';
+      options.desc = "Delete char before without overwriting clipboard";
+    }
+
+    {
+      key = "c";
+      mode = [
+        "n"
+        "v"
+      ];
+      action = ''"_c'';
+      options.desc = "Change without overwriting clipboard";
+    }
+    {
+      key = "C";
+      mode = "n";
+      action = ''"_C'';
+      options.desc = "Change to EOL without overwriting clipboard";
+    }
+    # {
+    #   key = "s";
+    #   mode = [
+    #     "n"
+    #     "v"
+    #   ];
+    #   action = ''"_s'';
+    #   options.desc = "Substitute without overwriting clipboard";
+    # }
+    # {
+    #   key = "S";
+    #   mode = "n";
+    #   action = ''"_S'';
+    #   options.desc = "Substitute line without overwriting clipboard";
+    # }
 
     {
       key = "yp";

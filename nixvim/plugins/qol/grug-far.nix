@@ -10,6 +10,19 @@
         "astgrep"
       ];
       startInInsertMode = false;
+      windowCreationCommand = "botright vsplit";
+
+      normalModeSearch = true;
+
+      openTargetWindow = {
+        preferredLocation = "left";
+        exclude = [
+          "neo-tree"
+          "NvimTree"
+          "qf"
+          "help"
+        ];
+      };
     };
   };
 

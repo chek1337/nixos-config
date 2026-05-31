@@ -1,1 +1,1 @@
-feat(nixvim): gate footgun keys behind Alt and keep registers clean
+fix(nixvim): silence <A-j>/<A-k> line-move keymaps so cmdline doesn't flash

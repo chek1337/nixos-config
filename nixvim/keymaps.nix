@@ -424,24 +424,28 @@
       mode = "i";
       action = "<esc><cmd>m .+1<cr>==gi";
       options.desc = "Move Down";
+      options.silent = true;
     }
     {
       key = "<A-k>";
       mode = "i";
       action = "<esc><cmd>m .-2<cr>==gi";
       options.desc = "Move Up";
+      options.silent = true;
     }
     {
       key = "<A-j>";
       mode = "v";
       action = ":<C-u>execute \"'<,'>move '>+\" . v:count1<cr>gv=gv";
       options.desc = "Move Down";
+      options.silent = true;
     }
     {
       key = "<A-k>";
       mode = "v";
       action = ":<C-u>execute \"'<,'>move '<-\" . (v:count1 + 1)<cr>gv=gv";
       options.desc = "Move Up";
+      options.silent = true;
     }
   ];
 }

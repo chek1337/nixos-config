@@ -1,1 +1,1 @@
-feat(television): add env, path, systemd, journal, docker, podman, git channels
+feat(television): add alias, distrobox, git-submodules, man-pages, mounts, ports, python-venvs, tldr channels

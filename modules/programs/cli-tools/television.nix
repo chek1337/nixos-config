@@ -897,6 +897,203 @@
               };
             };
           };
+
+          alias = {
+            metadata = {
+              name = "alias";
+              description = "A channel to select from shell aliases";
+            };
+            source = {
+              command = "$SHELL -ic 'alias'";
+              output = "{split:=:0}";
+            };
+            preview.command = "$SHELL -ic 'alias' | grep -E '^(alias )?{split:=:0}='";
+            ui.preview_panel.size = 30;
+          };
+
+          "distrobox-list" = {
+            metadata = {
+              name = "distrobox-list";
+              description = "A channel to select a container from distrobox";
+              requirements = [
+                "distrobox"
+                "bat"
+              ];
+            };
+            source = {
+              command = [ "distrobox list | awk -F '|' '{ gsub(/ /, \"\", $2); print $2}' | tail --lines=+2" ];
+              shell = "bash";
+            };
+            preview = {
+              command = "(distrobox list | column -t -s '|' | awk -v selected_name={} 'NR==1 || $0 ~ selected_name') && echo && distrobox enter -d {} | bat --plain --color=always -lbash";
+              shell = "bash";
+            };
+            keybindings = {
+              "ctrl-e" = "actions:distrobox-enter";
+              "ctrl-l" = "actions:distrobox-list";
+              "ctrl-r" = "actions:distrobox-rm";
+              "ctrl-s" = "actions:distrobox-stop";
+              "ctrl-u" = "actions:distrobox-upgrade";
+            };
+            actions = {
+              "distrobox-enter" = {
+                description = "Enter a distrobox";
+                command = "distrobox enter {}";
+                mode = "execute";
+              };
+              "distrobox-list" = {
+                description = "List a distrobox";
+                command = "distrobox list | column -t -s '|' | awk -v selected_name={} 'NR==1 || $0 ~ selected_name'";
+                mode = "execute";
+              };
+              "distrobox-rm" = {
+                description = "Remove a distrobox";
+                command = "distrobox rm {}";
+                mode = "execute";
+              };
+              "distrobox-stop" = {
+                description = "Stop a distrobox";
+                command = "distrobox stop {}";
+                mode = "execute";
+              };
+              "distrobox-upgrade" = {
+                description = "Upgrade a distrobox";
+                command = "distrobox upgrade {}";
+                mode = "execute";
+              };
+            };
+          };
+
+          "git-submodules" = {
+            metadata = {
+              name = "git-submodules";
+              description = "List and manage git submodules";
+              requirements = [ "git" ];
+            };
+            source.command = "git submodule status | awk '{print $2}'";
+            preview.command = "git -C '{}' log --oneline -10 --color=always";
+            actions = {
+              update = {
+                description = "Update the selected submodule";
+                command = "git submodule update --init --recursive '{}'";
+                mode = "execute";
+              };
+              sync = {
+                description = "Sync the selected submodule URL";
+                command = "git submodule sync '{}'";
+                mode = "execute";
+              };
+            };
+          };
+
+          "man-pages" = {
+            metadata = {
+              name = "man-pages";
+              description = "Browse and preview system manual pages";
+              requirements = [
+                "apropos"
+                "man"
+              ];
+            };
+            source.command = "apropos .";
+            preview = {
+              command = "man '{0}'";
+              env.MANWIDTH = "80";
+            };
+            keybindings.enter = "actions:open";
+            actions.open = {
+              description = "Open the selected man page in the system pager";
+              command = "man '{0}'";
+              mode = "execute";
+            };
+            ui = {
+              layout = "portrait";
+              preview_panel.header = "{0}";
+            };
+          };
+
+          mounts = {
+            metadata = {
+              name = "mounts";
+              description = "List mounted filesystems";
+              requirements = [
+                "df"
+                "awk"
+              ];
+            };
+            source = {
+              command = "df -h --output=target,fstype,size,used,avail,pcent 2>/dev/null | tail -n +2";
+              display = "{split: :0}";
+            };
+            preview.command = "df -h '{}' && echo && ls -la '{}' 2>/dev/null | head -20";
+            keybindings.enter = "actions:cd";
+            actions.cd = {
+              description = "Open a shell in the selected mount point";
+              command = "cd '{}' && $SHELL";
+              mode = "execute";
+            };
+          };
+
+          ports = {
+            metadata = {
+              name = "ports";
+              description = "List listening ports and associated processes";
+              requirements = [
+                "ss"
+                "awk"
+              ];
+            };
+            source = {
+              command = "ss -tlnp 2>/dev/null | tail -n +2 | awk '{gsub(/.*:/,\"\",$4); print $4, $1, $6}' | sed 's/users:((\"//; s/\".*//''";
+              display = "{split: :0} ({split: :2})";
+            };
+            preview.command = "ss -tlnp 2>/dev/null | grep ':{split: :0} ' | head -20";
+            ui.preview_panel.size = 40;
+            actions.kill = {
+              description = "Kill the process listening on the selected port";
+              command = "fuser -k {split: :0}/tcp";
+              mode = "execute";
+            };
+          };
+
+          "python-venvs" = {
+            metadata = {
+              name = "python-venvs";
+              description = "Find Python virtual environments";
+              requirements = [ "find" ];
+            };
+            source.command = "find ~ -maxdepth 5 -type f -name 'pyvenv.cfg' 2>/dev/null | xargs -I{} dirname {}";
+            preview.command = "cat '{}/pyvenv.cfg' 2>/dev/null && echo '' && echo 'Packages:' && '{}/bin/pip' list --format=columns 2>/dev/null | head -20";
+            actions = {
+              activate = {
+                description = "Open a shell with the selected venv activated";
+                command = "source '{}/bin/activate' && $SHELL";
+                mode = "execute";
+              };
+              packages = {
+                description = "List all packages in the selected venv";
+                command = "'{}/bin/pip' list | less";
+                mode = "execute";
+              };
+            };
+          };
+
+          tldr = {
+            metadata = {
+              name = "tldr";
+              description = "Browse and preview TLDR help pages for command-line tools";
+              requirements = [ "tldr" ];
+            };
+            source.command = "tldr --list";
+            preview.command = "tldr '{0}' --color always";
+            ui.layout = "portrait";
+            keybindings."ctrl-e" = "actions:open";
+            actions.open = {
+              description = "Open the selected TLDR page";
+              command = "tldr '{0}'";
+              mode = "execute";
+            };
+          };
         };
       };
 

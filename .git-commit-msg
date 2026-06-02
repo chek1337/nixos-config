@@ -1,1 +1,1 @@
-fix(television): ports channel — fix Nix string quoting in sed command
+fix(television): mounts channel — use findmnt instead of df --output

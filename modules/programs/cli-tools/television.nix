@@ -1022,10 +1022,10 @@
               ];
             };
             source = {
-              command = "df -h --output=target,fstype,size,used,avail,pcent 2>/dev/null | tail -n +2";
+              command = "findmnt --real -o TARGET,FSTYPE,SIZE,USE% 2>/dev/null | tail -n +2";
               display = "{split: :0}";
             };
-            preview.command = "df -h '{}' && echo && ls -la '{}' 2>/dev/null | head -20";
+            preview.command = "df -h '{}' 2>/dev/null && echo && ls -la '{}' 2>/dev/null | head -20";
             keybindings.enter = "actions:cd";
             actions.cd = {
               description = "Open a shell in the selected mount point";

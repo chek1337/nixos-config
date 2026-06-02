@@ -904,10 +904,10 @@
               description = "A channel to select from shell aliases";
             };
             source = {
-              command = "$SHELL -ic 'alias'";
+              command = "zsh -c 'source ~/.zshrc 2>/dev/null; alias' 2>/dev/null";
               output = "{split:=:0}";
             };
-            preview.command = "$SHELL -ic 'alias' | grep -E '^(alias )?{split:=:0}='";
+            preview.command = "zsh -c 'source ~/.zshrc 2>/dev/null; alias' 2>/dev/null | grep -E '^(alias )?{split:=:0}='";
             ui.preview_panel.size = 30;
           };
 

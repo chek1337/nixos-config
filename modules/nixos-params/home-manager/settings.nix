@@ -131,6 +131,45 @@
           default = false;
           description = "Whether to spawn rice terminals on startup (nitch, lavat, nvim rice session)";
         };
+
+        work = lib.mkOption {
+          type = lib.types.nullOr (
+            lib.types.submodule {
+              options = {
+                name = lib.mkOption {
+                  type = lib.types.str;
+                  description = "Git user.name for repositories under workDir.";
+                };
+                email = lib.mkOption {
+                  type = lib.types.str;
+                  description = "Git user.email for repositories under workDir.";
+                };
+                workDir = lib.mkOption {
+                  type = lib.types.str;
+                  default = "~/Work/";
+                  description = ''
+                    Directory prefix (trailing slash required) under which
+                    work repos live. Matched by git includeIf gitdir.
+                  '';
+                };
+                sshKeyPath = lib.mkOption {
+                  type = lib.types.nullOr lib.types.str;
+                  default = null;
+                  description = ''
+                    Path to private SSH key used for git over SSH in workDir.
+                    null = fall back to ssh-agent default identity.
+                  '';
+                };
+              };
+            }
+          );
+          default = null;
+          description = ''
+            Per-host work identity for git/ssh. null = no work setup on this
+            host; non-null applies the identity to repos under workDir via
+            git includeIf.
+          '';
+        };
       };
     };
 }

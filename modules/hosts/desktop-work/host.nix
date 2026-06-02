@@ -21,6 +21,15 @@ let
       # Append SSH public keys here, e.g.:
       # "ssh-ed25519 AAAA... chek@laptop"
     ];
+
+    # TODO: заменить заглушки на реальные данные с работы.
+    # После замены — клонировать рабочие репо в ~/Work/ и
+    # сгенерировать ключ: ssh-keygen -t ed25519 -f ~/.ssh/id_ed25519_work
+    work = {
+      name = "TODO-work-name";
+      email = "TODO-work-email@example.com";
+      # sshKeyPath = "/home/chek/.ssh/id_ed25519_work";
+    };
   };
 in
 {

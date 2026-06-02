@@ -153,6 +153,35 @@
           default = "nord";
           description = "Base16 scheme name matching a file in pkgs.base16-schemes (e.g. nord, catppuccin-mocha)";
         };
+
+        work = lib.mkOption {
+          type = lib.types.nullOr (
+            lib.types.submodule {
+              options = {
+                name = lib.mkOption {
+                  type = lib.types.str;
+                  description = "Mirror of home-manager settings.work.name.";
+                };
+                email = lib.mkOption {
+                  type = lib.types.str;
+                  description = "Mirror of home-manager settings.work.email.";
+                };
+                workDir = lib.mkOption {
+                  type = lib.types.str;
+                  default = "~/Work/";
+                  description = "Mirror of home-manager settings.work.workDir.";
+                };
+                sshKeyPath = lib.mkOption {
+                  type = lib.types.nullOr lib.types.str;
+                  default = null;
+                  description = "Mirror of home-manager settings.work.sshKeyPath.";
+                };
+              };
+            }
+          );
+          default = null;
+          description = "Mirror of home-manager settings.work — see home-manager/settings.nix.";
+        };
       };
     };
 }

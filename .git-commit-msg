@@ -1,1 +1,1 @@
-fix(television): alias channel — source zshrc without -i to avoid TTY suspension
+fix(television): ports channel — fix extra quote in sed command

@@ -1044,7 +1044,7 @@
               ];
             };
             source = {
-              command = "ss -tlnp 2>/dev/null | tail -n +2 | awk '{gsub(/.*:/,\"\",$4); print $4, $1, $6}' | sed 's/users:((\"//; s/\".*//''";
+              command = "ss -tlnp 2>/dev/null | tail -n +2 | awk '{gsub(/.*:/,\"\",$4); print $4, $1, $6}' | sed 's/users:((\"//; s/\".*//'"";
               display = "{split: :0} ({split: :2})";
             };
             preview.command = "ss -tlnp 2>/dev/null | grep ':{split: :0} ' | head -20";

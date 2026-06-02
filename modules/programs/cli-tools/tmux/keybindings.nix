@@ -75,6 +75,8 @@
         bind D detach-client
         bind В detach-client
 
+        bind X confirm-before -p "kill-window #W? (y/n)" kill-window
+
         # Окна (русская раскладка)
         bind с new-window
         bind т next-window

@@ -1,4 +1,4 @@
-{ config, inputs, ... }:
+{ config, ... }:
 let
   flakeConfig = config;
   hostname = "desktop-work";
@@ -10,16 +10,17 @@ let
     "remote-access"
   ];
   sharedSettings = {
-    isLaptop = true;
     hasBluetooth = true;
-    wireguardConfigName = "wireguard-laptop-asus";
-    colorScheme = "catppuccin-mocha";
+    # TODO: создать sops-секрет wireguard-desktop-work.conf (или сменить имя
+    # на существующий, если рабочий VPN будет использовать другой профиль).
+    wireguardConfigName = "wireguard-desktop-home";
+    colorScheme = "nord";
 
-    enableRemoteSsh = false;
-    enableRemoteDesktop = false;
+    enableRemoteSsh = true;
+    enableRemoteDesktop = true;
+    enableMoonlightClient = true;
     remoteSshAuthorizedKeys = [
-      # Append SSH public keys here, e.g.:
-      # "ssh-ed25519 AAAA... chek@laptop"
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIA213f/P1prxD2ImqqW6goD6iBsHH8E5HvEOf+R/dkk8 chek@wsl-asuslaptop"
     ];
 
     # TODO: заменить заглушки на реальные данные с работы.
@@ -41,7 +42,6 @@ in
 
     modules.nixos."hosts/${hostname}" = {
       imports = (flakeConfig.flake.lib.loadNixosModules modules) ++ [
-        inputs.nixos-hardware.nixosModules.asus-fa507nv
         ./_hardware-configuration.nix
       ];
 
@@ -54,14 +54,27 @@ in
 
       services.niri.blur.enable = false;
 
-      services.niri.outputs.eDP-1 = {
-        mode = "1920x1080@144.063";
-        variableRefreshRate = "on-demand";
+      # TODO: имена выходов и mode подобрать под реальные мониторы после
+      # первой загрузки (`niri msg outputs`). Скопировано из desktop-home как
+      # отправная точка для двухмониторной раскладки.
+      services.niri.outputs.DP-1 = {
+        position = {
+          x = 0;
+          y = 180;
+        };
+      };
+      services.niri.outputs.HDMI-A-1 = {
+        mode = "1920x1080@60.000";
+        position = {
+          x = 1600;
+          y = 0;
+        };
       };
       services.pttkey.bindings = {
         mouse = {
           keys = [ "BTN_EXTRA" ];
-          devicePath = "/dev/input/event1";
+          # TODO: подставить путь USB-мыши с реальной машины (ls /dev/input/by-id/).
+          devicePath = "/dev/input/by-id/usb-E-Signal_USB_Gaming_Mouse-event-mouse";
         };
         kbd = {
           keys = [ "KEY_F13" ];

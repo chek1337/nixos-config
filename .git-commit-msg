@@ -1,1 +1,1 @@
-feat(git): add per-host settings.work for work identity override
+refactor(desktop-work): rebase host config on desktop-home baseline

@@ -1,1 +1,1 @@
-refactor(desktop-work): rebase host config on desktop-home baseline
+feat(nixvim): add <C-s> save keymap

@@ -392,6 +392,18 @@
       options.silent = true;
     }
 
+    # Save
+    {
+      key = "<C-s>";
+      mode = [
+        "n"
+        "i"
+        "x"
+      ];
+      action = "<cmd>w<cr><esc>";
+      options.desc = "Save file";
+    }
+
     # Better indenting
     {
       key = "<";

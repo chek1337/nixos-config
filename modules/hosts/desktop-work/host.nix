@@ -11,9 +11,12 @@ let
   ];
   sharedSettings = {
     hasBluetooth = true;
-    # TODO: создать sops-секрет wireguard-desktop-work.conf (или сменить имя
-    # на существующий, если рабочий VPN будет использовать другой профиль).
     wireguardConfigName = "wireguard-desktop-home";
+    wireguardExtraConfigs = [ "wireguard-isakin" ];
+    amneziaWgExtraConfigs = [
+      "amnezia-chumakov"
+      "amnezia-chumakov-2"
+    ];
     colorScheme = "nord";
 
     enableRemoteSsh = true;

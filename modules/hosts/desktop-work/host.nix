@@ -11,7 +11,7 @@ let
   ];
   sharedSettings = {
     hasBluetooth = true;
-    wireguardConfigName = "wireguard-desktop-home";
+    wireguardConfigName = "wireguard-desktop-work";
     wireguardExtraConfigs = [ "wireguard-isakin" ];
     amneziaWgExtraConfigs = [
       "amnezia-chumakov"

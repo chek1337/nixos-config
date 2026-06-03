@@ -121,41 +121,43 @@ in
           (
             # lua
             raw ''
-              {
-                'branch',
-                icon = '',
-                fmt = function(branch)
-                  local extra = (_G.LualineGit and _G.LualineGit.get and _G.LualineGit.get()) or ""
-                  if extra ~= "" then return branch .. " " .. extra end
-                  return branch
-                end,
-              }
-            ''
-          )
-          (
-            # lua
-            raw ''
               (function()
                 ${gitStateFn}
                 return {
-                  get_git_state,
-                  cond = function() return get_git_state() ~= "" end,
-                  color = "Lualine_MatchParen",
+                  function()
+                    local d = vim.b.gitsigns_status_dict
+                    local head = (d and d.head) or ""
+                    if head == "" then return "" end
+
+                    local parts = { " " .. head }
+
+                    local extra = (_G.LualineGit and _G.LualineGit.get and _G.LualineGit.get()) or ""
+
+                    if d then
+                      local dp = {}
+                      if (d.added   or 0) > 0 then dp[#dp + 1] = "+" .. d.added   end
+                      if (d.changed or 0) > 0 then dp[#dp + 1] = "~" .. d.changed end
+                      if (d.removed or 0) > 0 then dp[#dp + 1] = "-" .. d.removed end
+                      if #dp > 0 then parts[#parts + 1] = table.concat(dp, " ") end
+                    end
+
+                    if extra ~= "" then parts[#parts + 1] = extra end
+
+                    local state = get_git_state()
+                    if state ~= "" then
+                      state = state:gsub("^%s+", "")
+                      parts[#parts + 1] = "%#Lualine_MatchParen#" .. state .. "%*"
+                    end
+
+
+                    return table.concat(parts, " ")
+                  end,
+                  cond = function()
+                    local d = vim.b.gitsigns_status_dict
+                    return d ~= nil and d.head ~= nil and d.head ~= ""
+                  end,
                 }
               end)()
-            ''
-          )
-          (
-            # lua
-            raw ''
-              {
-                'diff',
-                cond = function()
-                  local d = vim.b.gitsigns_status_dict
-                  if not d then return false end
-                  return (d.added or 0) + (d.changed or 0) + (d.removed or 0) > 0
-                end,
-              }
             ''
           )
         ];
@@ -359,14 +361,13 @@ in
             end
           end
         end
-        local parts = {}
-        if ahead > 0 then parts[#parts + 1] = "↑" .. ahead end
-        if behind > 0 then parts[#parts + 1] = "↓" .. behind end
-        local marks = (unstaged and "*" or "")
+        local marks = (unstaged and "!" or "")
           .. (staged and "+" or "")
           .. (untracked and "?" or "")
-        if marks ~= "" then parts[#parts + 1] = marks end
-        return table.concat(parts, " ")
+        local ab = ""
+        if ahead > 0 then ab = ab .. "⇡" .. ahead end
+        if behind > 0 then ab = ab .. "⇣" .. behind end
+        return marks .. ab
       end
 
       function M.refresh(root)

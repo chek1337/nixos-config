@@ -10,12 +10,12 @@ in
       ...
     }:
     let
-      # geoip-ru.srs is taken from the nixpkgs sing-geoip package (local, no download).
-      # geosite-ru.srs comes from SagerNet GitHub (downloaded once on first start,
-      # cached in /var/lib/singbox-ru/cache.db).
+      # Both rule-sets taken from nixpkgs packages (local, no download needed).
       geoipRuSrs = "${pkgs.sing-geoip}/share/sing-box/rule-set/geoip-ru.srs";
+      geositeRuSrs = "${pkgs.sing-geosite}/share/sing-box/rule-set/geosite-category-ru.srs";
 
-      parserScript = pkgs.writeText "vless-to-singbox-ru.py" ''
+      parserScript = pkgs.writeText "vless-to-singbox-ru.py" # py
+      ''
         import ipaddress
         import json
         import sys
@@ -78,12 +78,6 @@ in
 
         cfg = {
             "log": {"level": "info", "timestamp": True},
-            "experimental": {
-                "cache_file": {
-                    "enabled": True,
-                    "path": "/var/lib/singbox-ru/cache.db",
-                }
-            },
             "dns": {
                 "servers": [
                     {
@@ -112,13 +106,12 @@ in
                     "address": ["172.19.0.1/30"],
                     "auto_route": True,
                     "strict_route": False,
-                    "stack": "system",
+                    "stack": "gvisor",
                 }
             ],
             "outbounds": [
                 outbound,
-                {"type": "direct", "tag": "direct"},
-                {"type": "dns", "tag": "dns-out"},
+                {"type": "direct", "tag": "direct", "routing_mark": 100},
             ],
             "route": {
                 "rule_set": [
@@ -129,16 +122,14 @@ in
                         "path": "${geoipRuSrs}",
                     },
                     {
-                        "type": "remote",
+                        "type": "local",
                         "tag": "geosite-ru",
                         "format": "binary",
-                        "url": "https://github.com/SagerNet/sing-geosite/releases/latest/download/geosite-ru.srs",
-                        "download_detour": "direct",
-                        "update_interval": "72h",
+                        "path": "${geositeRuSrs}",
                     },
                 ],
                 "rules": [
-                    {"protocol": "dns", "outbound": "dns-out"},
+                    {"port": 53, "action": "hijack-dns"},
                     {"ip_is_private": True, "outbound": "direct"},
                     *server_bypass,
                     {"rule_set": ["geoip-ru"], "outbound": "direct"},
@@ -146,6 +137,7 @@ in
                 ],
                 "final": "proxy",
                 "auto_detect_interface": True,
+                "default_domain_resolver": "dns-direct",
             },
         }
 
@@ -163,6 +155,7 @@ in
         ];
         wants = [ "network-online.target" ];
         # No wantedBy — start manually with: sb-up
+        restartIfChanged = false;
 
         serviceConfig = {
           Type = "simple";
@@ -170,7 +163,6 @@ in
           RestartSec = 5;
           RuntimeDirectory = "singbox-ru";
           RuntimeDirectoryMode = "0700";
-          StateDirectory = "singbox-ru";
 
           ExecStartPre = pkgs.writeShellScript "singbox-ru-prepare" ''
             ${pkgs.python3}/bin/python3 ${parserScript} \

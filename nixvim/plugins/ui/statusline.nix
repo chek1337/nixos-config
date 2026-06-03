@@ -118,18 +118,17 @@ in
       sections = {
         lualine_a = [ (raw "{ 'mode' }") ];
         lualine_b = [
-          (raw "{ 'branch', icon = '' }")
           (
             # lua
             raw ''
               {
-                function()
-                  return (_G.LualineGit and _G.LualineGit.get and _G.LualineGit.get()) or ""
+                'branch',
+                icon = '',
+                fmt = function(branch)
+                  local extra = (_G.LualineGit and _G.LualineGit.get and _G.LualineGit.get()) or ""
+                  if extra ~= "" then return branch .. " " .. extra end
+                  return branch
                 end,
-                cond = function()
-                  return _G.LualineGit ~= nil and _G.LualineGit.get() ~= ""
-                end,
-                color = "Lualine_Bold",
               }
             ''
           )

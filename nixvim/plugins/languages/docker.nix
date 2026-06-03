@@ -7,6 +7,6 @@
   ];
 
   extraPackages = with pkgs; [
-    dockerfile-language-server-nodejs
+    dockerfile-language-server
   ];
 }

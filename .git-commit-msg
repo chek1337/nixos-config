@@ -1,1 +1,1 @@
-refactor(codediff): move history keymaps to <leader>gH prefix
+feat(nixvim): add dockerfile treesitter parser and LSP

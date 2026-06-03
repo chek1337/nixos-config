@@ -1,1 +1,1 @@
-feat: fmt and overser
+feat(nixvim): close non-file windows on VimLeavePre

@@ -46,6 +46,35 @@
       end,
     })
 
+    -- Close all non-file windows before VimLeave so persistence.nvim не
+    -- сохраняет в сессию qf/neogit/dap-view/trouble/snacks/etc. (иначе при
+    -- следующей загрузке появляются пустые скретч-окна и порождённые tabs).
+    vim.api.nvim_create_autocmd("VimLeavePre", {
+      group = vim.api.nvim_create_augroup("close_non_file_windows", { clear = true }),
+      callback = function()
+        for _, win in ipairs(vim.api.nvim_list_wins()) do
+          local buf = vim.api.nvim_win_get_buf(win)
+          if vim.bo[buf].buftype ~= "" then
+            pcall(vim.api.nvim_win_close, win, true)
+          end
+        end
+        -- Сначала прыгаем на tab с реальным файловым буфером, потом tabonly,
+        -- чтобы не остался пустой holdover-tab от вычищенных скретч-окон.
+        local found = false
+        for _, tab in ipairs(vim.api.nvim_list_tabpages()) do
+          if found then break end
+          for _, win in ipairs(vim.api.nvim_tabpage_list_wins(tab)) do
+            if vim.bo[vim.api.nvim_win_get_buf(win)].buftype == "" then
+              vim.api.nvim_set_current_tabpage(tab)
+              found = true
+              break
+            end
+          end
+        end
+        vim.cmd("silent! tabonly")
+      end,
+    })
+
     vim.api.nvim_create_autocmd("TextYankPost", {
       group = vim.api.nvim_create_augroup("highlight_yank", { clear = true }),
       callback = function()

@@ -1,4 +1,7 @@
-{ inputs, ... }:
+{ config, ... }:
+let
+  nixosMods = config.flake.modules.nixos;
+in
 {
   flake.modules.nixos.v2rayn =
     {
@@ -93,11 +96,7 @@
       };
     in
     {
-      sops.secrets."vless-chumakov" = {
-        sopsFile = inputs.self + "/secrets/secrets.yaml";
-        key = "vless-chumakov";
-        owner = config.settings.username;
-      };
+      imports = [ nixosMods.unblock-vless-secret ];
 
       environment.systemPackages = [ v2rayN-upstream ];
     };
@@ -110,11 +109,6 @@
         "v2rayN/bin/sing_box/sing-box".source = "${pkgs.sing-box}/bin/sing-box";
         "v2rayN/bin/geoip.dat".source = "${pkgs.v2ray-geoip}/share/v2ray/geoip.dat";
         "v2rayN/bin/geosite.dat".source = "${pkgs.v2ray-domain-list-community}/share/v2ray/geosite.dat";
-      };
-
-      programs.zsh.shellAliases = {
-        vless-show = "cat /run/secrets/vless-chumakov";
-        vless-copy = "cat /run/secrets/vless-chumakov | wl-copy";
       };
     };
 }

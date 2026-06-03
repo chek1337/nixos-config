@@ -1,4 +1,4 @@
-{ inputs, config, ... }:
+{ config, ... }:
 let
   nixosMods = config.flake.modules.nixos;
   hmMods = config.flake.modules.homeManager;
@@ -11,17 +11,9 @@ let
 in
 {
   flake.modules.nixos.wireguard =
-    { config, pkgs, ... }:
-    let
-      wgName = config.settings.wireguardConfigName;
-    in
+    { pkgs, ... }:
     {
-      imports = pick nixosMods;
-
-      sops.secrets.${wgName} = {
-        sopsFile = inputs.self + "/secrets/${wgName}.conf";
-        format = "binary";
-      };
+      imports = pick nixosMods ++ [ nixosMods.unblock-wg-secrets ];
 
       # networking.firewall.checkReversePath = "loose";
       #

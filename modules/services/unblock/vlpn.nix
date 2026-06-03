@@ -1,8 +1,9 @@
 # NOT WORKING MODULE
 # NOT WORKING MODULE
 # NOT WORKING MODULE
-{ inputs, ... }:
+{ config, ... }:
 let
+  nixosMods = config.flake.modules.nixos;
   nsName = "vlpn0";
   hostVeth = "vlpn-host";
   nsVeth = "vlpn-ns";
@@ -163,11 +164,7 @@ in
       '';
     in
     {
-      sops.secrets."vless-chumakov" = {
-        sopsFile = inputs.self + "/secrets/secrets.yaml";
-        key = "vless-chumakov";
-        owner = config.settings.username;
-      };
+      imports = [ nixosMods.unblock-vless-secret ];
 
       environment.systemPackages = [
         pkgs.iproute2

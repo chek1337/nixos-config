@@ -1,25 +1,12 @@
-{ inputs, lib, ... }:
+{ config, lib, ... }:
+let
+  nixosMods = config.flake.modules.nixos;
+in
 {
   flake.modules.nixos.vopono =
     { config, pkgs, ... }:
-    let
-      wgName = config.settings.wireguardConfigName;
-      allWgConfigs = [
-        wgName
-      ]
-      ++ config.settings.wireguardExtraConfigs
-      ++ config.settings.amneziaWgExtraConfigs;
-    in
     {
-      sops.secrets = lib.listToAttrs (
-        map (name: {
-          inherit name;
-          value = {
-            sopsFile = inputs.self + "/secrets/${name}.conf";
-            format = "binary";
-          };
-        }) allWgConfigs
-      );
+      imports = [ nixosMods.unblock-wg-secrets ];
 
       boot.extraModulePackages = lib.mkIf (config.settings.amneziaWgExtraConfigs != [ ]) [
         config.boot.kernelPackages.amneziawg

@@ -1,4 +1,7 @@
-{ inputs, ... }:
+{ config, ... }:
+let
+  nixosMods = config.flake.modules.nixos;
+in
 {
   flake.modules.nixos.wireproxy =
     {
@@ -11,10 +14,7 @@
       wgName = config.settings.wireguardConfigName;
     in
     {
-      sops.secrets.${wgName} = {
-        sopsFile = inputs.self + "/secrets/${wgName}.conf";
-        format = "binary";
-      };
+      imports = [ nixosMods.unblock-wg-secrets ];
 
       environment.systemPackages = with pkgs-stable; [
         wireproxy

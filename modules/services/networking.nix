@@ -9,6 +9,7 @@ let
     "awg-quick"
     "throne"
     "v2rayn"
+    "singbox-ru"
     # "vlpn"
   ];
 in

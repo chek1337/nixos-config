@@ -76,7 +76,7 @@
       };
     }
     {
-      key = "<leader>gdhh";
+      key = "<leader>gHh";
       mode = "n";
       action = ":CodeDiff history<CR>";
       options = {
@@ -85,7 +85,7 @@
       };
     }
     {
-      key = "<leader>gdhH";
+      key = "<leader>gHH";
       mode = "n";
       action.__raw = "function() vim.fn.feedkeys(':CodeDiff history ', 'n') end";
       options = {
@@ -94,7 +94,7 @@
       };
     }
     {
-      key = "<leader>gdhf";
+      key = "<leader>gHf";
       mode = "n";
       action = ":CodeDiff history %<CR>";
       options = {

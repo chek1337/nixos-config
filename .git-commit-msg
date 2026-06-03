@@ -1,1 +1,1 @@
-feat(neogit): add keymaps for remaining popup actions
+refactor(codediff): move history keymaps to <leader>gH prefix

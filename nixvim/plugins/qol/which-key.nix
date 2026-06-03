@@ -88,7 +88,7 @@
           group = "Blame";
         }
         {
-          __unkeyed-1 = "<leader>gdh";
+          __unkeyed-1 = "<leader>gH";
           group = "History";
         }
         {

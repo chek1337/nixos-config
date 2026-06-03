@@ -145,7 +145,19 @@ in
               end)()
             ''
           )
-          (raw "{ 'diff' }")
+          (
+            # lua
+            raw ''
+              {
+                'diff',
+                cond = function()
+                  local d = vim.b.gitsigns_status_dict
+                  if not d then return false end
+                  return (d.added or 0) + (d.changed or 0) + (d.removed or 0) > 0
+                end,
+              }
+            ''
+          )
         ];
         lualine_c = [
           (

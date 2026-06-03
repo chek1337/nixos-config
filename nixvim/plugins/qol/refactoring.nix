@@ -51,7 +51,6 @@
                         end
                         -- В C++ нет parallel-присваивания, разворачиваем
                         -- в построчные `auto name = expr;` — `auto` дешевле,
-                        -- чем тащить тип из LSP.
                         local lines = {}
                         for i, l in ipairs(opts.left) do
                           table.insert(lines,

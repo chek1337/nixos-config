@@ -69,6 +69,60 @@
       action = "<cmd>Neogit rebase<cr>";
       options.desc = "Rebase";
     }
+    {
+      key = "<leader>gA";
+      mode = "n";
+      action = "<cmd>Neogit cherry_pick<cr>";
+      options.desc = "Cherry Pick";
+    }
+    # {
+    #   key = "<leader>gB";
+    #   mode = "n";
+    #   action = "<cmd>Neogit bisect<cr>";
+    #   options.desc = "Bisect";
+    # }
+    {
+      key = "<leader>gi";
+      mode = "n";
+      action = "<cmd>Neogit ignore<cr>";
+      options.desc = "Ignore";
+    }
+    {
+      key = "<leader>gI";
+      mode = "n";
+      action = "<cmd>Neogit init<cr>";
+      options.desc = "Init";
+    }
+    {
+      key = "<leader>gM";
+      mode = "n";
+      action = "<cmd>Neogit remote<cr>";
+      options.desc = "Remote";
+    }
+    {
+      key = "<leader>gt";
+      mode = "n";
+      action = "<cmd>Neogit tag<cr>";
+      options.desc = "Tag";
+    }
+    {
+      key = "<leader>gv";
+      mode = "n";
+      action = "<cmd>Neogit revert<cr>";
+      options.desc = "Revert";
+    }
+    {
+      key = "<leader>gw";
+      mode = "n";
+      action = "<cmd>Neogit worktree<cr>";
+      options.desc = "Worktree";
+    }
+    {
+      key = "<leader>gX";
+      mode = "n";
+      action = "<cmd>Neogit reset<cr>";
+      options.desc = "Reset";
+    }
   ];
 
   plugins.neogit = {

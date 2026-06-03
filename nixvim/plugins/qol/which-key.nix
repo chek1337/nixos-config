@@ -63,6 +63,10 @@
           group = "Code";
         }
         {
+          __unkeyed-1 = "<leader>r";
+          group = "Refactor";
+        }
+        {
           __unkeyed-1 = "<leader><tab>";
           group = "Tabs";
         }

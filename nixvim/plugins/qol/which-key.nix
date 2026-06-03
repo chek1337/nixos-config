@@ -55,6 +55,10 @@
           group = "Multicursor";
         }
         {
+          __unkeyed-1 = "<leader>o";
+          group = "Overseer";
+        }
+        {
           __unkeyed-1 = "<leader>c";
           group = "Code";
         }

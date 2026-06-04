@@ -38,15 +38,15 @@ let
         local state = ""
         if vim.fn.isdirectory(dir .. "/rebase-merge") == 1
           or vim.fn.isdirectory(dir .. "/rebase-apply") == 1 then
-          state = " REBASE"
+          state = " REBASING"
         elseif vim.fn.filereadable(dir .. "/MERGE_HEAD") == 1 then
-          state = " MERGE"
+          state = " MERGING"
         elseif vim.fn.filereadable(dir .. "/CHERRY_PICK_HEAD") == 1 then
-          state = " PICK"
+          state = " PICKING"
         elseif vim.fn.filereadable(dir .. "/REVERT_HEAD") == 1 then
-          state = " REVERT"
+          state = " REVERTING"
         elseif vim.fn.filereadable(dir .. "/BISECT_LOG") == 1 then
-          state = " BISECT"
+          state = " BISECTING"
         end
 
         vim.b[buf].lualine_git_state = state
@@ -131,24 +131,30 @@ in
 
                     local parts = { " " .. head }
 
-                    local extra = (_G.LualineGit and _G.LualineGit.get and _G.LualineGit.get()) or ""
-
-                    if d then
-                      local dp = {}
-                      if (d.added   or 0) > 0 then dp[#dp + 1] = "+" .. d.added   end
-                      if (d.changed or 0) > 0 then dp[#dp + 1] = "~" .. d.changed end
-                      if (d.removed or 0) > 0 then dp[#dp + 1] = "-" .. d.removed end
-                      if #dp > 0 then parts[#parts + 1] = table.concat(dp, " ") end
-                    end
-
-                    if extra ~= "" then parts[#parts + 1] = extra end
-
                     local state = get_git_state()
                     if state ~= "" then
                       state = state:gsub("^%s+", "")
-                      parts[#parts + 1] = "%#Lualine_MatchParen#" .. state .. "%*"
+                      local ok, hl_mod = pcall(require, "lualine.highlight")
+                      local section_hl_str = ok and hl_mod.format_highlight("b") or ""
+                      local section_hl_name = section_hl_str:match("%%#(.-)#")
+                      if section_hl_name then
+                        local section_color = vim.api.nvim_get_hl(0, { name = section_hl_name, link = false })
+                        local matchparen = vim.api.nvim_get_hl(0, { name = "MatchParen", link = false })
+                        vim.api.nvim_set_hl(0, "Lualine_GitStateInline", {
+                          fg = matchparen.fg,
+                          bg = section_color.bg,
+                          bold = true,
+                        })
+                        parts[#parts + 1] = "%#Lualine_GitStateInline#(" .. state .. ")" .. section_hl_str
+                      else
+                        parts[#parts + 1] = "(" .. state .. ")"
+                      end
                     end
 
+                    local extra = (_G.LualineGit and _G.LualineGit.get and _G.LualineGit.get()) or ""
+                    if extra ~= "" then
+                      parts[#parts + 1] = "[" .. extra .. "]"
+                    end
 
                     return table.concat(parts, " ")
                   end,
@@ -343,7 +349,7 @@ in
 
       local function parse(out)
         local ahead, behind = 0, 0
-        local unstaged, staged, untracked = false, false, false
+        local unstaged, staged, untracked, conflicted = false, false, false, false
         for line in (out or ""):gmatch("[^\n]+") do
           local a, b = line:match("^# branch%.ab %+(%-?%d+) %-(%-?%d+)")
           if a then
@@ -357,16 +363,22 @@ in
               if xy:sub(1, 1) ~= "." then staged = true end
               if xy:sub(2, 2) ~= "." then unstaged = true end
             elseif first == "u" then
-              unstaged = true
+              conflicted = true
             end
           end
         end
-        local marks = (unstaged and "!" or "")
+        local marks = (conflicted and "=" or "")
+          .. (unstaged and "!" or "")
           .. (staged and "+" or "")
           .. (untracked and "?" or "")
         local ab = ""
-        if ahead > 0 then ab = ab .. "⇡" .. ahead end
-        if behind > 0 then ab = ab .. "⇣" .. behind end
+        if ahead > 0 and behind > 0 then
+          ab = "⇕"
+        elseif ahead > 0 then
+          ab = "⇡"
+        elseif behind > 0 then
+          ab = "⇣"
+        end
         return marks .. ab
       end
 

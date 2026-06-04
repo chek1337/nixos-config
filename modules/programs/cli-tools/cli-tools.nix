@@ -15,7 +15,7 @@ let
     "trash-cli"
     "btop"
     "bat"
-    "soundscope"
+    # "soundscope"
     "cmus"
     "rice"
     "wallpaper-colorizer"

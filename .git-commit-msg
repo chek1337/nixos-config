@@ -1,1 +1,1 @@
-feat: comment buf_ls
+feat(nixvim): unify LSP keymaps under LspAttach with capability checks

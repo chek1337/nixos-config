@@ -2,33 +2,17 @@
 {
   plugins.overseer = {
     enable = true;
-    lazyLoad.settings.cmd = [
-      "OverseerOpen"
-      "OverseerClose"
-      "OverseerToggle"
-      "OverseerSaveBundle"
-      "OverseerLoadBundle"
-      "OverseerDeleteBundle"
-      "OverseerRunCmd"
-      "OverseerRun"
-      "OverseerInfo"
-      "OverseerBuild"
-      "OverseerQuickAction"
-      "OverseerTaskAction"
-      "OverseerClearCache"
-    ];
+    lazyLoad.settings.event = "DeferredUIEnter";
     settings = {
       task_list = {
         direction = "bottom";
         min_height = 10;
         max_height = 20;
-        default_detail = 1;
       };
       # Templates auto-detect make, npm, cargo, just, etc. and feed errors
       # into the quickfix list via on_output_quickfix.
       component_aliases = {
         default = [
-          "on_output_summarize"
           "on_exit_set_status"
           "on_complete_notify"
           {
@@ -39,6 +23,10 @@
             ];
           }
           "on_output_quickfix"
+          {
+            __unkeyed-1 = "unique";
+            replace = true;
+          }
         ];
       };
     };
@@ -58,13 +46,23 @@
       options.desc = "Toggle task list";
     }
     {
-      key = "<leader>oa";
+      key = "<leader>op";
       mode = "n";
-      action = "<cmd>OverseerQuickAction<cr>";
-      options.desc = "Quick action on last task";
+      action.__raw = ''
+        function()
+          local overseer = require("overseer")
+          local tasks = overseer.list_tasks({})
+          if #tasks == 0 then
+            vim.notify("No overseer tasks", vim.log.levels.INFO)
+            return
+          end
+          tasks[1]:open_output("float")
+        end
+      '';
+      options.desc = "Peek latest task output (float)";
     }
     {
-      key = "<leader>oA";
+      key = "<leader>oa";
       mode = "n";
       action = "<cmd>OverseerTaskAction<cr>";
       options.desc = "Task action menu";
@@ -72,38 +70,20 @@
     {
       key = "<leader>oR";
       mode = "n";
-      action = "<cmd>OverseerRunCmd<cr>";
+      action = "<cmd>OverseerShell<cr>";
       options.desc = "Run shell command";
     }
-    {
-      key = "<leader>oi";
-      mode = "n";
-      action = "<cmd>OverseerInfo<cr>";
-      options.desc = "Templates info";
-    }
-    {
-      key = "<leader>ob";
-      mode = "n";
-      action = "<cmd>OverseerBuild<cr>";
-      options.desc = "Build task interactively";
-    }
-    {
-      key = "<leader>oc";
-      mode = "n";
-      action = "<cmd>OverseerClearCache<cr>";
-      options.desc = "Clear template cache";
-    }
-    {
-      key = "<leader>os";
-      mode = "n";
-      action = "<cmd>OverseerSaveBundle<cr>";
-      options.desc = "Save bundle";
-    }
-    {
-      key = "<leader>ol";
-      mode = "n";
-      action = "<cmd>OverseerLoadBundle<cr>";
-      options.desc = "Load bundle";
-    }
   ];
+
+  extraConfigLua = ''
+    vim.api.nvim_create_autocmd("FileType", {
+      pattern = "OverseerOutput",
+      callback = function(args)
+        vim.keymap.set("n", "q", "<cmd>close<cr>", {
+          buffer = args.buf,
+          desc = "Close overseer output window",
+        })
+      end,
+    })
+  '';
 }

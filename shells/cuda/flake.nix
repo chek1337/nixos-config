@@ -55,14 +55,16 @@
 
           # pre-built torch/triton wheels need libstdc++ and the NixOS NVIDIA
           # userspace driver libs (libcuda.so, libnvidia-ml.so) from /run/opengl-driver/lib.
-          LD_LIBRARY_PATH = "${pkgs.lib.makeLibraryPath [
-            cudaPkgs.cudatoolkit
-            cudaPkgs.cudnn
-            pkgs.stdenv.cc.cc.lib
-            pkgs.zlib
-            pkgs.libGL
-            pkgs.glib
-          ]}:/run/opengl-driver/lib";
+          LD_LIBRARY_PATH = "${
+            pkgs.lib.makeLibraryPath [
+              cudaPkgs.cudatoolkit
+              cudaPkgs.cudnn
+              pkgs.stdenv.cc.cc.lib
+              pkgs.zlib
+              pkgs.libGL
+              pkgs.glib
+            ]
+          }:/run/opengl-driver/lib";
 
           UV_PYTHON_PREFERENCE = "managed";
         };

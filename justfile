@@ -154,7 +154,7 @@ nboinit hostname: init-hooks sudo-refresh
 # Initial Home Manager activation (first install — home-manager not yet in PATH)
 [group("init")]
 hminit hostname:
-    nix run home-manager {{ features_flags }} -- switch --flake {{ flake }}#{{ username }}@{{ hostname }}
+    nix run home-manager {{ features_flags }} -- switch -b backup --flake {{ flake }}#{{ username }}@{{ hostname }}
 
 # Register sops age key derived from an existing SSH private key
 [group("init")]

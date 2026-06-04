@@ -5,6 +5,7 @@
   plugins.treesitter.grammarPackages = with config.plugins.treesitter.package.builtGrammars; [
     c
     cpp
+    cuda
   ];
 
   globals.c_syntax_for_h = 1;

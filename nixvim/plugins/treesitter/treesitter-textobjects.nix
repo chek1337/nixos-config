@@ -168,11 +168,24 @@ in
               ${renderSwap}
             }
 
+            local notified = {}
             local function have(ft)
               if ft == nil or ft == "" then return false end
               local lang = vim.treesitter.language.get_lang(ft)
               if not lang then return false end
-              return vim.treesitter.query.get(lang, "textobjects") ~= nil
+              local ok, q = pcall(vim.treesitter.query.get, lang, "textobjects")
+              if not ok then
+                if not notified[lang] then
+                  notified[lang] = true
+                  vim.notify(
+                    "Treesitter parser not installed for language: " .. lang,
+                    vim.log.levels.WARN,
+                    { title = "nvim-treesitter-textobjects" }
+                  )
+                end
+                return false
+              end
+              return q ~= nil
             end
 
             local select_mode = { "o", "x" }

@@ -100,6 +100,10 @@
           group = "History";
         }
         {
+          __unkeyed-1 = "<leader>q";
+          group = "Quit";
+        }
+        {
           __unkeyed-1 = "<leader>S";
           group = "Session";
         }

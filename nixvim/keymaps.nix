@@ -1,6 +1,31 @@
 { ... }:
 {
   keymaps = [
+    # Better up/down: moves by visual lines when no count given — useful when
+    # wrap is on; 5j still jumps 5 real lines because of the count check
+    {
+      key = "j";
+      mode = [
+        "n"
+        "x"
+      ];
+      action = "v:count == 0 ? 'gj' : 'j'";
+      options.expr = true;
+      options.silent = true;
+      options.desc = "Down";
+    }
+    {
+      key = "k";
+      mode = [
+        "n"
+        "x"
+      ];
+      action = "v:count == 0 ? 'gk' : 'k'";
+      options.expr = true;
+      options.silent = true;
+      options.desc = "Up";
+    }
+
     {
       key = "jk";
       mode = "i";
@@ -212,6 +237,48 @@
       options.silent = true;
     }
 
+    # Switch to the alternate (last) buffer — faster than :b#
+    {
+      key = "<leader>bb";
+      mode = "n";
+      action = "<cmd>e #<cr>";
+      options.desc = "Switch to Other Buffer";
+    }
+    {
+      key = "<leader>`";
+      mode = "n";
+      action = "<cmd>e #<cr>";
+      options.desc = "Switch to Other Buffer";
+    }
+    {
+      key = "<leader>bx";
+      mode = "n";
+      action.__raw = "function() require('snacks').bufdelete() end";
+      options.desc = "Delete Buffer";
+    }
+    {
+      key = "<leader>bo";
+      mode = "n";
+      action.__raw = ''
+        function()
+          require('snacks').bufdelete({
+            filter = function(b)
+              return b ~= vim.api.nvim_get_current_buf()
+                and vim.bo[b].filetype ~= "qf"
+            end,
+          })
+        end
+      '';
+      options.desc = "Delete Other Buffers";
+    }
+    # Open a new empty buffer
+    {
+      key = "<leader>fn";
+      mode = "n";
+      action = "<cmd>enew<cr>";
+      options.desc = "New File";
+    }
+
     # Quickfix list
     {
       key = "<leader>xq";
@@ -238,6 +305,52 @@
       mode = "n";
       action = "<cmd>cnext<cr>";
       options.desc = "Next Quickfix";
+    }
+
+    # Float the diagnostic under the cursor
+    {
+      key = "<leader>cd";
+      mode = "n";
+      action.__raw = "vim.diagnostic.open_float";
+      options.desc = "Line Diagnostics";
+    }
+    # ]d/[d — any severity; ]e/[e — errors only; ]w/[w — warnings only
+    # float=true shows the message popup when landing on the diagnostic
+    {
+      key = "]d";
+      mode = "n";
+      action.__raw = "function() vim.diagnostic.jump({ count = vim.v.count1, float = true }) end";
+      options.desc = "Next Diagnostic";
+    }
+    {
+      key = "[d";
+      mode = "n";
+      action.__raw = "function() vim.diagnostic.jump({ count = -vim.v.count1, float = true }) end";
+      options.desc = "Prev Diagnostic";
+    }
+    {
+      key = "]e";
+      mode = "n";
+      action.__raw = "function() vim.diagnostic.jump({ count = vim.v.count1, severity = vim.diagnostic.severity.ERROR, float = true }) end";
+      options.desc = "Next Error";
+    }
+    {
+      key = "[e";
+      mode = "n";
+      action.__raw = "function() vim.diagnostic.jump({ count = -vim.v.count1, severity = vim.diagnostic.severity.ERROR, float = true }) end";
+      options.desc = "Prev Error";
+    }
+    {
+      key = "]w";
+      mode = "n";
+      action.__raw = "function() vim.diagnostic.jump({ count = vim.v.count1, severity = vim.diagnostic.severity.WARN, float = true }) end";
+      options.desc = "Next Warning";
+    }
+    {
+      key = "[w";
+      mode = "n";
+      action.__raw = "function() vim.diagnostic.jump({ count = -vim.v.count1, severity = vim.diagnostic.severity.WARN, float = true }) end";
+      options.desc = "Prev Warning";
     }
 
     # Clear search, diff update and redraw
@@ -404,6 +517,24 @@
       options.desc = "Save file";
     }
 
+    # Undo break-points: insert <c-g>u before common punctuation so that `u`
+    # only undoes back to the last ., , or ; rather than the whole paragraph
+    {
+      key = ",";
+      mode = "i";
+      action = ",<c-g>u";
+    }
+    {
+      key = ".";
+      mode = "i";
+      action = ".<c-g>u";
+    }
+    {
+      key = ";";
+      mode = "i";
+      action = ";<c-g>u";
+    }
+
     # Better indenting
     {
       key = "<";
@@ -458,6 +589,14 @@
       action = ":<C-u>execute \"'<,'>move '<-\" . (v:count1 + 1)<cr>gv=gv";
       options.desc = "Move Up";
       options.silent = true;
+    }
+
+    # Quit all windows/buffers in one shot
+    {
+      key = "<leader>qq";
+      mode = "n";
+      action = "<cmd>qa<cr>";
+      options.desc = "Quit All";
     }
   ];
 }

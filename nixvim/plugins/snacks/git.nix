@@ -7,27 +7,6 @@
 
   keymaps = [
     {
-      key = "<leader>bx";
-      mode = "n";
-      action.__raw = "function() require('snacks').bufdelete() end";
-      options.desc = "Delete Buffer";
-    }
-    {
-      key = "<leader>bo";
-      mode = "n";
-      action.__raw = ''
-        function()
-          require('snacks').bufdelete({
-            filter = function(b)
-              return b ~= vim.api.nvim_get_current_buf()
-                and vim.bo[b].filetype ~= "qf"
-            end,
-          })
-        end
-      '';
-      options.desc = "Delete Other Buffers";
-    }
-    {
       key = "<leader>gob";
       mode = [
         "n"

@@ -48,10 +48,21 @@
           action_alias kitty_scrollback_nvim kitten '/home/${username}/.local/share/nvim/lazy/kitty-scrollback.nvim/python/kitty_scrollback_nvim.py'
 
           # Browse scrollback buffer in nvim
-          map kitty_mod+h kitty_scrollback_nvim
+          # Был на kitty_mod+h; перенесён на kitty_mod+z, потому что
+          # ctrl+shift+hjkl отданы smart-splits (см. ниже no_op).
+          map kitty_mod+z kitty_scrollback_nvim
 
           # Browse output of the last shell command in nvim
           map kitty_mod+g kitty_scrollback_nvim --config ksb_builtin_last_cmd_output
+
+          # Освобождаем Ctrl+Shift+hjkl для smart-splits — иначе kitty
+          # перехватит chord раньше, чем он дойдёт до tmux/nvim.
+          # Дефолты: h=show_scrollback, j=scroll_line_down,
+          # k=scroll_line_up, l=next_layout.
+          map kitty_mod+h no_op
+          map kitty_mod+j no_op
+          map kitty_mod+k no_op
+          map kitty_mod+l no_op
 
           # Show clicked command output in nvim
           mouse_map ctrl+shift+right press ungrabbed combine : mouse_select_command_output : kitty_scrollback_nvim --config ksb_builtin_last_visited_cmd_output

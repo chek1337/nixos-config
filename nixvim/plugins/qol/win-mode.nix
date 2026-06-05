@@ -23,13 +23,24 @@
         vim.api.nvim_echo({ { "" } }, false, {})
       end
 
+      -- Move внутри nvim — через smart-splits swap_buf_*. На крае nvim,
+      -- если мы внутри tmux ($TMUX установлен), вместо вим-врапа двигаем
+      -- всю tmux-панель через `tmux swap-pane -s '{<dir>-of}'`. Если
+      -- соседней tmux-панели нет, команда молча ничего не делает.
+      local LONG = { h = "left", j = "down", k = "up", l = "right" }
+      local function at_edge(d) return vim.fn.winnr() == vim.fn.winnr(d) end
+      local function swap(d)
+        local long = LONG[d]
+        if vim.env.TMUX and vim.env.TMUX ~= "" and at_edge(d) then
+          vim.fn.system("tmux swap-pane -s '{" .. long .. "-of}'")
+        else
+          ss["swap_buf_" .. long]()
+        end
+      end
+
       vim.keymap.set("n", "<C-w>m", function()
         loop("-- MOVE WINDOW (hjkl · q/Esc) --", function(ch)
-          if     ch == "h" then ss.swap_buf_left()
-          elseif ch == "j" then ss.swap_buf_down()
-          elseif ch == "k" then ss.swap_buf_up()
-          elseif ch == "l" then ss.swap_buf_right()
-          end
+          if ch == "h" or ch == "j" or ch == "k" or ch == "l" then swap(ch) end
         end)
       end, { desc = "Move Mode" })
 

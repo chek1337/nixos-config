@@ -1,7 +1,6 @@
 { ... }:
 {
-  plugins.smart-splits.enable = true;
-
+  # smart-splits сам включается в ./smart-splits.nix (там же tmux-навигация).
   # Two persistent "hydra" modes for window management, entered via <C-w>m / <C-w>r.
   # Operations are delegated to smart-splits.nvim so the semantics are
   # left/right/up/down — the plugin picks which border to move based on

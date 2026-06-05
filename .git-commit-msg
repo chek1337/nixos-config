@@ -1,1 +1,1 @@
-feat: fix win-mode for nvim
+feat: seamless nvim<->tmux navigation via smart-splits

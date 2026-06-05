@@ -132,6 +132,86 @@
           __unkeyed-1 = "<C-w>";
           group = "Window";
         }
+        {
+          __unkeyed-1 = "<C-w>m";
+          group = "Move";
+        }
+        {
+          __unkeyed-1 = "<C-w>r";
+          group = "Resize";
+        }
+
+        # Hide default <C-w> bindings that are unused given the current setup:
+        # H/J/K/L  — move window to far edge  (covered by <C-w>m move mode)
+        # T        — break window out to a new tab
+        # v        — vertical split             (user has <C-w>|)
+        # w        — cycle windows              (user navigates with h/j/k/l)
+        # < > + =_ — manual resize/equalize     (covered by <C-w>r resize mode)
+        # D        — built-in diagnostic float  (user has <leader>cd)
+        {
+          __unkeyed-1 = "<C-w>H";
+          hidden = true;
+        }
+        {
+          __unkeyed-1 = "<C-w>J";
+          hidden = true;
+        }
+        {
+          __unkeyed-1 = "<C-w>K";
+          hidden = true;
+        }
+        {
+          __unkeyed-1 = "<C-w>L";
+          hidden = true;
+        }
+        {
+          __unkeyed-1 = "<C-w>T";
+          hidden = true;
+        }
+        {
+          __unkeyed-1 = "<C-w>v";
+          hidden = true;
+        }
+        {
+          __unkeyed-1 = "<C-w>w";
+          hidden = true;
+        }
+        {
+          __unkeyed-1 = "<C-w><lt>";
+          hidden = true;
+        }
+        {
+          __unkeyed-1 = "<C-w>>";
+          hidden = true;
+        }
+        {
+          __unkeyed-1 = "<C-w>+";
+          hidden = true;
+        }
+        {
+          __unkeyed-1 = "<C-w>=";
+          hidden = true;
+        }
+        {
+          __unkeyed-1 = "<C-w>_";
+          hidden = true;
+        }
+        {
+          __unkeyed-1 = "<C-w>D";
+          hidden = true;
+        }
+        {
+          __unkeyed-1 = "<C-w>d";
+          hidden = true;
+        }
+        {
+          __unkeyed-1 = "<C-w><C-d>";
+          hidden = true;
+        }
+        {
+          __unkeyed-1 = "<C-w><Tab>";
+          hidden = true;
+        }
 
         {
           __unkeyed-1 = "]";

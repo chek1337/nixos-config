@@ -1,1 +1,1 @@
-feat: more integration nvim + tmux x2
+feat(nixvim): add profile.nvim runtime profiler

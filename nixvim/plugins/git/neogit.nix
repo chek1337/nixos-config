@@ -1,4 +1,16 @@
 { pkgs, ... }:
+let
+  # Локальный форк neogit с фиксом GoToFile при включённом delta-pager
+  # (chek1337/neogit, ветка fix/pager-line-mapping). Снять после мерджа PR.
+  neogit-pager-fix = pkgs.vimPlugins.neogit.overrideAttrs (_: {
+    src = pkgs.fetchFromGitHub {
+      owner = "chek1337";
+      repo = "neogit";
+      rev = "241c60c2298ed76823d18ca1bfd4fdec9fd9fc05";
+      hash = "sha256-phWzHmnbe0jVxSu5QlwBigdkhOJcGD1NNgB3Bf9Aw4A=";
+    };
+  });
+in
 {
   extraPackages = [ pkgs.delta ];
 
@@ -127,6 +139,7 @@
 
   plugins.neogit = {
     enable = true;
+    package = neogit-pager-fix;
     lazyLoad.settings.cmd = "Neogit";
 
     settings = {

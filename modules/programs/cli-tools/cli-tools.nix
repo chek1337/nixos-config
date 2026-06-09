@@ -1,6 +1,6 @@
 { config, ... }:
 let
-  inherit (config.flake.lib) hmMod;
+  inherit (config.flake.lib) nixosMod hmMod;
   modules = [
     "eza"
     "yazi"
@@ -23,6 +23,10 @@ let
   ];
 in
 {
+  flake.modules.nixos.cli-tools = {
+    imports = map nixosMod modules;
+  };
+
   flake.modules.homeManager.cli-tools = {
     imports = map hmMod modules;
   };

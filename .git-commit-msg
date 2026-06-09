@@ -1,1 +1,1 @@
-feat(update): yandex
+refactor(git): move user identity to NixOS, keep rest in HM

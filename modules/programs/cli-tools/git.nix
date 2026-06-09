@@ -1,13 +1,21 @@
 {
+  flake.modules.nixos.git = {
+    programs.git = {
+      enable = true;
+      config = {
+        user.name = "chek1337";
+        user.email = "DaniPlay1337@yandex.ru";
+        user.useConfigOnly = true;
+      };
+    };
+  };
+
   flake.modules.homeManager.git =
     { config, lib, ... }:
     {
       programs.git = {
         enable = true;
         settings = {
-          user.name = "chek1337";
-          user.email = "DaniPlay1337@yandex.ru";
-          user.useConfigOnly = true;
           pull.rebase = true;
         };
 

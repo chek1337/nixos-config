@@ -12,6 +12,7 @@ let
     # "zen"
     "chromium-common"
     "chromium"
+    "brave"
     "yandex-browser"
   ];
 in

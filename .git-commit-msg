@@ -1,1 +1,1 @@
-feat: impression USB writer + polkit auth agent
+feat(desktop-work): wire up work SSH key path

@@ -26,13 +26,12 @@ let
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIA213f/P1prxD2ImqqW6goD6iBsHH8E5HvEOf+R/dkk8 chek@wsl-asuslaptop"
     ];
 
-    # TODO: заменить заглушки на реальные данные с работы.
-    # После замены — клонировать рабочие репо в ~/Work/ и
-    # сгенерировать ключ: ssh-keygen -t ed25519 -f ~/.ssh/id_ed25519_work
+    # TODO: заменить заглушки name/email на реальные данные с работы.
+    # После замены — клонировать рабочие репо в ~/Work/.
     work = {
       name = "TODO-work-name";
       email = "TODO-work-email@example.com";
-      # sshKeyPath = "/home/chek/.ssh/id_ed25519_work";
+      sshKeyPath = "/home/chek/.ssh/09_06_26_work";
     };
   };
 in

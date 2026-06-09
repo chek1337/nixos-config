@@ -7,6 +7,7 @@ let
     "desktop-base"
     "greetd"
     "niri"
+    "polkit-agent"
     "noctalia"
     "rice"
     "wireshark"

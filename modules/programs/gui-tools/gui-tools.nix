@@ -15,6 +15,7 @@ let
     "obsidian"
     "wine"
     "vial"
+    "impression"
     # "zoom"
     # "hibiki"
   ];

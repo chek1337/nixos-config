@@ -1,1 +1,1 @@
-refactor(git): move user identity to NixOS, keep rest in HM
+feat: add eltex proxy

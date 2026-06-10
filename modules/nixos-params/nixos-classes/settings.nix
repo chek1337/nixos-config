@@ -74,6 +74,19 @@
           description = "Whether this is a laptop (portable) host";
         };
 
+        useEltexProxy = lib.mkOption {
+          type = lib.types.bool;
+          default = false;
+          description = ''
+            Route nix-daemon through the corporate Squid at
+            proxy.eltex.loc:3128. Set on hosts that live inside the
+            Eltex corp network — direct connections from there hit a
+            per-host concurrency limit on Fastly and most parallel
+            substitutions stall. Squid bypasses it (and caches narы
+            for the rest of the org).
+          '';
+        };
+
         isWorkstation = lib.mkOption {
           type = lib.types.bool;
           default = false;

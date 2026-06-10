@@ -174,6 +174,37 @@ ssh-init key:
     ssh-add ~/.ssh/{{ key }}
     ssh -T git@github.com || true
 
+# Bootstrap Eltex corp proxy for nix-daemon BEFORE any rebuild.
+# Writes a runtime systemd drop-in under /run/ (NixOS makes /etc/systemd/
+# read-only) and restarts the daemon, so the very next nh build already
+# downloads through the proxy. /run/ is wiped on reboot — re-run if you
+# reboot before successfully landing modules/services/nix-corp-proxy.nix.
+[group("init")]
+proxy-now: sudo-refresh
+    #!/usr/bin/env bash
+    set -euo pipefail
+    DIR=/run/systemd/system/nix-daemon.service.d
+    sudo mkdir -p "$DIR"
+    sudo tee "$DIR/00-eltex-proxy.conf" >/dev/null <<'EOF'
+    [Service]
+    Environment="http_proxy=http://proxy.eltex.loc:3128"
+    Environment="https_proxy=http://proxy.eltex.loc:3128"
+    Environment="no_proxy=127.0.0.1,localhost,.eltex.loc"
+    EOF
+    sudo systemctl daemon-reload
+    sudo systemctl restart nix-daemon
+    echo "nix-daemon now uses http://proxy.eltex.loc:3128 (runtime drop-in)"
+    echo "Verify:  systemctl show nix-daemon -p Environment | tr ' ' '\\n' | grep proxy"
+    echo "Now run: just bo laptop-asus  (or sw/nboinit/etc.)"
+
+# Remove the runtime proxy override left by `proxy-now`.
+[group("init")]
+proxy-off: sudo-refresh
+    sudo rm -f /run/systemd/system/nix-daemon.service.d/00-eltex-proxy.conf
+    sudo systemctl daemon-reload
+    sudo systemctl restart nix-daemon
+    echo "Runtime proxy override removed."
+
 # Install git hooks (post-commit writes .git-commit-msg for boot entry labels)
 [group("utils")]
 init-hooks:

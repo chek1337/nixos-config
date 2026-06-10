@@ -45,12 +45,6 @@
           description = "Whether this is a laptop (portable) host";
         };
 
-        useEltexProxy = lib.mkOption {
-          type = lib.types.bool;
-          default = false;
-          description = "Mirror of nixos settings.useEltexProxy — see nixos-classes/settings.nix.";
-        };
-
         isWorkstation = lib.mkOption {
           type = lib.types.bool;
           default = false;

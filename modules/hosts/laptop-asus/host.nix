@@ -10,12 +10,11 @@ let
     "asus-laptop-hardware"
     "touchpad"
     "remote-access"
-    "nix-corp-proxy"
+    "eltex-proxy-aliases"
   ];
   sharedSettings = {
     isLaptop = true;
     hasBluetooth = true;
-    useEltexProxy = true;
     wireguardConfigName = "wireguard-laptop-asus";
     wireguardExtraConfigs = [ "wireguard-isakin" ];
     amneziaWgExtraConfigs = [

@@ -9,7 +9,7 @@ let
     "niri"
     "polkit-agent"
     "noctalia"
-    "rice"
+    # "rice"
     "wireshark"
   ];
 in

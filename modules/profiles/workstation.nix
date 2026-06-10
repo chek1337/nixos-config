@@ -2,8 +2,8 @@
 let
   inherit (config.flake.lib) nixosMod hmMod;
   modules = [
-    "virtualization"
-    "mail"
+    # "virtualization"
+    # "mail"
     "pttkey"
     "usb-automount"
     "zmkbatx"

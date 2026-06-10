@@ -35,7 +35,8 @@
           allow_remote_control = "socket-only";
           listen_on = "unix:/tmp/kitty";
           shell_integration = "enabled";
-          background_blur = lib.mkIf config.services.niri.blur.enable 1;
+          # `or false`: на не-NixOS хостах (ubuntu) модуль niri не импортируется
+          background_blur = lib.mkIf (config.services.niri.blur.enable or false) 1;
         };
         extraConfig = ''
           # Ctrl+Backspace → delete word backward (works in zsh, nvim, and through tmux)

@@ -16,6 +16,7 @@ let
     "wine"
     "vial"
     "impression"
+    "anydesk"
     # "zoom"
     # "hibiki"
   ];

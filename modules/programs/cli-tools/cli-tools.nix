@@ -15,6 +15,7 @@ let
     "trash-cli"
     "btop"
     "bat"
+    "mermaid"
     # "soundscope"
     # "cmus"
     # "rice"

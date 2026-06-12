@@ -32,6 +32,8 @@
           "image/webp" = "imv-dir.desktop";
           "image/bmp" = "imv-dir.desktop";
           "image/tiff" = "imv-dir.desktop";
+          "image/svg+xml" = "imv-svg.desktop";
+          "image/svg+xml-compressed" = "imv-svg.desktop";
 
           # Video / Audio
           "audio/*" = "mpv.desktop";

@@ -6,7 +6,18 @@
       username = config.settings.username;
     in
     {
-      virtualisation.docker.enable = true;
+      virtualisation.docker = {
+        enable = true;
+
+        daemon.settings = {
+          "insecure-registries" = [
+            "localhost:8082"
+            "nexus:8082"
+          ];
+        };
+      };
+
+      networking.hosts."127.0.0.1" = [ "nexus" ];
 
       users.users.${username}.extraGroups = [ "docker" ];
     };

@@ -12,6 +12,9 @@
         module = {
           imports = [
             ./options.nix
+            ./keymaps.nix
+            ./keymaps-ru.nix
+            ./spellfiles.nix
             ./plugins
           ];
           colorScheme = "nord";

@@ -231,6 +231,25 @@ nix profile install github:chek1337/nixos-config#tmux
 }
 ```
 
+## Standalone zoxide
+
+zoxide has no config file — its setup is purely shell integration
+(`eval "$(zoxide init zsh)"`) plus the `cd = z` alias. A `nix profile install`
+binary can't edit a foreign `~/.zshrc`, so the package ships the `zoxide` binary
+**plus** a ready-to-source zsh init (with the `cd = z` alias baked in).
+
+```bash
+nix profile install github:chek1337/nixos-config#zoxide
+```
+
+Then add one line to `~/.zshrc`:
+
+```bash
+source ~/.nix-profile/share/zoxide/init.zsh
+```
+
+That enables `z` / `zi` and makes `cd` jump like on NixOS.
+
 ## Offline Installation (ISO)
 
 Build an ISO containing all packages for offline NixOS installation on any x86_64 machine.

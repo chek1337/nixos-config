@@ -13,15 +13,37 @@
         function() return vim.g.blink_cmp_enabled ~= false end
       '';
 
-      # Разделение ролей, чтобы Tab не конфликтовал со сниппетами:
-      #   • <CR> / <C-y>  — accept выбранного item'а (из пресета "enter")
-      #   • <Tab> / <S-Tab> — навигация по плейсхолдерам сниппета (из пресета)
-      #   • <C-n> / <C-p>, <Up>/<Down> — навигация по меню (из пресета)
-      # `select_and_accept` на Tab принципиально не вешаем: он всегда выбирает
-      # первый item при открытом меню, даже без явной навигации, и ломает прыжок
-      # по сниппету, когда LSP показывает подсказки внутри активного сниппета.
+      # Context-aware Tab (логика пресета "super-tab", собранная вручную поверх
+      # "enter", чтобы <CR>/<C-y> остались accept'ом):
+      #   • <Tab> вне сниппета — `select_and_accept`: сразу подставляет первое
+      #     предложение (ghost_text показывает, что именно подставится).
+      #   • <Tab> внутри активного сниппета — `cmp.accept()` принимает ТОЛЬКО
+      #     явно выбранный (<C-n>/<C-p>) item; т.к. preselect = false, по
+      #     умолчанию ничего не выбрано → проваливаемся в `snippet_forward` и
+      #     прыгаем по плейсхолдерам. Так LSP-меню внутри сниппета не перехватывает
+      #     прыжок, но принять подсказку всё равно можно, понавигировав вручную.
+      #   • <S-Tab> — `snippet_backward`, иначе fallback.
+      #   • <CR> / <C-y> — accept (из пресета "enter").
+      #   • <C-n> / <C-p>, <Up>/<Down> — навигация по меню (из пресета).
       keymap = {
         preset = "enter";
+
+        "<Tab>" = [
+          {
+            __raw = ''
+              function(cmp)
+                if cmp.snippet_active() then return cmp.accept() end
+                return cmp.select_and_accept()
+              end
+            '';
+          }
+          "snippet_forward"
+          "fallback"
+        ];
+        "<S-Tab>" = [
+          "snippet_backward"
+          "fallback"
+        ];
 
         "<C-Space>" = [
           "show"

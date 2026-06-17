@@ -30,9 +30,29 @@
         } > "$out"
       '';
 
+      # Идемпотентный helper: дописывает одну source-строку в ~/.zshrc. nix-профиль
+      # не умеет патчить rc сам, поэтому строку добавляет команда, запущенная
+      # пользователем. Ссылаемся на init через ~/.nix-profile/... (а не store-путь),
+      # чтобы строка переживала `nix profile upgrade`.
+      setupZsh = pkgs.writeShellScriptBin "zoxide-setup-zsh" ''
+        set -euo pipefail
+        rc="''${ZDOTDIR:-$HOME}/.zshrc"
+        line='source ~/.nix-profile/share/zoxide/init.zsh'
+        touch "$rc"
+        if grep -qF "$line" "$rc"; then
+          echo "zoxide: init already sourced in $rc — nothing to do."
+        else
+          printf '\n# zoxide standalone init\n%s\n' "$line" >> "$rc"
+          echo "zoxide: added init to $rc — restart your shell (or run: source $rc)."
+        fi
+      '';
+
       pkg = pkgs.symlinkJoin {
         name = "zoxide-standalone";
-        paths = [ zoxide ];
+        paths = [
+          zoxide
+          setupZsh
+        ];
         postBuild = ''
           install -Dm644 ${initZsh} "$out/share/zoxide/init.zsh"
         '';

@@ -242,13 +242,20 @@ binary can't edit a foreign `~/.zshrc`, so the package ships the `zoxide` binary
 nix profile install github:chek1337/nixos-config#zoxide
 ```
 
-Then add one line to `~/.zshrc`:
+A `nix profile install` binary can't patch your `~/.zshrc` (no activation step),
+so wire the init in once. Either let the bundled helper do it idempotently:
 
 ```bash
-source ~/.nix-profile/share/zoxide/init.zsh
+zoxide-setup-zsh
 ```
 
-That enables `z` / `zi` and makes `cd` jump like on NixOS.
+or add the line by hand:
+
+```bash
+echo 'source ~/.nix-profile/share/zoxide/init.zsh' >> ~/.zshrc
+```
+
+Either way, new shells then get `z` / `zi` and `cd` jumping like on NixOS.
 
 ## Offline Installation (ISO)
 

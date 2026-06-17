@@ -1,1 +1,1 @@
-feat(nixvim): smarter indentation (guess-indent + empty-line auto-indent)
+feat: add kitty standalone

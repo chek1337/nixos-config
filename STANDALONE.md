@@ -102,3 +102,44 @@ echo 'source ~/.nix-profile/share/zoxide/init.zsh' >> ~/.zshrc
 ```
 
 Either way, new shells then get `z` / `zi` and `cd` jumping like on NixOS.
+
+## kitty
+
+The kitty configuration is exposed as a standalone flake package too: all my
+settings, keybindings and the nord palette baked in. As with tmux, the rendered
+config is byte-identical to the desktop host, so it just needs a Nerd Font and a
+truecolor-capable terminal to look right.
+
+The config is wrapped into the binary via `kitty --config <baked-config>`. The
+wrapper also puts the runtime tools the config shells out to on `PATH`
+(`fzf`, `zoxide`). The nord palette is hardcoded because Stylix is not available
+off-NixOS.
+
+**kitty-scrollback.nvim:** the `kitty_mod+z` / `mouse_map` bindings point at a
+`~/.local/share/nvim/lazy/…` path that only exists with my lazy.nvim setup, so
+they are no-ops off-NixOS. kitty still starts fine.
+
+### Run without installing
+
+```bash
+nix run github:chek1337/nixos-config#kitty
+```
+
+### Install to user profile
+
+```bash
+nix profile install github:chek1337/nixos-config#kitty
+```
+
+### Add to your own flake
+
+```nix
+{
+  inputs.nixos-config.url = "github:chek1337/nixos-config";
+
+  outputs = { nixos-config, nixpkgs, ... }: {
+    # Use the built package directly
+    packages.x86_64-linux.kitty = nixos-config.packages.x86_64-linux.kitty;
+  };
+}
+```

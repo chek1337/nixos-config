@@ -166,6 +166,7 @@ This flake also exposes standalone packages/apps that can be used outside this N
 - `nvim` — declarative Neovim configuration via nixvim
 - `tmux` — wrapped tmux configuration with bundled plugins and runtime tools
 - `zoxide` — zoxide binary plus a ready-to-source zsh init
+- `kitty` — wrapped kitty configuration with the nord palette baked in
 
 See [STANDALONE.md](STANDALONE.md) for installation and flake integration examples.
 

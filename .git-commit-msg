@@ -1,1 +1,1 @@
-feat: add STANDALONE.md
+feat(nixvim): smarter indentation (guess-indent + empty-line auto-indent)

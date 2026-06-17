@@ -159,103 +159,15 @@ just check                        # nix flake check
 just iso <host>                   # Build offline installation ISO
 ```
 
-## Standalone Neovim (nixvim)
+## Standalone Packages
 
-The Neovim configuration is exposed as a standalone flake package and can be used independently — no NixOS required.
+This flake also exposes standalone packages/apps that can be used outside this NixOS configuration:
 
-### Run without installing
+- `nvim` — declarative Neovim configuration via nixvim
+- `tmux` — wrapped tmux configuration with bundled plugins and runtime tools
+- `zoxide` — zoxide binary plus a ready-to-source zsh init
 
-```bash
-nix run github:chek1337/nixos-config#nvim
-```
-
-### Install to user profile
-
-```bash
-nix profile install github:chek1337/nixos-config#nvim
-```
-
-### Add to your own flake
-
-```nix
-{
-  inputs.nixos-config.url = "github:chek1337/nixos-config";
-
-  outputs = { nixos-config, nixpkgs, ... }: {
-    # Use the built package directly
-    packages.x86_64-linux.nvim = nixos-config.packages.x86_64-linux.nvim;
-  };
-}
-```
-
-## Standalone tmux
-
-The tmux configuration is exposed as a standalone flake package too — full keybindings, sesh, catppuccin and smart-splits baked in, with the nord palette hardcoded (Stylix isn't available off-NixOS). No NixOS or Home Manager activation required: the config and its plugins are wrapped into the binary via `tmux -f <baked-config>`.
-
-The wrapper also puts the runtime tools the config shells out to on `PATH`
-(`sesh`, `tmuxinator`, `tmux-last`, `fzf`, `zoxide`, `eza`, `fd`, `bat`, …) and
-bundles the `television` `sesh` channel (via a wrapped `tv --cable-dir`), so the
-session picker (`prefix + s`) and floax popups work off-NixOS without leaking
-`XDG_CONFIG_HOME` into pane shells.
-
-**tmuxinator:** the binary is bundled, but no recipes are — drop your own under
-`~/.config/tmuxinator/*.yml` on the target machine.
-
-**Theme/icons:** the rendered config is byte-identical to the desktop host, so
-the status bar needs a Nerd Font (e.g. JetBrainsMono Nerd Font) and a
-truecolor-capable terminal to look right — that's terminal-side, not in this
-package. Clipboard/fingers bindings use `wl-copy` and only work under Wayland.
-
-### Run without installing
-
-```bash
-nix run github:chek1337/nixos-config#tmux
-```
-
-### Install to user profile
-
-```bash
-nix profile install github:chek1337/nixos-config#tmux
-```
-
-### Add to your own flake
-
-```nix
-{
-  inputs.nixos-config.url = "github:chek1337/nixos-config";
-
-  outputs = { nixos-config, nixpkgs, ... }: {
-    # Use the built package directly
-    packages.x86_64-linux.tmux = nixos-config.packages.x86_64-linux.tmux;
-  };
-}
-```
-
-## Standalone zoxide
-
-zoxide has no config file — its setup is purely shell integration
-(`eval "$(zoxide init zsh)"`) plus the `cd = z` alias. A `nix profile install`
-binary can't edit a foreign `~/.zshrc`, so the package ships the `zoxide` binary
-**plus** a ready-to-source zsh init (with the `cd = z` alias baked in).
-
-```bash
-nix profile install github:chek1337/nixos-config#zoxide
-```
-
-A `nix profile install` binary can't patch your `~/.zshrc` (no activation step),
-so wire the init in once. Either let the bundled helper do it idempotently:
-
-```bash
-zoxide-setup-zsh
-```
-
-or add the line by hand:
-
-```bash
-echo 'source ~/.nix-profile/share/zoxide/init.zsh' >> ~/.zshrc
-```
-
-Either way, new shells then get `z` / `zi` and `cd` jumping like on NixOS.
+See [STANDALONE.md](STANDALONE.md) for installation and flake integration examples.
 
 ## Offline Installation (ISO)
 

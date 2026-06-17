@@ -120,9 +120,21 @@ off-NixOS.
 the host's hardware driver — you get *"OpenGL too old"*. The package fixes this
 for **Mesa (Intel/AMD)** by launching kitty through `nixGLIntel`, so it picks up
 the host's Mesa driver. No `--impure`, nothing to set up on your side.
-**NVIDIA is not covered** — the wrapper would have to match the host driver
-version (impure, machine-specific). On NVIDIA, run kitty through nixGL yourself:
-`nix run --impure github:nix-community/nixGL#nixGLNvidia -- kitty`.
+
+For **NVIDIA** there is a separate package, `kitty-nvidia`, that wraps kitty in
+`nixGLNvidia`:
+
+```bash
+nix run github:chek1337/nixos-config#kitty-nvidia
+nix profile install github:chek1337/nixos-config#kitty-nvidia
+```
+
+The NVIDIA userspace libs must match the host's kernel-module version, so the
+driver version is **pinned** in `packages/kitty-nvidia.nix` (`nvidiaVersion`,
+currently `580.159.03`). This keeps the package pure (no `--impure`), but when
+the host upgrades its NVIDIA driver you must bump `nvidiaVersion` (and re-pin
+`nvidiaHash` via `nix-prefetch-url`), else kitty won't start. Check the host's
+version with `nvidia-smi --query-gpu=driver_version --format=csv,noheader`.
 
 **kitty-scrollback.nvim:** the `kitty_mod+z` / `mouse_map` bindings point at a
 `~/.local/share/nvim/lazy/…` path that only exists with my lazy.nvim setup, so

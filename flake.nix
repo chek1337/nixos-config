@@ -73,11 +73,15 @@
     nix-firefox-addons.url = "github:OsiPog/nix-firefox-addons";
 
     # nixGL: GPU-обёртка для Nix-GL-приложений на не-NixOS машинах. Нужна
-    # standalone-пакету kitty (см. packages/kitty.nix), чтобы тот подхватывал
-    # Mesa-драйвер хоста (Ubuntu и т.п.), а не «мёртвый» libGL из /nix/store.
+    # standalone-пакетам kitty (Mesa) и kitty-nvidia, чтобы те подхватывали
+    # драйвер хоста (Ubuntu и т.п.), а не «мёртвый» libGL из /nix/store.
+    # NB: nixpkgs follows на STABLE, а не на unstable: nixGL собирает nvidia-либы
+    # через старый интерфейс nvidia_x11 (override { kernel = null; }), который в
+    # свежем nixpkgs уже убран → eval-ошибка `unexpected argument 'kernel'`.
+    # В 25.11 этот аргумент ещё есть, поэтому пинимся туда.
     nixGL = {
       url = "github:nix-community/nixGL";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixpkgs.follows = "nixpkgs-stable";
     };
 
     kitty-session = {

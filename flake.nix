@@ -7,6 +7,7 @@
       imports = [
         (inputs.import-tree ./modules)
         (inputs.import-tree ./non-nixos-modules)
+        (inputs.import-tree ./packages)
         ./nixvim
       ];
     };

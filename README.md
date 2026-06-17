@@ -188,6 +188,35 @@ nix profile install github:chek1337/nixos-config#nvim
 }
 ```
 
+## Standalone tmux
+
+The tmux configuration is exposed as a standalone flake package too — full keybindings, sesh, catppuccin and smart-splits baked in, with the nord palette hardcoded (Stylix isn't available off-NixOS). No NixOS or Home Manager activation required: the config and its plugins are wrapped into the binary via `tmux -f <baked-config>`.
+
+### Run without installing
+
+```bash
+nix run github:chek1337/nixos-config#tmux
+```
+
+### Install to user profile
+
+```bash
+nix profile install github:chek1337/nixos-config#tmux
+```
+
+### Add to your own flake
+
+```nix
+{
+  inputs.nixos-config.url = "github:chek1337/nixos-config";
+
+  outputs = { nixos-config, nixpkgs, ... }: {
+    # Use the built package directly
+    packages.x86_64-linux.tmux = nixos-config.packages.x86_64-linux.tmux;
+  };
+}
+```
+
 ## Offline Installation (ISO)
 
 Build an ISO containing all packages for offline NixOS installation on any x86_64 machine.

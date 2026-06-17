@@ -115,6 +115,15 @@ wrapper also puts the runtime tools the config shells out to on `PATH`
 (`fzf`, `zoxide`). The nord palette is hardcoded because Stylix is not available
 off-NixOS.
 
+**OpenGL off-NixOS:** kitty is a GPU app, and the Nix build ships its own
+`libGL` from `/nix/store`, which on a foreign distro (Ubuntu etc.) fails to find
+the host's hardware driver — you get *"OpenGL too old"*. The package fixes this
+for **Mesa (Intel/AMD)** by launching kitty through `nixGLIntel`, so it picks up
+the host's Mesa driver. No `--impure`, nothing to set up on your side.
+**NVIDIA is not covered** — the wrapper would have to match the host driver
+version (impure, machine-specific). On NVIDIA, run kitty through nixGL yourself:
+`nix run --impure github:nix-community/nixGL#nixGLNvidia -- kitty`.
+
 **kitty-scrollback.nvim:** the `kitty_mod+z` / `mouse_map` bindings point at a
 `~/.local/share/nvim/lazy/…` path that only exists with my lazy.nvim setup, so
 they are no-ops off-NixOS. kitty still starts fine.

@@ -1,1 +1,1 @@
-feat: add kitty standalone
+feat: wrap standalone kitty in nixGL (OpenGL off-NixOS)

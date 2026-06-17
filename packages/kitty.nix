@@ -21,6 +21,13 @@
   # Чего НЕ хватает «голому» kitty.conf на не-NixOS машине и что мы добавляем:
   #   * рантайм-бинарники, на которые шеллится конфиг (fzf, zoxide) — на NixOS
   #     они в home.packages, тут пробрасываем их в PATH обёртки.
+  #   * GPU-драйвер: kitty — это OpenGL-приложение, а Nix-сборка тянет свой
+  #     libGL из /nix/store, который на чужом дистрибутиве (Ubuntu и т.п.) не
+  #     находит аппаратный DRI-драйвер → «OpenGL too old». На NixOS это решает
+  #     hardware.graphics; вне NixOS — стартуем kitty через nixGLIntel (общий
+  #     Mesa-враппер nixGL, работает и на Intel, и на AMD), который подкладывает
+  #     Mesa-драйвер хоста. Это чисто (без --impure); для NVIDIA так нельзя —
+  #     там обёртка должна совпасть с версией драйвера хоста.
   # Чего пакет НЕ чинит (зависит от целевой машины, не от kitty):
   #   * kitty-scrollback.nvim: action_alias зашит на ~/.local/share/nvim/lazy/…,
   #     этот путь существует только при моём lazy.nvim. Биндинг kitty_mod+z и
@@ -58,6 +65,8 @@
       };
 
       kittyConf = hmConfig.config.xdg.configFile."kitty/kitty.conf".source;
+      kitty = hmConfig.config.programs.kitty.package;
+      nixGL = inputs.nixGL.packages.${system}.nixGLIntel;
 
       # Конфиг шеллится на fzf/zoxide (hints, kitty-zoxide-sessions). На NixOS
       # они в home.packages; для портатива кладём их в PATH обёртки.
@@ -66,12 +75,18 @@
         pkgs.zoxide
       ];
 
+      # Берём весь пакет kitty (kitten, terminfo, .desktop, …), но подменяем
+      # bin/kitty обёрткой: запускаем оригинальный kitty через nixGLIntel —
+      # он настраивает окружение под Mesa-драйвер хоста и затем exec'ает kitty.
+      # Так получаем GPU-ускорение вне NixOS; --config и PATH прокидываем тут же.
       kittyPkg = pkgs.symlinkJoin {
         name = "kitty-standalone";
-        paths = [ hmConfig.config.programs.kitty.package ];
+        paths = [ kitty ];
         nativeBuildInputs = [ pkgs.makeWrapper ];
         postBuild = ''
-          wrapProgram $out/bin/kitty \
+          rm "$out/bin/kitty"
+          makeWrapper ${nixGL}/bin/nixGLIntel "$out/bin/kitty" \
+            --add-flags "${kitty}/bin/kitty" \
             --add-flags "--config ${kittyConf}" \
             --prefix PATH : ${lib.makeBinPath runtimeDeps}
         '';

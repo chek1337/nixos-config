@@ -17,6 +17,7 @@ let
     "vial"
     "impression"
     "anydesk"
+    "localsend"
     # "zoom"
     # "hibiki"
   ];

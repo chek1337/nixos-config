@@ -192,6 +192,20 @@ nix profile install github:chek1337/nixos-config#nvim
 
 The tmux configuration is exposed as a standalone flake package too — full keybindings, sesh, catppuccin and smart-splits baked in, with the nord palette hardcoded (Stylix isn't available off-NixOS). No NixOS or Home Manager activation required: the config and its plugins are wrapped into the binary via `tmux -f <baked-config>`.
 
+The wrapper also puts the runtime tools the config shells out to on `PATH`
+(`sesh`, `tmuxinator`, `tmux-last`, `fzf`, `zoxide`, `eza`, `fd`, `bat`, …) and
+bundles the `television` `sesh` channel (via a wrapped `tv --cable-dir`), so the
+session picker (`prefix + s`) and floax popups work off-NixOS without leaking
+`XDG_CONFIG_HOME` into pane shells.
+
+**tmuxinator:** the binary is bundled, but no recipes are — drop your own under
+`~/.config/tmuxinator/*.yml` on the target machine.
+
+**Theme/icons:** the rendered config is byte-identical to the desktop host, so
+the status bar needs a Nerd Font (e.g. JetBrainsMono Nerd Font) and a
+truecolor-capable terminal to look right — that's terminal-side, not in this
+package. Clipboard/fingers bindings use `wl-copy` and only work under Wayland.
+
 ### Run without installing
 
 ```bash

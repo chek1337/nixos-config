@@ -1,6 +1,6 @@
-{ pkgs, ... }:
+{ yaziPkg, ... }:
 {
-  extraPackages = [ pkgs.yazi ];
+  extraPackages = [ yaziPkg ];
 
   plugins.yazi = {
     enable = true;

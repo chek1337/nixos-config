@@ -1,1 +1,1 @@
-feat: fix codediff big repo lag
+feat(nixvim): use wrapped standalone yazi instead of bare pkgs.yazi

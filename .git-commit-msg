@@ -1,1 +1,1 @@
-feat(tmux): pick clipboard tool by session (wl-copy/xclip/xsel)
+fix(nixvim): pass yaziPkg into HM build, not just standalone pkg

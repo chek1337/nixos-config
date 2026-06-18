@@ -157,12 +157,22 @@
 
       tmuxPkg = pkgs.symlinkJoin {
         name = "tmux-standalone";
-        paths = [ hmConfig.config.programs.tmux.package ];
+        # tmuxinator кладём прямо в bin пакета, чтобы он был доступен в профиле
+        # (`nix profile install .#tmux`) и вызывался из обычного терминала, а не
+        # только из tmux-сессии, где он раньше находился лишь через PATH обёртки.
+        paths = [
+          hmConfig.config.programs.tmux.package
+          pkgs.tmuxinator
+        ];
         nativeBuildInputs = [ pkgs.makeWrapper ];
         postBuild = ''
           wrapProgram $out/bin/tmux \
             --add-flags "-f ${tmuxConf}" \
             --prefix PATH : ${lib.makeBinPath runtimeDeps}
+          # tmuxinator шеллится на `tmux`: подкладываем наш обёрнутый tmux
+          # (с -f <вшитый конфиг>) первым в PATH плюс остальные рантайм-бинарники.
+          wrapProgram $out/bin/tmuxinator \
+            --prefix PATH : $out/bin:${lib.makeBinPath runtimeDeps}
         '';
       };
     in

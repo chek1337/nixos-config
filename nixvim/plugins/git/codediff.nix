@@ -1,14 +1,15 @@
 { pkgs, ... }:
 let
   # Локальный форк codediff с опцией explorer.show_untracked (только tracked
-  # файлы + `git status -uno`, чтобы не вешать большие репозитории).
+  # файлы + `git status -uno`, чтобы не вешать большие репозитории). Режим
+  # теперь переключается в рантайме клавишей `gU` (toggle_untracked).
   # chek1337/codediff.nvim, ветка feat/explorer-show-untracked. Снять после мерджа PR.
   codediff-show-untracked = pkgs.vimPlugins.codediff-nvim.overrideAttrs (_: {
     src = pkgs.fetchFromGitHub {
       owner = "chek1337";
       repo = "codediff.nvim";
-      rev = "54d86dd054135dbbe6601bf635ad7630470fed70";
-      hash = "sha256-7J03HZHNTIQSHnwya9K3VN9a7TcGLdq1TGOdfcS72qM=";
+      rev = "63ad8d86394bfb4e1d26c94de43d07a67ee5db24";
+      hash = "sha256-ozbfaVLeA9R3B2KnNxJBapbq/fhLaWQOA5qgBNkJ8pU=";
     };
   });
 in

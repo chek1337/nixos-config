@@ -1,1 +1,1 @@
-fix(nixvim): pass yaziPkg into HM build, not just standalone pkg
+feat: fix codediff big repo lag 2

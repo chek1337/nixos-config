@@ -4,7 +4,9 @@
   extraConfig = ''
     set -g @fingers-key none
     set -g @fingers-jump-key none
-    set -g @fingers-main-action 'echo -n {} | wl-copy'
+    # Копируем подсвеченное в системный буфер, подбирая инструмент под сессию
+    # (wl-copy под Wayland, xclip/xsel под X11) — как #{@clip} в keybindings.nix.
+    set -g @fingers-main-action 'echo -n {} | if [ -n "$WAYLAND_DISPLAY" ] && command -v wl-copy >/dev/null 2>&1; then wl-copy; elif command -v xclip >/dev/null 2>&1; then xclip -selection clipboard -in; else xsel -ib; fi'
     set -g @fingers-pattern-word '\S+'
     set -g @fingers-pattern-line '.+'
     bind f switch-client -T fingers-mode

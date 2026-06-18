@@ -153,6 +153,12 @@
         pkgs.zoxide
         pkgs.fzf
         pkgs.eza
+        # Буфер обмена для бинда `y` (#{@clip}): wl-copy под Wayland, xclip/xsel
+        # под X11. На NixOS Wayland в профиле уже есть wl-clipboard, но portable
+        # пакет ставится и на Ubuntu+X11, где нужны xclip/xsel.
+        pkgs.wl-clipboard
+        pkgs.xclip
+        pkgs.xsel
       ];
 
       tmuxPkg = pkgs.symlinkJoin {

@@ -53,6 +53,12 @@
         bind -T resize Escape switch-client -T root
         bind -T resize q      switch-client -T root
 
+        # Команда копирования в системный буфер, подбираемая под сессию:
+        # под Wayland — wl-copy, под X11 (например Ubuntu+X11 у standalone-пакета)
+        # — xclip, иначе xsel. Ссылаемся на неё через #{@clip}: copy-pipe и
+        # run-shell разворачивают форматы, так что один источник для всех биндов.
+        set -g @clip 'if [ -n "$WAYLAND_DISPLAY" ] && command -v wl-copy >/dev/null 2>&1; then wl-copy; elif command -v xclip >/dev/null 2>&1; then xclip -selection clipboard -in; else xsel -ib; fi'
+
         # Vi-like copy mode
         bind -T copy-mode-vi v   send -X begin-selection
         bind -T copy-mode-vi V   send -X select-line
@@ -60,13 +66,13 @@
           send -X begin-selection
           send -X rectangle-toggle
         }
-        bind -T copy-mode-vi y   send -X copy-pipe "wl-copy"
-        bind -T copy-mode-vi Y   send -X copy-end-of-line \; run "tmux save-buffer - | wl-copy"
+        bind -T copy-mode-vi y   send -X copy-pipe "#{@clip}"
+        bind -T copy-mode-vi Y   send -X copy-end-of-line \; run "tmux save-buffer - | { #{@clip}; }"
         # Vi-like copy mode (русская раскладка)
         bind -T copy-mode-vi м   send -X begin-selection
         bind -T copy-mode-vi М   send -X select-line
-        bind -T copy-mode-vi н   send -X copy-pipe "wl-copy"
-        bind -T copy-mode-vi Н   send -X copy-end-of-line \; run "tmux save-buffer - | wl-copy"
+        bind -T copy-mode-vi н   send -X copy-pipe "#{@clip}"
+        bind -T copy-mode-vi Н   send -X copy-end-of-line \; run "tmux save-buffer - | { #{@clip}; }"
 
         # Не выходить из copy-mode при отпускании мыши после выделения
         unbind -T copy-mode-vi MouseDragEnd1Pane
@@ -109,7 +115,7 @@
           send -X next-prompt
           send -X cursor-up
           send -X end-of-line
-          send -X copy-pipe-and-cancel "wl-copy"
+          send -X copy-pipe-and-cancel "#{@clip}"
         }
 
         # Navigate between command outputs in copy-mode.

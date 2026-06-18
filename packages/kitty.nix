@@ -89,6 +89,23 @@
             --add-flags "${kitty}/bin/kitty" \
             --add-flags "--config ${kittyConf}" \
             --prefix PATH : ${lib.makeBinPath runtimeDeps}
+
+          # .desktop из апстрима kitty использует Exec/TryExec=kitty и Icon=kitty —
+          # это работает, только если ~/.nix-profile/{bin,share} попали в PATH и
+          # icon-theme самой сессии. В GNOME на Ubuntu 22.04 сессионный PATH этого
+          # не содержит → TryExec=kitty не резолвится и лаунчер скрывает запись
+          # (а Exec=kitty запустил бы голый kitty в обход nixGL). Делаем файлы
+          # самодостаточными: Exec/TryExec → наша обёртка, Icon → абсолютный png.
+          # Подстрока "Exec=kitty" заодно ловит "TryExec=kitty". Имя оставляем
+          # "kitty"; nvidia-вариант (#kitty-nvidia) берёт суффикс с версией драйвера,
+          # чтобы при установке обоих записи в лаунчере не перетирали друг друга.
+          for f in kitty kitty-open; do
+            rm -f "$out/share/applications/$f.desktop"
+            substitute "${kitty}/share/applications/$f.desktop" \
+              "$out/share/applications/$f.desktop" \
+              --replace-quiet "Exec=kitty" "Exec=$out/bin/kitty" \
+              --replace-quiet "Icon=kitty" "Icon=${kitty}/share/icons/hicolor/256x256/apps/kitty.png"
+          done
         '';
       };
     in

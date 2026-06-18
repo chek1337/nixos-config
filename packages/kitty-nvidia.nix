@@ -93,6 +93,32 @@
             --add-flags "${kitty}/bin/kitty" \
             --add-flags "--config ${kittyConf}" \
             --prefix PATH : ${lib.makeBinPath runtimeDeps}
+
+          # .desktop из апстрима kitty использует Exec/TryExec=kitty и Icon=kitty —
+          # это работает, только если ~/.nix-profile/{bin,share} попали в PATH и
+          # icon-theme самой сессии. В GNOME на Ubuntu 22.04 сессионный PATH этого
+          # не содержит → TryExec=kitty не резолвится и лаунчер скрывает запись
+          # (а Exec=kitty запустил бы голый kitty в обход nixGL). Делаем файлы
+          # самодостаточными: Exec/TryExec → наша обёртка, Icon → абсолютный png.
+          # Подстрока "Exec=kitty" заодно ловит "TryExec=kitty", "Name=kitty" —
+          # и "Name=kitty URL Launcher" во втором файле.
+          #
+          # Имя и id .desktop отличаем от mesa-варианта (#kitty), чтобы при
+          # установке обоих пакетов записи в лаунчере не перетирали друг друга:
+          # обычный kitty → "kitty", этот → "kitty-nvidia-${nvidiaVersion}".
+          suffix="nvidia-${nvidiaVersion}"
+          rm -f "$out/share/applications/kitty.desktop" \
+                "$out/share/applications/kitty-open.desktop"
+          substitute "${kitty}/share/applications/kitty.desktop" \
+            "$out/share/applications/kitty-$suffix.desktop" \
+            --replace-quiet "Exec=kitty" "Exec=$out/bin/kitty" \
+            --replace-quiet "Icon=kitty" "Icon=${kitty}/share/icons/hicolor/256x256/apps/kitty.png" \
+            --replace-quiet "Name=kitty" "Name=kitty-$suffix"
+          substitute "${kitty}/share/applications/kitty-open.desktop" \
+            "$out/share/applications/kitty-$suffix-open.desktop" \
+            --replace-quiet "Exec=kitty" "Exec=$out/bin/kitty" \
+            --replace-quiet "Icon=kitty" "Icon=${kitty}/share/icons/hicolor/256x256/apps/kitty.png" \
+            --replace-quiet "Name=kitty" "Name=kitty-$suffix"
         '';
       };
     in

@@ -77,12 +77,43 @@
         '';
       };
 
+      # --- sesh: вшиваем sesh.toml (blacklist scratch_), чтобы он работал вне NixOS ---
+      # Конфиг sesh с `blacklist = ["^scratch_"]` живёт в модуле tmux-sesh как
+      # xdg.configFile, то есть кладётся в ~/.config только при HM-активации.
+      # Standalone-пакет HM не активирует, поэтому на чужой машине sesh не видит
+      # blacklist и показывает floax-сессии scratch_*. Рендерим этот toml через
+      # минимальный eval (programs.tmux.extraConfig — всегда объявленная опция HM,
+      # так что хватает одного tmux-sesh без всего модуля tmux) и оборачиваем sesh
+      # флагом --config, как television оборачиваем --cable-dir.
+      seshConfEval = hmLib.homeManagerConfiguration {
+        inherit pkgs;
+        modules = [
+          hmMods.tmux-sesh
+          {
+            home.username = "tmux";
+            home.homeDirectory = "/home/tmux";
+            home.stateVersion = "25.11";
+          }
+        ];
+      };
+      seshConf = seshConfEval.config.xdg.configFile."sesh/sesh.toml".source;
+      sesh = pkgs.symlinkJoin {
+        name = "sesh-tmux";
+        paths = [ pkgs.sesh ];
+        nativeBuildInputs = [ pkgs.makeWrapper ];
+        postBuild = ''
+          wrapProgram $out/bin/sesh --add-flags "--config ${seshConf}"
+        '';
+      };
+
       # --- основной eval tmux ---
       # Подменяем pkgs.television на обёрнутый, чтобы скрипт sesh-tv (он зашит на
-      # ${pkgs.television}/bin/tv) находил канал sesh. Заодно тянем модуль
-      # television ради его рантайм-зависимостей (fd/bat/jq) в home.packages.
+      # ${pkgs.television}/bin/tv) находил канал sesh. Так же подменяем pkgs.sesh
+      # на обёрнутый с --config, чтобы `sesh list` в канале sesh применял blacklist
+      # scratch_. Заодно тянем модуль television ради его рантайм-зависимостей
+      # (fd/bat/jq) в home.packages.
       hmConfig = hmLib.homeManagerConfiguration {
-        pkgs = pkgs.extend (_: _: { inherit television; });
+        pkgs = pkgs.extend (_: _: { inherit television sesh; });
         modules = [
           inputs.stylix.homeModules.default
           hmMods.tmux

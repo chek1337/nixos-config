@@ -164,3 +164,52 @@ nix profile install github:chek1337/nixos-config#kitty
   };
 }
 ```
+
+## yazi
+
+The yazi configuration is exposed as a standalone flake package too: all my
+settings, keybindings, plugins and previewers baked in, with the nord palette
+hardcoded because Stylix is not available off-NixOS. As with tmux/kitty, the
+rendered config is byte-identical to the desktop host.
+
+The whole rendered `yazi/` tree (`yazi.toml`, `keymap.toml`, `theme.toml`,
+`init.lua` and every plugin under `plugins/`) is baked into the store and the
+binary is wrapped to read it via `YAZI_CONFIG_HOME`. The wrapper also puts the
+runtime tools the config and plugins shell out to on `PATH`: the upstream
+`pkgs.yazi` wrapper already bundles the base preview deps (`file`, `ffmpeg`,
+`7z`, `jq`, `resvg`, `poppler`, …); on top of that we add what my config needs —
+`glow`, `hexyl`, `sqlite`, `duckdb`, `ouch`, `mediainfo`, `pandoc`,
+`imagemagick`, `transmission`, `trash-cli`, `udisks2`, `p7zip`, `zip`,
+`wl-clipboard`/`xclip` (for `ucp`), plus `bat`, `eza`, `ripgrep`, `fd`, `fzf`,
+`zoxide` and `television` (the `<Space>ff` files picker and grep search).
+
+**Editor integration:** the `tv-sel` / `tv-grep` search bindings open the hit in
+`nvim` (the path is hardcoded in Lua), so those need `nvim` on the target host.
+The `NVIM_CWD` branches of the routers only fire when yazi is launched from
+inside my nixvim, so they are inert in standalone. yazi itself starts fine
+without either.
+
+### Run without installing
+
+```bash
+nix run github:chek1337/nixos-config#yazi
+```
+
+### Install to user profile
+
+```bash
+nix profile install github:chek1337/nixos-config#yazi
+```
+
+### Add to your own flake
+
+```nix
+{
+  inputs.nixos-config.url = "github:chek1337/nixos-config";
+
+  outputs = { nixos-config, nixpkgs, ... }: {
+    # Use the built package directly
+    packages.x86_64-linux.yazi = nixos-config.packages.x86_64-linux.yazi;
+  };
+}
+```

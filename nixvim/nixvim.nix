@@ -16,6 +16,10 @@
           # standalone-пакете (nixvim/package.nix, где он идёт через
           # extraSpecialArgs).
           { _module.args.yaziPkg = inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.yazi; }
+          # Путь к sops-секрету WireGuard для запуска avante/ACP через vopono
+          # (см. plugins/ai/avante.nix). Host-specific, поэтому прокидываем
+          # отсюда; в standalone-пакете .#nvim его нет → агент идёт напрямую.
+          { _module.args.voponoWgSecret = "/run/secrets/${config.settings.wireguardConfigName}"; }
           ./options.nix
           ./keymaps.nix
           ./keymaps-ru.nix

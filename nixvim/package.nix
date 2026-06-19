@@ -14,6 +14,10 @@
         # голый pkgs.yazi.
         extraSpecialArgs = {
           yaziPkg = config.packages.yazi;
+          # В standalone-пакете нет понятия хоста/VPN, поэтому avante (ACP)
+          # запускается напрямую. Реальный путь к wg-секрету для запуска через
+          # vopono прокидывается в HM-сборке из nixvim.nix.
+          voponoWgSecret = null;
         };
         module = {
           imports = [

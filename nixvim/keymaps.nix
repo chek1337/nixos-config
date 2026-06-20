@@ -190,26 +190,26 @@
       options.desc = "Yank absolute file path";
     }
 
-    {
-      key = "<C-h>";
-      mode = "i";
-      action = "<Left>";
-    }
-    {
-      key = "<C-j>";
-      mode = "i";
-      action = "<Down>";
-    }
-    {
-      key = "<C-k>";
-      mode = "i";
-      action = "<Up>";
-    }
-    {
-      key = "<C-l>";
-      mode = "i";
-      action = "<Right>";
-    }
+    # {
+    #   key = "<C-h>";
+    #   mode = "i";
+    #   action = "<Left>";
+    # }
+    # {
+    #   key = "<C-j>";
+    #   mode = "i";
+    #   action = "<Down>";
+    # }
+    # {
+    #   key = "<C-k>";
+    #   mode = "i";
+    #   action = "<Up>";
+    # }
+    # {
+    #   key = "<C-l>";
+    #   mode = "i";
+    #   action = "<Right>";
+    # }
 
     {
       key = "J";

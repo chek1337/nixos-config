@@ -13,18 +13,17 @@
         function() return vim.g.blink_cmp_enabled ~= false end
       '';
 
-      # Context-aware Tab (логика пресета "super-tab", собранная вручную поверх
-      # "enter", чтобы <CR>/<C-y> остались accept'ом):
-      #   • <Tab> вне сниппета — `select_and_accept`: сразу подставляет первое
-      #     предложение (ghost_text показывает, что именно подставится).
-      #   • <Tab> внутри активного сниппета — `cmp.accept()` принимает ТОЛЬКО
-      #     явно выбранный (<C-n>/<C-p>) item; т.к. preselect = false, по
-      #     умолчанию ничего не выбрано → проваливаемся в `snippet_forward` и
-      #     прыгаем по плейсхолдерам. Так LSP-меню внутри сниппета не перехватывает
-      #     прыжок, но принять подсказку всё равно можно, понавигировав вручную.
+      # Context-aware <Tab> — целиком за blink (никаких copilot/NES здесь):
+      #   • <Tab> вне сниппета → `select_and_accept`: подставляет выбранный
+      #     (<C-n>/<C-p>) или первый пункт меню автодополнения.
+      #   • <Tab> в активном сниппете → `cmp.accept()` принимает ТОЛЬКО явно
+      #     выбранный item; preselect = false → по умолчанию выбора нет →
+      #     проваливаемся в `snippet_forward` и прыгаем по плейсхолдерам.
       #   • <S-Tab> — `snippet_backward`, иначе fallback.
       #   • <CR> / <C-y> — accept (из пресета "enter").
       #   • <C-n> / <C-p>, <Up>/<Down> — навигация по меню (из пресета).
+      # Приём inline-подсказки Copilot вынесен на <C-l> (см. ai/copilot.nix),
+      # чтобы <Tab> остался полностью за blink.
       keymap = {
         preset = "enter";
 
@@ -58,7 +57,9 @@
 
       completion = {
         list.selection.preselect = false;
-        ghost_text.enabled = true;
+        # ghost_text выключен: его роль играет нативный copilot inline-completion
+        # (ai/copilot.nix). Два ghost text'а на одной позиции конфликтуют визуально.
+        ghost_text.enabled = false;
       };
 
       sources.default = [

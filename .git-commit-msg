@@ -1,1 +1,1 @@
-feat(nixvim): add avante.nvim (Cursor-like AI) via Claude Code ACP
+feat(nixvim): add Copilot native LSP (inline + NES) via vopono

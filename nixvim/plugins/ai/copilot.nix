@@ -1,42 +1,9 @@
 {
   pkgs,
-  voponoWgSecret ? null,
   ...
 }:
 let
   copilotLs = "${pkgs.copilot-language-server}/bin/copilot-language-server";
-
-  # Весь процесс copilot-language-server гоняем через vopono в отдельном
-  # network namespace по WireGuard — так же, как avante/ACP (plugins/ai/avante.nix)
-  # и qutebrowser/ayugram (modules/services/unblock/vopono.nix). Через namespace
-  # уходит И LSP-трафик (API дополнений), И device-flow авторизация (:CopilotSignIn) —
-  # это просто HTTP-запросы того же процесса, отдельно их заворачивать не нужно.
-  # vopono работает через root-демон vopono.service → sudo/пароль из nvim не нужны.
-  # voponoWgSecret приходит из nixvim.nix как _module.args (host-specific); в
-  # standalone-сборке .#nvim его нет → null → запускаем сервер напрямую.
-  #
-  # ВНИМАНИЕ: LSP — это JSON-RPC по stdio. vopono логирует в stderr (env_logger),
-  # так что stdout остаётся чистым. Если vopono.service не поднят — copilot не
-  # стартует (как и avante).
-  copilotCmd =
-    if voponoWgSecret != null then
-      [
-        "${pkgs.vopono}/bin/vopono"
-        "exec"
-        "--protocol"
-        "wireguard"
-        "--custom"
-        voponoWgSecret
-        # vopono exec берёт <APPLICATION> ОДНОЙ строкой (запускает через шелл),
-        # поэтому сервер вместе с флагом --stdio склеиваем — иначе vopono
-        # парсит --stdio как свой аргумент и падает с "unexpected argument".
-        "${copilotLs} --stdio"
-      ]
-    else
-      [
-        copilotLs
-        "--stdio"
-      ];
 in
 {
   # GitHub Copilot как НАТИВНЫЙ LSP (copilot-language-server из nixpkgs), а не
@@ -49,12 +16,13 @@ in
   # `plugins.lsp.servers.*` (там copilot нет — это не обычный LSP). nixvim НЕ
   # везёт lsp/copilot.lua из nvim-lspconfig, поэтому cmd/init_options прописываем
   # сами. copilot-language-server обязательно требует editorInfo/editorPluginInfo,
-  # иначе сервер не стартует. cmd указываем абсолютным путём (через vopono или
-  # напрямую — см. copilotCmd выше).
+  # иначе сервер не стартует. cmd считаем В РАНТАЙМЕ через ai_launcher
+  # (ai/launcher.nix): на хостах он завернёт сервер в vopono, в standalone/на
+  # чужой машине — прямой запуск или свой туннель ($NVIM_AI_WRAPPER / файл).
   lsp.servers.copilot = {
     enable = true;
     config = {
-      cmd = copilotCmd;
+      cmd.__raw = ''require("ai_launcher").wrap({ "${copilotLs}", "--stdio" })'';
       root_markers = [ ".git" ];
       init_options = {
         editorInfo = {

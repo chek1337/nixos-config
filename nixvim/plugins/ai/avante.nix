@@ -1,39 +1,9 @@
 {
   pkgs,
-  voponoWgSecret ? null,
   ...
 }:
 let
   acpAgent = "${pkgs.claude-agent-acp}/bin/claude-agent-acp";
-
-  # Весь ACP-агент (а значит и весь трафик Claude) гоняем через vopono в
-  # отдельном network namespace по WireGuard — так же, как qutebrowser/ayugram
-  # (см. modules/services/unblock/vopono.nix). vopono работает через root-демон
-  # vopono.service, поэтому sudo/пароль из nvim не нужны. Путь к sops-секрету
-  # приходит из nixvim.nix как _module.args (host-specific); в standalone-сборке
-  # .#nvim его нет → voponoWgSecret = null → запускаем агент напрямую.
-  #
-  # ВНИМАНИЕ: ACP — это JSON-RPC по stdio. vopono логирует в stderr (env_logger),
-  # так что stdout остаётся чистым; стабильность проброса stdio проверяется
-  # рантаймом. Если vopono.service не поднят, avante работать не будет.
-  acpProvider =
-    if voponoWgSecret != null then
-      {
-        command = "${pkgs.vopono}/bin/vopono";
-        args = [
-          "exec"
-          "--protocol"
-          "wireguard"
-          "--custom"
-          voponoWgSecret
-          acpAgent
-        ];
-      }
-    else
-      {
-        command = acpAgent;
-        args = [ ];
-      };
 in
 {
   # avante.nvim — «Cursor внутри Neovim»: чат с контекстом репозитория и
@@ -67,8 +37,12 @@ in
     settings = {
       provider = "claude-code-nix";
 
+      # command/args считаем В РАНТАЙМЕ через ai_launcher (ai/launcher.nix):
+      # на хостах агент завернётся в vopono, в standalone/на чужой машине —
+      # прямой запуск или свой туннель ($NVIM_AI_WRAPPER / ~/.config/nvim-ai/wrapper).
       acp_providers."claude-code-nix" = {
-        inherit (acpProvider) command args;
+        command.__raw = ''require("ai_launcher").command({ "${acpAgent}" })'';
+        args.__raw = ''require("ai_launcher").args({ "${acpAgent}" })'';
         env.NODE_NO_WARNINGS = "1";
       };
 

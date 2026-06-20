@@ -7,6 +7,26 @@
 
       imports = [ inputs.nixvim.homeModules.nixvim ];
 
+      # Дефолтный «рецепт запуска» AI-серверов (copilot LSP, avante ACP) для
+      # NixOS-хостов: гоняем их через vopono в network namespace по WireGuard
+      # (как qutebrowser/ayugram — modules/services/unblock/vopono.nix). vopono
+      # работает через root-демон vopono.service → sudo/пароль из nvim не нужны.
+      # Раньше путь к секрету был зашит module-аргументом; теперь это рантайм-файл,
+      # который читает ai_launcher (nixvim/plugins/ai/launcher.nix) и который можно
+      # перекрыть на лету через $NVIM_AI_WRAPPER. В standalone .#nvim / на чужой
+      # машине этого файла нет → прямой запуск (или свой скрипт).
+      #
+      # vopono берёт <APPLICATION> ОДНОЙ строкой, поэтому "$*": copilot приходит
+      # как `copilot-language-server --stdio`, avante — как `claude-agent-acp`.
+      home.file.".config/nvim-ai/wrapper" = {
+        executable = true;
+        text = ''
+          #!/bin/sh
+          exec ${pkgs.vopono}/bin/vopono exec --protocol wireguard \
+            --custom /run/secrets/${config.settings.wireguardConfigName} "$*"
+        '';
+      };
+
       programs.nixvim = {
         enable = true;
         nixpkgs.pkgs = pkgs;
@@ -16,10 +36,6 @@
           # standalone-пакете (nixvim/package.nix, где он идёт через
           # extraSpecialArgs).
           { _module.args.yaziPkg = inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.yazi; }
-          # Путь к sops-секрету WireGuard для запуска avante/ACP через vopono
-          # (см. plugins/ai/avante.nix). Host-specific, поэтому прокидываем
-          # отсюда; в standalone-пакете .#nvim его нет → агент идёт напрямую.
-          { _module.args.voponoWgSecret = "/run/secrets/${config.settings.wireguardConfigName}"; }
           ./options.nix
           ./keymaps.nix
           ./keymaps-ru.nix

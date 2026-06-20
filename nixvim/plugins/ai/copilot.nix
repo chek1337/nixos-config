@@ -158,7 +158,7 @@ in
     # Тумблер всего inline-движка (приём подсказок — на <C-l> выше).
     {
       mode = "n";
-      key = "<leader>ua";
+      key = "<leader>ui";
       action.__raw = ''
         function()
           vim.lsp.inline_completion.enable(not vim.lsp.inline_completion.is_enabled())

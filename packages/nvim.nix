@@ -22,11 +22,11 @@
         };
         module = {
           imports = [
-            ./options.nix
-            ./keymaps.nix
-            ./keymaps-ru.nix
-            ./spellfiles.nix
-            ./plugins
+            ../nixvim/options.nix
+            ../nixvim/keymaps.nix
+            ../nixvim/keymaps-ru.nix
+            ../nixvim/spellfiles.nix
+            ../nixvim/plugins
           ];
           colorScheme = "nord";
         };

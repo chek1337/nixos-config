@@ -51,8 +51,12 @@ My personal NixOS configuration using the **dendritic** modular pattern with [fl
 │   ├── nixvim.nix            # home-manager module
 │   ├── keymaps.nix           # Keybindings
 │   ├── options.nix           # Vim options
-│   ├── package.nix           # Standalone flake package/app
 │   └── plugins/              # Plugin configs (snacks, harpoon, flash, blink, etc.)
+├── packages/                 # Standalone flake packages/apps
+│   ├── nvim.nix              # Neovim standalone package/app
+│   ├── tmux.nix
+│   ├── yazi.nix
+│   └── kitty.nix
 └── secrets/                  # Encrypted secrets (sops)
 ```
 

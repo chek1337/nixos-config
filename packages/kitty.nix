@@ -1,7 +1,7 @@
 { inputs, config, ... }:
 {
   # Standalone-пакет kitty со всем моим конфигом, по образцу packages/tmux.nix
-  # и nixvim/package.nix. Ставится на чужие машины (Ubuntu и т.п.) через:
+  # и packages/nvim.nix. Ставится на чужие машины (Ubuntu и т.п.) через:
   #   nix profile install github:chek1337/nixos-config#kitty
   # либо локально:  nix run .#kitty  /  nix build .#kitty
   #

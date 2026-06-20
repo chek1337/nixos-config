@@ -33,7 +33,7 @@
         imports = [
           # Прокидываем обёрнутый standalone-yazi (packages/yazi.nix) как module
           # arg, чтобы плагин qol/yazi брал его и в HM-сборке, а не только в
-          # standalone-пакете (nixvim/package.nix, где он идёт через
+          # standalone-пакете (packages/nvim.nix, где он идёт через
           # extraSpecialArgs).
           { _module.args.yaziPkg = inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.yazi; }
           ./options.nix

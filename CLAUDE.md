@@ -7,9 +7,10 @@ the short version plus repo-specific tooling notes.
 
 Personal NixOS config using the **dendritic** pattern: `flake-parts` wires
 top-level outputs, `import-tree ./modules` auto-imports every `*.nix` under
-`modules/`, and `./nixvim` adds the declarative Neovim config. Three hosts:
-`desktop-home`, `laptop-asus`, `wsl-asuslaptop`. Themes via Stylix, secrets
-via sops-nix, deploys wrapped by `nh` through `just`.
+`modules/`, `import-tree ./packages` exposes standalone packages/apps, and
+`./nixvim` adds the declarative Neovim config. Three hosts: `desktop-home`,
+`laptop-asus`, `wsl-asuslaptop`. Themes via Stylix, secrets via sops-nix,
+deploys wrapped by `nh` through `just`.
 
 ## Layout
 
@@ -23,7 +24,8 @@ modules/
   services/                  # docker, wireguard, virtualization, ...
   hardware/                  # bluetooth, power, asus-laptop, wsl-nvidia, ...
   shells/ desktop-env/ themes/
-nixvim/                      # declarative Neovim via nixvim (exposes a standalone pkg)
+packages/                    # standalone flake packages/apps (nvim, tmux, ...)
+nixvim/                      # declarative Neovim via nixvim
 secrets/                     # sops-encrypted
 ```
 

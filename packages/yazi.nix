@@ -1,7 +1,7 @@
 { inputs, config, ... }:
 {
   # Standalone-пакет yazi со всем моим конфигом, по образцу packages/tmux.nix,
-  # packages/kitty.nix и nixvim/package.nix. Ставится на чужие машины (Ubuntu
+  # packages/kitty.nix и packages/nvim.nix. Ставится на чужие машины (Ubuntu
   # и т.п.) через:
   #   nix profile install github:chek1337/nixos-config#yazi
   # либо локально:  nix run .#yazi  /  nix build .#yazi

@@ -1,6 +1,6 @@
 { inputs, config, ... }:
 {
-  # Standalone-пакет tmux со всем моим конфигом, по образцу nixvim/package.nix.
+  # Standalone-пакет tmux со всем моим конфигом, по образцу packages/nvim.nix.
   # Ставится на чужие машины (Ubuntu и т.п.) через:
   #   nix profile install github:chek1337/nixos-config#tmux
   # либо локально:  nix run .#tmux  /  nix build .#tmux

@@ -27,8 +27,10 @@ let
         "wireguard"
         "--custom"
         voponoWgSecret
-        copilotLs
-        "--stdio"
+        # vopono exec берёт <APPLICATION> ОДНОЙ строкой (запускает через шелл),
+        # поэтому сервер вместе с флагом --stdio склеиваем — иначе vopono
+        # парсит --stdio как свой аргумент и падает с "unexpected argument".
+        "${copilotLs} --stdio"
       ]
     else
       [

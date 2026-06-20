@@ -142,5 +142,9 @@
       url = "github:abhixdd/ghgrab";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    hunk = {
+      url = "path:/home/chek/other_projects/hunk";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 }

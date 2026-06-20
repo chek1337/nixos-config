@@ -5,6 +5,7 @@ let
     "eza"
     "yazi"
     "git"
+    "hunk"
     "gh"
     "tmux"
     "television"

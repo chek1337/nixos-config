@@ -2,6 +2,7 @@ flake := "."
 username := "chek"
 # Enable flakes + nix-command even if they aren't set in nix.conf
 features_flags := '--option extra-experimental-features "nix-command flakes"'
+offline_flags := "--offline --no-net --no-update-lock-file --option substitute false --builders ''"
 # Same, but for nh-based deploy recipes (nh shells out to nix internally
 # and doesn't take features_flags) — exported into every recipe's env
 export NIX_CONFIG := "experimental-features = nix-command flakes"
@@ -17,6 +18,10 @@ alias bo := boot
 alias nbo := nixos-boot
 alias t := test
 alias b := build
+alias osw := offline-switch
+alias ot := offline-test
+alias ob := offline-build
+alias odb := offline-dry-build
 alias up := update
 alias upi := update-interactive
 alias qs := quickshell-reload
@@ -78,6 +83,26 @@ test hostname: stage sudo-refresh
 [group("deploy")]
 build hostname: stage sudo-refresh
     nh os build {{ flake }} -H {{ hostname }}
+
+# Check offline NixOS build without applying
+[group("offline deploy")]
+offline-dry-build hostname: stage
+    nixos-rebuild dry-build --flake {{ flake }}#{{ hostname }} {{ features_flags }} {{ offline_flags }}
+
+# Build NixOS configuration offline without applying
+[group("offline deploy")]
+offline-build hostname: stage
+    nixos-rebuild build --flake {{ flake }}#{{ hostname }} {{ features_flags }} {{ offline_flags }}
+
+# Test NixOS configuration offline without making it boot default
+[group("offline deploy")]
+offline-test hostname: stage sudo-refresh
+    sudo nixos-rebuild test --flake {{ flake }}#{{ hostname }} {{ features_flags }} {{ offline_flags }}
+
+# Apply NixOS configuration offline
+[group("offline deploy")]
+offline-switch hostname: stage sudo-refresh
+    sudo nixos-rebuild switch --flake {{ flake }}#{{ hostname }} {{ features_flags }} {{ offline_flags }}
 
 # Restart quickshell / noctalia-shell
 [group("utils")]

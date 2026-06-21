@@ -1633,11 +1633,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1779929796,
-        "narHash": "sha256-IlYMcPG7otIDa3Ke7PqXBaueappWrs5H3Hp9yu1cdaI=",
+        "lastModified": 1781744930,
+        "narHash": "sha256-em1LRja3OjSqulIdu5Cja36DzebV8jUWLmJebbFCVH8=",
         "owner": "miuirussia",
         "repo": "yandex-browser.nix",
-        "rev": "b0a49f64c55f667607d0832230133f7ec923f26b",
+        "rev": "c697049c591aa40e075801df4a61aa643cce8445",
         "type": "github"
       },
       "original": {

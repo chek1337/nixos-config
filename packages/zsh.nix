@@ -105,6 +105,22 @@
             [ -f "$f" ] && substituteInPlace "$f" --replace-quiet "/home/zsh" "\$HOME"
           done
         ''
+        # .zshenv сорсит hm-session-vars.sh (по store-пути, его мы не правим), а тот
+        # экспортирует STARSHIP_CONFIG="/home/zsh/.config/starship.toml" — стаб-путь
+        # из eval'а, которого на чужой машине нет → starship падает на дефолты
+        # (truncate_to_repo и т.п.). На NixOS это незаметно: guard hm-session-vars
+        # пропускает повторный экспорт, когда __HM_SESS_VARS_SOURCED уже выставлен
+        # родительской сессией. Поэтому в конец .zshenv дописываем явный экспорт на
+        # вшитый starship.toml — он выполняется ПОСЛЕ hm-session-vars и побеждает.
+        + ''
+
+          cat >> "$out/.zshenv" <<EOF
+
+          # standalone-пакет: перебиваем STARSHIP_CONFIG из hm-session-vars.sh
+          # (там зашит несуществующий /home/zsh/.config/starship.toml).
+          export STARSHIP_CONFIG=${starshipConf}
+          EOF
+        ''
         # ZDOTDIR указывает на этот неизменяемый store-каталог, поэтому реальный
         # ~/.zshrc целевой машины zsh НЕ читает. Чтобы конфиг можно было
         # дополнять локально (PATH, алиасы, секреты конкретной машины), в самый

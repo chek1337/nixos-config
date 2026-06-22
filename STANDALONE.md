@@ -213,3 +213,83 @@ nix profile install github:chek1337/nixos-config#yazi
   };
 }
 ```
+
+## zsh
+
+The whole zsh setup is exposed as a standalone flake package too: my `.zshrc` /
+`.zshenv` with oh-my-zsh, autosuggestions, syntax-highlighting, the granular
+word-deletion (z4h) bindings, OSC 133 prompt markers, fzf/zoxide/direnv
+integration, starship and the `eza` / `cd = z` aliases — all baked in. The
+rendered dotfiles are byte-identical to the desktop host.
+
+The dotfiles are collected into the store and the binary is wrapped to read them
+via `ZDOTDIR`, so your machine's real `~/.zshrc` is **not** read (see
+"Extending it" below). The wrapper also sets `STARSHIP_CONFIG` to the baked
+`starship.toml` and puts the runtime tools the config shells out to on `PATH`
+(`fzf`, `zoxide`, `eza`, `starship`, `direnv`, `git`). The nord palette is not
+needed here — colors come from starship and syntax-highlighting themselves.
+
+**History:** `HISTFILE` is rewritten to `$HOME/.zsh_history`, so history lands in
+the target user's real home, not the build-time stub home.
+
+### Run without installing
+
+```bash
+nix run github:chek1337/nixos-config#zsh
+```
+
+### Install to user profile
+
+```bash
+nix profile install github:chek1337/nixos-config#zsh
+```
+
+The wrapped binary then lives at `~/.nix-profile/bin/zsh`.
+
+### Set it as your default shell
+
+`chsh` only accepts shells listed in `/etc/shells`, so register the profile
+binary once, then switch to it (both need `sudo` / your password):
+
+```bash
+command -v zsh | sudo tee -a /etc/shells      # ~/.nix-profile/bin/zsh
+chsh -s "$(command -v zsh)"
+```
+
+Log out and back in for the login shell to change. If you can't edit
+`/etc/shells` (no root, locked-down host), keep your current login shell and
+chain into this one instead — append to the existing rc (`~/.bashrc`,
+distro `~/.zshrc`, …):
+
+```bash
+exec ~/.nix-profile/bin/zsh
+```
+
+### Extending it
+
+Because `ZDOTDIR` points at the immutable store dir, editing your machine's
+`~/.zshrc` does nothing — zsh never reads it. Instead, the baked `.zshrc` sources
+`~/.zshrc.local` at the very end (after oh-my-zsh and zoxide), so put your
+machine-specific additions there:
+
+```bash
+cat >> ~/.zshrc.local <<'EOF'
+export PATH="$HOME/bin:$PATH"
+alias gs='git status'
+EOF
+```
+
+New shells pick it up automatically; the store config stays untouched.
+
+### Add to your own flake
+
+```nix
+{
+  inputs.nixos-config.url = "github:chek1337/nixos-config";
+
+  outputs = { nixos-config, nixpkgs, ... }: {
+    # Use the built package directly
+    packages.x86_64-linux.zsh = nixos-config.packages.x86_64-linux.zsh;
+  };
+}
+```

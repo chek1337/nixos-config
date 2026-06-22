@@ -94,6 +94,17 @@
         + lib.concatStringsSep "\n" (
           map (f: ''install -Dm644 ${f.source} "$out/${baseNameOf f.target}"'') zshDotfiles
         )
+        # HM хардкодит stub-домашний каталог /home/zsh в некоторых местах (напр.
+        # ZSH_CACHE_DIR=/home/zsh/.cache/oh-my-zsh в .zshenv) — на чужой машине его
+        # нет и oh-my-zsh не может писать кэш. Заменяем на литеральный $HOME, чтобы
+        # пути резолвились в рантайме. Store-пути /home/zsh не содержат, безопасно.
+        + ''
+
+          chmod -R u+w "$out"
+          for f in "$out"/.*; do
+            [ -f "$f" ] && substituteInPlace "$f" --replace-quiet "/home/zsh" "\$HOME"
+          done
+        ''
         # ZDOTDIR указывает на этот неизменяемый store-каталог, поэтому реальный
         # ~/.zshrc целевой машины zsh НЕ читает. Чтобы конфиг можно было
         # дополнять локально (PATH, алиасы, секреты конкретной машины), в самый

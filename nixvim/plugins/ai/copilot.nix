@@ -23,7 +23,18 @@ in
     enable = true;
     config = {
       cmd.__raw = ''require("ai_launcher").wrap({ "${copilotLs}", "--stdio" })'';
-      root_markers = [ ".git" ];
+      # root_dir вместо root_markers — это наш «выключатель»: пока Copilot выключен
+      # (_G.copilot_enabled = false, ставится в extraConfigLua), функция НЕ зовёт
+      # on_dir, поэтому vim.lsp клиента не создаёт вообще => сервер (и vopono из
+      # ai/launcher.nix) не поднимается. Когда включён — ведём себя как старый
+      # root_markers = [".git"]: стартуем только внутри git-репозитория.
+      root_dir.__raw = ''
+        function(bufnr, on_dir)
+          if not _G.copilot_enabled then return end
+          local root = vim.fs.root(bufnr, { ".git" })
+          if root then on_dir(root) end
+        end
+      '';
       init_options = {
         editorInfo = {
           name = "Neovim";
@@ -39,10 +50,55 @@ in
 
   extraConfigLua = # lua
     ''
-      -- Включаем нативный inline-completion (ghost text). Модуль сам авто-рефрешит
-      -- в insert-режиме и показывает подсказку только там, где активен copilot LSP.
-      -- pcall — на случай сборки nvim < 0.12 (тогда просто молча выключено).
-      pcall(function() vim.lsp.inline_completion.enable() end)
+      -- ── Состояние Copilot между сессиями ─────────────────────────────────
+      -- Тумблер <leader>ui (см. keymaps ниже) включает/выключает Copilot целиком:
+      --   • поднятие LSP-сервера copilot — через root_dir выше (выкл => сервер и
+      --     vopono-обёртка из ai/launcher.nix вообще не стартуют, а не «стартуют
+      --     и сразу убиваются»);
+      --   • нативный inline-completion (ghost text).
+      -- Состояние пишем в файл под stdpath("state") и восстанавливаем на старте,
+      -- поэтому оно переживает рестарт nvim.
+      local state_file = vim.fn.stdpath("state") .. "/copilot-enabled"
+
+      local function copilot_read()
+        local f = io.open(state_file, "r")
+        if not f then return true end -- по умолчанию включён
+        local s = f:read("*a")
+        f:close()
+        return vim.trim(s or "") ~= "0"
+      end
+
+      local function copilot_write(on)
+        local f = io.open(state_file, "w")
+        if f then
+          f:write(on and "1" or "0")
+          f:close()
+        end
+      end
+
+      -- Флаг читаем СИНХРОННО в init — до первого FileType, чтобы root_dir увидел
+      -- актуальное значение ещё до автостарта сервера (иначе сервер успел бы
+      -- подняться до vim.schedule). pcall на inline — на случай nvim < 0.12.
+      _G.copilot_enabled = copilot_read()
+      pcall(function() vim.lsp.inline_completion.enable(_G.copilot_enabled) end)
+
+      -- Глобальный тумблер (вешается на <leader>ui).
+      function _G.copilot_toggle()
+        _G.copilot_enabled = not _G.copilot_enabled
+        copilot_write(_G.copilot_enabled)
+        pcall(function() vim.lsp.inline_completion.enable(_G.copilot_enabled) end)
+        if _G.copilot_enabled then
+          -- заново подцепляем сервер к уже открытым буферам (root_dir теперь
+          -- пропустит, т.к. флаг true)
+          pcall(vim.lsp.enable, "copilot")
+        else
+          -- глушим живые клиенты (и их vopono-обёртку)
+          for _, c in ipairs(vim.lsp.get_clients({ name = "copilot" })) do
+            pcall(function() c:stop() end)
+          end
+        end
+        vim.notify("Copilot " .. (_G.copilot_enabled and "enabled" or "disabled"))
+      end
 
       -- copilot-language-server логинится через GitHub device-flow. Так как
       -- nixvim не везёт lsp/copilot.lua из nvim-lspconfig, команды
@@ -125,16 +181,13 @@ in
       action.__raw = "function() vim.lsp.inline_completion.select({ count = -1 }) end";
       options.desc = "Copilot: prev suggestion";
     }
-    # Тумблер всего inline-движка (приём подсказок — на <C-l> выше).
+    # Тумблер Copilot целиком (LSP + inline-движок). Состояние сохраняется между
+    # сессиями (см. extraConfigLua). Приём подсказок — на <C-l> выше.
     {
       mode = "n";
       key = "<leader>ui";
-      action.__raw = ''
-        function()
-          vim.lsp.inline_completion.enable(not vim.lsp.inline_completion.is_enabled())
-        end
-      '';
-      options.desc = "Toggle AI inline completion (Copilot)";
+      action.__raw = "function() _G.copilot_toggle() end";
+      options.desc = "Toggle Copilot (LSP + inline, persisted)";
     }
   ];
 }

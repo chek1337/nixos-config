@@ -54,8 +54,16 @@
             };
             actions = {
               kill_session = {
-                description = "Kill selected tmux session";
-                command = "tmux kill-session -t '{strip_ansi|split: :1..|join: }'";
+                description = "Kill selected tmux session (and its scratch popup)";
+                command = ''
+                  bash -c '
+                    s="{strip_ansi|split: :1..|join: }"
+                    base=$(tmux show-option -gqv @floax-session-name)
+                    base=''${base:-scratch}
+                    tmux kill-session -t "''${base}_''${s}" 2>/dev/null
+                    tmux kill-session -t "$s" 2>/dev/null
+                  '
+                '';
                 mode = "fork";
               };
             };

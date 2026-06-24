@@ -25,6 +25,12 @@ let
     colorScheme = "nord";
 
     enableMoonlightClient = true;
+
+    work = {
+      name = "Лойченко Данила";
+      email = "danila.loichenko@eltex.loc";
+      sshKeyPath = "/home/chek/.ssh/09_06_26_work";
+    };
   };
 in
 {

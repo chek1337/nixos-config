@@ -26,11 +26,9 @@ let
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIA213f/P1prxD2ImqqW6goD6iBsHH8E5HvEOf+R/dkk8 chek@wsl-asuslaptop"
     ];
 
-    # TODO: заменить заглушки name/email на реальные данные с работы.
-    # После замены — клонировать рабочие репо в ~/Work/.
     work = {
-      name = "TODO-work-name";
-      email = "TODO-work-email@example.com";
+      name = "Лойченко Данила";
+      email = "danila.loichenko@eltex.loc";
       sshKeyPath = "/home/chek/.ssh/09_06_26_work";
     };
   };

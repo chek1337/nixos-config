@@ -44,6 +44,13 @@ in
         command.__raw = ''require("ai_launcher").command({ "${acpAgent}" })'';
         args.__raw = ''require("ai_launcher").args({ "${acpAgent}" })'';
         env.NODE_NO_WARNINGS = "1";
+        # HOME прокидываем ЯВНО: avante (libs/acp_client.lua) собирает окружение
+        # дочернего процесса с нуля — только PATH + этот env, окружение nvim НЕ
+        # наследуется. Без HOME обёртка-vopono (~/.config/nvim-ai/wrapper) считает
+        # `--custom $HOME/.config/vopono/wg.conf` с пустым HOME → конфиг не найден,
+        # vopono падает, агент не стартует. А внутри namespace агенту HOME нужен,
+        # чтобы найти ~/.claude. copilot (vim.lsp) наследует env и потому работает.
+        env.HOME.__raw = ''vim.fn.expand("$HOME")'';
       };
 
       # Кейбинды вешаем сами (ниже), как в LazyVim-extra.

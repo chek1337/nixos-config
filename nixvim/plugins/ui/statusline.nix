@@ -176,12 +176,7 @@ in
                 return {
                   function()
                     local root = get_root()
-                    local cwd = vim.fs.normalize(vim.fn.getcwd())
-                    if root == cwd then return "" end
                     return "󱉭 " .. vim.fs.basename(root)
-                  end,
-                  cond = function()
-                    return get_root() ~= vim.fs.normalize(vim.fn.getcwd())
                   end,
                   color = "Special",
                 }
@@ -192,10 +187,8 @@ in
             # lua
             raw ''
               (function()
-                ${getRootFn}
                 ${formatFn}
                 local opts = {
-                  relative = "cwd",
                   modified_hl = "MatchParen",
                   directory_hl = "",
                   filename_hl = "Bold",
@@ -208,19 +201,6 @@ in
                     local path = vim.fn.expand("%:p")
                     if path == "" then return "" end
                     path = vim.fs.normalize(path)
-                    local root = get_root()
-                    local cwd = vim.fs.normalize(vim.fn.getcwd())
-                    local norm_path = path
-                    if vim.fn.has("win32") == 1 then
-                      norm_path = norm_path:lower()
-                      root = root:lower()
-                      cwd = cwd:lower()
-                    end
-                    if opts.relative == "cwd" and norm_path:find(cwd, 1, true) == 1 then
-                      path = path:sub(#cwd + 2)
-                    elseif norm_path:find(root, 1, true) == 1 then
-                      path = path:sub(#root + 2)
-                    end
                     local sep = package.config:sub(1, 1)
                     local parts = vim.split(path, "[\\/]")
                     if opts.length ~= 0 and #parts > opts.length then

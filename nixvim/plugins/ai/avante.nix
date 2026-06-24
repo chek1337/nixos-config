@@ -74,15 +74,38 @@ in
       behaviour.auto_set_keymaps = false;
 
       # Дефолт avante — auto_approve_tool_permissions=true: агент молча применяет
-      # ВСЕ правки/тулколлы без спроса. Выключаем, чтобы каждую правку
-      # подтверждать вручную: всплывёт confirm с [Y]es / [A]ll yes / [N]o
-      # (клавиши y/a/n, навигация Tab/←→/h l, выбор <CR>). Отклонение для ACP
-      # идёт без поля «причина» (skip_reject_prompt), поэтому «комментарий» =
-      # нажать n и дописать в инпут, что переделать.
-      behaviour.auto_approve_tool_permissions = false;
-      # Стиль подтверждения: "popup" — модалка с понятными y/a/n
-      # (альтернатива — дефолтный "inline_buttons", кнопки прямо в чате).
-      behaviour.confirmation_ui_style = "popup";
+      # ВСЕ тулколлы без спроса. Вместо true/false ставим ВЫБОРОЧНЫЙ авто-аппрув
+      # (string[]): confirm спрашивает только про тулы НЕ из списка
+      # (llm_tools/helpers.lua: vim.tbl_contains(auto_approve, tool_name)). Для ACP
+      # tool_name == kind тулколла (llm.lua → tool_call.kind), набор kind'ов:
+      # read | edit | delete | move | search | execute | think | fetch | other.
+      # Молча разрешаем безопасное (чтение/поиск/фетч/размышление), а гейтим только
+      # то, что меняет файлы или выполняет команды: edit / delete / move / execute.
+      behaviour.auto_approve_tool_permissions = [
+        "read"
+        "search"
+        "fetch"
+        "think"
+      ];
+      # Стиль подтверждения: "inline_buttons" — кнопки прямо в ленте сайдбара
+      # (Allow once / Allow always / Reject), без всплывающей модалки. "Allow always"
+      # ставит session_ctx.always_yes — больше не спрашивает до конца сессии чата.
+      # (альтернатива — "popup", floating-модалка с y/a/n.)
+      behaviour.confirmation_ui_style = "inline_buttons";
+
+      # Review правок при ACP — это НЕ merge-conflict-маркеры в буфере (та схема из
+      # видео работает лишь с нативными провайдерами: модель отдаёт блоки кода в
+      # сайдбар, avante их сам вставляет конфликтами). У claude-code-nix правит сам
+      # агент через свои тулы, поэтому review складывается из трёх частей:
+      #   1) diff-превью в сайдбаре (oldText/newText, +/- строки) — рисуется всегда;
+      #      превью обрезается ~10 строк, полный diff разворачивается по <S-Tab>
+      #      (mappings.sidebar.expand_tool_use);
+      #   2) inline-кнопки Allow/Reject в сайдбаре перед опасными тулами
+      #      (см. auto_approve_tool_permissions — read/search/fetch/think идут молча);
+      #   3) follow-locations (ниже) — при kind=="edit" code-окно само прыгает к месту
+      #      правки. Это ближайший ACP-аналог «смотреть, как ложится diff».
+      # Дефолт уже true; фиксируем явно, чтобы review не сломался при смене дефолта.
+      behaviour.acp_follow_agent_locations = true;
 
       selection.hint_display = "none";
     };

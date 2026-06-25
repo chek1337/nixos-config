@@ -1,6 +1,14 @@
 { pkgs, config, ... }:
 {
-  plugins.lsp.servers.clangd.enable = true;
+  plugins.lsp.servers.clangd = {
+    enable = true;
+    settings.InlayHints = {
+      Enabled = true;
+      DeducedTypes = true;
+      ParameterNames = true;
+      Designators = true;
+    };
+  };
 
   plugins.treesitter.grammarPackages = with config.plugins.treesitter.package.builtGrammars; [
     c

@@ -18,6 +18,14 @@
 
   globals.c_syntax_for_h = 1;
 
+  extraConfigLua = ''
+    vim.filetype.add({
+      extension = {
+        tpp = "cpp",
+      },
+    })
+  '';
+
   plugins.dap.adapters.executables.lldb = {
     command = "${pkgs.lldb}/bin/lldb-dap";
   };

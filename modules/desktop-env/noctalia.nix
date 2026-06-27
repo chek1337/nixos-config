@@ -94,8 +94,12 @@
             capsule = true; # was bar.showCapsule
             widget_spacing = 2; # was bar.widgetSpacing
             padding = 0; # was bar.contentPadding
-            margin_v = 0; # was bar.marginVertical
-            margin_h = 0; # was bar.marginHorizontal
+            # v5 renamed the geometry keys: margin_edge = gap to nearest screen
+            # edge (top), margin_ends = inset at each end (left/right). The v4
+            # names margin_v/margin_h are unknown in v5 and silently ignored,
+            # leaving the defaults (180/10) that floated the bar off the edges.
+            margin_edge = 0; # was bar.marginVertical / margin_v — pin to top
+            margin_ends = 0; # was bar.marginHorizontal / margin_h — stretch to L/R edges
             shadow = false; # part of general.enableShadows = false
             background_opacity = lib.mkIf blurEnabled (lib.mkForce 0.7);
             capsule_opacity = lib.mkIf blurEnabled (lib.mkForce 0.7);

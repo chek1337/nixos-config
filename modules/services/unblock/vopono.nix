@@ -87,6 +87,17 @@ in
           local cfg="$1"; shift
           vopono exec --custom /run/secrets/"$cfg" --protocol wireguard "$@"
         }
+        # Запуск AI-агента через VPN с подсказкой для herdr. vopono прячет реальный
+        # процесс агента за netns/sudo, поэтому herdr не опознаёт его по имени в
+        # foreground-группе панели; HERDR_AGENT=<agent> на foreground-процессе
+        # (user-owned vopono-клиент) даёт herdr идентичность напрямую, а состояние
+        # он добирает из screen-манифеста. Имя агента = первый аргумент.
+        # Хинт намеренно локален для команды — не экспортируем его глобально.
+        vopono-agent() {
+          local agent="$1"; shift
+          HERDR_AGENT="$agent" vopono exec --custom /run/secrets/${wgName} \
+            --protocol wireguard "$agent" "$@"
+        }
         vopono-file() {
           local cfg="$1"; shift
           vopono exec --custom "$cfg" --protocol wireguard "$@"

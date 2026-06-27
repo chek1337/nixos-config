@@ -7,7 +7,7 @@
 
       stylix.targets.grub.enable = false;
       boot = {
-        kernelPackages = pkgs.linuxPackages_latest;
+        kernelPackages = pkgs.linuxPackages_6_12;
 
         # Тихая загрузка: глушим консольный лог ядра/initrd/udev, чтобы поздние
         # сообщения не сыпались на VT поверх tuigreet и не ломали его вывод.

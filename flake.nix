@@ -14,7 +14,9 @@
 
   inputs = {
     nixpkgs.url = "nixpkgs/nixos-unstable";
-    nixpkgs-stable.url = "nixpkgs/nixos-25.11";
+    nixpkgs-stable.url = "nixpkgs/nixos-26.05";
+    # Отдельный пин под nixGL, см. ниже почему он застрял на 25.11.
+    nixpkgs-nixgl.url = "nixpkgs/nixos-25.11";
 
     flake-parts = {
       url = "github:hercules-ci/flake-parts";
@@ -75,13 +77,15 @@
     # nixGL: GPU-обёртка для Nix-GL-приложений на не-NixOS машинах. Нужна
     # standalone-пакетам kitty (Mesa) и kitty-nvidia, чтобы те подхватывали
     # драйвер хоста (Ubuntu и т.п.), а не «мёртвый» libGL из /nix/store.
-    # NB: nixpkgs follows на STABLE, а не на unstable: nixGL собирает nvidia-либы
-    # через старый интерфейс nvidia_x11 (override { kernel = null; }), который в
-    # свежем nixpkgs уже убран → eval-ошибка `unexpected argument 'kernel'`.
-    # В 25.11 этот аргумент ещё есть, поэтому пинимся туда.
+    # NB: nixpkgs follows на ОТДЕЛЬНЫЙ пин nixpkgs-nixgl (25.11), а не на общий
+    # nixpkgs-stable: nixGL собирает nvidia-либы через старый интерфейс
+    # nvidia_x11 (override { kernel = null; }). В 26.05 этот аргумент убрали →
+    # eval-ошибка `unexpected argument 'kernel'`, поэтому держим nixGL на 25.11,
+    # где он ещё есть. Когда nixGL перейдёт на новый интерфейс — можно вернуть
+    # follows на nixpkgs-stable и убрать отдельный инпут.
     nixGL = {
       url = "github:nix-community/nixGL";
-      inputs.nixpkgs.follows = "nixpkgs-stable";
+      inputs.nixpkgs.follows = "nixpkgs-nixgl";
     };
 
     kitty-session = {

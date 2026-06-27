@@ -83,6 +83,5 @@ in
           qt.enable = false;
         };
       };
-      gtk.gtk4.theme = config.gtk.theme;
     };
 }

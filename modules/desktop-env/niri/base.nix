@@ -14,7 +14,7 @@ in
       defaultSpawns = [
         "xwayland-satellite"
         "awww-daemon"
-        "noctalia-shell"
+        "noctalia"
       ];
       allSpawns = defaultSpawns ++ config.services.niri.spawnAtStartup;
       spawnLines = lib.concatMapStringsSep "\n" (s: ''spawn-at-startup "${s}"'') allSpawns;

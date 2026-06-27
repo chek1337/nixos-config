@@ -8,217 +8,160 @@
       ...
     }:
     let
+      # v5 builtin palette names: Ayu | Catppuccin | Dracula | Eldritch | Gruvbox |
+      # Kanagawa | Noctalia | Nord | Rosé Pine | Tokyo-Night
       noctaliaSchemeMap = {
         "nord" = "Nord";
         "catppuccin-mocha" = "Catppuccin";
         "gruvbox-dark-hard" = "Gruvbox";
       };
       noctaliaScheme = noctaliaSchemeMap.${config.settings.colorScheme} or "Nord";
-      iconTheme = config.gtk.iconTheme.name;
       isLaptop = config.settings.isLaptop;
       hasBluetooth = config.settings.hasBluetooth;
       wgName = config.settings.wireguardConfigName;
       voponoExec = "${pkgs.vopono}/bin/vopono exec --protocol wireguard --custom /run/secrets/${wgName}";
       blurEnabled = config.services.niri.blur.enable;
+
+      # v4 custom-commands plugin → v5 dmenu launcher entries. Each entry's `command`
+      # emits the candidate line(s); on activation `exec` runs detached. A single static
+      # line per entry reproduces the old one-shot launcher buttons.
+      vpnEntry = id: label: glyph: cmd: {
+        command = ''printf '%s\n' "${label}"'';
+        exec = cmd;
+        label = label;
+        glyph = glyph;
+        global = true;
+      };
     in
     {
       imports = [ inputs.noctalia.homeModules.default ];
 
-      programs.noctalia-shell.package = pkgs.noctalia-shell;
-
-      programs.zsh.shellAliases.show-keys = "noctalia-shell ipc call plugin:show-keys toggle";
+      # Package now comes from the noctalia flake (v5 build); the home module sets it via
+      # mkDefault, so we no longer override with pkgs.noctalia-shell (nixpkgs ships v4.7.7).
 
       systemd.user.sessionVariables = {
         QT_QPA_PLATFORMTHEME = lib.mkForce "gtk3";
-        QS_ICON_THEME = iconTheme;
       };
 
       home.packages = [
         pkgs.qt6Packages.qt6ct
         pkgs.nwg-look
-        pkgs.awww
-        pkgs.evtest
+        pkgs.awww # wallpaper still driven by awww (noctalia's own engine disabled below)
       ];
 
-      programs.noctalia-shell = {
+      programs.noctalia = {
         enable = true;
         systemd.enable = false;
-        plugins = {
-          sources = [
-            {
-              enabled = true;
-              name = "Noctalia Plugins";
-              url = "https://github.com/noctalia-dev/noctalia-plugins";
-            }
-          ];
-          states = {
-            custom-commands = {
-              enabled = true;
-              sourceUrl = "https://github.com/noctalia-dev/noctalia-plugins";
-            };
-            show-keys = {
-              enabled = true;
-              sourceUrl = "https://github.com/noctalia-dev/noctalia-plugins";
-            };
-          };
-          version = 2;
-        };
-        pluginSettings.show-keys = {
-          captureEnabled = false;
-          evtestDevice = "/dev/input/event20";
-          position = "bottom";
-          marginPx = 60;
-          hideDelaySec = 2;
-          disabledScreens = [ ];
-        };
-        pluginSettings.custom-commands = {
-          commands = [
-            {
-              name = "qutebrowser (VPN)";
-              command = "${voponoExec} ${pkgs.qutebrowser}/bin/qutebrowser";
-              icon = "circle-letter-q";
-            }
-            {
-              name = "Telegram (VPN)";
-              command = "${voponoExec} ${pkgs.ayugram-desktop}/bin/AyuGram";
-              icon = "brand-telegram";
-            }
-            {
-              name = "Yandex Browser (VPN)";
-              command = "${voponoExec} yandex-browser-stable";
-              icon = "brand-yandex";
-            }
-            {
-              name = "Zen Browser (VPN)";
-              command = "${voponoExec} ${
-                inputs.zen-browser.packages.${pkgs.stdenv.hostPlatform.system}.beta
-              }/bin/zen-beta";
-              icon = "circle-dot";
-            }
-          ];
-        };
+
+        # Settings are written to ~/.config/noctalia/config.toml (v5 TOML schema).
+        # validateConfig (default true) runs `noctalia config validate` at build time;
+        # unknown keys are warnings, only hard errors fail the build.
         settings = {
-          general = {
-            language = "ru";
-            enableShadows = false;
-            # animationSpeed = 0.5;
-            animationDisabled = true;
-          };
-          dock = {
-            enabled = false;
-          };
-          bar = {
-            outerCorners = false;
-            frameRadius = 0;
-            showCapsule = true;
-            widgetSpacing = 2;
-            contentPadding = 0;
-            hideOnOverview = true;
-            marginVertical = 0;
-            marginHorizontal = 0;
-            backgroundOpacity = lib.mkIf blurEnabled (lib.mkForce 0.7);
-            capsuleOpacity = lib.mkIf blurEnabled (lib.mkForce 0.7);
-            widgets = {
-              left = [
-                {
-                  id = "SystemMonitor";
-                }
-                {
-                  id = "Clock";
-                }
-                {
-                  id = "MediaMini";
-                  "maxWidth" = 150;
-                  "useFixedWidth" = true;
-                  "showArtistFirst" = false;
-                }
-              ];
-              center = [
-                {
-                  id = "Workspace";
-                }
-              ];
-              right = [
-                {
-                  id = "Tray";
-                }
-                {
-                  id = "KeyboardLayout";
-                  displayMode = "forceOpen";
-                  showIcon = false;
-                }
-                {
-                  id = "Network";
-                }
-              ]
-              ++ lib.optional hasBluetooth {
-                id = "Bluetooth";
-              }
-              ++ [
-                {
-                  id = "Volume";
-                }
-              ]
-              ++ lib.optional isLaptop {
-                id = "Brightness";
-              }
-              ++ lib.optional isLaptop {
-                id = "Battery";
-                displayMode = "alwaysShow";
-              }
-              ++ [
-                {
-                  id = "NotificationHistory";
-                }
-                {
-                  id = "ControlCenter";
-                }
-              ];
+          shell = {
+            lang = "ru";
+            corner_radius_scale = 0; # 0 = square corners (was radiusRatio/iRadiusRatio/boxRadiusRatio = 0)
+            clipboard_auto_paste = "auto";
+            animation.enabled = false; # was general.animationDisabled = true
+            shadow.alpha = 0; # global shadow off (was general.enableShadows = false)
+            panel = {
+              shadow = false;
+              transparency_mode = lib.mkIf blurEnabled (lib.mkForce "glass");
+            };
+            screenshot = {
+              pipe_to_command = true;
+              pipe_command = "${pkgs.satty}/bin/satty -f -"; # was appLauncher.screenshotAnnotationTool = "satty"
+            };
+            # v4 custom-commands (VPN launchers) → dmenu entries.
+            launcher.dmenu.entry = {
+              qutebrowser-vpn =
+                vpnEntry "qutebrowser-vpn" "qutebrowser (VPN)" "circle-letter-q"
+                  "${voponoExec} ${pkgs.qutebrowser}/bin/qutebrowser";
+              telegram-vpn =
+                vpnEntry "telegram-vpn" "Telegram (VPN)" "brand-telegram"
+                  "${voponoExec} ${pkgs.ayugram-desktop}/bin/AyuGram";
+              yandex-vpn =
+                vpnEntry "yandex-vpn" "Yandex Browser (VPN)" "brand-yandex"
+                  "${voponoExec} yandex-browser-stable";
+              zen-vpn =
+                vpnEntry "zen-vpn" "Zen Browser (VPN)" "circle-dot"
+                  "${voponoExec} ${inputs.zen-browser.packages.${pkgs.stdenv.hostPlatform.system}.beta}/bin/zen-beta";
             };
           };
-          general = {
-            radiusRatio = 0;
-            iRadiusRatio = 0;
-            boxRadiusRatio = 0;
-          };
-          ui = lib.mkIf blurEnabled {
-            panelBackgroundOpacity = lib.mkForce 0.7;
-            translucentWidgets = lib.mkForce true;
-          };
-          notifications = {
-            enableKeyboardLayoutToast = false;
-            density = "compact";
-            location = "bottom_right";
-          };
-          osd = {
-            enabledTypes = [
-              "Volume"
-              "Brightness"
-              "LockKey"
+
+          bar.main = {
+            position = "top";
+            radius = 0; # was bar.frameRadius
+            capsule = true; # was bar.showCapsule
+            widget_spacing = 2; # was bar.widgetSpacing
+            padding = 0; # was bar.contentPadding
+            margin_v = 0; # was bar.marginVertical
+            margin_h = 0; # was bar.marginHorizontal
+            shadow = false; # part of general.enableShadows = false
+            background_opacity = lib.mkIf blurEnabled (lib.mkForce 0.7);
+            capsule_opacity = lib.mkIf blurEnabled (lib.mkForce 0.7);
+
+            start = [
+              "sysmon"
+              "clock"
+              "media"
+            ];
+            center = [ "workspaces" ];
+            end = [
+              "tray"
+              "keyboard_layout"
+              "network"
+            ]
+            ++ lib.optional hasBluetooth "bluetooth"
+            ++ [ "volume" ]
+            ++ lib.optional isLaptop "brightness"
+            ++ lib.optional isLaptop "battery"
+            ++ [
+              "notifications"
+              "control-center"
             ];
           };
-          colorSchemes = {
-            predefinedScheme = noctaliaScheme;
-            useWallpaperColors = false;
-            darkMode = true;
+
+          # Per-widget settings (was the inline widget objects in v4 bar.widgets).
+          widget = {
+            keyboard_layout.show_icon = false;
+            media.max_length = 150; # was MediaMini.maxWidth = 150
           };
-          templates = {
-            enableUserTheming = true;
-            activeTemplates = [ "telegram" ];
+
+          theme = {
+            mode = "dark"; # was colorSchemes.darkMode
+            source = "builtin"; # was colorSchemes.useWallpaperColors = false
+            builtin = noctaliaScheme;
+            # v4 templates.activeTemplates = ["telegram"] has no v5 builtin equivalent
+            # (the telegram builtin template was dropped). Re-add as a user template if needed.
           };
-          location = {
-            name = "Novosibirsk";
+
+          notification.position = "bottom_right"; # was notifications.location
+
+          osd.kinds = {
+            # Was osd.enabledTypes = ["Volume" "Brightness" "LockKey"]; everything else off.
+            volume = true;
+            volume_output = true;
+            volume_input = true;
+            brightness = true;
+            lock_keys = true;
+            wifi = false;
+            bluetooth = false;
+            power_profile = false;
+            caffeine = false;
+            nightlight = false;
+            dnd = false;
+            keyboard_layout = false; # was notifications.enableKeyboardLayoutToast = false
+            media = false;
+            privacy = false;
           };
-          appLauncher = {
-            enableClipboardHistory = true;
-            autoPasteClipboard = true;
-            screenshotAnnotationTool = "satty";
-            pinnedApps = [
-              "org.gnome.Nautilus"
-              "yazi"
-              "sesh"
-            ];
-          };
+
+          location.address = "Novosibirsk"; # was location.name
+
+          dock.enabled = false;
+
+          # Wallpaper stays handled by the awww daemon (spawned in niri base), so
+          # disable noctalia's built-in wallpaper engine to avoid the two fighting.
+          wallpaper.enabled = false;
         };
       };
     };

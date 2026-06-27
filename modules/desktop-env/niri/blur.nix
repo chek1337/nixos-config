@@ -47,8 +47,8 @@
           type = lib.types.bool;
           default = true;
           description = ''
-            Whether to add a layer-rule matching noctalia-shell surfaces
-            (background, launcher-overlay, dock) so the blur applies there too.
+            Whether to add a layer-rule matching noctalia surfaces
+            (bar, panels, dock) so the blur applies there too.
           '';
         };
       };
@@ -74,7 +74,7 @@
         + lib.optionalString cfg.applyToNoctalia ''
 
           layer-rule {
-              match namespace="^noctalia-(background|launcher-overlay|dock)-.*$"
+              match namespace="^noctalia-(bar-.*|panel|attached-panel|dock)$"
               background-effect {
                   xray ${xrayKdl}
               }

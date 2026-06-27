@@ -1,6 +1,11 @@
 {
   flake.modules.homeManager.niri-bindings =
-    { config, lib, ... }:
+    {
+      config,
+      lib,
+      pkgs,
+      ...
+    }:
     let
       extraBindLines = lib.concatStringsSep "\n    " (
         lib.mapAttrsToList (key: action: "${key} { ${action}; }") config.services.niri.extraBinds
@@ -14,21 +19,23 @@
             Ctrl+Shift+1 { switch-layout "0"; }
             Ctrl+Shift+2 { switch-layout "1"; }
 
-            // Noctalia
-            Mod+Space       { spawn-sh "noctalia-shell ipc call launcher toggle"; }
-            Mod+Alt+Space { spawn-sh "noctalia-shell ipc call plugin:custom-commands toggle"; }
-            Mod+S     { spawn-sh "noctalia-shell ipc call controlCenter toggle"; }
-            Mod+Comma { spawn-sh "noctalia-shell ipc call settings toggle"; }
+            // Noctalia (v5 IPC: `noctalia msg <command> [args]`)
+            Mod+Space       { spawn-sh "noctalia msg panel-toggle launcher"; }
+            // VPN launchers are global dmenu entries; open the launcher pre-typed "VPN" to filter them.
+            Mod+Alt+Space { spawn-sh "noctalia msg panel-open launcher VPN"; }
+            Mod+S     { spawn-sh "noctalia msg panel-toggle control-center"; }
+            Mod+Comma { spawn-sh "noctalia msg settings-toggle"; }
 
             Mod+T { spawn "kitty"; }
-            Mod+Alt+L { spawn-sh "noctalia-shell ipc call lockScreen lock"; }
+            Mod+Alt+L { spawn-sh "noctalia msg session lock"; }
 
-            XF86AudioRaiseVolume  { spawn "noctalia-shell" "ipc" "call" "volume" "increase"; }
-            XF86AudioLowerVolume  { spawn "noctalia-shell" "ipc" "call" "volume" "decrease"; }
-            XF86AudioMute         { spawn "noctalia-shell" "ipc" "call" "volume" "muteOutput"; }
+            XF86AudioRaiseVolume  { spawn "noctalia" "msg" "volume-up"; }
+            XF86AudioLowerVolume  { spawn "noctalia" "msg" "volume-down"; }
+            XF86AudioMute         { spawn "noctalia" "msg" "volume-mute"; }
             XF86AudioMicMute      { spawn-sh "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"; }
-            XF86MonBrightnessUp   { spawn "noctalia-shell" "ipc" "call" "brightness" "increase"; }
-            XF86MonBrightnessDown { spawn "noctalia-shell" "ipc" "call" "brightness" "decrease"; }
+            // v5 has no relative brightness IPC; brightnessctl adjusts and noctalia shows the OSD on the sysfs change.
+            XF86MonBrightnessUp   { spawn-sh "${pkgs.brightnessctl}/bin/brightnessctl set 5%+"; }
+            XF86MonBrightnessDown { spawn-sh "${pkgs.brightnessctl}/bin/brightnessctl set 5%-"; }
 
             XF86AudioPlay { spawn-sh "playerctl play-pause"; }
             XF86AudioStop { spawn-sh "playerctl stop"; }
@@ -115,7 +122,8 @@
             Mod+V       { toggle-window-floating; }
             Mod+Alt+V { switch-focus-between-floating-and-tiling; }
             Mod+W       { toggle-column-tabbed-display; }
-            Mod+N { spawn "noctalia-shell" "ipc" "call" "notifications" "invokeDefaultAndDismiss" "0"; }
+            // v5 has no "invoke default action" IPC; dismiss all active notifications instead.
+            Mod+N { spawn "noctalia" "msg" "notification-clear-active"; }
 
             Print      { spawn-sh "grim -t ppm - | satty --filename - --copy-command=wl-copy --initial-tool=crop --output-filename=\"~/Pictures/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png\" --actions-on-escape=\"save-to-clipboard,exit\""; }
             Ctrl+Print { spawn-sh "set -e; wayfreeze & PID=$!; sleep 0.1; grim -t ppm -g \"$(slurp -o -d)\" - | wl-copy; kill $PID"; }
@@ -123,7 +131,7 @@
             Shift+Print { spawn-sh "set -e; grim -t ppm - | satty --filename - --copy-command=wl-copy --output-filename=\"~/Pictures/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png\" --actions-on-escape=\"save-to-clipboard,exit\""; }
             Shift+Ctrl+Print { screenshot-screen; }
 
-            Mod+Alt+S { spawn-sh "noctalia-shell ipc call sessionMenu toggle"; }
+            Mod+Alt+S { spawn-sh "noctalia msg panel-toggle session"; }
 
             Mod+Escape allow-inhibiting=false { toggle-keyboard-shortcuts-inhibit; }
             Mod+Shift+E     { quit; }

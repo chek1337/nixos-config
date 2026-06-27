@@ -36,7 +36,7 @@
         serviceConfig = {
           ExecStart = lib.concatStringsSep " " [
             "${pkgs.swayidle}/bin/swayidle -w"
-            "timeout 300 'noctalia-shell ipc call lockScreen lock'"
+            "timeout 300 'noctalia msg session lock'"
             "timeout 600 'niri msg action power-off-monitors'"
             "resume 'niri msg action power-on-monitors'"
             "timeout 900 'systemctl suspend'"

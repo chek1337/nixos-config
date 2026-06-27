@@ -24,7 +24,6 @@ let
         jq
         dua
         pciutils
-        toybox
         ssh-to-age
         nix-inspect
         nh

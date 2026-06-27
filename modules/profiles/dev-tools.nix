@@ -6,6 +6,7 @@ let
     "claude-code"
     "claude-squad"
     "codex"
+    "herdr"
     "opencode"
     "gemini-cli"
     "python-dev"

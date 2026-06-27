@@ -65,6 +65,8 @@
             panel = {
               shadow = false;
               transparency_mode = lib.mkIf blurEnabled (lib.mkForce "glass");
+              # attached = drops down from the bar; centered = appears in screen middle.
+              launcher_placement = "centered";
             };
             screenshot = {
               pipe_to_command = true;
@@ -91,6 +93,10 @@
             position = "top";
             radius = 0; # was bar.frameRadius
             capsule = true; # was bar.showCapsule
+            # corner_radius_scale=0 squares panels/cards but NOT bar capsules:
+            # capsules use resolvedBarCapsuleRadius, which defaults to a full pill
+            # (min(w,h)/2) when capsule_radius is unset. 0 = square capsules/workspaces.
+            capsule_radius = 0;
             widget_spacing = 2; # was bar.widgetSpacing
             padding = 0; # was bar.contentPadding
             # v5 renamed the geometry keys: margin_edge = gap to nearest screen

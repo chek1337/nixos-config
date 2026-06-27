@@ -13,7 +13,6 @@ in
 
       defaultSpawns = [
         "xwayland-satellite"
-        "awww-daemon"
         "noctalia"
       ];
       allSpawns = defaultSpawns ++ config.services.niri.spawnAtStartup;

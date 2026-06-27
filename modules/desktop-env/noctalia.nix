@@ -46,7 +46,6 @@
       home.packages = [
         pkgs.qt6Packages.qt6ct
         pkgs.nwg-look
-        pkgs.awww # wallpaper still driven by awww (noctalia's own engine disabled below)
       ];
 
       programs.noctalia = {
@@ -163,9 +162,14 @@
 
           dock.enabled = false;
 
-          # Wallpaper stays handled by the awww daemon (spawned in niri base), so
-          # disable noctalia's built-in wallpaper engine to avoid the two fighting.
-          wallpaper.enabled = false;
+          # Upstream noctalia (v5) renders the wallpaper itself (built-in C++
+          # engine, no awww/swww). Point its default wallpaper at the stylix
+          # image so stylix stays the single source of truth for the scheme's
+          # wallpaper (config.stylix.image == scheme.image, e.g. assets/nord2.png).
+          wallpaper = {
+            enabled = true;
+            default.path = "${config.stylix.image}";
+          };
         };
       };
     };

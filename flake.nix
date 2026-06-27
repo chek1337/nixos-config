@@ -116,6 +116,12 @@
     nixpkgs-less-685 = {
       url = "github:NixOS/nixpkgs/a1bab9e494f5f4939442a57a58d0449a109593fe";
     };
+    # Пин yazi на 26.1.22: в 26.5.6 Lua-движок стал трактовать переменную
+    # цикла `for` как const, из-за чего падал плагин whoosh
+    # ("attempt to assign to const variable 'token'").
+    nixpkgs-yazi = {
+      url = "github:NixOS/nixpkgs/549bd84d6279f9852cae6225e372cc67fb91a4c1";
+    };
     treefmt-nix = {
       url = "github:numtide/treefmt-nix";
       inputs.nixpkgs.follows = "nixpkgs";

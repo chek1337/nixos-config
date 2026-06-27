@@ -4,6 +4,7 @@ let
   modules = [
     "direnv"
     "claude-code"
+    "claude-squad"
     "codex"
     "opencode"
     "gemini-cli"

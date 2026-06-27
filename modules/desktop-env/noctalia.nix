@@ -134,6 +134,12 @@
           widget = {
             keyboard_layout.show_icon = false;
             media.max_length = 150; # was MediaMini.maxWidth = 150
+            # chrono format inside {:...}. Time · date · short weekday (%a renders
+            # in ru via shell.lang). tooltip_format shows the full date on hover.
+            clock = {
+              format = "{:%H:%M · %d.%m %a}";
+              tooltip_format = "{:%A, %d %B %Y}";
+            };
           };
 
           theme = {

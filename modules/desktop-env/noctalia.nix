@@ -65,8 +65,13 @@
             panel = {
               shadow = false;
               transparency_mode = lib.mkIf blurEnabled (lib.mkForce "glass");
-              # attached = drops down from the bar; centered = appears in screen middle.
-              launcher_placement = "centered";
+              # v5 split placement from position. launcher_placement is an enum of
+              # only "attached" (drops from bar) | "floating"; the old "centered"
+              # value (still in example.toml's stale comment) is unknown and gets
+              # silently dropped, leaving the default. To put the launcher in the
+              # screen middle use floating + launcher_position = "center".
+              launcher_placement = "floating";
+              launcher_position = "center";
             };
             screenshot = {
               pipe_to_command = true;

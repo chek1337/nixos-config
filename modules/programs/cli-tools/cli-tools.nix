@@ -16,6 +16,7 @@ let
     "trash-cli"
     "btop"
     "bat"
+    "resterm"
     "mermaid"
     # "soundscope"
     # "cmus"

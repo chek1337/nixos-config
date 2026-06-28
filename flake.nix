@@ -40,7 +40,9 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     noctalia = {
-      url = "github:noctalia-dev/noctalia-shell";
+      # Fork: adds the notification-invoke-latest IPC command (Mod+N raises the
+      # source app of the latest notification). Upstream: noctalia-dev/noctalia.
+      url = "github:chek1337/noctalia/feat/notification-invoke-latest-ipc";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     spicetify-nix = {

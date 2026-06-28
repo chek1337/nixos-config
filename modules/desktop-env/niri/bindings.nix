@@ -122,8 +122,10 @@
             Mod+V       { toggle-window-floating; }
             Mod+Alt+V { switch-focus-between-floating-and-tiling; }
             Mod+W       { toggle-column-tabbed-display; }
-            // v5 has no "invoke default action" IPC; dismiss all active notifications instead.
-            Mod+N { spawn "noctalia" "msg" "notification-clear-active"; }
+            // Fork IPC: raise/focus the source app of the most recent notification (its default action).
+            Mod+N { spawn "noctalia" "msg" "notification-invoke-latest"; }
+            // Still want a "dismiss all toasts" key:
+            Mod+Shift+N { spawn "noctalia" "msg" "notification-clear-active"; }
 
             Print      { spawn-sh "grim -t ppm - | satty --filename - --copy-command=wl-copy --initial-tool=crop --output-filename=\"~/Pictures/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png\" --actions-on-escape=\"save-to-clipboard,exit\""; }
             Ctrl+Print { spawn-sh "set -e; wayfreeze & PID=$!; sleep 0.1; grim -t ppm -g \"$(slurp -o -d)\" - | wl-copy; kill $PID"; }

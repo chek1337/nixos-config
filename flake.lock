@@ -138,17 +138,16 @@
         ]
       },
       "locked": {
-        "lastModified": 1769941481,
+        "lastModified": 1782202092,
         "narHash": "sha256-4yPldMZ7g6FrGGvoF2oxvS6cGlM2X/ALX0mfq/Dax8c=",
-        "owner": "Kolby11",
+        "owner": "vinceliuice",
         "repo": "Elegant-grub2-themes",
-        "rev": "dd3f171d94a8960a9b4955474783c4c38fa6eb68",
+        "rev": "f8a8d41c8f306f8bdfae41db1a425cf0a2451477",
         "type": "github"
       },
       "original": {
-        "owner": "Kolby11",
+        "owner": "vinceliuice",
         "repo": "Elegant-grub2-themes",
-        "rev": "dd3f171d94a8960a9b4955474783c4c38fa6eb68",
         "type": "github"
       }
     },

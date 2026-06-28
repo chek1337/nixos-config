@@ -571,14 +571,17 @@
         ]
       },
       "locked": {
-        "lastModified": 1781936344,
-        "narHash": "sha256-eFKJz3GzJ6FofcDiFxiQGAzA+PG5EEkHF6xlMbuS3VQ=",
-        "path": "/home/chek/other_projects/hunk",
-        "type": "path"
+        "lastModified": 1782045897,
+        "narHash": "sha256-f9FrCk/TEpeBbcISFQldHat0DVweD1DIYTH8ajxKnZ8=",
+        "owner": "modem-dev",
+        "repo": "hunk",
+        "rev": "0a3cc064931a9d576882baee6daac7cfab3d0bbe",
+        "type": "github"
       },
       "original": {
-        "path": "/home/chek/other_projects/hunk",
-        "type": "path"
+        "owner": "modem-dev",
+        "repo": "hunk",
+        "type": "github"
       }
     },
     "import-tree": {

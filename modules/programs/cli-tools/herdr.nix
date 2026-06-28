@@ -1,7 +1,26 @@
 { ... }:
 {
   flake.modules.homeManager.herdr =
-    { pkgs, ... }:
+    { config, pkgs, ... }:
+    let
+      c = config.lib.stylix.colors.withHashtag;
+
+      # Полярность активной схемы. herdr [theme].name выбирает базовую палитру
+      # из 16 встроенных токенов; ниже мы переопределяем ВСЕ 16 через
+      # [theme.custom], так что база нужна лишь как осмысленный fallback/label
+      # и для light/dark-полярности там, где herdr ещё не спросил конкретный
+      # токен. Таблица повторяет схемы из hunk.nix (modules/.../hunk.nix);
+      # незнакомая схема считается тёмной.
+      darkScheme = {
+        nord = true;
+        catppuccin-mocha = true;
+        gruvbox-dark-hard = true;
+        ilyasyoy-monochrome-dark = true;
+        ilyasyoy-monochrome-light = false;
+      };
+      dark = darkScheme.${config.settings.colorScheme} or true;
+      baseName = if dark then "catppuccin" else "catppuccin-latte";
+    in
     {
       home.packages = [ pkgs.herdr ];
 
@@ -24,9 +43,44 @@
       xdg.configFile."herdr/config.toml".text = ''
         onboarding = false
 
+        # Тема herdr из активной base16-палитры Stylix (config.settings.colorScheme),
+        # тот же источник правды, что и для hunk/rice/прочего. herdr держит палитру
+        # в 16 токенах (src/app/state.rs Palette); base16 ложится на них почти 1:1,
+        # поэтому переопределяем каждый токен напрямую — без блендов, в отличие от
+        # hunk (там нужен был tint поверх Shiki-темы; у herdr синтакс-темы нет).
+        #
+        # Замечание про write-back: herdr пишет выбор темы/ui-тоглы в этот же файл
+        # через fs::write. Файл — read-only симлинк в /nix/store (см. комментарий
+        # к force=true ниже), поэтому ручной выбор темы в Settings будет падать
+        # тостом и не переживёт перезапуск — палитра зафиксирована декларативно.
+        [theme]
+        name = "${baseName}"
+
+        [theme.custom]
+        # Серая шкала: panel_bg (самый тёмный фон) → text (основной текст),
+        # ровно ложится на base00..base05.
+        panel_bg = "${c.base00}"      # фон панелей/оверлеев/модалок
+        surface_dim = "${c.base01}"   # очень тусклый фон под разделители
+        surface0 = "${c.base02}"      # фон выбранного/сфокусированного
+        surface1 = "${c.base03}"      # фон hover/active (чуть светлее)
+        overlay0 = "${c.base03}"      # приглушённый текст (вторичное, номера)
+        overlay1 = "${c.base04}"      # чуть ярче приглушённого
+        subtext0 = "${c.base04}"      # тусклые подписи (номера воркспейсов)
+        text = "${c.base05}"          # основной текст
+
+        # Акцент и семантические цвета статусов агентов/уведомлений.
+        accent = "${c.base0D}"        # акцент: подсветка, активные рамки (blue)
+        blue = "${c.base0D}"          # уведомления / unseen-маркеры
+        mauve = "${c.base0E}"         # имя ветки / спец-метка (purple)
+        green = "${c.base0B}"         # done / idle
+        yellow = "${c.base0A}"        # working / running
+        red = "${c.base08}"           # needs attention / blocked
+        teal = "${c.base0C}"          # акцент уведомлений / маркеры
+        peach = "${c.base09}"         # interrupted / warning (orange)
+
         [keys]
         # Префикс как в tmux (core.nix): Ctrl+Space вместо herdr-дефолта Ctrl+B.
-        prefix = "ctrl+space"
+        prefix = "ctrl+b"
 
         # Панели: h/j/k/l — навигация (совпадает и с tmux, и с дефолтом herdr).
         focus_pane_left = "prefix+h"

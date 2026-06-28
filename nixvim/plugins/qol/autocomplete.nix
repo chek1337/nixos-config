@@ -44,7 +44,7 @@
           "fallback"
         ];
 
-        "<C-Space>" = [
+        "<C-d>" = [
           "show"
           "show_documentation"
           "hide_documentation"
@@ -60,6 +60,10 @@
         # ghost_text выключен: его роль играет нативный copilot inline-completion
         # (ai/copilot.nix). Два ghost text'а на одной позиции конфликтуют визуально.
         ghost_text.enabled = false;
+        documentation = {
+          auto_show = true;
+          auto_show_delay_ms = 1500;
+        };
       };
 
       sources.default = [

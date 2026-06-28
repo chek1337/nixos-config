@@ -24,7 +24,7 @@ alias ob := offline-build
 alias odb := offline-dry-build
 alias up := update
 alias upi := update-interactive
-alias qs := quickshell-reload
+alias nr := noctalia-reload
 alias hw := gen-hardware
 alias iso := build-iso
 alias h := hosts
@@ -104,10 +104,14 @@ offline-test hostname: stage sudo-refresh
 offline-switch hostname: stage sudo-refresh
     sudo nixos-rebuild switch --flake {{ flake }}#{{ hostname }} {{ features_flags }} {{ offline_flags }}
 
-# Restart quickshell / noctalia-shell
+# Restart noctalia. v5 is a single native binary (`noctalia`), no longer a
+# quickshell QML app, so we kill the `noctalia` process by exact name and
+# relaunch it detached (it's spawned by niri, systemd unit disabled). For a
+# config-only change use the lighter `noctalia msg config-reload` instead — it
+# re-reads config.toml live without a restart.
 [group("utils")]
-quickshell-reload:
-    systemd-run --user --no-block --setenv=PATH="$PATH" -- bash -c 'pids=$$(pgrep -f quickshell | grep -v $$$$); echo "$pids" | xargs -r kill -9; sleep 0.5; noctalia-shell'
+noctalia-reload:
+    systemd-run --user --no-block --setenv=PATH="$PATH" -- bash -c 'pkill -x noctalia; sleep 0.5; exec noctalia'
 
 # Generate hardware config for given host
 [group("utils")]

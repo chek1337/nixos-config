@@ -5,7 +5,20 @@
   # подключения к БД. Схемные подсказки таблиц/колонок он, как и sqls, строит
   # интроспекцией живого постгреса; без коннекта их нет — к БД ходим по
   # требованию через dadbod (ниже). PG-only, что нам и нужно (migrations/PSQL).
-  plugins.lsp.servers.postgres_lsp.enable = true;
+  plugins.lsp.servers.postgres_lsp = {
+    enable = true;
+    # Дефолт lspconfig: workspace_required = true + root_markers =
+    # [ "postgres-language-server.jsonc" ]. Без этого файла в проекте сервер не
+    # стартует и к .sql-буферу не цепляется. Снимаем требование воркспейса
+    # (extraOptions кладётся прямо в vim.lsp.config) и добавляем .git в маркеры —
+    # standalone-диагностика синтаксиса работает без коннекта к БД, схемные
+    # подсказки всё равно идут через dadbod (ниже).
+    rootMarkers = [
+      "postgres-language-server.jsonc"
+      ".git"
+    ];
+    extraOptions.workspace_required = false;
+  };
 
   plugins.treesitter.grammarPackages = with config.plugins.treesitter.package.builtGrammars; [
     sql

@@ -28,7 +28,7 @@
             ../nixvim/spellfiles.nix
             ../nixvim/plugins
           ];
-          colorScheme = "nord";
+          colorScheme = "dynamic";
         };
       };
     in

@@ -32,7 +32,8 @@ in
         function(bufnr, on_dir)
           if not _G.copilot_enabled then return end
           local root = vim.fs.root(bufnr, { ".git" })
-          if root then on_dir(root) end
+            or vim.fn.fnamemodify(vim.api.nvim_buf_get_name(bufnr), ":h"):gsub("^$", vim.fn.getcwd())
+          on_dir(root)
         end
       '';
       init_options = {

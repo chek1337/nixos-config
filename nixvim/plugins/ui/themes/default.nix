@@ -23,13 +23,11 @@ let
   # Theme is stored in ~/.local/share/nvim/theme; changed via :Theme <name>.
   dynamicLua =
     let
-      mkEntry =
-        name: theme:
-        ''
-          ["${name}"] = function()
-            ${theme.setup}
-          end,
-        '';
+      mkEntry = name: theme: ''
+        ["${name}"] = function()
+          ${theme.setup}
+        end,
+      '';
       themeTable = lib.concatStrings (lib.mapAttrsToList mkEntry themes);
     in
     # lua

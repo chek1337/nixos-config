@@ -6,7 +6,6 @@
     inputs.flake-parts.lib.mkFlake { inherit inputs; } {
       imports = [
         (inputs.import-tree ./modules)
-        (inputs.import-tree ./non-nixos-modules)
         (inputs.import-tree ./packages)
         ./nixvim
       ];
@@ -123,6 +122,14 @@
     # ("attempt to assign to const variable 'token'").
     nixpkgs-yazi = {
       url = "github:NixOS/nixpkgs/549bd84d6279f9852cae6225e372cc67fb91a4c1";
+    };
+    # Пин satty на 0.20.1: в 0.21.x (коммит a14c1d16, «right click to clear
+    # crop while editing») crop-инструмент получил отдельный editing-mode, из-за
+    # которого Ctrl+C/right-click копируют весь экран, а не выделенную область,
+    # пока crop не «зафиксирован». Регресс: Satty-org/Satty#560, #470.
+    # Ревизия — родитель бампа satty 0.20.1 -> 0.21.1 в nixpkgs, там ещё 0.20.1.
+    nixpkgs-satty = {
+      url = "github:NixOS/nixpkgs/2f7793061c0dd564abb22061b930ea8f94d85126";
     };
     treefmt-nix = {
       url = "github:numtide/treefmt-nix";

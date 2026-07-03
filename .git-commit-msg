@@ -1,1 +1,1 @@
-feat: update yandex browser
+fix: pin satty to 0.20.1 (crop/copy regression in 0.21.x)

@@ -1,3 +1,4 @@
+{ inputs, ... }:
 {
   flake.modules.homeManager.niri-bindings =
     {
@@ -7,6 +8,14 @@
       ...
     }:
     let
+      # Пин satty на 0.20.1 — см. комментарий у инпута nixpkgs-satty в flake.nix
+      # (в 0.21.x crop сломан: Ctrl+C копирует весь экран, а не выделение).
+      pkgsSatty = import inputs.nixpkgs-satty { inherit (pkgs) system; };
+      satty = "${pkgsSatty.satty}/bin/satty";
+      grim = "${pkgs.grim}/bin/grim";
+      slurp = "${pkgs.slurp}/bin/slurp";
+      wlCopy = "${pkgs.wl-clipboard}/bin/wl-copy";
+      wayfreeze = "${pkgs.wayfreeze}/bin/wayfreeze";
       extraBindLines = lib.concatStringsSep "\n    " (
         lib.mapAttrsToList (key: action: "${key} { ${action}; }") config.services.niri.extraBinds
       );
@@ -127,10 +136,10 @@
             // Still want a "dismiss all toasts" key:
             Mod+Shift+N { spawn "noctalia" "msg" "notification-clear-active"; }
 
-            Print      { spawn-sh "grim -t ppm - | satty --filename - --copy-command=wl-copy --initial-tool=crop --output-filename=\"~/Pictures/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png\" --actions-on-escape=\"save-to-clipboard,exit\""; }
-            Ctrl+Print { spawn-sh "set -e; wayfreeze & PID=$!; sleep 0.1; grim -t ppm -g \"$(slurp -o -d)\" - | wl-copy; kill $PID"; }
+            Print      { spawn-sh "${grim} -t ppm - | ${satty} --filename - --copy-command=${wlCopy} --initial-tool=crop --output-filename=\"~/Pictures/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png\" --actions-on-escape=\"save-to-clipboard,exit\""; }
+            Ctrl+Print { spawn-sh "set -e; ${wayfreeze} & PID=$!; sleep 0.1; ${grim} -t ppm -g \"$(${slurp} -o -d)\" - | ${wlCopy}; kill $PID"; }
             Alt+Print  { screenshot-window; }
-            Shift+Print { spawn-sh "set -e; grim -t ppm - | satty --filename - --copy-command=wl-copy --output-filename=\"~/Pictures/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png\" --actions-on-escape=\"save-to-clipboard,exit\""; }
+            Shift+Print { spawn-sh "set -e; ${grim} -t ppm - | ${satty} --filename - --copy-command=${wlCopy} --output-filename=\"~/Pictures/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png\" --actions-on-escape=\"save-to-clipboard,exit\""; }
             Shift+Ctrl+Print { screenshot-screen; }
 
             Mod+Alt+S { spawn-sh "noctalia msg panel-toggle session"; }

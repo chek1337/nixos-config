@@ -20,6 +20,9 @@
       hasBluetooth = config.settings.hasBluetooth;
       wgName = config.settings.wireguardConfigName;
       voponoExec = "${pkgs.vopono}/bin/vopono exec --protocol wireguard --custom /run/secrets/${wgName}";
+      # Пин satty на 0.20.1 — см. комментарий у инпута nixpkgs-satty в flake.nix
+      # (в 0.21.x crop сломан: Ctrl+C копирует весь экран, а не выделение).
+      pkgsSatty = import inputs.nixpkgs-satty { inherit (pkgs) system; };
       blurEnabled = config.services.niri.blur.enable;
 
       # v4 custom-commands plugin → v5 dmenu launcher entries. Each entry's `command`
@@ -75,7 +78,7 @@
             };
             screenshot = {
               pipe_to_command = true;
-              pipe_command = "${pkgs.satty}/bin/satty -f -"; # was appLauncher.screenshotAnnotationTool = "satty"
+              pipe_command = "${pkgsSatty.satty}/bin/satty -f -"; # was appLauncher.screenshotAnnotationTool = "satty"
             };
             # v4 custom-commands (VPN launchers) → dmenu entries.
             launcher.dmenu.entry = {

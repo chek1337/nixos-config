@@ -858,6 +858,22 @@
         "type": "indirect"
       }
     },
+    "nixpkgs-satty": {
+      "locked": {
+        "lastModified": 1780678164,
+        "narHash": "sha256-JAdx/RVC/fEXcp30EXtFIFux8ba6iiOwGB4UkeYy5+c=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "2f7793061c0dd564abb22061b930ea8f94d85126",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "2f7793061c0dd564abb22061b930ea8f94d85126",
+        "type": "github"
+      }
+    },
     "nixpkgs-stable": {
       "locked": {
         "lastModified": 1782375420,
@@ -1132,6 +1148,7 @@
         "nixpkgs": "nixpkgs_5",
         "nixpkgs-less-685": "nixpkgs-less-685",
         "nixpkgs-nixgl": "nixpkgs-nixgl",
+        "nixpkgs-satty": "nixpkgs-satty",
         "nixpkgs-stable": "nixpkgs-stable",
         "nixpkgs-yazi": "nixpkgs-yazi",
         "nixvim": "nixvim",

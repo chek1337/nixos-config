@@ -1,10 +1,16 @@
+{ inputs, ... }:
 {
   flake.modules.nixos.wayland-common =
     { pkgs, ... }:
+    let
+      # Пин satty на 0.20.1 — см. комментарий у инпута nixpkgs-satty в flake.nix.
+      # В 0.21.x сломался crop (Ctrl+C копирует весь экран, а не выделение).
+      pkgsSatty = import inputs.nixpkgs-satty { inherit (pkgs) system; };
+    in
     {
       environment.systemPackages = with pkgs; [
         wl-clipboard
-        satty
+        pkgsSatty.satty
         grim
         slurp
         wayfreeze

@@ -40,6 +40,10 @@
             "timeout 600 'niri msg action power-off-monitors'"
             "resume 'niri msg action power-on-monitors'"
             "timeout 900 'systemctl suspend'"
+            # Lock on any suspend (lid close, manual, low battery, idle-suspend).
+            # `-w` makes swayidle hold logind's sleep inhibitor and wait for the
+            # lock to come up before the machine actually sleeps.
+            "before-sleep 'noctalia msg session lock'"
           ];
           Restart = "on-failure";
         };

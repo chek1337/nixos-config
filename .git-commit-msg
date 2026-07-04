@@ -1,1 +1,1 @@
-fix: pin satty to 0.20.1 (crop/copy regression in 0.21.x)
+feat: lock via noctalia before suspend

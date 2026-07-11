@@ -1047,16 +1047,15 @@
         ]
       },
       "locked": {
-        "lastModified": 1782619511,
-        "narHash": "sha256-QmZE/wIqCz2l15RRZy94NBh7W8pHvP8W3cWE39IGjIE=",
-        "owner": "chek1337",
+        "lastModified": 1783777278,
+        "narHash": "sha256-P6U/493VTqloCAeEtJM6Rnt+twu2TtjsOGy0HDsopoA=",
+        "owner": "noctalia-dev",
         "repo": "noctalia",
-        "rev": "5caae1d700d893abccd618177c1e2d231c5e9c52",
+        "rev": "3267d212594463c9a8472d4cb688ced0356e9a2f",
         "type": "github"
       },
       "original": {
-        "owner": "chek1337",
-        "ref": "feat/notification-invoke-latest-ipc",
+        "owner": "noctalia-dev",
         "repo": "noctalia",
         "type": "github"
       }

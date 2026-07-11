@@ -9,6 +9,8 @@ let
     "herdr"
     "opencode"
     "gemini-cli"
+    "openspec"
+    "pi-coding-agent"
     "python-dev"
     # "ollama"
   ];

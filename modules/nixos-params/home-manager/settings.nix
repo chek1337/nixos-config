@@ -109,6 +109,15 @@
           description = "Sops-encrypted AmneziaWG config names to expose in /run/secrets/ for vopono --protocol amneziawg";
         };
 
+        singboxRuUpstream = lib.mkOption {
+          type = lib.types.enum [
+            "vless"
+            "wireguard"
+          ];
+          default = "vless";
+          description = "Mirror of nixos settings.singboxRuUpstream — see nixos-classes/settings.nix.";
+        };
+
         kanataKeyboardDevices = lib.mkOption {
           type = lib.types.listOf lib.types.str;
           default = [ ];

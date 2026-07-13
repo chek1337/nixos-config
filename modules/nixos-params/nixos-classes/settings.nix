@@ -57,6 +57,20 @@
           description = "Sops-encrypted AmneziaWG config names to expose in /run/secrets/ for vopono --protocol amneziawg";
         };
 
+        singboxRuUpstream = lib.mkOption {
+          type = lib.types.enum [
+            "vless"
+            "wireguard"
+          ];
+          default = "vless";
+          description = ''
+            Upstream for the singbox-ru transparent proxy: "vless" parses the
+            vless-chumakov secret, "wireguard" parses the WireGuard config named
+            by wireguardConfigName. Either way RU traffic stays direct and the
+            rest is tunnelled.
+          '';
+        };
+
         kanataKeyboardDevices = lib.mkOption {
           type = lib.types.listOf lib.types.str;
           default = [ ];

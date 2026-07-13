@@ -14,7 +14,11 @@
       # keyboard protocol; kitty 0.46 поддерживает).
       programs.tmux.extraConfig = ''
         set -s extended-keys on
-        set -as terminal-features '*:extkeys'
+        # extkeys только для реального внешнего терминала (kitty). НЕ '*':
+        # wildcard включал extkeys и для вложенного tmux-256color клиента
+        # (floax = tmux-в-tmux), из-за чего CSI-u кодировался дважды и при
+        # вставке пробелы превращались в 'j'.
+        set -as terminal-features 'xterm-kitty:extkeys'
 
         # No-wrap: на крае tmux-сетки просто молчим (пустая ветка
         # вместо select-pane), а не прыгаем на противоположный край.

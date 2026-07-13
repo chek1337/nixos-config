@@ -1,6 +1,7 @@
 { ... }:
 {
-  # smart-splits сам включается в ./smart-splits.nix (там же tmux-навигация).
+  # smart-splits.nvim is used purely as a window-management library here
+  # (resize/swap), with no tmux multiplexer integration.
   # Two persistent "hydra" modes for window management, entered via <C-w>m / <C-w>r.
   # Operations are delegated to smart-splits.nvim so the semantics are
   # left/right/up/down — the plugin picks which border to move based on
@@ -8,6 +9,8 @@
   # `k` in the top window shrinks it. Same key, intuitive meaning either way.
   #
   # Inside either mode, keep pressing hjkl. Esc or q exits.
+  plugins.smart-splits.enable = true;
+
   extraConfigLua = ''
     do
       local ss = require("smart-splits")

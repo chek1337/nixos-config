@@ -8,7 +8,6 @@ let
     "tmux-plugins"
     "tmux-sesh"
     "tmux-tmuxinator"
-    "tmux-smart-splits"
   ];
   pick = mods: map (n: mods.${n}) submoduleNames;
 in

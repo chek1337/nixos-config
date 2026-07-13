@@ -6,6 +6,7 @@ let
     # "wireproxy"
     "zapret"
     "vopono"
+    "amnezia-vpn"
     "awg-quick"
     "throne"
     "v2rayn"

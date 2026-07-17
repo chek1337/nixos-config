@@ -1,1 +1,1 @@
-refactor: drop smart-splits tmux/kitty integration
+feat: starship python module prefers project venv/uv interpreter

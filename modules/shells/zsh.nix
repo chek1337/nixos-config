@@ -118,6 +118,17 @@
             truncation_length = 0;
             truncate_to_repo = false;
           };
+          python = {
+            # Prefer the project's uv/venv interpreter over the system one.
+            # Starship runs the first binary it finds in this list with
+            # `--version`; an activated venv is already honoured via $PATH,
+            # this also covers uv projects where the venv isn't activated.
+            python_binary = [
+              "./.venv/bin/python"
+              "python3"
+              "python"
+            ];
+          };
         };
       };
     };

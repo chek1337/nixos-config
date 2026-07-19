@@ -1,1 +1,1 @@
-feat: starship python module prefers project venv/uv interpreter
+feat: disable noctalia mic-input OSD (pttkey mute spam)

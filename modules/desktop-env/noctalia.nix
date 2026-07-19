@@ -164,7 +164,7 @@
             # Was osd.enabledTypes = ["Volume" "Brightness" "LockKey"]; everything else off.
             volume = true;
             volume_output = true;
-            volume_input = true;
+            volume_input = false; # off: pttkey (mic mute toggle) would spam the input OSD on every keypress
             brightness = true;
             lock_keys = true;
             wifi = false;

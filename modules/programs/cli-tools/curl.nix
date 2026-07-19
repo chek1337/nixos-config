@@ -1,8 +1,8 @@
 { ... }:
 {
-  flake.modules.homeManager.curl =
+  flake.modules.nixos.curl =
     { pkgs, ... }:
     {
-      home.packages = [ pkgs.curl ];
+      environment.systemPackages = [ pkgs.curl ];
     };
 }

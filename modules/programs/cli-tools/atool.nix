@@ -1,8 +1,8 @@
 { ... }:
 {
-  flake.modules.homeManager.atool =
+  flake.modules.nixos.atool =
     { pkgs, ... }:
     {
-      home.packages = [ pkgs.atool ];
+      environment.systemPackages = [ pkgs.atool ];
     };
 }

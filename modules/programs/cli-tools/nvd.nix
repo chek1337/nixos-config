@@ -1,8 +1,8 @@
 { ... }:
 {
-  flake.modules.homeManager.nvd =
+  flake.modules.nixos.nvd =
     { pkgs, ... }:
     {
-      home.packages = [ pkgs.nvd ];
+      environment.systemPackages = [ pkgs.nvd ];
     };
 }

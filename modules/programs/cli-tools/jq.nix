@@ -1,8 +1,8 @@
 { ... }:
 {
-  flake.modules.homeManager.jq =
+  flake.modules.nixos.jq =
     { pkgs, ... }:
     {
-      home.packages = [ pkgs.jq ];
+      environment.systemPackages = [ pkgs.jq ];
     };
 }

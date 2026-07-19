@@ -1,8 +1,8 @@
 { ... }:
 {
-  flake.modules.homeManager.unzip =
+  flake.modules.nixos.unzip =
     { pkgs, ... }:
     {
-      home.packages = [ pkgs.unzip ];
+      environment.systemPackages = [ pkgs.unzip ];
     };
 }

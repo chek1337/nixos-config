@@ -1,8 +1,8 @@
 { ... }:
 {
-  flake.modules.homeManager.fzf =
+  flake.modules.nixos.fzf =
     { pkgs, ... }:
     {
-      home.packages = [ pkgs.fzf ];
+      environment.systemPackages = [ pkgs.fzf ];
     };
 }

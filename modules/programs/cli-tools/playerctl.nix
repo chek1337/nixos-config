@@ -1,8 +1,8 @@
 { ... }:
 {
-  flake.modules.homeManager.playerctl =
+  flake.modules.nixos.playerctl =
     { pkgs, ... }:
     {
-      home.packages = [ pkgs.playerctl ];
+      environment.systemPackages = [ pkgs.playerctl ];
     };
 }

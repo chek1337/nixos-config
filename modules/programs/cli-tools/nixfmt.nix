@@ -1,8 +1,8 @@
 { ... }:
 {
-  flake.modules.homeManager.nixfmt =
+  flake.modules.nixos.nixfmt =
     { pkgs, ... }:
     {
-      home.packages = [ pkgs.nixfmt ];
+      environment.systemPackages = [ pkgs.nixfmt ];
     };
 }

@@ -1,8 +1,8 @@
 { ... }:
 {
-  flake.modules.homeManager.ssh-to-age =
+  flake.modules.nixos.ssh-to-age =
     { pkgs, ... }:
     {
-      home.packages = [ pkgs.ssh-to-age ];
+      environment.systemPackages = [ pkgs.ssh-to-age ];
     };
 }

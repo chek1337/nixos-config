@@ -1,8 +1,8 @@
 { ... }:
 {
-  flake.modules.homeManager.tcpdump =
+  flake.modules.nixos.tcpdump =
     { pkgs, ... }:
     {
-      home.packages = [ pkgs.tcpdump ];
+      environment.systemPackages = [ pkgs.tcpdump ];
     };
 }

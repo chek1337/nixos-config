@@ -1,8 +1,8 @@
 { ... }:
 {
-  flake.modules.homeManager.stow =
+  flake.modules.nixos.stow =
     { pkgs, ... }:
     {
-      home.packages = [ pkgs.stow ];
+      environment.systemPackages = [ pkgs.stow ];
     };
 }

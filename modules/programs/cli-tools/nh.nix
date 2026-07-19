@@ -1,8 +1,8 @@
 { ... }:
 {
-  flake.modules.homeManager.nh =
+  flake.modules.nixos.nh =
     { pkgs, ... }:
     {
-      home.packages = [ pkgs.nh ];
+      environment.systemPackages = [ pkgs.nh ];
     };
 }

@@ -1,8 +1,8 @@
 { ... }:
 {
-  flake.modules.homeManager.p7zip =
+  flake.modules.nixos.p7zip =
     { pkgs, ... }:
     {
-      home.packages = [ pkgs.p7zip ];
+      environment.systemPackages = [ pkgs.p7zip ];
     };
 }

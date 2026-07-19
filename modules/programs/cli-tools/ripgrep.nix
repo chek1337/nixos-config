@@ -1,8 +1,8 @@
 { ... }:
 {
-  flake.modules.homeManager.ripgrep =
+  flake.modules.nixos.ripgrep =
     { pkgs, ... }:
     {
-      home.packages = [ pkgs.ripgrep ];
+      environment.systemPackages = [ pkgs.ripgrep ];
     };
 }

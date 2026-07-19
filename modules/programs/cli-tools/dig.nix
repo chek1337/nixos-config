@@ -1,8 +1,8 @@
 { ... }:
 {
-  flake.modules.homeManager.dig =
+  flake.modules.nixos.dig =
     { pkgs, ... }:
     {
-      home.packages = [ pkgs.dig ];
+      environment.systemPackages = [ pkgs.dig ];
     };
 }

@@ -1,8 +1,8 @@
 { ... }:
 {
-  flake.modules.homeManager.gnumake =
+  flake.modules.nixos.gnumake =
     { pkgs, ... }:
     {
-      home.packages = [ pkgs.gnumake ];
+      environment.systemPackages = [ pkgs.gnumake ];
     };
 }

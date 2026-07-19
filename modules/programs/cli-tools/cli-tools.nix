@@ -58,7 +58,6 @@ let
     "nix-inspect"
     "nh"
     "nvd"
-    "vim"
     "nixfmt"
   ];
 in

@@ -1,8 +1,8 @@
 { ... }:
 {
-  flake.modules.homeManager.dua =
+  flake.modules.nixos.dua =
     { pkgs, ... }:
     {
-      home.packages = [ pkgs.dua ];
+      environment.systemPackages = [ pkgs.dua ];
     };
 }

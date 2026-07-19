@@ -1,8 +1,8 @@
 { ... }:
 {
-  flake.modules.homeManager.wget =
+  flake.modules.nixos.wget =
     { pkgs, ... }:
     {
-      home.packages = [ pkgs.wget ];
+      environment.systemPackages = [ pkgs.wget ];
     };
 }

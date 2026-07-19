@@ -1,1 +1,1 @@
-refactor: split cli-tools grab-bag modules into one-file-per-utility
+fix: restore system-wide install for split cli-tools

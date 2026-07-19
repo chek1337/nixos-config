@@ -1,8 +1,8 @@
 { ... }:
 {
-  flake.modules.homeManager.unrar =
+  flake.modules.nixos.unrar =
     { pkgs, ... }:
     {
-      home.packages = [ pkgs.unrar ];
+      environment.systemPackages = [ pkgs.unrar ];
     };
 }

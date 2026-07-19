@@ -1,8 +1,8 @@
 { ... }:
 {
-  flake.modules.homeManager.nix-inspect =
+  flake.modules.nixos.nix-inspect =
     { pkgs, ... }:
     {
-      home.packages = [ pkgs.nix-inspect ];
+      environment.systemPackages = [ pkgs.nix-inspect ];
     };
 }

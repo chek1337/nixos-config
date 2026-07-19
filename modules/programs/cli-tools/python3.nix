@@ -1,8 +1,8 @@
 { ... }:
 {
-  flake.modules.homeManager.python3 =
+  flake.modules.nixos.python3 =
     { pkgs, ... }:
     {
-      home.packages = [ pkgs.python3 ];
+      environment.systemPackages = [ pkgs.python3 ];
     };
 }

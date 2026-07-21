@@ -15,6 +15,7 @@ let
     "zoxide"
     "trash-cli"
     "btop"
+    "oxker"
     "bat"
     "resterm"
     "mermaid"

@@ -28,12 +28,12 @@
 
       # Версия драйвера NVIDIA на целевом хосте (Ubuntu 22.04, RTX 4060).
       # Должна совпадать с `nvidia-smi` на машине, где запускается kitty.
-      nvidiaVersion = "580.159.03";
+      nvidiaVersion = "595.71.05";
       # SRI-хеш .run-инсталлятора этой версии. В pure-eval flake fetchurl без хеша
       # не работает; заодно делает сборку воспроизводимой. При смене nvidiaVersion
       # пересчитать:
       #   nix-prefetch-url "https://download.nvidia.com/XFree86/Linux-x86_64/<ver>/NVIDIA-Linux-x86_64-<ver>.run"
-      nvidiaHash = "sha256-MshdmbD2QMlQH2GzndrSCP0CiNAVxPvF/QQ1wHeD+nc=";
+      nvidiaHash = "sha256-NiA7iWC35JyKQva6H1hjzeNKBek9KyS3mK8G3YRva4I=";
 
       # Идентичность + захардкоженный nord stylix для standalone HM-eval'а.
       stub = {

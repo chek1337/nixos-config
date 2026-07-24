@@ -38,6 +38,7 @@ let
     "wget"
     "socat"
     "sshuttle"
+    "openssl"
     "ripgrep"
     "fd"
     "fzf"

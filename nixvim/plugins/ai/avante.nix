@@ -54,19 +54,14 @@ in
     settings = {
       provider = "claude-code-nix";
 
-      # command/args считаем В РАНТАЙМЕ через ai_launcher (ai/launcher.nix):
-      # на хостах агент завернётся в vopono, в standalone/на чужой машине —
-      # прямой запуск или свой туннель ($NVIM_AI_WRAPPER / ~/.config/nvim-ai/wrapper).
       acp_providers."claude-code-nix" = {
-        command.__raw = ''require("ai_launcher").command({ "${acpAgent}" })'';
-        args.__raw = ''require("ai_launcher").args({ "${acpAgent}" })'';
+        command = acpAgent;
+        args = [ ];
         env.NODE_NO_WARNINGS = "1";
         # HOME прокидываем ЯВНО: avante (libs/acp_client.lua) собирает окружение
         # дочернего процесса с нуля — только PATH + этот env, окружение nvim НЕ
-        # наследуется. Без HOME обёртка-vopono (~/.config/nvim-ai/wrapper) считает
-        # `--custom $HOME/.config/vopono/wg.conf` с пустым HOME → конфиг не найден,
-        # vopono падает, агент не стартует. А внутри namespace агенту HOME нужен,
-        # чтобы найти ~/.claude. copilot (vim.lsp) наследует env и потому работает.
+        # наследуется. Без HOME агент не найдёт ~/.claude и не стартует.
+        # copilot (vim.lsp) наследует env и потому работает.
         env.HOME.__raw = ''vim.fn.expand("$HOME")'';
       };
 

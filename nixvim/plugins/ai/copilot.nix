@@ -16,17 +16,18 @@ in
   # `plugins.lsp.servers.*` (там copilot нет — это не обычный LSP). nixvim НЕ
   # везёт lsp/copilot.lua из nvim-lspconfig, поэтому cmd/init_options прописываем
   # сами. copilot-language-server обязательно требует editorInfo/editorPluginInfo,
-  # иначе сервер не стартует. cmd считаем В РАНТАЙМЕ через ai_launcher
-  # (ai/launcher.nix): на хостах он завернёт сервер в vopono, в standalone/на
-  # чужой машине — прямой запуск или свой туннель ($NVIM_AI_WRAPPER / файл).
+  # иначе сервер не стартует.
   lsp.servers.copilot = {
     enable = true;
     config = {
-      cmd.__raw = ''require("ai_launcher").wrap({ "${copilotLs}", "--stdio" })'';
+      cmd = [
+        copilotLs
+        "--stdio"
+      ];
       # root_dir вместо root_markers — это наш «выключатель»: пока Copilot выключен
       # (_G.copilot_enabled = false, ставится в extraConfigLua), функция НЕ зовёт
-      # on_dir, поэтому vim.lsp клиента не создаёт вообще => сервер (и vopono из
-      # ai/launcher.nix) не поднимается. Когда включён — ведём себя как старый
+      # on_dir, поэтому vim.lsp клиента не создаёт вообще => сервер не
+      # поднимается. Когда включён — ведём себя как старый
       # root_markers = [".git"]: стартуем только внутри git-репозитория.
       root_dir.__raw = ''
         function(bufnr, on_dir)
@@ -53,9 +54,8 @@ in
     ''
       -- ── Состояние Copilot между сессиями ─────────────────────────────────
       -- Тумблер <leader>ui (см. keymaps ниже) включает/выключает Copilot целиком:
-      --   • поднятие LSP-сервера copilot — через root_dir выше (выкл => сервер и
-      --     vopono-обёртка из ai/launcher.nix вообще не стартуют, а не «стартуют
-      --     и сразу убиваются»);
+      --   • поднятие LSP-сервера copilot — через root_dir выше (выкл => сервер
+      --     вообще не стартует, а не «стартует и сразу убивается»);
       --   • нативный inline-completion (ghost text).
       -- Состояние пишем в файл под stdpath("state") и восстанавливаем на старте,
       -- поэтому оно переживает рестарт nvim.
@@ -93,7 +93,7 @@ in
           -- пропустит, т.к. флаг true)
           pcall(vim.lsp.enable, "copilot")
         else
-          -- глушим живые клиенты (и их vopono-обёртку)
+          -- глушим живые клиенты
           for _, c in ipairs(vim.lsp.get_clients({ name = "copilot" })) do
             pcall(function() c:stop() end)
           end

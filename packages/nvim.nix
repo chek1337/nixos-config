@@ -20,11 +20,6 @@ in
         # голый pkgs.yazi.
         extraSpecialArgs = {
           yaziPkg = config.packages.yazi;
-          # В standalone-пакете нет понятия хоста/VPN: AI-серверы (copilot/avante)
-          # идут напрямую. Туннель задаётся в рантайме через ai_launcher
-          # (nixvim/plugins/ai/launcher.nix): $NVIM_AI_WRAPPER или
-          # ~/.config/nvim-ai/wrapper. В HM-сборке дефолтный vopono-скрипт
-          # генерится из nixvim.nix.
         };
         module = {
           imports = [

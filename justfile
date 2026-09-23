@@ -39,6 +39,32 @@ stage:
 sudo-refresh:
     sudo -v
 
+# Measure mirrors from mirrors.txt + cache.nixos.org, print them fastest-first.
+# Goes through the same proxy as nix-daemon (if any). Result is used for a
+# single run only; cache.nixos.org is always kept last as a fallback.
+[private]
+substituters:
+    #!/usr/bin/env bash
+    set -uo pipefail
+    export LC_ALL=C
+    official=https://cache.nixos.org
+    mapfile -t mirrors < <(grep -v '^$' modules/nixos-params/nixos-classes/mirrors.txt)
+    hash=$(basename "$(readlink -f /run/current-system/sw/bin/bash)" | cut -d- -f1)
+    proxy=$(systemctl show nix-daemon -p Environment --value | tr ' ' '\n' | sed -n 's/^https_proxy=//p' | head -1)
+    if [ -n "$proxy" ]; then net=(--proxy "$proxy"); else net=(--noproxy '*'); fi
+    tmp=$(mktemp); trap 'rm -f "$tmp"' EXIT
+    for m in "${mirrors[@]}" "$official"; do
+        (
+            nar=$(curl "${net[@]}" -sf --max-time 3 "$m/$hash.narinfo" | sed -n 's/^URL: //p')
+            [ -n "$nar" ] || exit 0
+            read -r code speed < <(curl "${net[@]}" -s -o /dev/null --max-time 5 -w '%{http_code} %{speed_download}' "$m/$nar")
+            [ "$code" = 200 ] && echo "$speed $m" >> "$tmp"
+        ) &
+    done
+    wait
+    sort -rn "$tmp" | awk '{ printf "  %6.1f MB/s  %s\n", $1 / 1048576, $2 }' >&2
+    { sort -rn "$tmp" | awk '{ print $2 }' | grep -vx "$official"; echo "$official"; } | paste -sd' '
+
 # Reload tmux config if server is running
 [private]
 tmux-reload:
@@ -47,42 +73,49 @@ tmux-reload:
 # Apply NixOS + Home Manager configuration
 [group("deploy")]
 switch hostname: stage sudo-refresh
-    nh os switch {{ flake }} -H {{ hostname }}
-    nh home switch {{ flake }} -c {{ username }}@{{ hostname }}
+    subs="$(just substituters)"; \
+    nh os switch {{ flake }} -H {{ hostname }} -- --option substituters "$subs" && \
+    nh home switch {{ flake }} -c {{ username }}@{{ hostname }} -- --option substituters "$subs"
     just tmux-reload
 
 # Apply NixOS configuration only
 [group("deploy")]
 nixos-switch hostname: stage sudo-refresh
-    nh os switch {{ flake }} -H {{ hostname }}
+    subs="$(just substituters)"; \
+    nh os switch {{ flake }} -H {{ hostname }} -- --option substituters "$subs"
 
 # Apply Home Manager configuration only
 [group("deploy")]
 home-manager-switch hostname: stage
-    nh home switch {{ flake }} -c {{ username }}@{{ hostname }}
+    subs="$(just substituters)"; \
+    nh home switch {{ flake }} -c {{ username }}@{{ hostname }} -- --option substituters "$subs"
     just tmux-reload
 
 # Apply NixOS on next boot + Home Manager now
 [group("deploy")]
 boot hostname: stage sudo-refresh
-    nh os boot {{ flake }} -H {{ hostname }}
-    nh home switch {{ flake }} -c {{ username }}@{{ hostname }}
+    subs="$(just substituters)"; \
+    nh os boot {{ flake }} -H {{ hostname }} -- --option substituters "$subs" && \
+    nh home switch {{ flake }} -c {{ username }}@{{ hostname }} -- --option substituters "$subs"
     just tmux-reload
 
 # Apply NixOS on next boot only
 [group("deploy")]
 nixos-boot hostname: stage sudo-refresh
-    nh os boot {{ flake }} -H {{ hostname }}
+    subs="$(just substituters)"; \
+    nh os boot {{ flake }} -H {{ hostname }} -- --option substituters "$subs"
 
 # Test configuration without applying
 [group("deploy")]
 test hostname: stage sudo-refresh
-    nh os test {{ flake }} -H {{ hostname }}
+    subs="$(just substituters)"; \
+    nh os test {{ flake }} -H {{ hostname }} -- --option substituters "$subs"
 
 # Build configuration without applying
 [group("deploy")]
 build hostname: stage sudo-refresh
-    nh os build {{ flake }} -H {{ hostname }}
+    subs="$(just substituters)"; \
+    nh os build {{ flake }} -H {{ hostname }} -- --option substituters "$subs"
 
 # Check offline NixOS build without applying
 [group("offline deploy")]

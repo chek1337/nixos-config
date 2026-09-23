@@ -1,0 +1,5 @@
+https://nixos-cache-proxy.cofob.dev
+https://mirror.yandex.ru/nixos
+https://cache.nixos.kz
+https://mirrors.ustc.edu.cn/nix-channels/store
+https://mirror.sjtu.edu.cn/nix-channels/store

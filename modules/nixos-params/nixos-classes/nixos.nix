@@ -1,7 +1,7 @@
 { inputs, ... }:
 {
   flake.modules.nixos.nixos =
-    { config, ... }:
+    { config, lib, ... }:
     let
       username = config.settings.username;
     in
@@ -21,6 +21,12 @@
           # "zen-browser.cachix.org-1:z/QLGrEkiBYF/7zoHX1Hpuv0B26QrmbVBSy9yDD2tSs="
           # "yandex-browser-nix.cachix.org-1:KTUynR1mK6m4ZVPgM2U5cb/yTa9vBGMU+eRY/l/b7vw="
         ];
+        # Зеркала cache.nixos.org, которые клиент может включить на один запуск
+        # (`just` выбирает их замером перед сборкой). Сами по себе не используются,
+        # поэтому мёртвое зеркало не мешает обновлению.
+        trusted-substituters = lib.filter (s: s != "") (
+          lib.splitString "\n" (builtins.readFile ./mirrors.txt)
+        );
         connect-timeout = 3;
         keep-outputs = true;
         keep-derivations = true;

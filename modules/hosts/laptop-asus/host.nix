@@ -15,7 +15,7 @@ let
   sharedSettings = {
     isLaptop = true;
     hasBluetooth = true;
-    wireguardConfigName = "wireguard-laptop-asus";
+    wireguardConfigName = "wireguard-isakin";
     wireguardExtraConfigs = [ "wireguard-isakin" ];
     amneziaWgExtraConfigs = [
       "amnezia-chumakov"

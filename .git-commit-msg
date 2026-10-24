@@ -1,1 +1,1 @@
-fix: derive mirror probe hash from store path, not binary basename
+feat: mirror.yandex.ru as primary substituter

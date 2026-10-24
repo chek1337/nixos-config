@@ -10,6 +10,13 @@
         max-jobs = "auto";
         cores = 0;
         substituters = [
+          # Зеркало cache.nixos.org в RU: отдаёт те же NAR'ы с подписью
+          # cache.nixos.org-1 (ключ ниже уже её покрывает), но физически лежит
+          # в России — под sing-box TUN попадает в geoip-ru и идёт direct, минуя
+          # туннель. Замер на 765 МБ NAR: yandex 17.7 MB/s против 0.58 MB/s у
+          # cache.nixos.org через туннель. Первый в списке = основной источник,
+          # cache.nixos.org остаётся фоллбэком, если зеркало отстало или лежит.
+          "https://mirror.yandex.ru/nixos"
           "https://cache.nixos.org"
           # "https://nix-community.cachix.org"
           # "https://zen-browser.cachix.org"

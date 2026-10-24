@@ -1,1 +1,1 @@
-fix: keep pinned fuzzel 1.14.1 building under the new gcc
+fix: pin sqlfluff to stable to dodge the broken diff-cover build

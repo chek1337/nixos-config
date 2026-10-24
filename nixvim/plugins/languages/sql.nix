@@ -1,4 +1,9 @@
-{ pkgs, config, ... }:
+{
+  pkgs,
+  pkgs-stable,
+  config,
+  ...
+}:
 {
   # postgres_lsp (Supabase Postgres Language Server, Rust + libpg_query) —
   # standalone LSP для PostgreSQL: точная и быстрая диагностика синтаксиса без
@@ -80,7 +85,13 @@
 
   # postgres-language-server подтягивается автоматически модулем
   # plugins.lsp.servers.postgres_lsp; здесь только формат/линт.
-  extraPackages = with pkgs; [
-    sqlfluff
+  # sqlfluff пинится на stable: в unstable его runtime-зависимость diff-cover
+  # 10.5.1 падает на 6 HTML-тестах из 366 (новый pygments экранирует кавычки
+  # как &quot;, а тесты сравнивают HTML байт-в-байт). Hydra на этом же падает,
+  # поэтому в кэше unstable нет ни diff-cover, ни sqlfluff, и оба уходили в
+  # локальную сборку с 15-минутным pytest-прогоном. В stable sqlfluff 4.2.1
+  # лежит готовым.
+  extraPackages = [
+    pkgs-stable.sqlfluff
   ];
 }

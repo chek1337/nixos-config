@@ -17,6 +17,19 @@
           ./fuzzel-smart-execute.patch
           ./fuzzel-insert-nth.patch
         ];
+        # gcc из nixpkgs (октябрь 2026) видит в shm.c версии 1.14.1 ложный
+        # -Wmaybe-uninitialized, а fuzzel собирается с -Werror -> сборка падает.
+        # Апстрим починил это в 1.15.0, но fuzzel-insert-nth.patch туда ещё не
+        # перенесён (hunk #2 в main.c не ложится), поэтому остаёмся на 1.14.1 и
+        # глушим ровно эту одну ошибку.
+        env = (old.env or { }) // {
+          NIX_CFLAGS_COMPILE = lib.concatStringsSep " " (
+            lib.filter (f: f != "") [
+              (old.env.NIX_CFLAGS_COMPILE or "")
+              "-Wno-error=maybe-uninitialized"
+            ]
+          );
+        };
       });
 
       # Used in bash as a proper array (no word-splitting issues)

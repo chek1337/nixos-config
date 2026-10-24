@@ -1,1 +1,1 @@
-feat: wireguard-isakin as the primary wg config on laptop-asus
+fix: keep pinned fuzzel 1.14.1 building under the new gcc

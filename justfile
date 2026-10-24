@@ -49,7 +49,8 @@ substituters:
     export LC_ALL=C
     official=https://cache.nixos.org
     mapfile -t mirrors < <(grep -v '^$' modules/nixos-params/nixos-classes/mirrors.txt)
-    hash=$(basename "$(readlink -f /run/current-system/sw/bin/bash)" | cut -d- -f1)
+    # Хеш store-пути (не basename бинарника!): /nix/store/<hash>-bash-… -> <hash>
+    hash=$(readlink -f /run/current-system/sw/bin/bash | cut -d/ -f4 | cut -d- -f1)
     proxy=$(systemctl show nix-daemon -p Environment --value | tr ' ' '\n' | sed -n 's/^https_proxy=//p' | head -1)
     if [ -n "$proxy" ]; then net=(--proxy "$proxy"); else net=(--noproxy '*'); fi
     tmp=$(mktemp); trap 'rm -f "$tmp"' EXIT

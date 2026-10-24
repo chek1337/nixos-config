@@ -1,1 +1,1 @@
-feat: singbox proxy fix
+fix: derive mirror probe hash from store path, not binary basename

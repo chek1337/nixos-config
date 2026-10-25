@@ -3,6 +3,41 @@
   # В nixpkgs нет. AppImage намеренно живёт вне /nix/store, в ~/Applications:
   # appimage-run экспортирует APPIMAGE, и встроенный апдейтер Orca сам
   # подменяет файл новой версией, как на обычных дистрибутивах.
+  #
+  # Свой CLI Orca регистрирует сама как ~/.local/bin/orca-ide (им пользуются
+  # скиллы orca-cli/orchestration). Это скрипт, запускающий Electron из
+  # распакованного AppImage с ELECTRON_RUN_AS_NODE=1 — вне FHS appimage-run,
+  # поэтому Electron'овские библиотеки отдаём ему через nix-ld.
+  flake.modules.nixos.orca =
+    { options, pkgs, ... }:
+    {
+      programs.nix-ld.libraries =
+        options.programs.nix-ld.libraries.default
+        ++ (with pkgs; [
+          alsa-lib
+          at-spi2-core
+          cairo
+          cups
+          dbus
+          expat
+          glib
+          gtk3
+          libgbm
+          libx11
+          libxcb
+          libxcomposite
+          libxdamage
+          libxext
+          libxfixes
+          libxkbcommon
+          libxrandr
+          nspr
+          nss
+          pango
+          systemd
+        ]);
+    };
+
   flake.modules.homeManager.orca =
     { pkgs, ... }:
     let
@@ -36,6 +71,9 @@
     in
     {
       home.packages = [ orca ];
+
+      # `orca-ide open` иначе стартует GUI-Electron напрямую, без FHS.
+      home.sessionVariables.ORCA_OPEN_COMMAND = "${orca}/bin/orca-appimage";
 
       # Не перехватываем markdown/csv у остальных программ, оставляем только orca://.
       xdg.desktopEntries.orca-ide = {

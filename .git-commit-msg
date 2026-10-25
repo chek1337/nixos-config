@@ -1,1 +1,1 @@
-fix: rename the Orca launcher so its own CLI shim can't shadow it
+fix: make Orca's CLI work outside its own terminals

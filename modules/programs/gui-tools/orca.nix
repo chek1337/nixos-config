@@ -11,7 +11,9 @@
         hash = "sha256-M6r7Kdr+K3vuPKcdAC8YIbvpIK5FpWQ8J/ud3tN8EuY=";
       };
       orca = pkgs.writeShellApplication {
-        name = "orca-ide";
+        # Не "orca-ide": под этим именем Orca сама регистрирует CLI в ~/.local/bin,
+        # и он перекрывает обёртку в PATH (запускается без FHS и падает на libglib).
+        name = "orca-appimage";
         runtimeInputs = with pkgs; [
           appimage-run
           curl
@@ -39,7 +41,7 @@
       xdg.desktopEntries.orca-ide = {
         name = "Orca";
         comment = "Next-gen IDE for parallel agentic development";
-        exec = "orca-ide %U";
+        exec = "${orca}/bin/orca-appimage %U";
         icon = "${icon}";
         categories = [ "Utility" ];
         mimeType = [ "x-scheme-handler/orca" ];

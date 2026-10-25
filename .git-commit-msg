@@ -1,1 +1,1 @@
-feat: add self-updating Orca AppImage launcher on laptop-asus
+fix: rename the Orca launcher so its own CLI shim can't shadow it

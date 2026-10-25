@@ -19,6 +19,12 @@ in
       # Бинарь ставится NixOS-частью модуля, поэтому берём его из PATH.
       services.niri.spawnAtStartup = [ "v2rayN" ];
 
+      # Направить текущую сессию терминала через HTTP-прокси v2rayN и обратно.
+      programs.zsh.shellAliases = {
+        set-proxy = "unset all_proxy ALL_PROXY; export http_proxy=http://127.0.0.1:10808 https_proxy=http://127.0.0.1:10808 HTTP_PROXY=http://127.0.0.1:10808 HTTPS_PROXY=http://127.0.0.1:10808";
+        unset-proxy = "unset http_proxy https_proxy HTTP_PROXY HTTPS_PROXY";
+      };
+
       xdg.dataFile = {
         "v2rayN/bin/xray/xray".source = "${pkgs.xray}/bin/xray";
         "v2rayN/bin/sing_box/sing-box".source = "${pkgs.sing-box}/bin/sing-box";

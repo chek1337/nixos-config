@@ -60,7 +60,7 @@
       };
       # Без лимита журнал дорастает до нескольких ГБ (к моменту настройки было
       # 1.6 ГБ). 500 МБ хватает на недели истории.
-      services.journald.extraConfig = "SystemMaxUse=500M";
+      services.journald.settings.Journal.SystemMaxUse = "500M";
       time.timeZone = config.settings.timeZone;
       i18n.defaultLocale = "ru_RU.UTF-8";
       programs.nix-ld.enable = true;

@@ -11,6 +11,7 @@ let
     "touchpad"
     "remote-access"
     "eltex-proxy-aliases"
+    "orca"
   ];
   sharedSettings = {
     isLaptop = true;

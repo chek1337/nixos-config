@@ -8,6 +8,7 @@ let
     "hunk"
     "gh"
     "tmux"
+    "tuios"
     "television"
     "nix-search-tv"
     # "zellij"

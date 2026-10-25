@@ -1,1 +1,1 @@
-fix: pin sqlfluff to stable to dodge the broken diff-cover build
+feat: dedupe the store on write and cap the journal

@@ -35,6 +35,12 @@
           lib.splitString "\n" (builtins.readFile ./mirrors.txt)
         );
         connect-timeout = 3;
+        # Склеивать одинаковые файлы в store жёсткими ссылками сразу при
+        # добавлении пути. У нас пять разных nixpkgs (unstable, stable и четыре
+        # пина), поэтому идентичных файлов в разных путях много: разовый
+        # `nix store optimise` на непродедуплицированном store отыграл десятки
+        # ГБ. Цена — небольшая задержка при записи новых путей.
+        auto-optimise-store = true;
         keep-outputs = true;
         keep-derivations = true;
         experimental-features = [
@@ -52,6 +58,9 @@
         home = "/home/${username}";
         extraGroups = [ "wheel" ];
       };
+      # Без лимита журнал дорастает до нескольких ГБ (к моменту настройки было
+      # 1.6 ГБ). 500 МБ хватает на недели истории.
+      services.journald.extraConfig = "SystemMaxUse=500M";
       time.timeZone = config.settings.timeZone;
       i18n.defaultLocale = "ru_RU.UTF-8";
       programs.nix-ld.enable = true;

@@ -5,7 +5,7 @@ let
     "wireguard"
     # "wireproxy"
     "zapret"
-    "vopono"
+    # "vopono"
     "amnezia-vpn"
     "awg-quick"
     "throne"

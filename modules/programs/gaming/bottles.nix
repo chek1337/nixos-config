@@ -16,7 +16,8 @@
     {
       programs.zsh.shellAliases = {
         bottles = "flatpak run com.usebottles.bottles";
-        bottles-vpn = "vopono exec --custom /run/secrets/${wgName} --protocol wireguard \"SUDO_COMMAND='' flatpak run --share=network com.usebottles.bottles\"";
+        # Отключено вместе с vopono.
+        # bottles-vpn = "vopono exec --custom /run/secrets/${wgName} --protocol wireguard \"SUDO_COMMAND='' flatpak run --share=network com.usebottles.bottles\"";
       };
     };
 }

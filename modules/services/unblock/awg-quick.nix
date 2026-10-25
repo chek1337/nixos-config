@@ -22,6 +22,8 @@ in
       imports = [ nixosMods.unblock-wg-secrets ];
 
       config = lib.mkIf (configs != [ ]) {
+        boot.extraModulePackages = [ config.boot.kernelPackages.amneziawg ];
+
         systemd.tmpfiles.rules = [
           "d /etc/amnezia 0755 root root -"
           "d /etc/amnezia/amneziawg 0700 root root -"

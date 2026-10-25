@@ -7,7 +7,7 @@ let
     "base"
     "wsl-nvidia"
     "sops"
-    "vopono"
+    # "vopono"
   ];
   sharedSettings = {
     colorScheme = "nord";

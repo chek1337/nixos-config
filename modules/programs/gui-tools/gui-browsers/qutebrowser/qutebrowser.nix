@@ -5,6 +5,7 @@ let
     "qutebrowser-core"
     "qutebrowser-fuzzel"
     "qutebrowser-translate"
+    "qutebrowser-proxy"
   ];
   pick = mods: map (n: mods.${n}) submoduleNames;
 in

@@ -73,20 +73,21 @@
               pipe_command = "${pkgsSatty.satty}/bin/satty -f -"; # was appLauncher.screenshotAnnotationTool = "satty"
             };
             # v4 custom-commands (VPN launchers) → dmenu entries.
-            launcher.dmenu.entry = {
-              qutebrowser-vpn =
-                vpnEntry "qutebrowser-vpn" "qutebrowser (VPN)" "circle-letter-q"
-                  "${voponoExec} ${pkgs.qutebrowser}/bin/qutebrowser";
-              telegram-vpn =
-                vpnEntry "telegram-vpn" "Telegram (VPN)" "brand-telegram"
-                  "${voponoExec} ${pkgs.ayugram-desktop}/bin/AyuGram";
-              yandex-vpn =
-                vpnEntry "yandex-vpn" "Yandex Browser (VPN)" "brand-yandex"
-                  "${voponoExec} yandex-browser-stable";
-              zen-vpn =
-                vpnEntry "zen-vpn" "Zen Browser (VPN)" "circle-dot"
-                  "${voponoExec} ${inputs.zen-browser.packages.${pkgs.stdenv.hostPlatform.system}.beta}/bin/zen-beta";
-            };
+            # Отключено вместе с vopono (сейчас всё идёт через прокси v2rayN).
+            # launcher.dmenu.entry = {
+            #   qutebrowser-vpn =
+            #     vpnEntry "qutebrowser-vpn" "qutebrowser (VPN)" "circle-letter-q"
+            #       "${voponoExec} ${pkgs.qutebrowser}/bin/qutebrowser -s content.proxy system";
+            #   telegram-vpn =
+            #     vpnEntry "telegram-vpn" "Telegram (VPN)" "brand-telegram"
+            #       "${voponoExec} ${pkgs.ayugram-desktop}/bin/AyuGram";
+            #   yandex-vpn =
+            #     vpnEntry "yandex-vpn" "Yandex Browser (VPN)" "brand-yandex"
+            #       "${voponoExec} yandex-browser-stable";
+            #   zen-vpn =
+            #     vpnEntry "zen-vpn" "Zen Browser (VPN)" "circle-dot"
+            #       "${voponoExec} ${inputs.zen-browser.packages.${pkgs.stdenv.hostPlatform.system}.beta}/bin/zen-beta";
+            # };
           };
 
           bar.main = {

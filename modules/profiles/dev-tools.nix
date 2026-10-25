@@ -6,7 +6,7 @@ let
     "claude-code"
     "claude-squad"
     "codex"
-    "herdr"
+    # "herdr"
     "opencode"
     "gemini-cli"
     "openspec"

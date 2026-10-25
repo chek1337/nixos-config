@@ -8,7 +8,7 @@ let
     "tmux-plugins"
     "tmux-sesh"
     "tmux-tmuxinator"
-    "tmux-herdr"
+    # "tmux-herdr"
   ];
   pick = mods: map (n: mods.${n}) submoduleNames;
 in

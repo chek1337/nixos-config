@@ -21,6 +21,8 @@
           # standalone-пакете (packages/nvim.nix, где он идёт через
           # extraSpecialArgs).
           { _module.args.yaziPkg = inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.yazi; }
+          # $EDITOR-обёртка hunk для <leader>gdh (packages/hunk-editor.nix).
+          { _module.args.hunkEditorPkg = inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.hunk-editor; }
           # Тот же pkgs-stable, что и у остальных HM-модулей: отдельные плагины
           # пинят на stable пакеты, которых нет в кэше unstable
           # (см. plugins/languages/sql.nix). NB: при добавлении нового

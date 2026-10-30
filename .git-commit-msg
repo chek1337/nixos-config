@@ -1,1 +1,9 @@
-chore: disable herdr and its tmux integration
+feat: keep LSP warm when opening files from hunk, disable copilot
+hunk spawns a fresh $EDITOR on every `e`, so LSP started from scratch
+each time. The new hunk-editor wrapper (hunk's EDITOR) instead keeps a
+headless nvim server per git repo and attaches a UI to it; `:q` from the
+last window only detaches, `:qa` stops the server, and it exits on its
+own after 30 idle minutes. Inside nvim, <leader>gdh runs hunk in a float
+and `e` opens the file in that same nvim.
+
+Copilot is no longer imported in nixvim; the module stays for re-enabling.

@@ -1,4 +1,8 @@
 { lib, ... }:
+let
+  # Выключенные модули: файл остаётся, но не импортируется.
+  disabled = [ "copilot.nix" ];
+in
 {
   imports =
     let
@@ -6,7 +10,11 @@
     in
     lib.pipe files [
       (lib.filterAttrs (
-        name: type: type == "regular" && lib.hasSuffix ".nix" name && name != "default.nix"
+        name: type:
+        type == "regular"
+        && lib.hasSuffix ".nix" name
+        && name != "default.nix"
+        && !(lib.elem name disabled)
       ))
       (lib.mapAttrsToList (name: _: ./. + "/${name}"))
     ];

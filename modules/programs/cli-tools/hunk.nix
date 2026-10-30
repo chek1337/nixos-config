@@ -21,7 +21,7 @@ let
 in
 {
   flake.modules.homeManager.hunk =
-    { config, ... }:
+    { config, pkgs, ... }:
     let
       c = config.lib.stylix.colors.withHashtag;
 
@@ -69,6 +69,12 @@ in
     in
     {
       imports = [ inputs.hunk.homeManagerModules.default ];
+
+      # Open files from hunk in a persistent per-repo nvim server instead of a
+      # fresh nvim each time, so LSP stays warm (see packages/hunk-editor.sh).
+      programs.zsh.shellAliases.hunk = "EDITOR=${
+        inputs.self.packages.${pkgs.stdenv.hostPlatform.system}.hunk-editor
+      }/libexec/hunk-editor/nvim hunk";
 
       programs.hunk = {
         enable = true;

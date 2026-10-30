@@ -20,6 +20,7 @@ in
         # голый pkgs.yazi.
         extraSpecialArgs = {
           yaziPkg = config.packages.yazi;
+          hunkEditorPkg = config.packages.hunk-editor;
           # Зеркалит _module.args.pkgs-stable из nixvim/nixvim.nix: ./plugins
           # общие для HM- и standalone-сборки, так что arg нужен в обоих местах.
           pkgs-stable = import inputs.nixpkgs-stable {

@@ -1,1 +1,1 @@
-fix: enable the stylix rofi target only together with rofi
+fix: adapt yazi plugins to yazi 26.8+ APIs

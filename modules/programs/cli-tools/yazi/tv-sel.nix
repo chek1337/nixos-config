@@ -7,8 +7,8 @@
 
         local get_state = ya.sync(function()
           local sel = {}
-          for _, url in pairs(cx.active.selected) do
-            sel[#sel + 1] = tostring(url)
+          for _, f in pairs(cx.active.selected) do
+            sel[#sel + 1] = tostring(f.url)
           end
           return { selected = sel, cwd = tostring(cx.active.current.cwd) }
         end)

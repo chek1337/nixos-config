@@ -222,7 +222,7 @@
             "y"
             "d"
           ];
-          run = "copy dirname";
+          run = "copy dirpath";
           desc = "Yank: directory path";
         }
         {

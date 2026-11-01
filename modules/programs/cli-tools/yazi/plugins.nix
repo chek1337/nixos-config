@@ -19,6 +19,19 @@
         pkgs.runCommand "${name}.yazi" { } ''
           cp -r ${src}/${name}.yazi $out
         '';
+      # С yazi 26.8.15 tab.selected отдаёт File, а не Url (sxyazi/yazi#4096),
+      # и tostring(File) даёт "File: 0x...", а не путь. Переименовываем
+      # переменную цикла и возвращаем Url под старым именем. --replace-fail
+      # упадёт, когда upstream починит плагин, — тогда патч можно снимать.
+      fixSelected =
+        src:
+        pkgs.runCommand "${src.name}-selected-fix" { } ''
+          cp -r ${src} $out
+          chmod -R u+w $out
+          substituteInPlace $out/main.lua --replace-fail \
+            'for _, u in pairs(tab.selected) do' \
+            'for _, f in pairs(tab.selected) do local u = f.url'
+        '';
     in
     {
       programs.yazi = {
@@ -32,15 +45,15 @@
           eza-preview = pkgs.fetchFromGitHub {
             owner = "ahkohd";
             repo = "eza-preview.yazi";
-            rev = "7a2d60f4a88a1a7735efde93e03bdb8c7166d00c";
-            hash = "sha256-0CKwpNeTt221RXM4SpdUxu/TnghbX2hlIscMGxGaO34=";
+            rev = "e8fb6c8c57bc5f94ff269089078e76c8ed77cd21";
+            hash = "sha256-8isGaJSVu7R76hKfGRszMdBOItYjVOKqvDpv9ccpBAs=";
           };
 
           mediainfo = pkgs.fetchFromGitHub {
             owner = "boydaihungst";
             repo = "mediainfo.yazi";
-            rev = "49f5ab722d617a64b3bea87944e3e4e17ba3a46b";
-            hash = "sha256-PcGrFG06XiJYgBWq+c7fYsx1kjkCvIYRaBiWaJT+xkw=";
+            rev = "f1cec0b43a6b5904e1638ad050f044c4eb1383da";
+            hash = "sha256-p+wfTgQ4Td7Q/AIzsECzijam3NcPXxEPrpnUnT/028E=";
           };
 
           pickle = pkgs.fetchFromGitHub {
@@ -52,12 +65,19 @@
 
           font-sample = subPlugin aminurSrc "font-sample";
           preview-git = subPlugin aminurSrc "preview-git";
-          copy-file-contents = subPlugin anirudhSrc "copy-file-contents";
+          copy-file-contents = fixSelected (subPlugin anirudhSrc "copy-file-contents");
 
           chmod = pkgs.yaziPlugins.chmod;
-          compress = pkgs.yaziPlugins.compress;
+          # 0.6 из nixpkgs зовёт fs.unique_name() и читает Url из
+          # tab.selected — на yazi 26.8+ падает. В upstream main исправлено.
+          compress = pkgs.fetchFromGitHub {
+            owner = "KKV9";
+            repo = "compress.yazi";
+            rev = "80e5268ec74c7ac17d4d739e13a9958cba4c70d3";
+            hash = "sha256-9cdA8D/TtwHcLqrtoyIixA0YJmTs+c8FSNrjxp8CYI0=";
+          };
           mount = pkgs.yaziPlugins.mount;
-          recycle-bin = pkgs.yaziPlugins.recycle-bin;
+          recycle-bin = fixSelected pkgs.yaziPlugins.recycle-bin;
           restore = pkgs.yaziPlugins.restore;
 
           fast-enter = pkgs.fetchFromGitHub {
@@ -77,16 +97,18 @@
           pandoc = pkgs.fetchFromGitHub {
             owner = "lmnek";
             repo = "pandoc.yazi";
-            rev = "fd2798b79c12d0ee1fc0b8695c2633705529f07b";
-            hash = "sha256-3ID/CvogyYA92qpc+lCN1fNovFn4X+pt4iEdKzN2Ncw=";
+            rev = "6a1e07d9a9f3ba28198c8c59c1c450d9dacaba0f";
+            hash = "sha256-S/8tfxIbsmEp6+fPLNwl5Jbk+SF/9Rg5yeQPcr+k5vM=";
           };
 
-          convert = pkgs.fetchFromGitHub {
-            owner = "atareao";
-            repo = "convert.yazi";
-            rev = "ce060d9d17e4466d7956213d68a7a74d24ecfdc5";
-            hash = "sha256-kCXjwtcOQZbE+S9PgJrBmlzBcdprSGtfiS2Flxe2olw=";
-          };
+          convert = fixSelected (
+            pkgs.fetchFromGitHub {
+              owner = "atareao";
+              repo = "convert.yazi";
+              rev = "ce060d9d17e4466d7956213d68a7a74d24ecfdc5";
+              hash = "sha256-kCXjwtcOQZbE+S9PgJrBmlzBcdprSGtfiS2Flxe2olw=";
+            }
+          );
 
           television = pkgs.fetchFromGitHub {
             owner = "moxuze";

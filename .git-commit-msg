@@ -1,1 +1,1 @@
-feat: add Kimi Code CLI
+fix: work around patchelf 0.19.2 breaking REAPER startup

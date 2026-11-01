@@ -64,7 +64,16 @@
         # realize the shared path via either). On a nixpkgs reaper bump:
         # upload the new tarball to the `reaper-vendor` release and update
         # the URL + hash here.
-        (reaper.overrideAttrs (_: {
+        (reaper.overrideAttrs (old: {
+          # patchelf 0.19.2 (autoPatchelfHook) ставит RW-LOAD с .dynamic
+          # внахлёст с R E-LOAD, и ld.so падает в dl_main ещё до старта
+          # (NixOS/nixpkgs#576412, NixOS/patchelf#674). С выравниванием
+          # страниц под 2 MiB, как у LOAD самого бинаря, сегменты не
+          # пересекаются. Убрать, когда в nixpkgs приедет patchelf с #672.
+          patchelfFlags = (old.patchelfFlags or [ ]) ++ [
+            "--page-size"
+            "2097152"
+          ];
           src = fetchurl {
             name = "reaper771-vendored.tar.xz";
             url = "https://github.com/chek1337/nixos-config/releases/download/reaper-vendor/reaper771_linux_x86_64.tar.xz";

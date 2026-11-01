@@ -81,6 +81,11 @@ in
         };
         targets = {
           qt.enable = false;
+          # Таргет rofi пишет programs.rofi.font безусловно, даже без rofi, а
+          # HM переименовал опцию в programs.rofi.settings.font — отсюда
+          # warning на каждой сборке. Пока upstream stylix не обновил модуль,
+          # включаем таргет только вместе с самим rofi.
+          rofi.enable = config.programs.rofi.enable;
         };
       };
     };

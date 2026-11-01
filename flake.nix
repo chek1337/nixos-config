@@ -138,6 +138,9 @@
       url = "github:sadjow/claude-code-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    # Без follows: upstream сам пинит nixos-25.11 ради Node.js >= 24.15
+    # (порог для native SEA-сборки), с нашим nixpkgs сборка может упасть.
+    kimi-code.url = "github:MoonshotAI/kimi-code";
     hibiki.url = "github:linuxmobile/hibiki";
     elegant-grub2-themes = {
       url = "github:vinceliuice/Elegant-grub2-themes";

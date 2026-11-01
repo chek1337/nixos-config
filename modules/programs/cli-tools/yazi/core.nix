@@ -1,12 +1,8 @@
-{ inputs, ... }:
+{ ... }:
 {
   flake.modules.homeManager.yazi-core =
     { pkgs, ... }:
     let
-      # Пин самого бинаря yazi на 26.1.22 — см. комментарий у инпута
-      # nixpkgs-yazi в flake.nix. Плагины остаются из основного nixpkgs:
-      # старый (пермиссивный) Lua-движок запускает и их тоже.
-      pkgsYazi = import inputs.nixpkgs-yazi { inherit (pkgs) system; };
       yaziLauncher = pkgs.writeShellScript "yazi-launcher" ''
         target="''${1:-$HOME}"
         [ -f "$target" ] && target="$(dirname "$target")"
@@ -18,7 +14,6 @@
     {
       programs.yazi = {
         enable = true;
-        package = pkgsYazi.yazi;
         enableZshIntegration = false;
         shellWrapperName = "y";
 

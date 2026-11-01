@@ -70,8 +70,8 @@
           ucp = pkgs.fetchFromGitHub {
             owner = "simla33";
             repo = "ucp.yazi";
-            rev = "b74651dae2fdb02e5706ec8227b2dd33e00f48a9";
-            hash = "sha256-XdDUlu43cZUnYDoKhnXlx15jYqnh6ubrbbrzJ0B45vc=";
+            rev = "5ef8203d9d061f57b444b2c031f3b6172b060a03";
+            hash = "sha256-G6PiS+srbxNu30Vz9Q1k3thfuQySMuNpdtmwgf6CjQc=";
           };
 
           pandoc = pkgs.fetchFromGitHub {
@@ -98,8 +98,8 @@
           whoosh = pkgs.fetchFromGitLab {
             owner = "WhoSowSee";
             repo = "whoosh.yazi";
-            rev = "a8807d24e8dd2d2eaab5226b9c35563d417d39f8";
-            hash = "sha256-pSMyX8IqjtgglftDxQC9K2m4Z+7pYVm68o3qYpP5fqo=";
+            rev = "47100012460ae5292cb837fca5444fecfd78f4a5";
+            hash = "sha256-BerfIDF8EHTnAELVSoaFAEoX+8gNIbkAFfeA38vStf0=";
           };
         };
 

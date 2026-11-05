@@ -9,6 +9,7 @@ let
     # "herdr"
     "opencode"
     "gemini-cli"
+    "hermes"
     "kimi-code"
     "openspec"
     "pi-coding-agent"

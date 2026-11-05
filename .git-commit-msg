@@ -1,1 +1,1 @@
-fix: work around patchelf 0.19.2 breaking REAPER startup
+feat: add Hermes Agent (script-installed, orca-style wrapper)

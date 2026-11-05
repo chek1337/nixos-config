@@ -1,12 +1,15 @@
 {
   flake.modules.homeManager.xdg-defaults =
-    { ... }:
+    { pkgs, ... }:
     {
       home.sessionVariables = {
         EDITOR = "nvim";
         VISUAL = "nvim";
         TERMINAL = "kitty";
         BROWSER = "qutebrowser";
+        # Чужие сборки Python (uv, python-build-standalone) не находят системные
+        # CA-сертификаты NixOS сами — отдаём им bundle из nixpkgs.
+        SSL_CERT_FILE = "${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt";
       };
 
       xdg.mimeApps = {
